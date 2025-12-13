@@ -1,0 +1,7 @@
+# Ignorar arquivos de exemplo e documentação que não devem entrar no build
+EXEMPLOS_USO.tsx
+*.md
+setup.*
+.DS_Store
+node_modules
+.env.local
