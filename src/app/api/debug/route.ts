@@ -13,7 +13,8 @@ export async function GET() {
 
     try {
         if (hasKey) {
-            const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+            const apiKey = (process.env.OPENAI_API_KEY || "").trim();
+            const openai = new OpenAI({ apiKey });
             // Try a lightweight call
             await openai.models.list();
             openaiStatus = "Connected";
@@ -22,7 +23,13 @@ export async function GET() {
         }
     } catch (e: any) {
         openaiStatus = "Failed";
-        openaiError = e.message;
+        openaiError = {
+            message: e.message,
+            type: e.type,
+            code: e.code,
+            param: e.param,
+            status: e.status
+        };
     }
 
     return NextResponse.json({
