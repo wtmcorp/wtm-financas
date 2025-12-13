@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
     "name": "Wtm Corps Finanças",
     "short_name": "Wtm Corps",
@@ -19,26 +18,4 @@
             "type": "image/png"
         }
     ]
-=======
-{
-    "name": "Wtm Corps Finanças",
-    "short_name": "Wtm Corps",
-    "description": "Gerenciamento financeiro premium",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#0a0a0a",
-    "theme_color": "#d4af37",
-    "icons": [
-        {
-            "src": "/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ]
->>>>>>> 46276ec2febfdeeaa4cfc24d7a60e3a06907fd7a
 }
