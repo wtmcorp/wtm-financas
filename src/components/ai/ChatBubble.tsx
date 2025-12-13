@@ -148,8 +148,15 @@ export default function ChatBubble() {
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || "Failed to get response");
+                const errorText = await response.text();
+                let errorMsg = `Status: ${response.status}`;
+                try {
+                    const errorJson = JSON.parse(errorText);
+                    errorMsg += ` - ${errorJson.error || errorJson.message || "Unknown error"}`;
+                } catch (e) {
+                    errorMsg += ` - ${errorText.substring(0, 50)}`;
+                }
+                throw new Error(errorMsg);
             }
 
             const data = await response.json();
