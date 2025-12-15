@@ -3,23 +3,31 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --primary: #3b82f6;
-  --card: #ffffff;
+  --background: #0a0a0f;
+  --foreground: #f8f9fa;
+  --primary: #6366f1;
+  --card: #13131a;
+  --card-hover: #1a1a24;
+  --border: #1f1f2e;
+  --muted: #6b7280;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --primary: #60a5fa;
-  --card: #121212;
+  --background: #0a0a0f;
+  --foreground: #f8f9fa;
+  --primary: #6366f1;
+  --card: #13131a;
+  --card-hover: #1a1a24;
+  --border: #1f1f2e;
+  --muted: #6b7280;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
@@ -27,57 +35,74 @@ body {
     text-wrap: balance;
   }
 
-  /* Custom scrollbar */
+  /* Custom scrollbar - Dark Theme */
   .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
 
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: #f3f4f6;
-    border-radius: 9999px;
-  }
-
-  .dark .scrollbar-thin::-webkit-scrollbar-track {
-    background: #1f2937;
+    background: #13131a;
+    border-radius: 10px;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: #d1d5db;
-    border-radius: 9999px;
+    background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
+    border-radius: 10px;
+    border: 2px solid #13131a;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: #9ca3af;
+    background: linear-gradient(180deg, #818cf8 0%, #6366f1 100%);
   }
 
-  .dark .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: #4b5563;
-  }
-
-  .dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: #6b7280;
-  }
-
-  /* Glassmorphism */
+  /* Glassmorphism - Enhanced */
   .glass {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(16px);
+    background: rgba(19, 19, 26, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .dark .glass {
-    background: rgba(31, 41, 55, 0.8);
+  /* Premium Card */
+  .card-premium {
+    background: linear-gradient(135deg, #13131a 0%, #1a1a24 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-premium:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 12px 48px rgba(99, 102, 241, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Gradient Backgrounds */
+  .gradient-primary {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  }
+
+  .gradient-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  }
+
+  .gradient-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  }
+
+  .gradient-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   }
 
   /* Smooth animations */
   .animate-in {
-    animation: animate-in 0.3s ease-out;
+    animation: animate-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   @keyframes animate-in {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(16px);
     }
 
     to {
@@ -87,7 +112,7 @@ body {
   }
 
   .fade-in {
-    animation: fade-in 0.2s ease-out;
+    animation: fade-in 0.3s ease-out;
   }
 
   @keyframes fade-in {
@@ -101,13 +126,13 @@ body {
   }
 
   .zoom-in {
-    animation: zoom-in 0.2s ease-out;
+    animation: zoom-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   @keyframes zoom-in {
     from {
       opacity: 0;
-      transform: scale(0.95);
+      transform: scale(0.9);
     }
 
     to {
@@ -118,16 +143,47 @@ body {
 
   /* Number animation */
   .number-animate {
-    animation: number-change 0.3s ease-out;
+    animation: number-change 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   @keyframes number-change {
     0% {
-      transform: scale(1.05);
+      transform: scale(1.08);
+      opacity: 0.8;
     }
 
     100% {
       transform: scale(1);
+      opacity: 1;
     }
+  }
+
+  /* Shimmer effect */
+  .shimmer {
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Glow effect */
+  .glow {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  }
+
+  .glow-hover:hover {
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
   }
 }

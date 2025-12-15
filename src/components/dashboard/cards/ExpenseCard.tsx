@@ -1,12 +1,12 @@
 "use client";
 
-import { CreditCard, ArrowDownRight, AlertCircle } from 'lucide-react';
+import { CreditCard, AlertCircle, TrendingDown } from 'lucide-react';
 import { useFinance } from '@/contexts/FinanceContext';
 
 const ExpenseCard = () => {
     const { getMonthlyExpenses } = useFinance();
     const expenses = getMonthlyExpenses();
-    const budget = 5000; // This could be made dynamic later
+    const budget = 5000;
     const percentage = (expenses / budget) * 100;
     const isOverBudget = percentage > 100;
 
@@ -18,47 +18,63 @@ const ExpenseCard = () => {
     };
 
     return (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
-            <div className="flex justify-between items-start mb-4">
-                <div>
-                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Gastos do Mês</p>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{formatCurrency(expenses)}</h3>
-                </div>
-                <div className={`p-2 rounded-lg ${isOverBudget ? 'bg-red-50 dark:bg-red-900/20' : 'bg-orange-50 dark:bg-orange-900/20'}`}>
-                    <CreditCard className={`w-6 h-6 ${isOverBudget ? 'text-red-600 dark:text-red-400' : 'text-orange-600 dark:text-orange-400'}`} />
-                </div>
-            </div>
+        <div className="relative group">
+            <div className={`absolute inset-0 rounded-2xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity ${isOverBudget ? 'bg-gradient-to-r from-red-500 to-orange-600' : 'bg-gradient-to-r from-orange-500 to-amber-600'
+                }`}></div>
+            <div className="relative card-premium p-6 rounded-2xl overflow-hidden">
+                {/* Background decoration */}
+                <div className={`absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl ${isOverBudget ? 'bg-gradient-to-br from-red-500/10 to-orange-600/10' : 'bg-gradient-to-br from-orange-500/10 to-amber-600/10'
+                    }`}></div>
 
-            {/* Budget Progress Bar */}
-            <div className="mb-3">
-                <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
-                    <span>Orçamento</span>
-                    <span>{percentage.toFixed(0)}%</span>
-                </div>
-                <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                    <div
-                        className={`h-full transition-all duration-500 ${isOverBudget
-                                ? 'bg-red-500'
-                                : percentage > 80
-                                    ? 'bg-orange-500'
-                                    : 'bg-green-500'
-                            }`}
-                        style={{ width: `${Math.min(percentage, 100)}%` }}
-                    />
-                </div>
-            </div>
+                <div className="relative z-10">
+                    <div className="flex justify-between items-start mb-6">
+                        <div>
+                            <p className="text-sm font-medium text-gray-400 mb-2">Gastos do Mês</p>
+                            <h3 className="text-3xl md:text-4xl font-bold text-white number-animate">{formatCurrency(expenses)}</h3>
+                        </div>
+                        <div className={`p-3 rounded-xl shadow-lg ${isOverBudget
+                                ? 'bg-gradient-to-br from-red-500 to-orange-600 shadow-red-500/50'
+                                : 'bg-gradient-to-br from-orange-500 to-amber-600 shadow-orange-500/50'
+                            }`}>
+                            <CreditCard className="w-6 h-6 text-white" />
+                        </div>
+                    </div>
 
-            <div className="flex items-center text-sm">
-                {isOverBudget ? (
-                    <span className="text-red-500 flex items-center font-medium">
-                        <AlertCircle className="w-4 h-4 mr-1" />
-                        Acima do orçamento
-                    </span>
-                ) : (
-                    <span className="text-gray-500 dark:text-gray-400">
-                        {formatCurrency(budget - expenses)} restante
-                    </span>
-                )}
+                    {/* Budget Progress Bar */}
+                    <div className="mb-4">
+                        <div className="flex justify-between text-xs text-gray-400 mb-2">
+                            <span>Orçamento Mensal</span>
+                            <span className="font-semibold">{percentage.toFixed(0)}%</span>
+                        </div>
+                        <div className="h-2.5 bg-gray-800/50 rounded-full overflow-hidden backdrop-blur-sm">
+                            <div
+                                className={`h-full transition-all duration-700 ease-out ${isOverBudget
+                                        ? 'bg-gradient-to-r from-red-500 to-orange-600'
+                                        : percentage > 80
+                                            ? 'bg-gradient-to-r from-orange-500 to-amber-600'
+                                            : 'bg-gradient-to-r from-emerald-500 to-green-600'
+                                    }`}
+                                style={{ width: `${Math.min(percentage, 100)}%` }}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        {isOverBudget ? (
+                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500/10 rounded-lg">
+                                <AlertCircle className="w-4 h-4 text-red-400" />
+                                <span className="text-red-400 font-medium text-sm">Acima do orçamento</span>
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-1.5">
+                                <TrendingDown className="w-4 h-4 text-emerald-400" />
+                                <span className="text-gray-400 text-sm">
+                                    <span className="text-emerald-400 font-semibold">{formatCurrency(budget - expenses)}</span> restante
+                                </span>
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );

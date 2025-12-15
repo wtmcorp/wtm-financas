@@ -8,45 +8,56 @@ import CashFlowChart from "@/components/dashboard/charts/CashFlowChart";
 import NetWorthChart from "@/components/dashboard/charts/NetWorthChart";
 import QuickActions from "@/components/dashboard/QuickActions";
 import TransactionList from "@/components/finance/TransactionList";
+import { TrendingUp, Sparkles } from "lucide-react";
 
 export default function Home() {
     return (
-        <div className="p-6 space-y-6 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-            {/* Header */}
-            <header className="mb-8">
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    Dashboard Financeiro
-                </h1>
-                <p className="text-gray-600 dark:text-gray-400 mt-1">
-                    Gerencie suas finanças de forma inteligente
-                </p>
-            </header>
+        <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f] p-4 md:p-6 lg:p-8">
+            <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
+                {/* Header */}
+                <header className="animate-in">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
+                            <TrendingUp className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-indigo-200 to-purple-300 bg-clip-text text-transparent">
+                                Dashboard Financeiro
+                            </h1>
+                            <p className="text-gray-400 text-sm md:text-base flex items-center gap-2 mt-1">
+                                <Sparkles className="w-4 h-4 text-indigo-400" />
+                                Gerencie suas finanças com inteligência
+                            </p>
+                        </div>
+                    </div>
+                </header>
 
-            {/* Metric Cards */}
-            <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <BalanceCard />
-                <ExpenseCard />
-                <SavingsCard />
-            </section>
+                {/* Metric Cards */}
+                <section className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 animate-in">
+                    <BalanceCard />
+                    <ExpenseCard />
+                    <SavingsCard />
+                </section>
 
-            {/* Charts Row */}
-            <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <CashFlowChart />
-                <ExpenseChart />
-            </section>
+                {/* Charts Row */}
+                <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 animate-in">
+                    <CashFlowChart />
+                    <ExpenseChart />
+                </section>
 
-            {/* Net Worth & Quick Actions */}
-            <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2">
-                    <NetWorthChart />
-                </div>
-                <QuickActions />
-            </section>
+                {/* Net Worth & Quick Actions */}
+                <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 animate-in">
+                    <div className="lg:col-span-2">
+                        <NetWorthChart />
+                    </div>
+                    <QuickActions />
+                </section>
 
-            {/* Transactions */}
-            <section>
-                <TransactionList />
-            </section>
+                {/* Transactions */}
+                <section className="animate-in">
+                    <TransactionList />
+                </section>
+            </div>
         </div>
     );
 }
