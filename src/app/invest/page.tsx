@@ -3,7 +3,8 @@
 import BankTable from "@/components/finance/BankTable";
 import InvestmentCard from "@/components/finance/InvestmentCard";
 import { useState } from "react";
-import { Calculator } from "lucide-react";
+import { Calculator, Info } from "lucide-react";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 export default function InvestPage() {
     const [simulationAmount, setSimulationAmount] = useState<string>("1000");
@@ -39,44 +40,56 @@ export default function InvestPage() {
 
             <section>
                 <h2 className="text-lg font-bold text-white mb-4">Liquidez Diária (Reservas)</h2>
-                <BankTable />
+                <Tooltip text="Investimentos com liquidez diária permitem que você retire seu dinheiro a qualquer momento, ideal para sua reserva de emergência.">
+                    <div>
+                        <BankTable />
+                    </div>
+                </Tooltip>
             </section>
 
             <section>
                 <h2 className="text-lg font-bold text-white mb-4">Médio/Longo Prazo</h2>
                 <div className="grid gap-4 sm:grid-cols-2">
-                    <InvestmentCard
-                        title="RDB Planejado"
-                        rate="110% CDI"
-                        period="1 ano"
-                        type="RDB"
-                        profitability={11.5}
-                        simulationAmount={amount}
-                    />
-                    <InvestmentCard
-                        title="Tesouro Selic 2027"
-                        rate="Selic + 0.15%"
-                        period="2027"
-                        type="Tesouro"
-                        profitability={22.4}
-                        simulationAmount={amount}
-                    />
-                    <InvestmentCard
-                        title="CDB Promo"
-                        rate="220% CDI"
-                        period="3 anos"
-                        type="CDB"
-                        profitability={45.2}
-                        simulationAmount={amount}
-                    />
-                    <InvestmentCard
-                        title="LCI/LCA Isento"
-                        rate="95% CDI"
-                        period="2 anos"
-                        type="LCI"
-                        profitability={24.0}
-                        simulationAmount={amount}
-                    />
+                    <Tooltip text="O RDB Planejado do Nubank oferece rentabilidade superior ao CDI em troca de um prazo de carência maior.">
+                        <InvestmentCard
+                            title="RDB Planejado"
+                            rate="110% CDI"
+                            period="1 ano"
+                            type="RDB"
+                            profitability={11.5}
+                            simulationAmount={amount}
+                        />
+                    </Tooltip>
+                    <Tooltip text="O Tesouro Selic é o investimento mais seguro do Brasil, garantido pelo Governo Federal. Ideal para prazos médios.">
+                        <InvestmentCard
+                            title="Tesouro Selic 2027"
+                            rate="Selic + 0.15%"
+                            period="2027"
+                            type="Tesouro"
+                            profitability={22.4}
+                            simulationAmount={amount}
+                        />
+                    </Tooltip>
+                    <Tooltip text="CDBs promocionais costumam oferecer taxas agressivas para atrair novos clientes. Verifique sempre o FGC.">
+                        <InvestmentCard
+                            title="CDB Promo"
+                            rate="220% CDI"
+                            period="3 anos"
+                            type="CDB"
+                            profitability={45.2}
+                            simulationAmount={amount}
+                        />
+                    </Tooltip>
+                    <Tooltip text="LCI e LCA são isentos de Imposto de Renda, o que pode tornar sua rentabilidade líquida superior a um CDB.">
+                        <InvestmentCard
+                            title="LCI/LCA Isento"
+                            rate="95% CDI"
+                            period="2 anos"
+                            type="LCI"
+                            profitability={24.0}
+                            simulationAmount={amount}
+                        />
+                    </Tooltip>
                 </div>
             </section>
 

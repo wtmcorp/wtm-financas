@@ -2,16 +2,63 @@
 
 import React, { useState } from 'react';
 import { Plus, Download, Target, TrendingUp, Zap } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import TransactionModal from '@/components/finance/TransactionModal';
+import { Tooltip } from '@/components/ui/Tooltip';
 
 const QuickActions = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const router = useRouter();
+
+    const exportTransactions = () => {
+        const saved = localStorage.getItem("wtm_transactions");
+        if (!saved) {
+            alert("Nenhuma transação para exportar.");
+            return;
+        }
+        const transactions = JSON.parse(saved);
+        const csvContent = "data:text/csv;charset=utf-8,"
+            + "Data,Descrição,Valor,Categoria,Tipo\n"
+            + transactions.map((t: any) => `${t.date},${t.description},${t.amount},${t.category},${t.type}`).join("\n");
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `wtm_transacoes_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     const actions = [
-        { icon: Plus, label: 'Adicionar', gradient: 'from-indigo-500 to-purple-600', onClick: () => setIsModalOpen(true) },
-        { icon: Target, label: 'Metas', gradient: 'from-emerald-500 to-green-600', onClick: () => { } },
-        { icon: TrendingUp, label: 'Relatórios', gradient: 'from-blue-500 to-cyan-600', onClick: () => { } },
-        { icon: Download, label: 'Exportar', gradient: 'from-orange-500 to-amber-600', onClick: () => { } },
+        {
+            icon: Plus,
+            label: 'Adicionar',
+            gradient: 'from-indigo-500 to-purple-600',
+            onClick: () => setIsModalOpen(true),
+            tooltip: 'Adicione uma nova transação de entrada ou saída rapidamente.'
+        },
+        {
+            icon: Target,
+            label: 'Metas',
+            gradient: 'from-emerald-500 to-green-600',
+            onClick: () => router.push('/goals'),
+            tooltip: 'Visualize e gerencie suas metas financeiras de curto e longo prazo.'
+        },
+        {
+            icon: TrendingUp,
+            label: 'Relatórios',
+            gradient: 'from-blue-500 to-cyan-600',
+            onClick: () => router.push('/trends'),
+            tooltip: 'Acesse relatórios detalhados sobre seus gastos e evolução patrimonial.'
+        },
+        {
+            icon: Download,
+            label: 'Exportar',
+            gradient: 'from-orange-500 to-amber-600',
+            onClick: exportTransactions,
+            tooltip: 'Baixe todas as suas transações em formato CSV para abrir no Excel.'
+        },
     ];
 
     return (
@@ -25,19 +72,20 @@ const QuickActions = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-3 flex-1">
                         {actions.map((action, index) => (
-                            <button
-                                key={index}
-                                onClick={action.onClick}
-                                className="group/btn relative overflow-hidden rounded-xl transition-all hover:scale-105 active:scale-95"
-                            >
-                                <div className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-10 group-hover/btn:opacity-20 transition-opacity`}></div>
-                                <div className="relative card-premium h-full flex flex-col items-center justify-center p-4 gap-3">
-                                    <div className={`p-3 bg-gradient-to-br ${action.gradient} rounded-xl shadow-lg`}>
-                                        <action.icon className="w-6 h-6 text-white" />
+                            <Tooltip key={index} text={action.tooltip}>
+                                <button
+                                    onClick={action.onClick}
+                                    className="w-full h-full group/btn relative overflow-hidden rounded-xl transition-all hover:scale-105 active:scale-95"
+                                >
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-10 group-hover/btn:opacity-20 transition-opacity`}></div>
+                                    <div className="relative card-premium h-full flex flex-col items-center justify-center p-4 gap-3">
+                                        <div className={`p-3 bg-gradient-to-br ${action.gradient} rounded-xl shadow-lg`}>
+                                            <action.icon className="w-6 h-6 text-white" />
+                                        </div>
+                                        <span className="text-sm font-semibold text-white">{action.label}</span>
                                     </div>
-                                    <span className="text-sm font-semibold text-white">{action.label}</span>
-                                </div>
-                            </button>
+                                </button>
+                            </Tooltip>
                         ))}
                     </div>
                 </div>

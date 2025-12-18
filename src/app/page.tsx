@@ -8,7 +8,8 @@ import CashFlowChart from "@/components/dashboard/charts/CashFlowChart";
 import NetWorthChart from "@/components/dashboard/charts/NetWorthChart";
 import QuickActions from "@/components/dashboard/QuickActions";
 import TransactionList from "@/components/finance/TransactionList";
-import { TrendingUp, Sparkles } from "lucide-react";
+import { TrendingUp, Sparkles, Info } from "lucide-react";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 export default function Home() {
     return (
@@ -34,15 +35,25 @@ export default function Home() {
 
                 {/* Metric Cards */}
                 <section className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 animate-in">
-                    <BalanceCard />
-                    <ExpenseCard />
-                    <SavingsCard />
+                    <Tooltip text="Seu saldo total disponível em todas as contas conectadas.">
+                        <div><BalanceCard /></div>
+                    </Tooltip>
+                    <Tooltip text="Total de gastos registrados no mês atual.">
+                        <div><ExpenseCard /></div>
+                    </Tooltip>
+                    <Tooltip text="Valor total economizado ou investido este mês.">
+                        <div><SavingsCard /></div>
+                    </Tooltip>
                 </section>
 
                 {/* Charts Row */}
                 <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 animate-in">
-                    <CashFlowChart />
-                    <ExpenseChart />
+                    <Tooltip text="Visualização das entradas e saídas de dinheiro ao longo do tempo.">
+                        <div><CashFlowChart /></div>
+                    </Tooltip>
+                    <Tooltip text="Distribuição dos seus gastos por categoria (Moradia, Lazer, etc).">
+                        <div><ExpenseChart /></div>
+                    </Tooltip>
                 </section>
 
                 {/* Net Worth & Quick Actions */}

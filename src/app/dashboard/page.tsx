@@ -3,7 +3,8 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { User, Wallet, TrendingUp, Calendar } from "lucide-react";
+import { User, Wallet, TrendingUp, Calendar, Info } from "lucide-react";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 export default function DashboardPage() {
     const { user, loading } = useAuth();
@@ -73,18 +74,24 @@ export default function DashboardPage() {
                     {budget ? (
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
-                                    <div className="text-blue-400 text-sm font-medium mb-1">Necessidades (50%)</div>
-                                    <div className="text-2xl font-bold text-white">R$ {budget.needs?.toFixed(2)}</div>
-                                </div>
-                                <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
-                                    <div className="text-purple-400 text-sm font-medium mb-1">Desejos (30%)</div>
-                                    <div className="text-2xl font-bold text-white">R$ {budget.wants?.toFixed(2)}</div>
-                                </div>
-                                <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
-                                    <div className="text-primary text-sm font-medium mb-1">Investimentos (20%)</div>
-                                    <div className="text-2xl font-bold text-white">R$ {budget.savings?.toFixed(2)}</div>
-                                </div>
+                                <Tooltip text="50% da sua renda deve ser destinada a gastos essenciais como aluguel, luz e alimentação.">
+                                    <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                                        <div className="text-blue-400 text-sm font-medium mb-1">Necessidades (50%)</div>
+                                        <div className="text-2xl font-bold text-white">R$ {budget.needs?.toFixed(2)}</div>
+                                    </div>
+                                </Tooltip>
+                                <Tooltip text="30% da sua renda pode ser usada para lazer, hobbies e desejos pessoais.">
+                                    <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
+                                        <div className="text-purple-400 text-sm font-medium mb-1">Desejos (30%)</div>
+                                        <div className="text-2xl font-bold text-white">R$ {budget.wants?.toFixed(2)}</div>
+                                    </div>
+                                </Tooltip>
+                                <Tooltip text="20% da sua renda deve ser investida para o seu futuro e reserva de emergência.">
+                                    <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+                                        <div className="text-primary text-sm font-medium mb-1">Investimentos (20%)</div>
+                                        <div className="text-2xl font-bold text-white">R$ {budget.savings?.toFixed(2)}</div>
+                                    </div>
+                                </Tooltip>
                             </div>
                             <p className="text-xs text-gray-500 flex items-center gap-1">
                                 <Calendar size={12} />

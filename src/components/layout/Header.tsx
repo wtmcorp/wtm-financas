@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { User, LogOut, LogIn } from "lucide-react";
+import { User, LogOut, LogIn, Heart } from "lucide-react";
 import FinancialNews from "@/components/notifications/FinancialNews";
 
 export default function Header() {
@@ -20,6 +20,9 @@ export default function Header() {
 
                     {user ? (
                         <div className="flex items-center gap-3 pl-4 border-l border-white/10">
+                            <Link href="/private" className="text-primary hover:scale-110 transition-transform" title="Desafio Privado">
+                                <Heart size={20} fill="currentColor" />
+                            </Link>
                             <Link href="/dashboard" className="text-sm text-gray-300 hidden sm:block hover:text-white transition-colors">
                                 {user.name.split(" ")[0]}
                             </Link>

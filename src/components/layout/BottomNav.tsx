@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, CreditCard, TrendingUp, AlertTriangle, Wrench, User } from "lucide-react";
+import { Home, CreditCard, TrendingUp, AlertTriangle, Wrench, User, Heart } from "lucide-react";
 
 export default function BottomNav() {
     const pathname = usePathname();
@@ -12,6 +12,7 @@ export default function BottomNav() {
         { href: "/cards", icon: CreditCard, label: "Cartões" },
         { href: "/invest", icon: TrendingUp, label: "Investir" },
         { href: "/debts", icon: AlertTriangle, label: "Dívidas" },
+        { href: "/private", icon: Heart, label: "Desafio Privado" },
         { href: "/tools", icon: Wrench, label: "Ferramentas" },
         { href: "/profile", icon: User, label: "Perfil" },
     ];
