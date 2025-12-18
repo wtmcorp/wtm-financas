@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { creditCardsData } from "@/data/creditCardsData";
 import { CreditCard } from "@/data/types";
-import { ArrowUpDown, CreditCard as CreditCardIcon, Award, DollarSign, TrendingUp, Star, Info, Plane, Coffee, ShieldCheck } from "lucide-react";
+import { ArrowUpDown, CreditCard as CreditCardIcon, Award, DollarSign, TrendingUp, Star, Info, Plane, Coffee, ShieldCheck, Lightbulb, CheckCircle2, Zap } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Tooltip } from "@/components/ui/Tooltip";
 
@@ -27,6 +27,11 @@ export default function CardsPage() {
         .filter(card => user?.income && card.minIncome <= user.income)
         .sort((a, b) => b.minIncome - a.minIncome)
         .slice(0, 2);
+
+    // Highlights logic
+    const topMiles = [...cards].sort((a, b) => (b.milesRate || 0) - (a.milesRate || 0)).slice(0, 3);
+    const topCashback = [...cards].sort((a, b) => b.cashback - a.cashback).slice(0, 3);
+    const topYield = [...cards].filter(c => c.exclusiveBenefits?.some(b => b.toLowerCase().includes("cdi") || b.toLowerCase().includes("investback"))).slice(0, 3);
 
     return (
         <div className="p-6 space-y-8 max-w-7xl mx-auto">
@@ -55,6 +60,56 @@ export default function CardsPage() {
                 </div>
             </header>
 
+            {/* Highlights Section */}
+            <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-gradient-to-br from-blue-500/20 to-transparent p-6 rounded-[2rem] border border-blue-500/20">
+                    <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+                        <Plane className="text-blue-400" size={20} />
+                        Top Milhas
+                    </h3>
+                    <div className="space-y-3">
+                        {topMiles.map((card, i) => (
+                            <div key={card.id} className="flex items-center justify-between text-sm">
+                                <span className="text-gray-400">{i + 1}. {card.name}</span>
+                                <span className="text-blue-400 font-bold">{card.milesRate} pts/$</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-green-500/20 to-transparent p-6 rounded-[2rem] border border-green-500/20">
+                    <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+                        <DollarSign className="text-green-400" size={20} />
+                        Top Cashback
+                    </h3>
+                    <div className="space-y-3">
+                        {topCashback.map((card, i) => (
+                            <div key={card.id} className="flex items-center justify-between text-sm">
+                                <span className="text-gray-400">{i + 1}. {card.name}</span>
+                                <span className="text-green-400 font-bold">{card.cashback}%</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-500/20 to-transparent p-6 rounded-[2rem] border border-purple-500/20">
+                    <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+                        <TrendingUp className="text-purple-400" size={20} />
+                        Top Rendimento
+                    </h3>
+                    <div className="space-y-3">
+                        {topYield.length > 0 ? topYield.map((card, i) => (
+                            <div key={card.id} className="flex items-center justify-between text-sm">
+                                <span className="text-gray-400">{i + 1}. {card.name}</span>
+                                <span className="text-purple-400 font-bold">Investback</span>
+                            </div>
+                        )) : (
+                            <p className="text-gray-600 text-xs italic">Nenhum destaque encontrado.</p>
+                        )}
+                    </div>
+                </div>
+            </section>
+
             {/* Feature Filters */}
             <div className="flex flex-wrap gap-3 p-2 bg-white/5 rounded-2xl border border-white/10">
                 {(["all", "lounge", "cashback", "miles"] as const).map((feat) => (
@@ -75,7 +130,7 @@ export default function CardsPage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Recommended Section */}
+                {/* Left Column: Recommendations & Tips */}
                 <div className="lg:col-span-1 space-y-6">
                     <div className="bg-gradient-to-br from-primary/20 to-transparent p-6 rounded-[2rem] border border-primary/20">
                         <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
@@ -105,13 +160,39 @@ export default function CardsPage() {
                         </div>
                     </div>
 
+                    {/* Credit Tips Section */}
+                    <div className="bg-yellow-500/10 border border-yellow-500/20 p-6 rounded-[2rem]">
+                        <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+                            <Zap size={18} className="text-yellow-400" />
+                            Como Aumentar seu Limite
+                        </h3>
+                        <ul className="space-y-4">
+                            <li className="flex gap-3">
+                                <CheckCircle2 className="text-yellow-400 shrink-0" size={16} />
+                                <p className="text-xs text-gray-400"><strong>Pague em dia:</strong> O histórico de pagamento é o fator mais importante para o score.</p>
+                            </li>
+                            <li className="flex gap-3">
+                                <CheckCircle2 className="text-yellow-400 shrink-0" size={16} />
+                                <p className="text-xs text-gray-400"><strong>Use o cartão:</strong> Concentre seus gastos no cartão que deseja aumentar o limite.</p>
+                            </li>
+                            <li className="flex gap-3">
+                                <CheckCircle2 className="text-yellow-400 shrink-0" size={16} />
+                                <p className="text-xs text-gray-400"><strong>Atualize sua renda:</strong> Mantenha seus dados atualizados no app do banco.</p>
+                            </li>
+                            <li className="flex gap-3">
+                                <CheckCircle2 className="text-yellow-400 shrink-0" size={16} />
+                                <p className="text-xs text-gray-400"><strong>Open Finance:</strong> Compartilhe seus dados de outros bancos para provar sua capacidade financeira.</p>
+                            </li>
+                        </ul>
+                    </div>
+
                     <div className="bg-blue-500/10 border border-blue-500/20 p-6 rounded-[2rem]">
                         <h3 className="text-white font-bold mb-2 flex items-center gap-2">
-                            <Info size={18} className="text-blue-400" />
-                            Dica de Especialista
+                            <Lightbulb size={18} className="text-blue-400" />
+                            Dica de Ouro
                         </h3>
                         <p className="text-sm text-gray-400 leading-relaxed">
-                            Cartões Black/Infinite geralmente exigem renda acima de R$ 15k ou investimentos. O segredo é focar no benefício que você mais usa: se viaja muito, foque em <strong>Milhas</strong>; se gasta muito no dia a dia, foque em <strong>Cashback</strong>.
+                            Se você não consegue aprovação para cartões premium, comece com cartões de <strong>Limite Garantido</strong> (como o do PagBank ou Inter). Você investe um valor e ele vira limite na hora!
                         </p>
                     </div>
                 </div>
