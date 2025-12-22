@@ -31,12 +31,16 @@ export default function CurrencyConverter() {
             try {
                 const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,GBP-BRL,CAD-BRL,AUD-BRL,JPY-BRL,CNY-BRL,CHF-BRL,ARS-BRL,BTC-BRL,ETH-BRL");
                 const data = await res.json();
-                const newRates: any = { BRL: 1 };
-                Object.keys(data).forEach(key => {
-                    const code = key.replace("BRL", "");
-                    newRates[code] = parseFloat(data[key].bid);
-                });
-                setRates(newRates);
+                if (data && !data.status) {
+                    const newRates: any = { BRL: 1 };
+                    Object.keys(data).forEach(key => {
+                        const code = key.replace("BRL", "");
+                        if (data[key] && data[key].bid) {
+                            newRates[code] = parseFloat(data[key].bid);
+                        }
+                    });
+                    setRates(newRates);
+                }
             } catch (error) {
                 console.error("Error fetching rates:", error);
             } finally {
@@ -47,9 +51,8 @@ export default function CurrencyConverter() {
     }, []);
 
     useEffect(() => {
-        if (!rates) return;
-        const fromRate = rates[from] || initialCurrencies.find(c => c.code === from)?.rate || 1;
-        const toRate = rates[to] || initialCurrencies.find(c => c.code === to)?.rate || 1;
+        const fromRate = rates?.[from] || initialCurrencies.find(c => c.code === from)?.rate || 1;
+        const toRate = rates?.[to] || initialCurrencies.find(c => c.code === to)?.rate || 1;
         const value = parseFloat(amount) || 0;
         setResult((value * fromRate) / toRate);
     }, [amount, from, to, rates]);
@@ -129,4 +132,5 @@ export default function CurrencyConverter() {
         </div>
     );
 }
+
 

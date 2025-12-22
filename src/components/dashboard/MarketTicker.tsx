@@ -12,7 +12,9 @@ export default function MarketTicker() {
             try {
                 const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL");
                 const json = await res.json();
-                setData(json);
+                if (json && !json.status) { // Check if it's not an error response
+                    setData(json);
+                }
             } catch (error) {
                 console.error("Error fetching market data:", error);
             } finally {
@@ -25,7 +27,7 @@ export default function MarketTicker() {
     }, []);
 
     if (loading) return (
-        <div className="flex items-center gap-2 text-xs text-gray-500 animate-pulse">
+        <div className="flex items-center gap-2 text-xs text-gray-500 animate-pulse h-9">
             <Loader2 size={12} className="animate-spin" />
             Carregando dados do mercado...
         </div>
@@ -40,17 +42,22 @@ export default function MarketTicker() {
     ];
 
     return (
-        <div className="flex items-center gap-6 overflow-x-auto no-scrollbar py-2">
+        <div className="flex items-center gap-6 overflow-x-auto no-scrollbar py-2 h-9">
             {items.map((item) => {
                 const market = data[item.key];
-                const pct = parseFloat(market.pctChange);
+                if (!market) return null;
+
+                const pct = parseFloat(market.pctChange || "0");
                 const isUp = pct >= 0;
 
                 return (
                     <div key={item.key} className="flex items-center gap-2 whitespace-nowrap">
                         <span className="text-xs font-bold text-gray-400 uppercase">{item.label}</span>
                         <span className="text-sm font-mono font-bold text-white">
-                            R$ {parseFloat(market.bid).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: item.key === 'BTCBRL' ? 0 : 2 })}
+                            R$ {parseFloat(market.bid || "0").toLocaleString('pt-BR', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: item.key === 'BTCBRL' ? 0 : 2
+                            })}
                         </span>
                         <span className={`flex items-center text-[10px] font-bold ${isUp ? "text-green-400" : "text-red-400"}`}>
                             {isUp ? <TrendingUp size={10} className="mr-0.5" /> : <TrendingDown size={10} className="mr-0.5" />}
@@ -62,3 +69,4 @@ export default function MarketTicker() {
         </div>
     );
 }
+
