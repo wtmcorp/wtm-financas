@@ -10,13 +10,14 @@ import { Tooltip } from "@/components/ui/Tooltip";
 
 export default function CardsPage() {
     const [cards, setCards] = useState(creditCardsData);
-    const [filter, setFilter] = useState<"all" | "básico" | "intermediário" | "premium">("all");
+    const [filter, setFilter] = useState<"all" | "básico" | "intermediário" | "premium" | "sem anuidade">("all");
     const [featureFilter, setFeatureFilter] = useState<"all" | "lounge" | "cashback" | "miles">("all");
     const [sortBy, setSortBy] = useState<"default" | "miles" | "cashback" | "yield" | "top">("default");
     const { user } = useAuth();
 
     const filteredCards = cards.filter(card => {
-        const matchesCategory = filter === "all" || card.category === filter;
+        const matchesCategory = filter === "all" ||
+            (filter === "sem anuidade" ? card.annualFee === 0 : card.category === filter);
         const matchesFeature = featureFilter === "all" ||
             (featureFilter === "lounge" && card.loungeAccess !== "none") ||
             (featureFilter === "cashback" && card.cashback > 0) ||
@@ -74,7 +75,7 @@ export default function CardsPage() {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                    {(["all", "básico", "intermediário", "premium"] as const).map((cat) => (
+                    {(["all", "básico", "intermediário", "premium", "sem anuidade"] as const).map((cat) => (
                         <button
                             key={cat}
                             onClick={() => setFilter(cat)}

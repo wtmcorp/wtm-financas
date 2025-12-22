@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { User, LogOut, LogIn, Heart } from "lucide-react";
-import FinancialNews from "@/components/notifications/FinancialNews";
+
 
 export default function Header() {
     const { user, logout } = useAuth();
@@ -16,7 +16,6 @@ export default function Header() {
                 </Link>
 
                 <div className="flex items-center gap-4">
-                    <FinancialNews />
 
                     {user ? (
                         <div className="flex items-center gap-3 pl-4 border-l border-white/10">

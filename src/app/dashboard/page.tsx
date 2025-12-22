@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { User, Wallet, TrendingUp, Calendar, Info } from "lucide-react";
 import { Tooltip } from "@/components/ui/Tooltip";
+import NewsSection from "@/components/dashboard/NewsSection";
+import GoalsWidget from "@/components/dashboard/GoalsWidget";
 
 export default function DashboardPage() {
     const { user, loading } = useAuth();
@@ -25,12 +27,10 @@ export default function DashboardPage() {
     }
 
     // Dados do orçamento salvos no perfil (se existirem)
-    // Nota: O tipo User no AuthContext precisaria ser atualizado para incluir 'budget', 
-    // mas como o Firestore é flexível, podemos acessar se estiver lá, ou fazer um cast.
     const budget = (user as any).budget;
 
     return (
-        <div className="min-h-screen p-6 max-w-7xl mx-auto">
+        <div className="min-h-screen p-6 max-w-7xl mx-auto pb-24">
             <h1 className="text-3xl font-bold text-white mb-8 flex items-center gap-2">
                 <User className="text-primary" />
                 Meu Painel
@@ -109,6 +109,16 @@ export default function DashboardPage() {
                             </button>
                         </div>
                     )}
+                </div>
+            </div>
+
+            {/* New Widgets Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+                <div className="lg:col-span-2">
+                    <GoalsWidget />
+                </div>
+                <div>
+                    <NewsSection />
                 </div>
             </div>
         </div>
