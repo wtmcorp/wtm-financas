@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { User, LogOut, LogIn, Heart } from "lucide-react";
+import MobileMenu from "./MobileMenu";
 
 
 export default function Header() {
@@ -16,32 +17,34 @@ export default function Header() {
                 </Link>
 
                 <div className="flex items-center gap-4">
-
-                    {user ? (
-                        <div className="flex items-center gap-3 pl-4 border-l border-white/10">
-                            <Link href="/private" className="text-primary hover:scale-110 transition-transform" title="Desafio Privado">
-                                <Heart size={20} fill="currentColor" />
-                            </Link>
-                            <Link href="/dashboard" className="text-sm text-gray-300 hidden sm:block hover:text-white transition-colors">
-                                {user.name.split(" ")[0]}
-                            </Link>
-                            <button
-                                onClick={() => logout()}
-                                className="text-gray-400 hover:text-red-400 transition-colors"
-                                title="Sair"
+                    <div className="hidden md:flex items-center gap-4">
+                        {user ? (
+                            <div className="flex items-center gap-3 pl-4 border-l border-white/10">
+                                <Link href="/private" className="text-primary hover:scale-110 transition-transform" title="Desafio Privado">
+                                    <Heart size={20} fill="currentColor" />
+                                </Link>
+                                <Link href="/dashboard" className="text-sm text-gray-300 hover:text-white transition-colors">
+                                    {user.name.split(" ")[0]}
+                                </Link>
+                                <button
+                                    onClick={() => logout()}
+                                    className="text-gray-400 hover:text-red-400 transition-colors"
+                                    title="Sair"
+                                >
+                                    <LogOut size={20} />
+                                </button>
+                            </div>
+                        ) : (
+                            <Link
+                                href="/login"
+                                className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors pl-4 border-l border-white/10"
                             >
-                                <LogOut size={20} />
-                            </button>
-                        </div>
-                    ) : (
-                        <Link
-                            href="/login"
-                            className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors pl-4 border-l border-white/10"
-                        >
-                            <LogIn size={18} />
-                            <span className="hidden sm:block">Entrar</span>
-                        </Link>
-                    )}
+                                <LogIn size={18} />
+                                <span>Entrar</span>
+                            </Link>
+                        )}
+                    </div>
+                    <MobileMenu />
                 </div>
             </div>
         </header>

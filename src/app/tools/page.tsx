@@ -1,147 +1,81 @@
 "use client";
 
 import { useState } from "react";
-import ExpenseTracker from "@/components/tools/ExpenseTracker";
-import BudgetCalculator from "@/components/tools/BudgetCalculator";
-import CurrencyConverter from "@/components/tools/CurrencyConverter";
-import LoanCalculator from "@/components/tools/LoanCalculator";
-import CompoundInterestCalculator from "@/components/tools/CompoundInterestCalculator";
-import InvestmentTools from "@/components/tools/new/InvestmentTools";
-import WorkAndTaxTools from "@/components/tools/new/WorkAndTaxTools";
-import LifestyleTools from "@/components/tools/new/LifestyleTools";
-import { Tooltip } from "@/components/ui/Tooltip";
-import { Wrench, TrendingUp, Briefcase, Heart, Calculator, Search } from "lucide-react";
+import {
+    Calculator, Calendar, DollarSign, TrendingUp, Home, Car,
+    Percent, PieChart, Coffee, Fuel, Clock, Lock, User,
+    BookOpen, Lightbulb, Plane, Briefcase, AlertCircle
+} from "lucide-react";
+import Calculators from "@/components/tools/Calculators";
 
 export default function ToolsPage() {
-    const [activeTab, setActiveTab] = useState("all");
-    const [search, setSearch] = useState("");
+    const [selectedTool, setSelectedTool] = useState<string | null>(null);
 
-    const tabs = [
-        { id: "all", label: "Todas", icon: Wrench },
-        { id: "invest", label: "Investimentos", icon: TrendingUp },
-        { id: "work", label: "Trabalho & Impostos", icon: Briefcase },
-        { id: "lifestyle", label: "Estilo de Vida", icon: Heart },
-        { id: "basic", label: "Essenciais", icon: Calculator },
+    const tools = [
+        { id: "net-salary", icon: DollarSign, title: "Salário Líquido", desc: "Calcule descontos de INSS e IRRF" },
+        { id: "vacation", icon: Calendar, title: "Férias", desc: "Estime o valor das suas férias + 1/3" },
+        { id: "thirteenth", icon: Calculator, title: "13º Salário", desc: "Calcule o valor proporcional" },
+        { id: "termination", icon: Briefcase, title: "Rescisão", desc: "Estimativa de verbas rescisórias" },
+        { id: "loan", icon: Home, title: "Financiamento", desc: "Simule parcelas de imóveis/veículos" },
+        { id: "compound-interest", icon: TrendingUp, title: "Juros Compostos", desc: "Projeção de investimentos" },
+        { id: "fire", icon: TrendingUp, title: "FIRE", desc: "Anos para independência financeira" },
+        { id: "rent-vs-buy", icon: Home, title: "Alugar vs Comprar", desc: "Qual vale mais a pena?" },
+        { id: "uber-vs-car", icon: Car, title: "Uber vs Carro", desc: "Comparativo de custos mensais" },
+        { id: "rate-converter", icon: Percent, title: "Conversor de Taxas", desc: "Mensal ↔ Anual" },
+        { id: "inflation", icon: TrendingUp, title: "Inflação", desc: "Poder de compra no futuro" },
+        { id: "budget-50-30-20", icon: PieChart, title: "Regra 50/30/20", desc: "Divisão ideal do orçamento" },
+        { id: "bbq", icon: Coffee, title: "Churrasco", desc: "Calcule carnes e bebidas" },
+        { id: "fuel", icon: Fuel, title: "Álcool vs Gasolina", desc: "Qual compensa abastecer?" },
+        { id: "overtime", icon: Clock, title: "Horas Extras", desc: "Cálculo do valor da hora" },
+        { id: "password", icon: Lock, title: "Gerador de Senha", desc: "Crie senhas seguras" },
+        { id: "investor-profile", icon: User, title: "Perfil Investidor", desc: "Descubra seu perfil de risco" },
+        { id: "glossary", icon: BookOpen, title: "Glossário", desc: "Termos financeiros explicados" },
+        { id: "tips", icon: Lightbulb, title: "Dica do Dia", desc: "Conselhos financeiros rápidos" },
+        { id: "trip", icon: Plane, title: "Viagem", desc: "Quanto guardar para viajar" },
     ];
 
     return (
-        <div className="p-6 space-y-8 max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                <div>
-                    <h1 className="text-4xl font-black text-white flex items-center gap-3">
-                        <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-black">
-                            <Wrench size={28} />
-                        </div>
-                        Arsenal Financeiro
-                    </h1>
-                    <p className="text-gray-400 mt-2 text-lg">
-                        +30 ferramentas profissionais para dominar seu dinheiro.
-                    </p>
-                </div>
+        <div className="min-h-screen p-6 max-w-7xl mx-auto pb-24">
+            <header className="mb-8">
+                <h1 className="text-3xl font-black text-white flex items-center gap-3">
+                    <Wrench className="text-primary" size={32} />
+                    Ferramentas & Calculadoras
+                </h1>
+                <p className="text-gray-400 mt-1">20 utilitários para facilitar sua vida financeira.</p>
+            </header>
 
-                <div className="relative group w-full md:w-80">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-primary transition-colors" size={20} />
-                    <input
-                        type="text"
-                        placeholder="Buscar ferramenta..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="w-full bg-black/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-primary/50 transition-all"
-                    />
-                </div>
-            </div>
-
-            {/* Tabs */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                {tabs.map((tab) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {tools.map((tool) => (
                     <button
-                        key={tab.id}
-                        onClick={() => setActiveTab(tab.id)}
-                        className={`
-                            flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all whitespace-nowrap
-                            ${activeTab === tab.id
-                                ? 'bg-primary text-black shadow-[0_0_20px_rgba(255,215,0,0.2)]'
-                                : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/5'}
-                        `}
+                        key={tool.id}
+                        onClick={() => setSelectedTool(tool.id)}
+                        className="bg-card border border-white/10 p-6 rounded-2xl hover:border-primary/50 hover:bg-white/5 transition-all text-left group"
                     >
-                        <tab.icon size={18} />
-                        {tab.label}
+                        <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <tool.icon className="text-primary" size={20} />
+                        </div>
+                        <h3 className="text-white font-bold mb-1">{tool.title}</h3>
+                        <p className="text-xs text-gray-400">{tool.desc}</p>
                     </button>
                 ))}
             </div>
 
-            <div className="space-y-12">
-                {(activeTab === "all" || activeTab === "basic") && (
-                    <section className="space-y-6">
-                        <Tooltip text="Ferramentas fundamentais para organizar sua vida financeira diária, desde o controle de gastos até simulações de empréstimos.">
-                            <div className="flex flex-col gap-1">
-                                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                                    <Calculator className="text-primary" /> Ferramentas Essenciais
-                                </h2>
-                                <p className="text-sm text-gray-500">O básico bem feito para quem quer sair do zero e dominar o orçamento.</p>
-                            </div>
-                        </Tooltip>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            <div className="lg:col-span-2">
-                                <ExpenseTracker />
-                            </div>
-                            <BudgetCalculator />
-                            <CompoundInterestCalculator />
-                            <CurrencyConverter />
-                            <LoanCalculator />
-                        </div>
-                    </section>
-                )}
+            {selectedTool && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in">
+                    <div className="bg-[#0a0a0a] border border-white/10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[2rem] p-6 relative animate-in zoom-in-95">
+                        <button
+                            onClick={() => setSelectedTool(null)}
+                            className="absolute top-4 right-4 p-2 bg-white/5 hover:bg-white/10 rounded-full text-gray-400 hover:text-white transition-colors"
+                        >
+                            <X size={20} />
+                        </button>
 
-                {(activeTab === "all" || activeTab === "invest") && (
-                    <section className="space-y-6">
-                        <Tooltip text="Calculadoras para investidores que buscam maximizar dividendos, calcular preço médio e planejar a independência financeira (FIRE).">
-                            <div className="flex flex-col gap-1">
-                                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                                    <TrendingUp className="text-primary" /> Investimentos de Elite
-                                </h2>
-                                <p className="text-sm text-gray-500">Ferramentas avançadas para quem já investe e quer otimizar a rentabilidade.</p>
-                            </div>
-                        </Tooltip>
-                        <InvestmentTools />
-                    </section>
-                )}
-
-                {(activeTab === "all" || activeTab === "work") && (
-                    <section className="space-y-6">
-                        <Tooltip text="Tudo o que você precisa para entender seu salário líquido, benefícios como FGTS e 13º, e planejar suas férias.">
-                            <div className="flex flex-col gap-1">
-                                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                                    <Briefcase className="text-primary" /> Trabalho & Carreira
-                                </h2>
-                                <p className="text-sm text-gray-500">Calcule seu valor real de mercado e planeje sua transição de carreira ou aposentadoria.</p>
-                            </div>
-                        </Tooltip>
-                        <WorkAndTaxTools />
-                    </section>
-                )}
-
-                {(activeTab === "all" || activeTab === "lifestyle") && (
-                    <section className="space-y-6">
-                        <Tooltip text="Analise o custo real dos seus hábitos, gerencie assinaturas e planeje viagens sem estourar o orçamento.">
-                            <div className="flex flex-col gap-1">
-                                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                                    <Heart className="text-primary" /> Estilo de Vida & Hábitos
-                                </h2>
-                                <p className="text-sm text-gray-500">Veja como seus pequenos gastos diários impactam seu futuro milionário.</p>
-                            </div>
-                        </Tooltip>
-                        <LifestyleTools />
-                    </section>
-                )}
-            </div>
-
-            <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-[2.5rem] p-10 text-center relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] -z-10" />
-                <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-                    🚀 <strong>Dica de Ouro:</strong> A consistência é o segredo da riqueza. Use estas ferramentas para planejar cada passo e veja seu patrimônio explodir.
-                </p>
-            </div>
+                        <Calculators type={selectedTool} />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
+
+import { Wrench, X } from "lucide-react";
