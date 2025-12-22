@@ -1,6 +1,7 @@
 "use client";
 
-import { TrendingUp, TrendingDown, AlertCircle, ExternalLink, Globe } from "lucide-react";
+import { TrendingUp, TrendingDown, AlertCircle, ExternalLink, Globe, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const MARKET_NEWS = [
     {
@@ -30,10 +31,29 @@ const MARKET_NEWS = [
         title: "Novas regras para fundos imobiliários entram em vigor",
         time: "6h atrás",
         type: "neutral"
+    },
+    {
+        id: 5,
+        source: "Exame",
+        title: "Criptomoedas registram forte volume de negociação",
+        time: "7h atrás",
+        type: "positive"
     }
 ];
 
 export default function NewsSection() {
+    const [lastUpdate, setLastUpdate] = useState("");
+
+    useEffect(() => {
+        const updateTime = () => {
+            const now = new Date();
+            setLastUpdate(now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
+        };
+        updateTime();
+        const interval = setInterval(updateTime, 60000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div className="bg-card border border-white/10 rounded-[2rem] p-6 h-full">
             <div className="flex justify-between items-center mb-6">
@@ -41,10 +61,15 @@ export default function NewsSection() {
                     <Globe className="text-primary" size={24} />
                     Giro do Mercado
                 </h3>
-                <span className="text-xs text-gray-500 flex items-center gap-1">
-                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    Ao vivo
-                </span>
+                <div className="flex flex-col items-end">
+                    <span className="text-[10px] text-gray-500 flex items-center gap-1 uppercase font-bold tracking-widest">
+                        <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                        Ao vivo
+                    </span>
+                    <span className="text-[9px] text-gray-600 flex items-center gap-1">
+                        <Clock size={8} /> {lastUpdate}
+                    </span>
+                </div>
             </div>
 
             <div className="space-y-4">
@@ -70,3 +95,4 @@ export default function NewsSection() {
         </div>
     );
 }
+

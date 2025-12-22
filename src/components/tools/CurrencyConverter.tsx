@@ -1,9 +1,9 @@
 "use client";
 
-import { DollarSign, RefreshCw } from "lucide-react";
+import { DollarSign, RefreshCw, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 
-const currencies = [
+const initialCurrencies = [
     { code: "USD", name: "Dólar Americano", symbol: "$", rate: 5.85 },
     { code: "EUR", name: "Euro", symbol: "€", rate: 6.35 },
     { code: "GBP", name: "Libra Esterlina", symbol: "£", rate: 7.42 },
@@ -23,13 +23,36 @@ export default function CurrencyConverter() {
     const [from, setFrom] = useState("USD");
     const [to, setTo] = useState("BRL");
     const [result, setResult] = useState(0);
+    const [rates, setRates] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fromRate = currencies.find(c => c.code === from)?.rate || 1;
-        const toRate = currencies.find(c => c.code === to)?.rate || 1;
+        const fetchRates = async () => {
+            try {
+                const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,GBP-BRL,CAD-BRL,AUD-BRL,JPY-BRL,CNY-BRL,CHF-BRL,ARS-BRL,BTC-BRL,ETH-BRL");
+                const data = await res.json();
+                const newRates: any = { BRL: 1 };
+                Object.keys(data).forEach(key => {
+                    const code = key.replace("BRL", "");
+                    newRates[code] = parseFloat(data[key].bid);
+                });
+                setRates(newRates);
+            } catch (error) {
+                console.error("Error fetching rates:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchRates();
+    }, []);
+
+    useEffect(() => {
+        if (!rates) return;
+        const fromRate = rates[from] || initialCurrencies.find(c => c.code === from)?.rate || 1;
+        const toRate = rates[to] || initialCurrencies.find(c => c.code === to)?.rate || 1;
         const value = parseFloat(amount) || 0;
         setResult((value * fromRate) / toRate);
-    }, [amount, from, to]);
+    }, [amount, from, to, rates]);
 
     const swap = () => {
         setFrom(to);
@@ -38,10 +61,13 @@ export default function CurrencyConverter() {
 
     return (
         <div className="bg-card border border-white/10 rounded-xl p-6">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <DollarSign className="text-primary" size={20} />
-                Conversor de Moedas
-            </h3>
+            <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <DollarSign className="text-primary" size={20} />
+                    Conversor de Moedas
+                </h3>
+                {loading && <Loader2 size={16} className="text-primary animate-spin" />}
+            </div>
 
             <div className="space-y-4">
                 <div>
@@ -62,7 +88,7 @@ export default function CurrencyConverter() {
                             onChange={(e) => setFrom(e.target.value)}
                             className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-primary/50"
                         >
-                            {currencies.map(c => (
+                            {initialCurrencies.map(c => (
                                 <option key={c.code} value={c.code}>{c.symbol} {c.name}</option>
                             ))}
                         </select>
@@ -82,7 +108,7 @@ export default function CurrencyConverter() {
                             onChange={(e) => setTo(e.target.value)}
                             className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-primary/50"
                         >
-                            {currencies.map(c => (
+                            {initialCurrencies.map(c => (
                                 <option key={c.code} value={c.code}>{c.symbol} {c.name}</option>
                             ))}
                         </select>
@@ -92,14 +118,15 @@ export default function CurrencyConverter() {
                 <div className="bg-primary/10 border border-primary/30 rounded-lg p-4 text-center">
                     <div className="text-sm text-gray-400 mb-1">Resultado</div>
                     <div className="text-2xl font-bold text-primary">
-                        {currencies.find(c => c.code === to)?.symbol} {result.toFixed(2)}
+                        {initialCurrencies.find(c => c.code === to)?.symbol} {result.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </div>
                 </div>
 
-                <p className="text-xs text-gray-500 text-center">
-                    Taxas de câmbio aproximadas. Consulte seu banco para valores exatos.
+                <p className="text-[10px] text-gray-500 text-center uppercase tracking-wider">
+                    {loading ? "Atualizando taxas..." : "Taxas atualizadas em tempo real via AwesomeAPI"}
                 </p>
             </div>
         </div>
     );
 }
+
