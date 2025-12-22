@@ -12,6 +12,7 @@ export default function CardsPage() {
     const [cards, setCards] = useState(creditCardsData);
     const [filter, setFilter] = useState<"all" | "básico" | "intermediário" | "premium">("all");
     const [featureFilter, setFeatureFilter] = useState<"all" | "lounge" | "cashback" | "miles">("all");
+    const [sortBy, setSortBy] = useState<"default" | "miles" | "cashback" | "yield" | "top">("default");
     const { user } = useAuth();
 
     const filteredCards = cards.filter(card => {
@@ -21,6 +22,27 @@ export default function CardsPage() {
             (featureFilter === "cashback" && card.cashback > 0) ||
             (featureFilter === "miles" && card.miles);
         return matchesCategory && matchesFeature;
+    }).sort((a, b) => {
+        if (sortBy === "miles") return (b.milesRate || 0) - (a.milesRate || 0);
+        if (sortBy === "cashback") return b.cashback - a.cashback;
+        if (sortBy === "yield") {
+            // Simple heuristic for yield sorting based on string content
+            const getYieldValue = (s?: string) => {
+                if (!s) return 0;
+                const match = s.match(/(\d+)%/);
+                return match ? parseInt(match[1]) : 0;
+            };
+            return getYieldValue(b.yield) - getYieldValue(a.yield);
+        }
+        if (sortBy === "top") {
+            // "Top" ranking: Premium > Intermediário > Básico, then by income
+            const tierScore = { "premium": 3, "intermediário": 2, "básico": 1 };
+            if (tierScore[b.category] !== tierScore[a.category]) {
+                return tierScore[b.category] - tierScore[a.category];
+            }
+            return b.minIncome - a.minIncome;
+        }
+        return 0; // Default order
     });
 
     const recommendedCards = cards
@@ -31,7 +53,14 @@ export default function CardsPage() {
     // Highlights logic
     const topMiles = [...cards].sort((a, b) => (b.milesRate || 0) - (a.milesRate || 0)).slice(0, 3);
     const topCashback = [...cards].sort((a, b) => b.cashback - a.cashback).slice(0, 3);
-    const topYield = [...cards].filter(c => c.exclusiveBenefits?.some(b => b.toLowerCase().includes("cdi") || b.toLowerCase().includes("investback"))).slice(0, 3);
+    const topYield = [...cards].filter(c => c.yield).sort((a, b) => {
+        const getYieldValue = (s?: string) => {
+            if (!s) return 0;
+            const match = s.match(/(\d+)%/);
+            return match ? parseInt(match[1]) : 0;
+        };
+        return getYieldValue(b.yield) - getYieldValue(a.yield);
+    }).slice(0, 3);
 
     return (
         <div className="p-6 space-y-8 max-w-7xl mx-auto">
@@ -50,8 +79,8 @@ export default function CardsPage() {
                             key={cat}
                             onClick={() => setFilter(cat)}
                             className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all border ${filter === cat
-                                    ? "bg-primary text-black border-transparent shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)]"
-                                    : "bg-white/5 text-gray-400 border-white/10 hover:border-white/20"
+                                ? "bg-primary text-black border-transparent shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)]"
+                                : "bg-white/5 text-gray-400 border-white/10 hover:border-white/20"
                                 }`}
                         >
                             {cat === "all" ? "Todos" : cat}
@@ -101,7 +130,7 @@ export default function CardsPage() {
                         {topYield.length > 0 ? topYield.map((card, i) => (
                             <div key={card.id} className="flex items-center justify-between text-sm">
                                 <span className="text-gray-400">{i + 1}. {card.name}</span>
-                                <span className="text-purple-400 font-bold">Investback</span>
+                                <span className="text-purple-400 font-bold text-xs">{card.yield}</span>
                             </div>
                         )) : (
                             <p className="text-gray-600 text-xs italic">Nenhum destaque encontrado.</p>
@@ -110,23 +139,33 @@ export default function CardsPage() {
                 </div>
             </section>
 
-            {/* Feature Filters */}
-            <div className="flex flex-wrap gap-3 p-2 bg-white/5 rounded-2xl border border-white/10">
-                {(["all", "lounge", "cashback", "miles"] as const).map((feat) => (
-                    <button
-                        key={feat}
-                        onClick={() => setFeatureFilter(feat)}
-                        className={`flex-1 min-w-[120px] px-4 py-3 rounded-xl text-xs font-bold uppercase flex items-center justify-center gap-2 transition-all ${featureFilter === feat
+            {/* Feature Filters & Sorting */}
+            <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white/5 rounded-2xl border border-white/10 p-2">
+                <div className="flex flex-wrap gap-2 w-full md:w-auto">
+                    {(["all", "lounge", "cashback", "miles"] as const).map((feat) => (
+                        <button
+                            key={feat}
+                            onClick={() => setFeatureFilter(feat)}
+                            className={`flex-1 md:flex-none px-4 py-2 rounded-xl text-xs font-bold uppercase flex items-center justify-center gap-2 transition-all ${featureFilter === feat
                                 ? "bg-white text-black"
                                 : "text-gray-400 hover:bg-white/5"
-                            }`}
-                    >
-                        {feat === "all" && "Sem Filtro"}
-                        {feat === "lounge" && <><Plane size={14} /> Sala VIP</>}
-                        {feat === "cashback" && <><DollarSign size={14} /> Cashback</>}
-                        {feat === "miles" && <><TrendingUp size={14} /> Milhas</>}
-                    </button>
-                ))}
+                                }`}
+                        >
+                            {feat === "all" && "Sem Filtro"}
+                            {feat === "lounge" && <><Plane size={14} /> Sala VIP</>}
+                            {feat === "cashback" && <><DollarSign size={14} /> Cashback</>}
+                            {feat === "miles" && <><TrendingUp size={14} /> Milhas</>}
+                        </button>
+                    ))}
+                </div>
+
+                <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto">
+                    <span className="text-xs text-gray-500 font-bold uppercase whitespace-nowrap pl-2">Ordenar por:</span>
+                    <button onClick={() => setSortBy("top")} className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors whitespace-nowrap ${sortBy === "top" ? "bg-primary text-black" : "bg-black/40 text-gray-400"}`}>🏆 Top</button>
+                    <button onClick={() => setSortBy("miles")} className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors whitespace-nowrap ${sortBy === "miles" ? "bg-blue-500 text-white" : "bg-black/40 text-gray-400"}`}>✈️ Milhas</button>
+                    <button onClick={() => setSortBy("cashback")} className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors whitespace-nowrap ${sortBy === "cashback" ? "bg-green-500 text-white" : "bg-black/40 text-gray-400"}`}>💲 Cashback</button>
+                    <button onClick={() => setSortBy("yield")} className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors whitespace-nowrap ${sortBy === "yield" ? "bg-purple-500 text-white" : "bg-black/40 text-gray-400"}`}>📈 Rendimento</button>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -241,6 +280,11 @@ export default function CardsPage() {
                                         {card.miles && (
                                             <span className="px-2 py-1 bg-blue-500/10 text-blue-400 text-[10px] font-bold rounded-md border border-blue-500/20 flex items-center gap-1">
                                                 <Plane size={10} /> {card.milesRate} pts/$
+                                            </span>
+                                        )}
+                                        {card.yield && (
+                                            <span className="px-2 py-1 bg-purple-500/10 text-purple-400 text-[10px] font-bold rounded-md border border-purple-500/20 flex items-center gap-1">
+                                                <TrendingUp size={10} /> {card.yield}
                                             </span>
                                         )}
                                         {card.loungeAccess !== "none" && (

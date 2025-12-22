@@ -17,7 +17,8 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 5000,
         category: "premium",
         color: "#8a05be",
-        applyLink: "https://nubank.com.br/ultravioleta/"
+        applyLink: "https://nubank.com.br/ultravioleta/",
+        yield: "200% do CDI"
     },
     {
         id: "inter-black",
@@ -111,9 +112,10 @@ export const creditCardsData: CreditCard[] = [
         benefits: ["Investback de 1%", "Salas VIP", "Seguro Viagem"],
         exclusiveBenefits: ["Acesso a fundos exclusivos", "Assessoria XP"],
         minIncome: 5000,
-        category: "premium",
+        category: "intermediário",
         color: "#000000",
-        applyLink: "https://www.xpi.com.br/produtos/cartao-de-credito/"
+        applyLink: "https://www.xpi.com.br/produtos/cartao-de-credito/",
+        yield: "Investback 1%"
     },
     {
         id: "btg-black",
@@ -170,7 +172,8 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 0,
         category: "básico",
         color: "#21c25e",
-        applyLink: "https://www.picpay.com/card"
+        applyLink: "https://www.picpay.com/card",
+        yield: "102% do CDI"
     },
     {
         id: "will-bank",
@@ -236,9 +239,10 @@ export const creditCardsData: CreditCard[] = [
         benefits: ["Sem anuidade", "Seguro Proteção de Preço", "Garantia Estendida"],
         exclusiveBenefits: ["NuTag", "Caixinhas do Nu"],
         minIncome: 0,
-        category: "básico",
+        category: "intermediário",
         color: "#8a05be",
-        applyLink: "https://nubank.com.br/"
+        applyLink: "https://nubank.com.br/",
+        yield: "100% do CDI (Caixinhas)"
     },
     {
         id: "neon-visa",
@@ -255,7 +259,8 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 800,
         category: "básico",
         color: "#00e5ff",
-        applyLink: "https://neon.com.br/cartao-de-credito"
+        applyLink: "https://neon.com.br/cartao-de-credito",
+        yield: "100% a 113% do CDI"
     },
     {
         id: "digio-gold",
@@ -270,9 +275,10 @@ export const creditCardsData: CreditCard[] = [
         benefits: ["Sem anuidade", "DigioLoja", "Seguro Proteção de Preço"],
         exclusiveBenefits: ["DigioClub", "Descontos em parceiros"],
         minIncome: 1100,
-        category: "básico",
+        category: "intermediário",
         color: "#2b0d61",
-        applyLink: "https://www.digio.com.br/"
+        applyLink: "https://www.digio.com.br/",
+        yield: "100% do CDI"
     },
     {
         id: "pagbank-visa",
@@ -289,7 +295,8 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 0,
         category: "básico",
         color: "#ffd700",
-        applyLink: "https://pagseguro.uol.com.br/conta-digital/cartao-de-credito"
+        applyLink: "https://pagseguro.uol.com.br/conta-digital/cartao-de-credito",
+        yield: "110% do CDI"
     },
     {
         id: "mercado-pago-visa",
@@ -306,7 +313,8 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 0,
         category: "básico",
         color: "#00bcff",
-        applyLink: "https://www.mercadopago.com.br/cartao-de-credito"
+        applyLink: "https://www.mercadopago.com.br/cartao-de-credito",
+        yield: "105% do CDI"
     },
     {
         id: "bb-ourocard-facil",

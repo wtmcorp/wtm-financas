@@ -8,6 +8,14 @@ const currencies = [
     { code: "EUR", name: "Euro", symbol: "€", rate: 6.35 },
     { code: "GBP", name: "Libra Esterlina", symbol: "£", rate: 7.42 },
     { code: "BRL", name: "Real Brasileiro", symbol: "R$", rate: 1 },
+    { code: "CAD", name: "Dólar Canadense", symbol: "C$", rate: 4.20 },
+    { code: "AUD", name: "Dólar Australiano", symbol: "A$", rate: 3.85 },
+    { code: "JPY", name: "Iene Japonês", symbol: "¥", rate: 0.039 },
+    { code: "CNY", name: "Yuan Chinês", symbol: "¥", rate: 0.81 },
+    { code: "CHF", name: "Franco Suíço", symbol: "Fr", rate: 6.60 },
+    { code: "ARS", name: "Peso Argentino", symbol: "$", rate: 0.006 },
+    { code: "BTC", name: "Bitcoin", symbol: "₿", rate: 350000 },
+    { code: "ETH", name: "Ethereum", symbol: "Ξ", rate: 18000 },
 ];
 
 export default function CurrencyConverter() {

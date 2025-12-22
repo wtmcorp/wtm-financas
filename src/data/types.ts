@@ -17,4 +17,5 @@ export interface CreditCard {
     category: "básico" | "intermediário" | "premium";
     color: string;
     applyLink: string;
+    yield?: string; // Rendimento (ex: 100% do CDI)
 }

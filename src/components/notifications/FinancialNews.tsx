@@ -110,9 +110,6 @@ export default function FinancialNews() {
                 aria-label="Abrir notícias financeiras"
             >
                 <Bell size={20} className="text-gray-400" />
-                {hasUnread && (
-                    <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                )}
             </button>
 
             <AnimatePresence>
