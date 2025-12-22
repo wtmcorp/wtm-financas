@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import {
     Menu, X, Home, CreditCard, Wrench, User, LogOut,
-    Heart, Settings, HelpCircle, DollarSign, TrendingUp
+    Heart, DollarSign, TrendingUp
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -42,76 +42,62 @@ export default function MobileMenu() {
     ];
 
     return (
-        <>
+        <div className="md:hidden">
             <button
-                onClick={() => setIsOpen(true)}
-                className="p-2 text-gray-400 hover:text-white transition-colors md:hidden"
+                onClick={() => setIsOpen(!isOpen)}
+                className={`p-2 rounded-lg border transition-all ${isOpen
+                        ? "text-primary border-primary bg-primary/10"
+                        : "text-gray-400 border-white/10 hover:border-white/30 hover:text-white"
+                    }`}
                 aria-label="Abrir menu"
             >
-                <Menu size={24} />
+                {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
 
-            {/* Overlay */}
-            {isOpen && (
-                <div
-                    className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 md:hidden animate-in fade-in duration-200"
-                    onClick={() => setIsOpen(false)}
-                />
-            )}
+            {/* Dropdown Menu (Bootstrap Style) */}
+            <div className={`absolute top-full left-0 right-0 bg-[#0a0a0a] border-b border-white/10 shadow-2xl overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-[80vh] opacity-100" : "max-h-0 opacity-0"
+                }`}>
+                <div className="p-4 space-y-2">
+                    {menuItems.map((item) => {
+                        const isActive = pathname === item.href;
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setIsOpen(false)}
+                                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all border ${isActive
+                                        ? "bg-primary/10 text-primary border-primary/20 font-bold"
+                                        : "text-gray-400 border-transparent hover:bg-white/5 hover:text-white"
+                                    }`}
+                            >
+                                <item.icon size={18} />
+                                {item.label}
+                            </Link>
+                        );
+                    })}
 
-            {/* Drawer */}
-            <div className={`fixed top-0 right-0 h-full w-[280px] bg-[#0a0a0a] border-l border-white/10 z-50 transform transition-transform duration-300 ease-in-out md:hidden ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
-                <div className="p-6 flex flex-col h-full">
-                    <div className="flex justify-between items-center mb-8">
-                        <span className="text-xl font-black text-white tracking-tight">Menu</span>
-                        <button
-                            onClick={() => setIsOpen(false)}
-                            className="p-2 text-gray-400 hover:text-white transition-colors"
-                        >
-                            <X size={24} />
-                        </button>
-                    </div>
-
-                    <div className="flex-1 overflow-y-auto space-y-2">
-                        {menuItems.map((item) => {
-                            const isActive = pathname === item.href;
-                            return (
-                                <Link
-                                    key={item.href}
-                                    href={item.href}
-                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
-                                            ? "bg-primary text-black font-bold"
-                                            : "text-gray-400 hover:bg-white/5 hover:text-white"
-                                        }`}
-                                >
-                                    <item.icon size={20} />
-                                    {item.label}
-                                </Link>
-                            );
-                        })}
-                    </div>
-
-                    <div className="pt-6 border-t border-white/10 space-y-2">
+                    <div className="pt-4 mt-4 border-t border-white/10">
                         {user ? (
                             <button
                                 onClick={() => logout()}
-                                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-colors"
+                                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors border border-transparent hover:border-red-500/20"
                             >
-                                <LogOut size={20} />
+                                <LogOut size={18} />
                                 Sair da Conta
                             </button>
                         ) : (
                             <Link
                                 href="/login"
-                                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-primary hover:bg-primary/10 transition-colors"
+                                onClick={() => setIsOpen(false)}
+                                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-primary hover:bg-primary/10 transition-colors border border-transparent hover:border-primary/20"
                             >
-                                <LogOut size={20} className="rotate-180" />
+                                <LogOut size={18} className="rotate-180" />
                                 Entrar
                             </Link>
                         )}
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

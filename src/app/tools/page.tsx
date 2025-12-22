@@ -8,10 +8,13 @@ import {
 } from "lucide-react";
 import Calculators from "@/components/tools/Calculators";
 
+import MoreCalculators from "@/components/tools/MoreCalculators";
+
 export default function ToolsPage() {
     const [selectedTool, setSelectedTool] = useState<string | null>(null);
 
     const tools = [
+        // --- Original 20 Tools ---
         { id: "net-salary", icon: DollarSign, title: "Salário Líquido", desc: "Calcule descontos de INSS e IRRF" },
         { id: "vacation", icon: Calendar, title: "Férias", desc: "Estime o valor das suas férias + 1/3" },
         { id: "thirteenth", icon: Calculator, title: "13º Salário", desc: "Calcule o valor proporcional" },
@@ -32,6 +35,28 @@ export default function ToolsPage() {
         { id: "glossary", icon: BookOpen, title: "Glossário", desc: "Termos financeiros explicados" },
         { id: "tips", icon: Lightbulb, title: "Dica do Dia", desc: "Conselhos financeiros rápidos" },
         { id: "trip", icon: Plane, title: "Viagem", desc: "Quanto guardar para viajar" },
+
+        // --- NEW 20 Tools ---
+        { id: "savings-yield", icon: TrendingUp, title: "Rendimento Poupança", desc: "Simule o retorno da poupança" },
+        { id: "cdi-vs-savings", icon: TrendingUp, title: "CDI vs Poupança", desc: "Comparativo de rentabilidade" },
+        { id: "roi", icon: Percent, title: "ROI", desc: "Retorno sobre Investimento" },
+        { id: "profit-margin", icon: DollarSign, title: "Margem de Lucro", desc: "Calcule sua margem real" },
+        { id: "break-even", icon: TrendingUp, title: "Ponto de Equilíbrio", desc: "Quando começa a lucrar?" },
+        { id: "discount", icon: Percent, title: "Calc. de Desconto", desc: "Valor final com desconto" },
+        { id: "raise", icon: TrendingUp, title: "Calc. de Aumento", desc: "Novo salário com %" },
+        { id: "price-per-unit", icon: DollarSign, title: "Qual compensa?", desc: "Preço por quantidade" },
+        { id: "rule-of-three", icon: Calculator, title: "Regra de Três", desc: "Cálculo proporcional simples" },
+        { id: "business-days", icon: Calendar, title: "Dias Úteis", desc: "Contagem de dias de trabalho" },
+        { id: "hour-sum", icon: Clock, title: "Soma de Horas", desc: "Adicione horas e minutos" },
+        { id: "receipt", icon: Briefcase, title: "Gerador de Recibo", desc: "Crie um recibo simples" },
+        { id: "cpf-validator", icon: Check, title: "Validador CPF", desc: "Verifique se é válido" },
+        { id: "cnpj-validator", icon: Check, title: "Validador CNPJ", desc: "Verifique se é válido" },
+        { id: "pomodoro", icon: Clock, title: "Pomodoro Timer", desc: "Foco e produtividade" },
+        { id: "unit-converter", icon: Calculator, title: "Conversor Medidas", desc: "Peso, Distância, etc." },
+        { id: "tip-calc", icon: DollarSign, title: "Gorjeta", desc: "Dividir conta e 10%" },
+        { id: "pizza-calc", icon: Coffee, title: "Calc. de Pizza", desc: "Quantas pizzas pedir?" },
+        { id: "qr-code", icon: Calculator, title: "Gerador QR Code", desc: "Crie códigos QR" },
+        { id: "number-draw", icon: Calculator, title: "Sorteio", desc: "Sorteador de números" },
     ];
 
     return (
@@ -41,7 +66,7 @@ export default function ToolsPage() {
                     <Wrench className="text-primary" size={32} />
                     Ferramentas & Calculadoras
                 </h1>
-                <p className="text-gray-400 mt-1">20 utilitários para facilitar sua vida financeira.</p>
+                <p className="text-gray-400 mt-1">40 utilitários para facilitar sua vida financeira e pessoal.</p>
             </header>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -70,7 +95,9 @@ export default function ToolsPage() {
                             <X size={20} />
                         </button>
 
+                        {/* Render either original or new calculators */}
                         <Calculators type={selectedTool} />
+                        <MoreCalculators type={selectedTool} />
                     </div>
                 </div>
             )}
@@ -78,4 +105,4 @@ export default function ToolsPage() {
     );
 }
 
-import { Wrench, X } from "lucide-react";
+import { Wrench, X, Check } from "lucide-react";
