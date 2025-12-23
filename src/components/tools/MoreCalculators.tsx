@@ -21,11 +21,12 @@ export default function MoreCalculators({ type }: Props) {
         setRes(null);
     }, [type]);
 
-    const Input = ({ label, value, onChange, placeholder, type = "number" }: any) => (
+    const Input = ({ label, value, onChange, placeholder, type = "text", inputMode = "text" }: any) => (
         <div className="space-y-1">
             <label className="text-xs text-gray-400 uppercase font-bold">{label}</label>
             <input
                 type={type}
+                inputMode={inputMode}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
@@ -288,10 +289,16 @@ export default function MoreCalculators({ type }: Props) {
                 }
                 setRes("CPF Válido");
             };
+            const handleCPFChange = (v: string) => {
+                const x = v.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
+                if (!x) return;
+                const masked = !x[2] ? x[1] : x[1] + "." + x[2] + (x[3] ? "." + x[3] : "") + (x[4] ? "-" + x[4] : "");
+                setVal1(masked);
+            };
             return (
                 <div className="space-y-4">
                     <h2 className="text-2xl font-bold text-white">Validador de CPF</h2>
-                    <Input label="CPF (apenas números)" type="text" value={val1} onChange={setVal1} />
+                    <Input label="CPF" type="text" inputMode="numeric" value={val1} onChange={handleCPFChange} placeholder="000.000.000-00" />
                     <button onClick={validateCPF} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Validar</button>
                     {res && <div className={`text-center font-bold ${res.includes("Válido") ? "text-green-400" : "text-red-400"}`}>{res}</div>}
                 </div>
@@ -306,10 +313,16 @@ export default function MoreCalculators({ type }: Props) {
                 }
                 setRes("CNPJ Válido");
             };
+            const handleCNPJChange = (v: string) => {
+                const x = v.replace(/\D/g, "").match(/(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,2})/);
+                if (!x) return;
+                const masked = !x[2] ? x[1] : x[1] + "." + x[2] + "." + x[3] + "/" + x[4] + (x[5] ? "-" + x[5] : "");
+                setVal1(masked);
+            };
             return (
                 <div className="space-y-4">
                     <h2 className="text-2xl font-bold text-white">Validador de CNPJ</h2>
-                    <Input label="CNPJ (apenas números)" type="text" value={val1} onChange={setVal1} />
+                    <Input label="CNPJ" type="text" inputMode="numeric" value={val1} onChange={handleCNPJChange} placeholder="00.000.000/0000-00" />
                     <button onClick={validateCNPJ} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Validar</button>
                     {res && <div className={`text-center font-bold ${res.includes("Válido") ? "text-green-400" : "text-red-400"}`}>{res}</div>}
                 </div>
