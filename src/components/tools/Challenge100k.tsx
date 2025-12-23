@@ -16,34 +16,11 @@ export default function Challenge100k() {
     const [loading, setLoading] = useState(true);
 
     const SLOTS_COUNT = 200;
-    const MULTIPLIER = 2.5; // 200 * 250.5 * 2.5 = 125,250... wait.
-    // Let's use a simpler approach: 200 slots, each representing a value.
-    // To get 50,000 with 200 slots, the average is 250.
-    // If we do 5, 10, 15... up to 500 (which is 5 * 100), that's 100 slots.
-    // The user said "max 500" and "100k total".
-    // 100k total = 50k per person.
-    // If we have 200 slots per person:
-    // Slot 1: 5, Slot 2: 10... Slot 200: 1000 (too much)
-    // Let's do 200 slots of R$ 250 each? No, that's boring.
-    // Let's do: 200 slots, values from R$ 50 to R$ 450.
-    // Or just 100 slots of R$ 500? No, he wants a grid.
-    // Let's do 200 slots, each R$ 250.
-    // Actually, the most common way is a progression.
-    // If we want 50,000 in 200 slots:
-    // Sum = (a1 + an) * n / 2
-    // 50,000 = (a1 + 500) * 200 / 2
-    // 50,000 = (a1 + 500) * 100
-    // 500 = a1 + 500 => a1 = 0.
-    // So if we go from R$ 5 to R$ 495 with step R$ 2.46...
-    // Let's just use 200 slots of R$ 250 each for simplicity, or 100 slots of R$ 500.
-    // User said "maximo 500 de deposito".
-    // Let's do 200 slots of R$ 250. It looks like a big achievement grid.
-
-    const SLOT_VALUE = 250;
-    const TOTAL_PER_PERSON = SLOTS_COUNT * SLOT_VALUE; // 50,000
+    const STEP = 2.5;
+    const TOTAL_PER_PERSON = (SLOTS_COUNT * (SLOTS_COUNT + 1) / 2) * STEP; // 50,250
 
     useEffect(() => {
-        const docRef = doc(db, "challenges", "sofia-walter-100k-v4"); // New version for new structure
+        const docRef = doc(db, "challenges", "sofia-walter-100k-v5"); // New version for new structure
 
         const unsub = onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
@@ -61,7 +38,7 @@ export default function Challenge100k() {
         const newData = { ...data };
         const slots = person === 1 ? [...newData.checkedSlots1] : [...newData.checkedSlots2];
         const isChecking = !slots.includes(index);
-        const amount = SLOT_VALUE;
+        const amount = (index + 1) * STEP;
 
         if (isChecking) {
             slots.push(index);
@@ -79,18 +56,18 @@ export default function Challenge100k() {
         else newData.checkedSlots2 = slots;
 
         try {
-            await setDoc(doc(db, "challenges", "sofia-walter-100k-v4"), newData);
+            await setDoc(doc(db, "challenges", "sofia-walter-100k-v5"), newData);
         } catch (error) {
             console.error("Erro ao atualizar slot:", error);
         }
     };
 
-    const calculateSaved = (slots: number[]) => slots.length * SLOT_VALUE;
+    const calculateSaved = (slots: number[]) => slots.reduce((sum, idx) => sum + (idx + 1) * STEP, 0);
 
     const saved1 = calculateSaved(data.checkedSlots1);
     const saved2 = calculateSaved(data.checkedSlots2);
     const totalSaved = saved1 + saved2;
-    const TOTAL_GOAL = 100000;
+    const TOTAL_GOAL = TOTAL_PER_PERSON * 2; // 100,500
     const progressTotal = (totalSaved / TOTAL_GOAL) * 100;
 
     if (loading) {
@@ -116,27 +93,27 @@ export default function Challenge100k() {
                         <p className={`text-lg font-black ${colorClass}`}>
                             {saved.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </p>
-                        <p className="text-[10px] text-gray-500 uppercase font-bold">Meta: R$ 50.000</p>
+                        <p className="text-[10px] text-gray-500 uppercase font-bold">Meta: R$ 50.250</p>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-10 gap-1.5">
                     {Array.from({ length: SLOTS_COUNT }).map((_, i) => {
                         const isChecked = checkedSlots.includes(i);
-                        const val = SLOT_VALUE;
+                        const val = (i + 1) * STEP;
                         return (
                             <button
                                 key={i}
                                 onClick={() => toggleSlot(personNum, i)}
-                                className={`aspect-square rounded-lg border flex items-center justify-center text-[8px] font-black transition-all duration-300 relative group ${isChecked
+                                className={`aspect-square rounded-lg border flex items-center justify-center text-[7px] font-black transition-all duration-300 relative group ${isChecked
                                     ? 'bg-green-500 border-transparent text-black scale-110 shadow-[0_0_15px_rgba(34,197,94,0.3)]'
                                     : 'bg-black/40 border-white/10 text-gray-600 hover:border-white/30'
                                     }`}
                                 title={`R$ ${val}`}
                             >
-                                {isChecked ? <Check size={12} strokeWidth={4} /> : i + 1}
+                                {isChecked ? <Check size={12} strokeWidth={4} /> : val.toFixed(1)}
                                 <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 pointer-events-none z-20 whitespace-nowrap border border-white/10">
-                                    Depósito: R$ {val}
+                                    Depósito: R$ {val.toFixed(2)}
                                 </div>
                             </button>
                         );
@@ -164,7 +141,7 @@ export default function Challenge100k() {
                         <p className="text-5xl font-black text-white tracking-tighter">
                             {totalSaved.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </p>
-                        <p className="text-gray-500 mt-2 font-medium italic">"Cada quadrado marcado é um passo rumo ao nosso futuro."</p>
+                        <p className="text-gray-500 mt-2 font-medium italic">"O segredo é a constância, o prêmio é a liberdade."</p>
                     </div>
 
                     <div className="flex items-center gap-6">
@@ -187,7 +164,7 @@ export default function Challenge100k() {
             {/* Instruction */}
             <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-2xl text-center">
                 <p className="text-green-400 text-sm font-bold">
-                    ✅ Clique no número para marcar como feito. Cada depósito é de R$ 250!
+                    ✅ Clique no valor para marcar como feito. Valores de R$ 2,50 até R$ 500,00!
                 </p>
             </div>
 
