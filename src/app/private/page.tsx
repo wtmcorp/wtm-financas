@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Lock, Heart, Coins } from "lucide-react";
 import Challenge100k from "@/components/tools/Challenge100k";
 
@@ -9,18 +9,11 @@ export default function PrivatePage() {
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [error, setError] = useState("");
 
-    useEffect(() => {
-        const auth = localStorage.getItem("wtm_private_auth");
-        if (auth === "true") {
-            setIsAuthorized(true);
-        }
-    }, []);
-
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
+        // Senha solicitada pelo usuário para acesso exclusivo
         if (password === "sofiaewalter100k") {
             setIsAuthorized(true);
-            localStorage.setItem("wtm_private_auth", "true");
             setError("");
         } else {
             setError("Senha incorreta. Tente novamente.");
@@ -100,3 +93,4 @@ export default function PrivatePage() {
         </div>
     );
 }
+

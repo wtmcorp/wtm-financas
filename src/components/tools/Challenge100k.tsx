@@ -20,14 +20,24 @@ export default function Challenge100k() {
     const TOTAL_PER_PERSON = (SLOTS_COUNT * (SLOTS_COUNT + 1) / 2) * STEP; // 50,250
 
     useEffect(() => {
-        const docRef = doc(db, "challenges", "sofia-walter-100k-v5"); // New version for new structure
+        const docRef = doc(db, "challenges", "sofia-walter-100k-v5");
 
         const unsub = onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
-                setData(docSnap.data() as ChallengeData);
+                const fetchedData = docSnap.data();
+                setData({
+                    checkedSlots1: Array.isArray(fetchedData.checkedSlots1) ? fetchedData.checkedSlots1 : [],
+                    checkedSlots2: Array.isArray(fetchedData.checkedSlots2) ? fetchedData.checkedSlots2 : [],
+                    history: Array.isArray(fetchedData.history) ? fetchedData.history : []
+                });
             } else {
-                setDoc(docRef, { checkedSlots1: [], checkedSlots2: [], history: [] });
+                const initialData = { checkedSlots1: [], checkedSlots2: [], history: [] };
+                setDoc(docRef, initialData);
+                setData(initialData);
             }
+            setLoading(false);
+        }, (error) => {
+            console.error("Firestore error:", error);
             setLoading(false);
         });
 
@@ -36,7 +46,7 @@ export default function Challenge100k() {
 
     const toggleSlot = async (person: 1 | 2, index: number) => {
         const newData = { ...data };
-        const slots = person === 1 ? [...newData.checkedSlots1] : [...newData.checkedSlots2];
+        const slots = person === 1 ? [...(newData.checkedSlots1 || [])] : [...(newData.checkedSlots2 || [])];
         const isChecking = !slots.includes(index);
         const amount = (index + 1) * STEP;
 
@@ -44,12 +54,14 @@ export default function Challenge100k() {
             slots.push(index);
             newData.history = [
                 { date: new Date().toISOString(), amount, person, slotIndex: index },
-                ...newData.history
+                ...(newData.history || [])
             ].slice(0, 50);
         } else {
             const idx = slots.indexOf(index);
-            slots.splice(idx, 1);
-            newData.history = newData.history.filter(h => !(h.person === person && h.slotIndex === index));
+            if (idx > -1) {
+                slots.splice(idx, 1);
+                newData.history = (newData.history || []).filter(h => !(h.person === person && h.slotIndex === index));
+            }
         }
 
         if (person === 1) newData.checkedSlots1 = slots;
@@ -62,12 +74,12 @@ export default function Challenge100k() {
         }
     };
 
-    const calculateSaved = (slots: number[]) => slots.reduce((sum, idx) => sum + (idx + 1) * STEP, 0);
+    const calculateSaved = (slots: number[]) => (slots || []).reduce((sum, idx) => sum + (idx + 1) * STEP, 0);
 
     const saved1 = calculateSaved(data.checkedSlots1);
     const saved2 = calculateSaved(data.checkedSlots2);
     const totalSaved = saved1 + saved2;
-    const TOTAL_GOAL = TOTAL_PER_PERSON * 2; // 100,500
+    const TOTAL_GOAL = TOTAL_PER_PERSON * 2;
     const progressTotal = (totalSaved / TOTAL_GOAL) * 100;
 
     if (loading) {
@@ -99,7 +111,7 @@ export default function Challenge100k() {
 
                 <div className="grid grid-cols-10 gap-1.5">
                     {Array.from({ length: SLOTS_COUNT }).map((_, i) => {
-                        const isChecked = checkedSlots.includes(i);
+                        const isChecked = (checkedSlots || []).includes(i);
                         const val = (i + 1) * STEP;
                         return (
                             <button
@@ -121,7 +133,7 @@ export default function Challenge100k() {
                 </div>
 
                 <div className="flex justify-between items-center text-[10px] text-gray-400 font-bold uppercase">
-                    <span>{checkedSlots.length} de {SLOTS_COUNT} depósitos</span>
+                    <span>{(checkedSlots || []).length} de {SLOTS_COUNT} depósitos</span>
                     <span>{((saved / TOTAL_PER_PERSON) * 100).toFixed(1)}%</span>
                 </div>
             </div>
@@ -130,7 +142,6 @@ export default function Challenge100k() {
 
     return (
         <div className="space-y-8">
-            {/* Stats Header */}
             <div className="bg-gradient-to-br from-primary/20 via-transparent to-green-500/10 border border-white/10 p-8 rounded-[2.5rem] relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                     <TrendingUp size={120} />
@@ -161,14 +172,12 @@ export default function Challenge100k() {
                 </div>
             </div>
 
-            {/* Instruction */}
             <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-2xl text-center">
                 <p className="text-green-400 text-sm font-bold">
                     ✅ Clique no valor para marcar como feito. Valores de R$ 2,50 até R$ 500,00!
                 </p>
             </div>
 
-            {/* The Game Grids */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <Grid
                     personNum={1}
@@ -186,17 +195,16 @@ export default function Challenge100k() {
                 />
             </div>
 
-            {/* History */}
             <div className="bg-black/20 border border-white/5 p-6 rounded-3xl">
                 <div className="flex items-center justify-between mb-6">
                     <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Depósitos Recentes</h3>
                     <CheckCircle2 className="text-green-500/50" size={16} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {data.history.length === 0 ? (
+                    {(data.history || []).length === 0 ? (
                         <p className="col-span-2 text-gray-600 text-sm text-center py-4 italic">Nenhum depósito ainda. Vamos começar!</p>
                     ) : (
-                        data.history.map((item, idx) => (
+                        (data.history || []).map((item, idx) => (
                             <div key={idx} className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5 hover:border-white/10 transition-colors">
                                 <div className="flex items-center gap-4">
                                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${item.person === 1 ? 'bg-primary/10 text-primary' : 'bg-pink-500/10 text-pink-500'}`}>
@@ -222,3 +230,4 @@ export default function Challenge100k() {
         </div>
     );
 }
+
