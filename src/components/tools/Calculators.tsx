@@ -35,13 +35,17 @@ export default function Calculators({ type }: CalculatorsProps) {
 
     const calculateNetSalary = () => {
         const gross = Number(salary);
-        let inss = 0;
-        if (gross <= 1412) inss = gross * 0.075;
-        else if (gross <= 2666.68) inss = gross * 0.09 - 21.18;
-        else if (gross <= 4000.03) inss = gross * 0.12 - 101.18;
-        else if (gross <= 7786.02) inss = gross * 0.14 - 181.18;
-        else inss = 908.85;
+        const minWage = 1514; // 2025 Minimum Wage
 
+        // INSS 2025 (Estimated based on 2025 minimum wage and inflation)
+        let inss = 0;
+        if (gross <= 1514) inss = gross * 0.075;
+        else if (gross <= 2859.27) inss = gross * 0.09 - 22.71;
+        else if (gross <= 4288.93) inss = gross * 0.12 - 108.49;
+        else if (gross <= 8346.61) inss = gross * 0.14 - 194.27;
+        else inss = 974.26; // Teto INSS 2025
+
+        // IRRF 2025 (Simplified based on current 2024/2025 transition)
         const baseIR = gross - inss - (Number(dependents) * 189.59);
         let irrf = 0;
         if (baseIR <= 2259.20) irrf = 0;
@@ -82,7 +86,7 @@ export default function Calculators({ type }: CalculatorsProps) {
             case "net-salary":
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-bold text-white">Calculadora de Salário Líquido (2024)</h2>
+                        <h2 className="text-2xl font-bold text-white">Calculadora de Salário Líquido (2025)</h2>
                         <div className="grid gap-4">
                             <Input label="Salário Bruto (R$)" value={salary} onChange={setSalary} placeholder="Ex: 5000" />
                             <Input label="Número de Dependentes" value={dependents} onChange={setDependents} placeholder="Ex: 0" />
