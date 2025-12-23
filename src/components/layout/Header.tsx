@@ -21,6 +21,26 @@ export default function Header() {
                         </span>
                     </Link>
 
+                    {/* Desktop Navigation */}
+                    <nav className="hidden md:flex items-center gap-8">
+                        {[
+                            { name: "Dashboard", href: "/" },
+                            { name: "Cartões", href: "/cards" },
+                            { name: "Ferramentas", href: "/tools" },
+                            { name: "Desafio", href: "/private" },
+                            { name: "Aprenda", href: "/learn" },
+                            { name: "Perfil", href: "/dashboard" },
+                        ].map((item) => (
+                            <Link
+                                key={item.name}
+                                href={item.href}
+                                className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-primary transition-colors"
+                            >
+                                {item.name}
+                            </Link>
+                        ))}
+                    </nav>
+
                     <div className="flex items-center gap-6">
                         <div className="hidden md:flex items-center gap-6">
                             {user ? (

@@ -39,7 +39,7 @@ export default function RootLayout({
                         {/* Header */}
                         <Header />
 
-                        <main className="pb-20 pt-16 flex-1">
+                        <main className="pb-20 pt-32 flex-1">
                             {children}
                         </main>
 

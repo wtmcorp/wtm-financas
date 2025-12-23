@@ -99,6 +99,7 @@ body {
   .gradient-text {
     background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
@@ -150,16 +151,17 @@ body {
     }
   }
 
-  /* Interactive Elements */
-  .btn-premium {
-    @apply relative overflow-hidden px-6 py-3 rounded-2xl font-bold transition-all duration-300 active:scale-95;
-    background: var(--primary);
-    color: #000;
-  }
+  @layer components {
+    .btn-premium {
+      @apply relative overflow-hidden px-6 py-3 rounded-2xl font-bold transition-all duration-300 active:scale-95;
+      background: var(--primary);
+      color: #000;
+    }
 
-  .btn-premium:hover {
-    box-shadow: 0 0 20px var(--primary-glow);
-    transform: translateY(-1px);
+    .btn-premium:hover {
+      box-shadow: 0 0 20px var(--primary-glow);
+      transform: translateY(-1px);
+    }
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -172,18 +174,20 @@ body {
   }
 }
 
-/* Base styles for cleaner look */
-h1,
-h2,
-h3,
-h4 {
-  @apply tracking-tight;
-}
+@layer base {
 
-input,
-select,
-button {
-  @apply transition-all duration-200;
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply tracking-tight;
+  }
+
+  input,
+  select,
+  button {
+    @apply transition-all duration-200;
+  }
 }
 
 .bg-mesh {
