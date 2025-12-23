@@ -18,62 +18,40 @@ const ExpenseCard = () => {
     };
 
     return (
-        <div className="relative group">
-            <div className={`absolute inset-0 rounded-2xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity ${isOverBudget ? 'bg-gradient-to-r from-red-500 to-orange-600' : 'bg-gradient-to-r from-orange-500 to-amber-600'
-                }`}></div>
-            <div className="relative card-premium p-6 rounded-2xl overflow-hidden">
-                {/* Background decoration */}
-                <div className={`absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl ${isOverBudget ? 'bg-gradient-to-br from-red-500/10 to-orange-600/10' : 'bg-gradient-to-br from-orange-500/10 to-amber-600/10'
-                    }`}></div>
+        <div className="card-premium p-8 group">
+            <div className="flex justify-between items-start mb-8">
+                <div className="space-y-1">
+                    <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Gastos do Mês</p>
+                    <h3 className="text-4xl font-black text-white tracking-tighter reveal">
+                        {formatCurrency(expenses)}
+                    </h3>
+                </div>
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border transition-colors ${isOverBudget
+                    ? 'bg-red-500/10 border-red-500/20 text-red-400'
+                    : 'bg-orange-500/10 border-orange-500/20 text-orange-400'}`}>
+                    <CreditCard className="w-6 h-6" />
+                </div>
+            </div>
 
-                <div className="relative z-10">
-                    <div className="flex justify-between items-start mb-6">
-                        <div>
-                            <p className="text-sm font-medium text-gray-400 mb-2">Gastos do Mês</p>
-                            <h3 className="text-3xl md:text-4xl font-bold text-white number-animate">{formatCurrency(expenses)}</h3>
-                        </div>
-                        <div className={`p-3 rounded-xl shadow-lg ${isOverBudget
-                                ? 'bg-gradient-to-br from-red-500 to-orange-600 shadow-red-500/50'
-                                : 'bg-gradient-to-br from-orange-500 to-amber-600 shadow-orange-500/50'
-                            }`}>
-                            <CreditCard className="w-6 h-6 text-white" />
-                        </div>
-                    </div>
-
-                    {/* Budget Progress Bar */}
-                    <div className="mb-4">
-                        <div className="flex justify-between text-xs text-gray-400 mb-2">
-                            <span>Orçamento Mensal</span>
-                            <span className="font-semibold">{percentage.toFixed(0)}%</span>
-                        </div>
-                        <div className="h-2.5 bg-gray-800/50 rounded-full overflow-hidden backdrop-blur-sm">
-                            <div
-                                className={`h-full transition-all duration-700 ease-out ${isOverBudget
-                                        ? 'bg-gradient-to-r from-red-500 to-orange-600'
-                                        : percentage > 80
-                                            ? 'bg-gradient-to-r from-orange-500 to-amber-600'
-                                            : 'bg-gradient-to-r from-emerald-500 to-green-600'
-                                    }`}
-                                style={{ width: `${Math.min(percentage, 100)}%` }}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        {isOverBudget ? (
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500/10 rounded-lg">
-                                <AlertCircle className="w-4 h-4 text-red-400" />
-                                <span className="text-red-400 font-medium text-sm">Acima do orçamento</span>
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-1.5">
-                                <TrendingDown className="w-4 h-4 text-emerald-400" />
-                                <span className="text-gray-400 text-sm">
-                                    <span className="text-emerald-400 font-semibold">{formatCurrency(budget - expenses)}</span> restante
-                                </span>
-                            </div>
-                        )}
-                    </div>
+            <div className="space-y-4">
+                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                    <div
+                        className={`h-full transition-all duration-1000 ease-out ${isOverBudget
+                            ? 'bg-red-500'
+                            : percentage > 80
+                                ? 'bg-orange-500'
+                                : 'bg-green-500'
+                            }`}
+                        style={{ width: `${Math.min(percentage, 100)}%` }}
+                    />
+                </div>
+                <div className="flex justify-between items-center">
+                    <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {isOverBudget ? 'Limite Excedido' : `${formatCurrency(budget - expenses)} restantes`}
+                    </span>
+                    <span className={`text-[10px] font-black uppercase ${isOverBudget ? 'text-red-400' : 'text-gray-400'}`}>
+                        {percentage.toFixed(0)}%
+                    </span>
                 </div>
             </div>
         </div>

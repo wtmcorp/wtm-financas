@@ -64,266 +64,226 @@ export default function CardsPage() {
     }).slice(0, 3);
 
     return (
-        <div className="p-6 space-y-8 max-w-7xl mx-auto">
-            <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h1 className="text-3xl font-black text-white flex items-center gap-3">
-                        <CreditCardIcon className="text-primary" size={32} />
-                        Arsenal de Cartões
-                    </h1>
-                    <p className="text-gray-400 mt-1">Encontre o cartão perfeito para o seu estilo de vida e renda.</p>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                    {(["all", "básico", "intermediário", "premium", "sem anuidade"] as const).map((cat) => (
-                        <button
-                            key={cat}
-                            onClick={() => setFilter(cat)}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all border ${filter === cat
-                                ? "bg-primary text-black border-transparent shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)]"
-                                : "bg-white/5 text-gray-400 border-white/10 hover:border-white/20"
-                                }`}
-                        >
-                            {cat === "all" ? "Todos" : cat}
-                        </button>
-                    ))}
-                </div>
-            </header>
-
-            {/* Highlights Section */}
-            <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-gradient-to-br from-blue-500/20 to-transparent p-6 rounded-[2rem] border border-blue-500/20">
-                    <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                        <Plane className="text-blue-400" size={20} />
-                        Top Milhas
-                    </h3>
-                    <div className="space-y-3">
-                        {topMiles.map((card, i) => (
-                            <div key={card.id} className="flex items-center justify-between text-sm">
-                                <span className="text-gray-400">{i + 1}. {card.name}</span>
-                                <span className="text-blue-400 font-bold">{card.milesRate} pts/$</span>
+        <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
+            <div className="max-w-7xl mx-auto space-y-12">
+                {/* Header Section */}
+                <header className="reveal space-y-6">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div className="space-y-2">
+                            <div className="flex items-center gap-3">
+                                <div className="w-1.5 h-8 bg-primary rounded-full" />
+                                <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
+                                    Arsenal de <span className="gradient-text">Cartões</span>
+                                </h1>
                             </div>
-                        ))}
-                    </div>
-                </div>
+                            <p className="text-gray-500 text-lg font-medium">
+                                Estratégia pura. Encontre o cartão que trabalha para você.
+                            </p>
+                        </div>
 
-                <div className="bg-gradient-to-br from-green-500/20 to-transparent p-6 rounded-[2rem] border border-green-500/20">
-                    <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                        <DollarSign className="text-green-400" size={20} />
-                        Top Cashback
-                    </h3>
-                    <div className="space-y-3">
-                        {topCashback.map((card, i) => (
-                            <div key={card.id} className="flex items-center justify-between text-sm">
-                                <span className="text-gray-400">{i + 1}. {card.name}</span>
-                                <span className="text-green-400 font-bold">{card.cashback}%</span>
+                        <div className="flex flex-wrap gap-2">
+                            {(["all", "básico", "intermediário", "premium", "sem anuidade"] as const).map((cat) => (
+                                <button
+                                    key={cat}
+                                    onClick={() => setFilter(cat)}
+                                    className={`px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${filter === cat
+                                        ? "bg-primary text-black"
+                                        : "bg-white/5 text-gray-500 hover:text-white border border-white/5"
+                                        }`}
+                                >
+                                    {cat === "all" ? "Todos" : cat}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </header>
+
+                {/* Highlights Grid */}
+                <section className="grid grid-cols-1 md:grid-cols-3 gap-6 reveal" style={{ animationDelay: '0.1s' }}>
+                    <div className="card-premium p-8 group">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 border border-blue-500/20">
+                                <Plane size={20} />
                             </div>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-purple-500/20 to-transparent p-6 rounded-[2rem] border border-purple-500/20">
-                    <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                        <TrendingUp className="text-purple-400" size={20} />
-                        Top Rendimento
-                    </h3>
-                    <div className="space-y-3">
-                        {topYield.length > 0 ? topYield.map((card, i) => (
-                            <div key={card.id} className="flex items-center justify-between text-sm">
-                                <span className="text-gray-400">{i + 1}. {card.name}</span>
-                                <span className="text-purple-400 font-bold text-xs">{card.yield}</span>
-                            </div>
-                        )) : (
-                            <p className="text-gray-600 text-xs italic">Nenhum destaque encontrado.</p>
-                        )}
-                    </div>
-                </div>
-            </section>
-
-            {/* Feature Filters & Sorting */}
-            <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white/5 rounded-2xl border border-white/10 p-2">
-                <div className="flex flex-wrap gap-2 w-full md:w-auto">
-                    {(["all", "lounge", "cashback", "miles"] as const).map((feat) => (
-                        <button
-                            key={feat}
-                            onClick={() => setFeatureFilter(feat)}
-                            className={`flex-1 md:flex-none px-4 py-2 rounded-xl text-xs font-bold uppercase flex items-center justify-center gap-2 transition-all ${featureFilter === feat
-                                ? "bg-white text-black"
-                                : "text-gray-400 hover:bg-white/5"
-                                }`}
-                        >
-                            {feat === "all" && "Sem Filtro"}
-                            {feat === "lounge" && <><Plane size={14} /> Sala VIP</>}
-                            {feat === "cashback" && <><DollarSign size={14} /> Cashback</>}
-                            {feat === "miles" && <><TrendingUp size={14} /> Milhas</>}
-                        </button>
-                    ))}
-                </div>
-
-                <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto">
-                    <span className="text-xs text-gray-500 font-bold uppercase whitespace-nowrap pl-2">Ordenar por:</span>
-                    <button onClick={() => setSortBy("top")} className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors whitespace-nowrap ${sortBy === "top" ? "bg-primary text-black" : "bg-black/40 text-gray-400"}`}>🏆 Top</button>
-                    <button onClick={() => setSortBy("miles")} className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors whitespace-nowrap ${sortBy === "miles" ? "bg-blue-500 text-white" : "bg-black/40 text-gray-400"}`}>✈️ Milhas</button>
-                    <button onClick={() => setSortBy("cashback")} className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors whitespace-nowrap ${sortBy === "cashback" ? "bg-green-500 text-white" : "bg-black/40 text-gray-400"}`}>💲 Cashback</button>
-                    <button onClick={() => setSortBy("yield")} className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase transition-colors whitespace-nowrap ${sortBy === "yield" ? "bg-purple-500 text-white" : "bg-black/40 text-gray-400"}`}>📈 Rendimento</button>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Left Column: Recommendations & Tips */}
-                <div className="lg:col-span-1 space-y-6">
-                    <div className="bg-gradient-to-br from-primary/20 to-transparent p-6 rounded-[2rem] border border-primary/20">
-                        <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                            <Star className="text-yellow-400 fill-yellow-400" size={20} />
-                            Recomendados para Você
-                        </h2>
+                            <h3 className="text-lg font-bold text-white tracking-tight">Top Milhas</h3>
+                        </div>
                         <div className="space-y-4">
-                            {recommendedCards.length > 0 ? recommendedCards.map(card => (
-                                <Tooltip key={card.id} text={`Ideal para sua renda de R$ ${user?.income?.toLocaleString()}. Benefício principal: ${card.cashback > 0 ? card.cashback + '% cashback' : card.milesRate + 'x milhas'}.`}>
-                                    <div className="bg-black/40 border border-white/10 p-4 rounded-2xl hover:border-primary/50 transition-colors cursor-pointer group">
-                                        <div className="flex justify-between items-start mb-3">
-                                            <div>
-                                                <h3 className="font-bold text-white group-hover:text-primary transition-colors">{card.name}</h3>
-                                                <p className="text-xs text-gray-500">{card.bank}</p>
-                                            </div>
-                                            <div className="w-8 h-5 rounded" style={{ backgroundColor: card.color }}></div>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-[10px] font-bold text-primary uppercase">
-                                            <Award size={12} />
-                                            {card.category}
-                                        </div>
-                                    </div>
-                                </Tooltip>
-                            )) : (
-                                <p className="text-gray-500 text-sm italic">Complete seu perfil com sua renda para ver recomendações personalizadas.</p>
-                            )}
+                            {topMiles.map((card, i) => (
+                                <div key={card.id} className="flex items-center justify-between group/item">
+                                    <span className="text-sm text-gray-500 group-hover/item:text-gray-300 transition-colors">{card.name}</span>
+                                    <span className="text-xs font-black text-blue-400">{card.milesRate} pts/$</span>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
-                    {/* Credit Tips Section */}
-                    <div className="bg-yellow-500/10 border border-yellow-500/20 p-6 rounded-[2rem]">
-                        <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                            <Zap size={18} className="text-yellow-400" />
-                            Como Aumentar seu Limite
-                        </h3>
-                        <ul className="space-y-4">
-                            <li className="flex gap-3">
-                                <CheckCircle2 className="text-yellow-400 shrink-0" size={16} />
-                                <p className="text-xs text-gray-400"><strong>Pague em dia:</strong> O histórico de pagamento é o fator mais importante para o score.</p>
-                            </li>
-                            <li className="flex gap-3">
-                                <CheckCircle2 className="text-yellow-400 shrink-0" size={16} />
-                                <p className="text-xs text-gray-400"><strong>Use o cartão:</strong> Concentre seus gastos no cartão que deseja aumentar o limite.</p>
-                            </li>
-                            <li className="flex gap-3">
-                                <CheckCircle2 className="text-yellow-400 shrink-0" size={16} />
-                                <p className="text-xs text-gray-400"><strong>Atualize sua renda:</strong> Mantenha seus dados atualizados no app do banco.</p>
-                            </li>
-                            <li className="flex gap-3">
-                                <CheckCircle2 className="text-yellow-400 shrink-0" size={16} />
-                                <p className="text-xs text-gray-400"><strong>Open Finance:</strong> Compartilhe seus dados de outros bancos para provar sua capacidade financeira.</p>
-                            </li>
-                        </ul>
+                    <div className="card-premium p-8 group">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-10 h-10 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400 border border-green-500/20">
+                                <DollarSign size={20} />
+                            </div>
+                            <h3 className="text-lg font-bold text-white tracking-tight">Top Cashback</h3>
+                        </div>
+                        <div className="space-y-4">
+                            {topCashback.map((card, i) => (
+                                <div key={card.id} className="flex items-center justify-between group/item">
+                                    <span className="text-sm text-gray-500 group-hover/item:text-gray-300 transition-colors">{card.name}</span>
+                                    <span className="text-xs font-black text-green-400">{card.cashback}%</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
-                    <div className="bg-blue-500/10 border border-blue-500/20 p-6 rounded-[2rem]">
-                        <h3 className="text-white font-bold mb-2 flex items-center gap-2">
-                            <Lightbulb size={18} className="text-blue-400" />
-                            Dica de Ouro
-                        </h3>
-                        <p className="text-sm text-gray-400 leading-relaxed">
-                            Se você não consegue aprovação para cartões premium, comece com cartões de <strong>Limite Garantido</strong> (como o do PagBank ou Inter). Você investe um valor e ele vira limite na hora!
-                        </p>
+                    <div className="card-premium p-8 group">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-10 h-10 bg-purple-500/10 rounded-xl flex items-center justify-center text-purple-400 border border-purple-500/20">
+                                <TrendingUp size={20} />
+                            </div>
+                            <h3 className="text-lg font-bold text-white tracking-tight">Top Rendimento</h3>
+                        </div>
+                        <div className="space-y-4">
+                            {topYield.map((card, i) => (
+                                <div key={card.id} className="flex items-center justify-between group/item">
+                                    <span className="text-sm text-gray-500 group-hover/item:text-gray-300 transition-colors">{card.name}</span>
+                                    <span className="text-xs font-black text-purple-400">{card.yield}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Filters & Sorting Bar */}
+                <div className="reveal glass rounded-3xl p-2 flex flex-col md:flex-row items-center justify-between gap-4" style={{ animationDelay: '0.2s' }}>
+                    <div className="flex flex-wrap gap-1 p-1">
+                        {(["all", "lounge", "cashback", "miles"] as const).map((feat) => (
+                            <button
+                                key={feat}
+                                onClick={() => setFeatureFilter(feat)}
+                                className={`px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${featureFilter === feat
+                                    ? "bg-white text-black shadow-xl"
+                                    : "text-gray-500 hover:text-white"
+                                    }`}
+                            >
+                                {feat === "all" ? "Tudo" : feat}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="flex items-center gap-4 px-4">
+                        <span className="text-[10px] font-black text-gray-600 uppercase tracking-[0.2em]">Ordenar</span>
+                        <div className="flex gap-2">
+                            <button onClick={() => setSortBy("top")} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${sortBy === "top" ? "bg-primary text-black" : "bg-white/5 text-gray-500"}`} title="Top Ranking">🏆</button>
+                            <button onClick={() => setSortBy("miles")} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${sortBy === "miles" ? "bg-blue-500 text-white" : "bg-white/5 text-gray-500"}`} title="Milhas">✈️</button>
+                            <button onClick={() => setSortBy("cashback")} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${sortBy === "cashback" ? "bg-green-500 text-white" : "bg-white/5 text-gray-500"}`} title="Cashback">💲</button>
+                        </div>
                     </div>
                 </div>
 
-                {/* Cards Grid */}
-                <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {filteredCards.map((card) => (
-                        <Card key={card.id} className="p-6 bg-black/40 border-white/10 hover:border-white/20 transition-all group relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/5 to-transparent -mr-16 -mt-16 rounded-full group-hover:scale-150 transition-transform duration-700" />
-
-                            <div className="relative z-10 space-y-4">
-                                <div className="flex justify-between items-start">
-                                    <div>
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: card.color }}></div>
-                                            <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">{card.bank}</span>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    {/* Left Column: Intelligence */}
+                    <div className="lg:col-span-1 space-y-8 reveal" style={{ animationDelay: '0.3s' }}>
+                        <div className="card-premium p-8 border-primary/20">
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary border border-primary/20">
+                                    <Star size={20} className="fill-primary" />
+                                </div>
+                                <h2 className="text-xl font-black text-white tracking-tight">Recomendados</h2>
+                            </div>
+                            <div className="space-y-4">
+                                {recommendedCards.map(card => (
+                                    <div key={card.id} className="glass-light p-4 rounded-2xl border border-white/5 hover:border-primary/30 transition-all group cursor-pointer">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className="font-bold text-white group-hover:text-primary transition-colors">{card.name}</h3>
+                                            <div className="w-6 h-4 rounded-sm shadow-sm" style={{ backgroundColor: card.color }}></div>
                                         </div>
-                                        <h3 className="text-xl font-black text-white group-hover:text-primary transition-colors">{card.name}</h3>
+                                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">{card.category}</p>
                                     </div>
-                                    <div className="px-2 py-1 bg-white/5 rounded text-[10px] font-bold text-gray-400 border border-white/10">
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="card-premium p-8 border-yellow-500/20">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-10 h-10 bg-yellow-500/10 rounded-xl flex items-center justify-center text-yellow-500 border border-yellow-500/20">
+                                    <Zap size={20} />
+                                </div>
+                                <h3 className="text-lg font-bold text-white tracking-tight">Dicas de Crédito</h3>
+                            </div>
+                            <ul className="space-y-6">
+                                {[
+                                    { title: "Pague em dia", desc: "O histórico é 35% do seu score." },
+                                    { title: "Open Finance", desc: "Compartilhe dados para provar renda." },
+                                    { title: "Uso Consciente", desc: "Mantenha o uso abaixo de 30% do limite." }
+                                ].map((tip, i) => (
+                                    <li key={i} className="flex gap-4">
+                                        <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-2 shrink-0" />
+                                        <div className="space-y-1">
+                                            <p className="text-sm font-bold text-white">{tip.title}</p>
+                                            <p className="text-xs text-gray-500 leading-relaxed">{tip.desc}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+
+                    {/* Cards Grid */}
+                    <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 reveal" style={{ animationDelay: '0.4s' }}>
+                        {filteredCards.map((card) => (
+                            <div key={card.id} className="card-premium p-8 group flex flex-col">
+                                <div className="flex justify-between items-start mb-8">
+                                    <div className="space-y-1">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: card.color }} />
+                                            <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">{card.bank}</span>
+                                        </div>
+                                        <h3 className="text-2xl font-black text-white tracking-tighter group-hover:text-primary transition-colors">{card.name}</h3>
+                                    </div>
+                                    <div className="px-3 py-1 bg-white/5 rounded-full text-[10px] font-black text-gray-400 border border-white/5 uppercase tracking-widest">
                                         {card.brand}
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4 py-4 border-y border-white/5">
-                                    <div>
-                                        <p className="text-[10px] text-gray-500 uppercase font-bold">Anuidade</p>
-                                        <p className="text-sm font-bold text-white">
-                                            {card.annualFee === 0 ? "Grátis" : `R$ ${card.annualFee}/ano`}
-                                        </p>
+                                <div className="grid grid-cols-2 gap-8 mb-8 py-6 border-y border-white/5">
+                                    <div className="space-y-1">
+                                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Anuidade</p>
+                                        <p className="text-sm font-bold text-white">{card.annualFee === 0 ? "Grátis" : `R$ ${card.annualFee}`}</p>
                                     </div>
-                                    <div>
-                                        <p className="text-[10px] text-gray-500 uppercase font-bold">Renda Mínima</p>
+                                    <div className="space-y-1">
+                                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Renda Mínima</p>
                                         <p className="text-sm font-bold text-white">R$ {card.minIncome.toLocaleString()}</p>
                                     </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Principais Benefícios</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {card.cashback > 0 && (
-                                            <span className="px-2 py-1 bg-green-500/10 text-green-400 text-[10px] font-bold rounded-md border border-green-500/20 flex items-center gap-1">
-                                                <DollarSign size={10} /> {card.cashback}% Cashback
-                                            </span>
-                                        )}
-                                        {card.miles && (
-                                            <span className="px-2 py-1 bg-blue-500/10 text-blue-400 text-[10px] font-bold rounded-md border border-blue-500/20 flex items-center gap-1">
-                                                <Plane size={10} /> {card.milesRate} pts/$
-                                            </span>
-                                        )}
-                                        {card.yield && (
-                                            <span className="px-2 py-1 bg-purple-500/10 text-purple-400 text-[10px] font-bold rounded-md border border-purple-500/20 flex items-center gap-1">
-                                                <TrendingUp size={10} /> {card.yield}
-                                            </span>
-                                        )}
-                                        {card.loungeAccess !== "none" && (
-                                            <span className="px-2 py-1 bg-purple-500/10 text-purple-400 text-[10px] font-bold rounded-md border border-purple-500/20 flex items-center gap-1">
-                                                <Coffee size={10} /> {card.loungeAccess === "unlimited" ? "Sala VIP Ilimitada" : "Sala VIP"}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {card.exclusiveBenefits && (
-                                    <div className="pt-2">
-                                        <div className="flex items-center gap-1 mb-2">
-                                            <ShieldCheck size={12} className="text-primary" />
-                                            <span className="text-[10px] font-bold text-primary uppercase">Exclusivo</span>
+                                <div className="flex flex-wrap gap-2 mb-8">
+                                    {card.cashback > 0 && (
+                                        <div className="px-3 py-1 bg-green-500/10 text-green-400 text-[10px] font-black rounded-full border border-green-500/10 uppercase tracking-widest">
+                                            {card.cashback}% Cashback
                                         </div>
-                                        <ul className="text-[11px] text-gray-400 space-y-1">
-                                            {card.exclusiveBenefits.slice(0, 2).map((b, i) => (
-                                                <li key={i} className="flex items-center gap-2">
-                                                    <div className="w-1 h-1 bg-primary rounded-full" />
-                                                    {b}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
+                                    )}
+                                    {card.miles && (
+                                        <div className="px-3 py-1 bg-blue-500/10 text-blue-400 text-[10px] font-black rounded-full border border-blue-500/10 uppercase tracking-widest">
+                                            {card.milesRate} pts/$
+                                        </div>
+                                    )}
+                                    {card.loungeAccess !== "none" && (
+                                        <div className="px-3 py-1 bg-purple-500/10 text-purple-400 text-[10px] font-black rounded-full border border-purple-500/10 uppercase tracking-widest">
+                                            Sala VIP
+                                        </div>
+                                    )}
+                                </div>
 
                                 <a
                                     href={card.applyLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="block w-full py-3 bg-white text-black text-center text-xs font-black rounded-xl hover:bg-primary transition-all uppercase tracking-widest"
+                                    className="mt-auto block w-full py-4 bg-white text-black text-center text-[10px] font-black rounded-2xl hover:bg-primary transition-all uppercase tracking-[0.2em] active:scale-95 shadow-xl"
                                 >
-                                    Solicitar Cartão
+                                    Solicitar Arsenal
                                 </a>
                             </div>
-                        </Card>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

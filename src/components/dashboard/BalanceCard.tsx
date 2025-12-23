@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/Card";
-import { Eye, EyeOff, Edit2, Check } from "lucide-react";
+import { Eye, EyeOff, Edit2, Check, Wallet } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -40,61 +40,65 @@ export default function BalanceCard() {
     const expenses = revenues * 0.4; // Estimate
 
     return (
-        <Card className="bg-gradient-to-br from-card to-black border-primary/20">
-            <div className="flex justify-between items-start mb-2">
-                <div className="flex items-center gap-2">
-                    <span className="text-gray-400 text-sm">Saldo Geral</span>
-                    {!isEditing ? (
-                        <button onClick={handleEdit} className="text-primary hover:text-primary/80 transition-colors">
-                            <Edit2 size={14} />
-                        </button>
-                    ) : (
-                        <button onClick={handleSave} className="text-green-500 hover:text-green-400 transition-colors">
-                            <Check size={14} />
-                        </button>
-                    )}
+        <div className="card-premium p-8">
+            <div className="flex justify-between items-start mb-6">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20">
+                        <Wallet className="text-primary" size={20} />
+                    </div>
+                    <div>
+                        <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Saldo Geral</span>
+                        <div className="flex items-center gap-2">
+                            {!isEditing ? (
+                                <button onClick={handleEdit} className="text-gray-500 hover:text-primary transition-colors">
+                                    <Edit2 size={12} />
+                                </button>
+                            ) : (
+                                <button onClick={handleSave} className="text-green-500 hover:text-green-400 transition-colors">
+                                    <Check size={12} />
+                                </button>
+                            )}
+                        </div>
+                    </div>
                 </div>
-                <button onClick={() => setVisible(!visible)} className="text-primary">
-                    {visible ? <Eye size={20} /> : <EyeOff size={20} />}
+                <button onClick={() => setVisible(!visible)} className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-gray-400 hover:text-white transition-colors">
+                    {visible ? <Eye size={18} /> : <EyeOff size={18} />}
                 </button>
             </div>
 
-            <div className="flex items-baseline gap-1">
-                <span className="text-primary text-2xl font-bold">R$</span>
+            <div className="flex items-baseline gap-2 mb-8">
+                <span className="text-primary text-3xl font-black tracking-tighter">R$</span>
                 {isEditing ? (
                     <input
                         type="number"
                         value={tempBalance}
                         onChange={(e) => setTempBalance(e.target.value)}
-                        className="bg-black/50 border border-primary/50 rounded-lg p-1 text-white text-2xl font-bold outline-none focus:border-primary w-48"
+                        className="bg-black/50 border border-primary/50 rounded-2xl p-2 text-white text-4xl font-black outline-none focus:border-primary w-full max-w-[240px]"
                         autoFocus
                     />
                 ) : (
-                    <span className="text-4xl font-bold text-white tracking-tight">
+                    <span className="text-6xl font-black text-white tracking-tighter reveal">
                         {visible ? balance.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "••••••"}
                     </span>
                 )}
             </div>
 
-            <div className="mt-4 border-t border-white/10 pt-3">
-                <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray-500 text-xs">Renda Mensal</span>
-                    <span className="text-white font-medium">
-                        R$ {revenues.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </span>
+            <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/5">
+                <div className="space-y-1">
+                    <span className="text-gray-500 text-[10px] font-bold uppercase tracking-wider">Receitas</span>
+                    <div className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                        <span className="text-white font-bold">R$ {revenues.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                    </div>
+                </div>
+                <div className="space-y-1">
+                    <span className="text-gray-500 text-[10px] font-bold uppercase tracking-wider">Despesas</span>
+                    <div className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
+                        <span className="text-white font-bold">R$ {expenses.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                    </div>
                 </div>
             </div>
-
-            <div className="mt-4 flex gap-4 text-sm">
-                <div className="flex flex-col">
-                    <span className="text-gray-500 text-xs">Receitas (Mês)</span>
-                    <span className="text-green-500 font-medium">+ R$ {revenues.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                </div>
-                <div className="flex flex-col">
-                    <span className="text-gray-500 text-xs">Despesas (Mês)</span>
-                    <span className="text-red-500 font-medium">- R$ {expenses.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                </div>
-            </div>
-        </Card>
+        </div>
     );
 }

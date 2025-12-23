@@ -13,59 +13,65 @@ import { Tooltip } from "@/components/ui/Tooltip";
 
 export default function Home() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f] p-4 md:p-6 lg:p-8">
-            <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
-                {/* Header */}
-                <header className="animate-in">
-                    <div className="flex items-center gap-3 mb-2">
-                        <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl">
-                            <TrendingUp className="w-6 h-6 text-white" />
-                        </div>
-                        <div>
-                            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-indigo-200 to-purple-300 bg-clip-text text-transparent">
-                                Dashboard Financeiro
-                            </h1>
-                            <p className="text-gray-400 text-sm md:text-base flex items-center gap-2 mt-1">
-                                <Sparkles className="w-4 h-4 text-indigo-400" />
-                                Gerencie suas finanças com inteligência
-                            </p>
-                        </div>
+        <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
+            <div className="max-w-7xl mx-auto space-y-12">
+                {/* Header Section */}
+                <header className="reveal space-y-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-1.5 h-8 bg-primary rounded-full" />
+                        <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
+                            Seu <span className="gradient-text">Império</span> Financeiro
+                        </h1>
                     </div>
+                    <p className="text-gray-500 text-lg md:text-xl max-w-2xl font-medium leading-relaxed">
+                        Gerencie seu patrimônio com a precisão de um banco e a elegância de uma galeria.
+                    </p>
                 </header>
 
-                {/* Metric Cards */}
-                <section className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 animate-in">
-                    <Tooltip text="Seu saldo total disponível em todas as contas conectadas.">
-                        <div><BalanceCard /></div>
-                    </Tooltip>
-                    <Tooltip text="Total de gastos registrados no mês atual.">
-                        <div><ExpenseCard /></div>
-                    </Tooltip>
-                    <Tooltip text="Valor total economizado ou investido este mês.">
-                        <div><SavingsCard /></div>
-                    </Tooltip>
+                {/* Metric Cards Grid */}
+                <section className="grid grid-cols-1 md:grid-cols-3 gap-6 reveal" style={{ animationDelay: '0.1s' }}>
+                    <BalanceCard />
+                    <ExpenseCard />
+                    <SavingsCard />
                 </section>
 
-                {/* Charts Row */}
-                <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 animate-in">
-                    <Tooltip text="Visualização das entradas e saídas de dinheiro ao longo do tempo.">
-                        <div><CashFlowChart /></div>
-                    </Tooltip>
-                    <Tooltip text="Distribuição dos seus gastos por categoria (Moradia, Lazer, etc).">
-                        <div><ExpenseChart /></div>
-                    </Tooltip>
+                {/* Charts Section */}
+                <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 reveal" style={{ animationDelay: '0.2s' }}>
+                    <div className="card-premium p-8">
+                        <div className="flex items-center justify-between mb-8">
+                            <h3 className="text-xl font-bold text-white tracking-tight">Fluxo de Caixa</h3>
+                            <div className="px-3 py-1 bg-white/5 rounded-full text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tempo Real</div>
+                        </div>
+                        <CashFlowChart />
+                    </div>
+                    <div className="card-premium p-8">
+                        <div className="flex items-center justify-between mb-8">
+                            <h3 className="text-xl font-bold text-white tracking-tight">Gastos por Categoria</h3>
+                            <div className="px-3 py-1 bg-white/5 rounded-full text-[10px] font-bold text-gray-400 uppercase tracking-widest">Distribuição</div>
+                        </div>
+                        <ExpenseChart />
+                    </div>
                 </section>
 
-                {/* Net Worth & Quick Actions */}
-                <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 animate-in">
-                    <div className="lg:col-span-2">
+                {/* Bottom Row */}
+                <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 reveal" style={{ animationDelay: '0.3s' }}>
+                    <div className="lg:col-span-2 card-premium p-8">
+                        <div className="flex items-center justify-between mb-8">
+                            <h3 className="text-xl font-bold text-white tracking-tight">Evolução do Patrimônio</h3>
+                        </div>
                         <NetWorthChart />
                     </div>
-                    <QuickActions />
+                    <div className="space-y-6">
+                        <QuickActions />
+                    </div>
                 </section>
 
                 {/* Transactions */}
-                <section className="animate-in">
+                <section className="reveal" style={{ animationDelay: '0.4s' }}>
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-2xl font-black text-white tracking-tighter">Transações Recentes</h2>
+                        <button className="text-sm font-bold text-primary hover:underline">Ver Todas</button>
+                    </div>
                     <TransactionList />
                 </section>
             </div>

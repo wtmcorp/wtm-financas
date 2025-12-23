@@ -18,60 +18,38 @@ const SavingsCard = () => {
     };
 
     return (
-        <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-600 rounded-2xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
-            <div className="relative card-premium p-6 rounded-2xl overflow-hidden">
-                {/* Background decoration */}
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-emerald-500/10 to-green-600/10 rounded-full blur-3xl"></div>
+        <div className="card-premium p-8 group">
+            <div className="flex justify-between items-start mb-8">
+                <div className="space-y-1">
+                    <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Economia</p>
+                    <h3 className="text-4xl font-black text-white tracking-tighter reveal">
+                        {formatCurrency(savings)}
+                    </h3>
+                </div>
+                <div className="w-12 h-12 bg-green-500/10 border border-green-500/20 rounded-2xl flex items-center justify-center text-green-400 group-hover:bg-green-500/20 transition-colors">
+                    <PiggyBank className="w-6 h-6" />
+                </div>
+            </div>
 
-                <div className="relative z-10">
-                    <div className="flex justify-between items-start mb-6">
-                        <div>
-                            <p className="text-sm font-medium text-gray-400 mb-2">Economia</p>
-                            <h3 className="text-3xl md:text-4xl font-bold text-white number-animate">{formatCurrency(savings)}</h3>
-                        </div>
-                        <div className="p-3 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl shadow-lg shadow-emerald-500/50">
-                            <PiggyBank className="w-6 h-6 text-white" />
-                        </div>
-                    </div>
-
-                    {/* Savings Rate Progress */}
-                    <div className="mb-4">
-                        <div className="flex justify-between text-xs text-gray-400 mb-2">
-                            <span className="flex items-center gap-1">
-                                <Target className="w-3 h-3" />
-                                Taxa de economia
-                            </span>
-                            <span className="font-semibold">{savingsRate.toFixed(1)}%</span>
-                        </div>
-                        <div className="h-2.5 bg-gray-800/50 rounded-full overflow-hidden backdrop-blur-sm">
-                            <div
-                                className={`h-full transition-all duration-700 ease-out ${savingsRate >= savingsGoal
-                                        ? 'bg-gradient-to-r from-emerald-500 to-green-600'
-                                        : savingsRate >= savingsGoal * 0.5
-                                            ? 'bg-gradient-to-r from-yellow-500 to-amber-600'
-                                            : 'bg-gradient-to-r from-red-500 to-orange-600'
-                                    }`}
-                                style={{ width: `${Math.min((savingsRate / savingsGoal) * 100, 100)}%` }}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        {savingsRate >= savingsGoal ? (
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 rounded-lg">
-                                <Sparkles className="w-4 h-4 text-emerald-400" />
-                                <span className="text-emerald-400 font-medium text-sm">Meta atingida!</span>
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-1.5">
-                                <TrendingUp className="w-4 h-4 text-gray-400" />
-                                <span className="text-gray-400 text-sm">
-                                    Meta: <span className="text-white font-semibold">{savingsGoal}%</span> da renda
-                                </span>
-                            </div>
-                        )}
-                    </div>
+            <div className="space-y-4">
+                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                    <div
+                        className={`h-full transition-all duration-1000 ease-out ${savingsRate >= savingsGoal
+                            ? 'bg-green-500'
+                            : savingsRate >= savingsGoal * 0.5
+                                ? 'bg-yellow-500'
+                                : 'bg-red-500'
+                            }`}
+                        style={{ width: `${Math.min((savingsRate / savingsGoal) * 100, 100)}%` }}
+                    />
+                </div>
+                <div className="flex justify-between items-center">
+                    <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        Taxa de Economia
+                    </span>
+                    <span className={`text-[10px] font-black uppercase ${savingsRate >= savingsGoal ? 'text-green-400' : 'text-gray-400'}`}>
+                        {savingsRate.toFixed(1)}%
+                    </span>
                 </div>
             </div>
         </div>

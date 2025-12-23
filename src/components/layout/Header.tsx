@@ -11,38 +11,40 @@ export default function Header() {
     const { user, logout } = useAuth();
 
     return (
-        <header className="fixed top-0 left-0 right-0 bg-card/80 backdrop-blur-md border-b border-white/10 z-30">
-            <div className="px-6 py-3">
+        <header className="fixed top-0 left-0 right-0 glass z-50">
+            <div className="px-6 py-4">
                 <div className="flex justify-between items-center max-w-7xl mx-auto w-full">
-                    <Link href="/" className="text-primary font-bold text-xl hover:opacity-80 transition-opacity">
-                        Wtm Corps
+                    <Link href="/" className="group flex items-center gap-2">
+                        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-black text-black text-lg group-hover:rotate-6 transition-transform">W</div>
+                        <span className="text-white font-bold text-xl tracking-tighter group-hover:text-primary transition-colors">
+                            Wtm<span className="text-primary/80">Corps</span>
+                        </span>
                     </Link>
 
-                    <div className="flex items-center gap-4">
-                        <div className="hidden md:flex items-center gap-4">
+                    <div className="flex items-center gap-6">
+                        <div className="hidden md:flex items-center gap-6">
                             {user ? (
-                                <div className="flex items-center gap-3 pl-4 border-l border-white/10">
-                                    <Link href="/private" className="text-primary hover:scale-110 transition-transform" title="Desafio Privado">
-                                        <Heart size={20} fill="currentColor" />
+                                <div className="flex items-center gap-6">
+                                    <Link href="/private" className="text-gray-400 hover:text-primary transition-colors" title="Desafio Privado">
+                                        <Heart size={20} />
                                     </Link>
-                                    <Link href="/dashboard" className="text-sm text-gray-300 hover:text-white transition-colors">
+                                    <Link href="/dashboard" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
                                         {user.name.split(" ")[0]}
                                     </Link>
                                     <button
                                         onClick={() => logout()}
-                                        className="text-gray-400 hover:text-red-400 transition-colors"
+                                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:bg-red-500/10 hover:text-red-400 transition-all"
                                         title="Sair"
                                     >
-                                        <LogOut size={20} />
+                                        <LogOut size={16} />
                                     </button>
                                 </div>
                             ) : (
                                 <Link
                                     href="/login"
-                                    className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors pl-4 border-l border-white/10"
+                                    className="px-5 py-2 bg-white text-black rounded-full text-sm font-bold hover:bg-primary transition-all active:scale-95"
                                 >
-                                    <LogIn size={18} />
-                                    <span>Entrar</span>
+                                    Entrar
                                 </Link>
                             )}
                         </div>
@@ -51,8 +53,8 @@ export default function Header() {
                 </div>
             </div>
 
-            {/* Real-time Market Ticker Bar */}
-            <div className="border-t border-white/5 bg-black/20 px-6">
+            {/* Real-time Market Ticker Bar - Slimmer & Cleaner */}
+            <div className="border-t border-white/5 bg-black/40 px-6 backdrop-blur-sm">
                 <div className="max-w-7xl mx-auto">
                     <MarketTicker />
                 </div>

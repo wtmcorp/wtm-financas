@@ -3,96 +3,70 @@ import Link from "next/link";
 
 export default function Footer() {
     return (
-        <footer className="bg-gradient-to-t from-black to-card border-t border-white/10 mt-auto">
-            <div className="max-w-6xl mx-auto px-6 py-8">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                    {/* About */}
-                    <div>
-                        <h3 className="text-primary font-bold text-lg mb-4">Wtm Corps Finanças</h3>
-                        <p className="text-gray-400 text-sm">
-                            Sua plataforma completa para organizar finanças, investir com inteligência e alcançar seus objetivos.
+        <footer className="bg-black border-t border-white/5 py-12 pb-32 md:pb-12">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 bg-primary rounded flex items-center justify-center font-black text-black text-xs">W</div>
+                            <span className="text-white font-bold text-lg tracking-tighter">Wtm<span className="text-primary/80">Corps</span></span>
+                        </div>
+                        <p className="text-gray-500 text-sm leading-relaxed">
+                            A nova era da gestão patrimonial. Inteligência, elegância e precisão em cada centavo.
                         </p>
                     </div>
 
-                    {/* Quick Links */}
                     <div>
-                        <h4 className="text-white font-bold text-sm mb-4">Links Rápidos</h4>
-                        <ul className="space-y-2">
-                            <li>
-                                <Link href="/" className="text-gray-400 hover:text-primary text-sm transition-colors">
-                                    Home
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/cards" className="text-gray-400 hover:text-primary text-sm transition-colors">
-                                    Cartões
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/invest" className="text-gray-400 hover:text-primary text-sm transition-colors">
-                                    Investir
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/learn" className="text-gray-400 hover:text-primary text-sm transition-colors">
-                                    Aprenda
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/goals" className="text-gray-400 hover:text-primary text-sm transition-colors">
-                                    Metas
-                                </Link>
-                            </li>
+                        <h4 className="text-white font-black text-[10px] uppercase tracking-[0.2em] mb-6">Navegação</h4>
+                        <ul className="space-y-4">
+                            {["Home", "Cartões", "Investir", "Aprenda"].map((item) => (
+                                <li key={item}>
+                                    <Link href={`/${item.toLowerCase() === 'home' ? '' : item.toLowerCase()}`} className="text-gray-500 hover:text-primary text-sm font-medium transition-colors">
+                                        {item}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
-                    {/* Resources */}
                     <div>
-                        <h4 className="text-white font-bold text-sm mb-4">Recursos</h4>
-                        <ul className="space-y-2">
-                            <li className="text-gray-400 text-sm">Wtm AI - Assistente</li>
-                            <li className="text-gray-400 text-sm">Simulador de Investimentos</li>
-                            <li className="text-gray-400 text-sm">Comparador de Cartões</li>
-                            <li className="text-gray-400 text-sm">Organizador de Metas</li>
+                        <h4 className="text-white font-black text-[10px] uppercase tracking-[0.2em] mb-6">Recursos</h4>
+                        <ul className="space-y-4">
+                            {["Wtm AI", "Simulador", "Arsenal", "Metas"].map((item) => (
+                                <li key={item} className="text-gray-500 text-sm font-medium cursor-default hover:text-gray-300 transition-colors">
+                                    {item}
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
-                    {/* Contact */}
                     <div>
-                        <h4 className="text-white font-bold text-sm mb-4">Contato</h4>
-                        <ul className="space-y-3">
-                            <li>
-                                <a
-                                    href="https://wa.me/5511950916614"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-gray-400 hover:text-green-500 text-sm transition-colors flex items-center gap-2"
-                                >
-                                    <span>WhatsApp</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="mailto:contato@wtmcorps.com"
-                                    className="text-gray-400 hover:text-primary text-sm transition-colors flex items-center gap-2"
-                                >
+                        <h4 className="text-white font-black text-[10px] uppercase tracking-[0.2em] mb-6">Contato</h4>
+                        <div className="space-y-4">
+                            <a href="mailto:contato@wtmcorps.com" className="flex items-center gap-3 text-gray-500 hover:text-white transition-colors group">
+                                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-all">
                                     <Mail size={14} />
-                                    <span>Email</span>
-                                </a>
-                            </li>
-                        </ul>
+                                </div>
+                                <span className="text-sm font-medium">Email</span>
+                            </a>
+                            <a href="https://wa.me/5511950916614" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-gray-500 hover:text-white transition-colors group">
+                                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-green-500/10 group-hover:text-green-500 transition-all">
+                                    <Heart size={14} />
+                                </div>
+                                <span className="text-sm font-medium">WhatsApp</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
-                <div className="pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-gray-500 text-xs">
-                        © {new Date().getFullYear()} Wtm Corps Finanças. Todos os direitos reservados.
+                <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <p className="text-gray-600 text-[10px] font-black uppercase tracking-widest">
+                        © {new Date().getFullYear()} Wtm Corps. Todos os direitos reservados.
                     </p>
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <div className="flex items-center gap-2 text-[10px] font-black text-gray-600 uppercase tracking-widest">
                         <span>Feito com</span>
-                        <Heart size={12} className="text-red-500 fill-red-500" />
-                        <span>para você</span>
+                        <Heart size={10} className="text-red-500 fill-red-500" />
+                        <span>para o seu futuro</span>
                     </div>
                 </div>
             </div>
