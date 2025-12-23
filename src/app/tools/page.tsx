@@ -60,44 +60,55 @@ export default function ToolsPage() {
     ];
 
     return (
-        <div className="min-h-screen p-6 max-w-7xl mx-auto pb-24">
-            <header className="mb-8">
-                <h1 className="text-3xl font-black text-white flex items-center gap-3">
-                    <Wrench className="text-primary" size={32} />
-                    Ferramentas & Calculadoras
-                </h1>
-                <p className="text-gray-400 mt-1">40 utilitários para facilitar sua vida financeira e pessoal.</p>
-            </header>
+        <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
+            <div className="max-w-7xl mx-auto space-y-12">
+                <header className="reveal space-y-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-1.5 h-8 bg-primary rounded-full" />
+                        <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
+                            Central de <span className="gradient-text">Utilidades</span>
+                        </h1>
+                    </div>
+                    <p className="text-gray-500 text-lg font-medium max-w-2xl">
+                        40 ferramentas inteligentes para simplificar suas decisões financeiras e produtividade diária.
+                    </p>
+                </header>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {tools.map((tool) => (
-                    <button
-                        key={tool.id}
-                        onClick={() => setSelectedTool(tool.id)}
-                        className="bg-card border border-white/10 p-6 rounded-2xl hover:border-primary/50 hover:bg-white/5 transition-all text-left group"
-                    >
-                        <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                            <tool.icon className="text-primary" size={20} />
-                        </div>
-                        <h3 className="text-white font-bold mb-1">{tool.title}</h3>
-                        <p className="text-xs text-gray-400">{tool.desc}</p>
-                    </button>
-                ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal" style={{ animationDelay: '0.1s' }}>
+                    {tools.map((tool) => (
+                        <button
+                            key={tool.id}
+                            onClick={() => setSelectedTool(tool.id)}
+                            className="card-premium p-6 text-left group hover:scale-[1.02]"
+                        >
+                            <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors border border-primary/20">
+                                <tool.icon className="text-primary" size={24} />
+                            </div>
+                            <h3 className="text-white font-black text-lg tracking-tight mb-2 group-hover:text-primary transition-colors">
+                                {tool.title}
+                            </h3>
+                            <p className="text-gray-500 text-sm font-medium leading-relaxed">
+                                {tool.desc}
+                            </p>
+                        </button>
+                    ))}
+                </div>
             </div>
 
             {selectedTool && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in">
-                    <div className="bg-[#0a0a0a] border border-white/10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[2rem] p-6 relative animate-in zoom-in-95">
+                <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
+                    <div className="card-premium w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 relative animate-in zoom-in-95 duration-300">
                         <button
                             onClick={() => setSelectedTool(null)}
-                            className="absolute top-4 right-4 p-2 bg-white/5 hover:bg-white/10 rounded-full text-gray-400 hover:text-white transition-colors"
+                            className="absolute top-6 right-6 w-10 h-10 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-all border border-white/10 active:scale-90"
                         >
                             <X size={20} />
                         </button>
 
-                        {/* Render either original or new calculators */}
-                        <Calculators type={selectedTool} />
-                        <MoreCalculators type={selectedTool} />
+                        <div className="mt-4">
+                            <Calculators type={selectedTool} />
+                            <MoreCalculators type={selectedTool} />
+                        </div>
                     </div>
                 </div>
             )}
