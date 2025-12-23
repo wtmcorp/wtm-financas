@@ -55,7 +55,7 @@ export default function MarketTicker() {
                         <span className="text-xs font-bold text-gray-400 uppercase">{item.label}</span>
                         <span className="text-sm font-mono font-bold text-white">
                             R$ {parseFloat(market.bid || "0").toLocaleString('pt-BR', {
-                                minimumFractionDigits: 2,
+                                minimumFractionDigits: item.key === 'BTCBRL' ? 0 : 2,
                                 maximumFractionDigits: item.key === 'BTCBRL' ? 0 : 2
                             })}
                         </span>
