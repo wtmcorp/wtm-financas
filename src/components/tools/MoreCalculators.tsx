@@ -7,6 +7,20 @@ interface Props {
     type: string;
 }
 
+const Input = ({ label, value, onChange, placeholder, type = "text", inputMode = "text" }: any) => (
+    <div className="space-y-1">
+        <label className="text-xs text-gray-400 uppercase font-bold">{label}</label>
+        <input
+            type={type}
+            inputMode={inputMode}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 outline-none transition-colors"
+        />
+    </div>
+);
+
 export default function MoreCalculators({ type }: Props) {
     const [val1, setVal1] = useState("");
     const [val2, setVal2] = useState("");
@@ -20,20 +34,6 @@ export default function MoreCalculators({ type }: Props) {
         setVal3("");
         setRes(null);
     }, [type]);
-
-    const Input = ({ label, value, onChange, placeholder, type = "text", inputMode = "text" }: any) => (
-        <div className="space-y-1">
-            <label className="text-xs text-gray-400 uppercase font-bold">{label}</label>
-            <input
-                type={type}
-                inputMode={inputMode}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-                placeholder={placeholder}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 outline-none transition-colors"
-            />
-        </div>
-    );
 
     switch (type) {
         case "savings-yield":

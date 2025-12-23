@@ -11,25 +11,25 @@ interface CalculatorsProps {
     type: string;
 }
 
+const Input = ({ label, value, onChange, placeholder, type = "text", inputMode = "text" }: any) => (
+    <div className="space-y-1">
+        <label className="text-xs text-gray-400 uppercase font-bold">{label}</label>
+        <input
+            type={type}
+            inputMode={inputMode}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 outline-none transition-colors"
+        />
+    </div>
+);
+
 export default function Calculators({ type }: CalculatorsProps) {
     // --- State for various calculators ---
     const [salary, setSalary] = useState("");
     const [dependents, setDependents] = useState("");
     const [result, setResult] = useState<any>(null);
-
-    // Generic Input Helper
-    const Input = ({ label, value, onChange, placeholder, type = "number" }: any) => (
-        <div className="space-y-1">
-            <label className="text-xs text-gray-400 uppercase font-bold">{label}</label>
-            <input
-                type={type}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-                placeholder={placeholder}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 outline-none transition-colors"
-            />
-        </div>
-    );
 
     // --- Calculator Logic ---
 
@@ -227,14 +227,8 @@ function BBQCalculator() {
         <div className="space-y-6">
             <h2 className="text-2xl font-bold text-white">Calculadora de Churrasco</h2>
             <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                    <label className="text-xs text-gray-400 uppercase">Homens</label>
-                    <input type="number" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setMen(Number(e.target.value))} />
-                </div>
-                <div className="space-y-1">
-                    <label className="text-xs text-gray-400 uppercase">Mulheres</label>
-                    <input type="number" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setWomen(Number(e.target.value))} />
-                </div>
+                <Input label="Homens" type="number" value={men} onChange={(v: string) => setMen(Number(v))} />
+                <Input label="Mulheres" type="number" value={women} onChange={(v: string) => setWomen(Number(v))} />
             </div>
             <button onClick={calculate} className="w-full py-3 bg-primary text-black font-bold rounded-xl">Calcular</button>
             {result && (
@@ -262,14 +256,8 @@ function FuelCalculator() {
         <div className="space-y-6">
             <h2 className="text-2xl font-bold text-white">Álcool ou Gasolina?</h2>
             <div className="grid gap-4">
-                <div className="space-y-1">
-                    <label className="text-xs text-gray-400 uppercase">Preço Gasolina</label>
-                    <input type="number" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setGas(Number(e.target.value))} />
-                </div>
-                <div className="space-y-1">
-                    <label className="text-xs text-gray-400 uppercase">Preço Álcool</label>
-                    <input type="number" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setEth(Number(e.target.value))} />
-                </div>
+                <Input label="Preço Gasolina" type="number" value={gas} onChange={(v: string) => setGas(Number(v))} />
+                <Input label="Preço Álcool" type="number" value={eth} onChange={(v: string) => setEth(Number(v))} />
             </div>
             <button onClick={calc} className="w-full py-3 bg-primary text-black font-bold rounded-xl">Calcular</button>
             {res && (
@@ -298,9 +286,9 @@ function CompoundInterestCalc() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-white">Juros Compostos</h2>
-            <input type="number" placeholder="Valor Inicial (R$)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setPrincipal(e.target.value)} />
-            <input type="number" placeholder="Taxa Anual (%)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setRate(e.target.value)} />
-            <input type="number" placeholder="Anos" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setYears(e.target.value)} />
+            <Input label="Valor Inicial (R$)" type="number" value={principal} onChange={setPrincipal} />
+            <Input label="Taxa Anual (%)" type="number" value={rate} onChange={setRate} />
+            <Input label="Anos" type="number" value={years} onChange={setYears} />
             <button onClick={calc} className="w-full py-3 bg-primary text-black font-bold rounded-xl">Calcular</button>
             {res && (
                 <div className="bg-white/5 p-4 rounded-xl">
@@ -329,8 +317,8 @@ function FireCalc() {
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-white">Calculadora FIRE</h2>
             <p className="text-xs text-gray-400">Independência Financeira e Aposentadoria Precoce</p>
-            <input type="number" placeholder="Gastos Mensais (R$)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setExpenses(e.target.value)} />
-            <input type="number" placeholder="Patrimônio Atual (R$)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setNetWorth(e.target.value)} />
+            <Input label="Gastos Mensais (R$)" type="number" value={expenses} onChange={setExpenses} />
+            <Input label="Patrimônio Atual (R$)" type="number" value={netWorth} onChange={setNetWorth} />
             <button onClick={calc} className="w-full py-3 bg-primary text-black font-bold rounded-xl">Calcular Meta</button>
             {res && (
                 <div className="bg-white/5 p-4 rounded-xl space-y-2">
@@ -362,9 +350,9 @@ function LoanCalc() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-white">Simulador de Financiamento</h2>
-            <input type="number" placeholder="Valor do Empréstimo (R$)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setAmount(e.target.value)} />
-            <input type="number" placeholder="Taxa Mensal (%)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setRate(e.target.value)} />
-            <input type="number" placeholder="Prazo (Meses)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setMonths(e.target.value)} />
+            <Input label="Valor do Empréstimo (R$)" type="number" value={amount} onChange={setAmount} />
+            <Input label="Taxa Mensal (%)" type="number" value={rate} onChange={setRate} />
+            <Input label="Prazo (Meses)" type="number" value={months} onChange={setMonths} />
             <button onClick={calc} className="w-full py-3 bg-primary text-black font-bold rounded-xl">Calcular Parcela</button>
             {pmt > 0 && (
                 <div className="bg-white/5 p-4 rounded-xl text-center">
@@ -392,8 +380,8 @@ function RentVsBuyCalc() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-white">Alugar ou Comprar?</h2>
-            <input type="number" placeholder="Valor do Aluguel (R$)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setRent(e.target.value)} />
-            <input type="number" placeholder="Preço do Imóvel (R$)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setPrice(e.target.value)} />
+            <Input label="Valor do Aluguel (R$)" type="number" value={rent} onChange={setRent} />
+            <Input label="Preço do Imóvel (R$)" type="number" value={price} onChange={setPrice} />
             <button onClick={calc} className="w-full py-3 bg-primary text-black font-bold rounded-xl">Calcular</button>
             {result && <div className="bg-white/5 p-4 rounded-xl text-center font-bold text-primary">{result}</div>}
         </div>
@@ -419,8 +407,8 @@ function UberVsCarCalc() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-white">Uber ou Carro Próprio?</h2>
-            <input type="number" placeholder="Km rodados por mês" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setKm(e.target.value)} />
-            <input type="number" placeholder="Custo fixo Carro (IPVA/Seguro/Deprec) mensal" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setCarCost(e.target.value)} />
+            <Input label="Km rodados por mês" type="number" value={km} onChange={setKm} />
+            <Input label="Custo fixo Carro (mensal)" type="number" value={carCost} onChange={setCarCost} />
             <button onClick={calc} className="w-full py-3 bg-primary text-black font-bold rounded-xl">Comparar</button>
             {res && <div className="bg-white/5 p-4 rounded-xl text-center font-bold text-primary">{res}</div>}
         </div>
@@ -443,7 +431,7 @@ function RateConverterCalc() {
             <div className="space-y-2">
                 <label className="text-xs text-gray-400">Taxa Mensal (%)</label>
                 <div className="flex gap-2">
-                    <input type="number" value={monthly} onChange={e => setMonthly(e.target.value)} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+                    <Input label="Taxa Mensal (%)" type="number" value={monthly} onChange={setMonthly} />
                     <button onClick={toAnnual} className="bg-primary text-black font-bold px-4 rounded-xl">→</button>
                 </div>
             </div>
@@ -469,8 +457,8 @@ function InflationCalc() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-white">Calculadora de Inflação</h2>
-            <input type="number" placeholder="Valor Atual (R$)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setAmount(e.target.value)} />
-            <input type="number" placeholder="Anos" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setYears(e.target.value)} />
+            <Input label="Valor Atual (R$)" type="number" value={amount} onChange={setAmount} />
+            <Input label="Anos" type="number" value={years} onChange={setYears} />
             <button onClick={calc} className="w-full py-3 bg-primary text-black font-bold rounded-xl">Calcular Valor Futuro</button>
             {res && <div className="text-center text-xl font-bold text-white">Daqui a {years} anos: R$ {res.toFixed(2)}</div>}
         </div>
@@ -489,7 +477,7 @@ function BudgetRuleCalc() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-white">Regra 50/30/20</h2>
-            <input type="number" placeholder="Renda Líquida Mensal (R$)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setIncome(e.target.value)} />
+            <Input label="Renda Líquida Mensal (R$)" type="number" value={income} onChange={setIncome} />
             <button onClick={calc} className="w-full py-3 bg-primary text-black font-bold rounded-xl">Calcular Divisão</button>
             {res && (
                 <div className="grid grid-cols-3 gap-2 text-center">
@@ -519,8 +507,8 @@ function OvertimeCalc() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-white">Horas Extras (50%)</h2>
-            <input type="number" placeholder="Salário Base (R$)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setSalary(e.target.value)} />
-            <input type="number" placeholder="Horas Extras Feitas" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setHours(e.target.value)} />
+            <Input label="Salário Base (R$)" type="number" value={salary} onChange={setSalary} />
+            <Input label="Horas Extras Feitas" type="number" value={hours} onChange={setHours} />
             <button onClick={calc} className="w-full py-3 bg-primary text-black font-bold rounded-xl">Calcular</button>
             {res && <div className="text-center text-xl font-bold text-white">Valor a Receber: R$ {res}</div>}
         </div>
@@ -579,7 +567,7 @@ function Glossary() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-white">Glossário Financeiro</h2>
-            <input type="text" placeholder="Buscar termo..." className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setSearch(e.target.value.toLowerCase())} />
+            <Input label="Buscar termo" type="text" value={search} onChange={(v: string) => setSearch(v.toLowerCase())} placeholder="Ex: Selic" />
             <div className="space-y-2 max-h-60 overflow-y-auto">
                 {terms.filter(t => t.t.toLowerCase().includes(search)).map((t, i) => (
                     <div key={i} className="bg-white/5 p-3 rounded-lg">
@@ -621,8 +609,8 @@ function TripPlanner() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-white">Planejador de Viagem</h2>
-            <input type="number" placeholder="Custo Total da Viagem (R$)" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setCost(e.target.value)} />
-            <input type="number" placeholder="Meses até a viagem" className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" onChange={e => setMonths(e.target.value)} />
+            <Input label="Custo Total (R$)" type="number" value={cost} onChange={setCost} />
+            <Input label="Meses até a viagem" type="number" value={months} onChange={setMonths} />
             <button onClick={calc} className="w-full py-3 bg-primary text-black font-bold rounded-xl">Calcular Poupança Mensal</button>
             {res && <div className="text-center text-xl font-bold text-white">Guardar por mês: R$ {res}</div>}
         </div>
