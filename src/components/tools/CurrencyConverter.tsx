@@ -1,21 +1,44 @@
 "use client";
 
-import { DollarSign, RefreshCw, Loader2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { DollarSign, RefreshCw, Loader2, Search } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
 
-const initialCurrencies = [
-    { code: "USD", name: "Dólar Americano", symbol: "$", rate: 5.85 },
-    { code: "EUR", name: "Euro", symbol: "€", rate: 6.35 },
-    { code: "GBP", name: "Libra Esterlina", symbol: "£", rate: 7.42 },
-    { code: "BRL", name: "Real Brasileiro", symbol: "R$", rate: 1 },
-    { code: "CAD", name: "Dólar Canadense", symbol: "C$", rate: 4.20 },
-    { code: "AUD", name: "Dólar Australiano", symbol: "A$", rate: 3.85 },
-    { code: "JPY", name: "Iene Japonês", symbol: "¥", rate: 0.039 },
-    { code: "CNY", name: "Yuan Chinês", symbol: "¥", rate: 0.81 },
-    { code: "CHF", name: "Franco Suíço", symbol: "Fr", rate: 6.60 },
-    { code: "ARS", name: "Peso Argentino", symbol: "$", rate: 0.006 },
-    { code: "BTC", name: "Bitcoin", symbol: "₿", rate: 350000 },
-    { code: "ETH", name: "Ethereum", symbol: "Ξ", rate: 18000 },
+// Lista expandida de moedas mundiais
+const allCurrencies = [
+    { code: "BRL", name: "Real Brasileiro", symbol: "R$" },
+    { code: "USD", name: "Dólar Americano", symbol: "$" },
+    { code: "EUR", name: "Euro", symbol: "€" },
+    { code: "GBP", name: "Libra Esterlina", symbol: "£" },
+    { code: "JPY", name: "Iene Japonês", symbol: "¥" },
+    { code: "CHF", name: "Franco Suíço", symbol: "Fr" },
+    { code: "CAD", name: "Dólar Canadense", symbol: "C$" },
+    { code: "AUD", name: "Dólar Australiano", symbol: "A$" },
+    { code: "CNY", name: "Yuan Chinês", symbol: "¥" },
+    { code: "ARS", name: "Peso Argentino", symbol: "$" },
+    { code: "CLP", name: "Peso Chileno", symbol: "$" },
+    { code: "COP", name: "Peso Colombiano", symbol: "$" },
+    { code: "MXN", name: "Peso Mexicano", symbol: "$" },
+    { code: "PYG", name: "Guarani Paraguaio", symbol: "₲" },
+    { code: "UYU", name: "Peso Uruguaio", symbol: "$" },
+    { code: "PEN", name: "Sol Peruano", symbol: "S/" },
+    { code: "BOB", name: "Boliviano", symbol: "Bs" },
+    { code: "AED", name: "Dirham dos EAU", symbol: "د.إ" },
+    { code: "SAR", name: "Riyal Saudita", symbol: "﷼" },
+    { code: "ILS", name: "Shekel Israelense", symbol: "₪" },
+    { code: "INR", name: "Rupia Indiana", symbol: "₹" },
+    { code: "KRW", name: "Won Sul-Coreano", symbol: "₩" },
+    { code: "RUB", name: "Rublo Russo", symbol: "₽" },
+    { code: "TRY", name: "Lira Turca", symbol: "₺" },
+    { code: "ZAR", name: "Rand Sul-Africano", symbol: "R" },
+    { code: "NZD", name: "Dólar Neozelandês", symbol: "$" },
+    { code: "SGD", name: "Dólar de Singapura", symbol: "$" },
+    { code: "HKD", name: "Dólar de Hong Kong", symbol: "$" },
+    { code: "NOK", name: "Coroa Norueguesa", symbol: "kr" },
+    { code: "SEK", name: "Coroa Sueca", symbol: "kr" },
+    { code: "DKK", name: "Coroa Dinamarquesa", symbol: "kr" },
+    { code: "BTC", name: "Bitcoin", symbol: "₿" },
+    { code: "ETH", name: "Ethereum", symbol: "Ξ" },
+    { code: "USDT", name: "Tether", symbol: "₮" },
 ];
 
 export default function CurrencyConverter() {
@@ -23,15 +46,25 @@ export default function CurrencyConverter() {
     const [from, setFrom] = useState("USD");
     const [to, setTo] = useState("BRL");
     const [result, setResult] = useState(0);
-    const [rates, setRates] = useState<any>(null);
+    const [rates, setRates] = useState<any>({});
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
+    // Fetch rates from AwesomeAPI
     useEffect(() => {
         const fetchRates = async () => {
+            setLoading(true);
             try {
-                const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,GBP-BRL,CAD-BRL,AUD-BRL,JPY-BRL,CNY-BRL,CHF-BRL,ARS-BRL,BTC-BRL,ETH-BRL");
+                // AwesomeAPI permite buscar várias moedas em relação ao BRL
+                const codes = allCurrencies
+                    .filter(c => c.code !== "BRL")
+                    .map(c => `${c.code}-BRL`)
+                    .join(",");
+
+                const res = await fetch(`https://economia.awesomeapi.com.br/json/last/${codes}`);
                 const data = await res.json();
-                if (data && !data.status) {
+
+                if (data) {
                     const newRates: any = { BRL: 1 };
                     Object.keys(data).forEach(key => {
                         const code = key.replace("BRL", "");
@@ -40,21 +73,34 @@ export default function CurrencyConverter() {
                         }
                     });
                     setRates(newRates);
+                    setError("");
                 }
-            } catch (error) {
-                console.error("Error fetching rates:", error);
+            } catch (err) {
+                console.error("Error fetching rates:", err);
+                setError("Erro ao carregar taxas. Tente novamente.");
             } finally {
                 setLoading(false);
             }
         };
+
         fetchRates();
+        const interval = setInterval(fetchRates, 60000); // Atualiza a cada minuto
+        return () => clearInterval(interval);
     }, []);
 
+    // Calculate conversion
     useEffect(() => {
-        const fromRate = rates?.[from] || initialCurrencies.find(c => c.code === from)?.rate || 1;
-        const toRate = rates?.[to] || initialCurrencies.find(c => c.code === to)?.rate || 1;
+        if (!rates[from] && from !== "BRL") return;
+        if (!rates[to] && to !== "BRL") return;
+
         const value = parseFloat(amount) || 0;
-        setResult((value * fromRate) / toRate);
+        const fromInBrl = from === "BRL" ? 1 : rates[from];
+        const toInBrl = to === "BRL" ? 1 : rates[to];
+
+        if (fromInBrl && toInBrl) {
+            const converted = (value * fromInBrl) / toInBrl;
+            setResult(converted);
+        }
     }, [amount, from, to, rates]);
 
     const swap = () => {
@@ -63,74 +109,99 @@ export default function CurrencyConverter() {
     };
 
     return (
-        <div className="bg-card border border-white/10 rounded-xl p-6">
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                    <DollarSign className="text-primary" size={20} />
-                    Conversor de Moedas
+        <div className="space-y-6">
+            <div className="flex justify-between items-center">
+                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                    <Globe className="text-primary" size={24} />
+                    Conversor Global
                 </h3>
-                {loading && <Loader2 size={16} className="text-primary animate-spin" />}
+                {loading && <Loader2 size={20} className="text-primary animate-spin" />}
             </div>
+
+            {error && (
+                <div className="bg-red-500/10 border border-red-500/20 p-3 rounded-xl text-red-400 text-sm text-center">
+                    {error}
+                </div>
+            )}
 
             <div className="space-y-4">
                 <div>
-                    <label className="text-sm text-gray-400 mb-2 block">Valor</label>
-                    <input
-                        type="number"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-primary/50"
-                    />
+                    <label className="text-xs text-gray-400 uppercase font-bold mb-2 block">Valor para converter</label>
+                    <div className="relative">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">
+                            {allCurrencies.find(c => c.code === from)?.symbol}
+                        </span>
+                        <input
+                            type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            className="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white text-xl font-bold outline-none focus:border-primary/50 transition-all"
+                            placeholder="0.00"
+                        />
+                    </div>
                 </div>
 
-                <div className="grid grid-cols-[1fr,auto,1fr] gap-3 items-end">
-                    <div>
-                        <label className="text-sm text-gray-400 mb-2 block">De</label>
+                <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] gap-4 items-center">
+                    <div className="space-y-2">
+                        <label className="text-xs text-gray-400 uppercase font-bold">De</label>
                         <select
                             value={from}
                             onChange={(e) => setFrom(e.target.value)}
-                            className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-primary/50"
+                            className="w-full bg-black/40 border border-white/10 rounded-2xl px-4 py-4 text-white outline-none focus:border-primary/50 appearance-none cursor-pointer"
                         >
-                            {initialCurrencies.map(c => (
-                                <option key={c.code} value={c.code}>{c.symbol} {c.name}</option>
+                            {allCurrencies.map(c => (
+                                <option key={c.code} value={c.code} className="bg-card text-white">
+                                    {c.code} - {c.name}
+                                </option>
                             ))}
                         </select>
                     </div>
 
                     <button
                         onClick={swap}
-                        className="p-3 bg-primary/20 hover:bg-primary/30 text-primary rounded-lg transition-colors mb-0"
+                        className="w-12 h-12 bg-primary/10 hover:bg-primary/20 text-primary rounded-full flex items-center justify-center transition-all border border-primary/20 self-end md:self-center mx-auto"
+                        title="Inverter moedas"
                     >
-                        <RefreshCw size={18} />
+                        <RefreshCw size={20} />
                     </button>
 
-                    <div>
-                        <label className="text-sm text-gray-400 mb-2 block">Para</label>
+                    <div className="space-y-2">
+                        <label className="text-xs text-gray-400 uppercase font-bold">Para</label>
                         <select
                             value={to}
                             onChange={(e) => setTo(e.target.value)}
-                            className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-primary/50"
+                            className="w-full bg-black/40 border border-white/10 rounded-2xl px-4 py-4 text-white outline-none focus:border-primary/50 appearance-none cursor-pointer"
                         >
-                            {initialCurrencies.map(c => (
-                                <option key={c.code} value={c.code}>{c.symbol} {c.name}</option>
+                            {allCurrencies.map(c => (
+                                <option key={c.code} value={c.code} className="bg-card text-white">
+                                    {c.code} - {c.name}
+                                </option>
                             ))}
                         </select>
                     </div>
                 </div>
 
-                <div className="bg-primary/10 border border-primary/30 rounded-lg p-4 text-center">
-                    <div className="text-sm text-gray-400 mb-1">Resultado</div>
-                    <div className="text-2xl font-bold text-primary">
-                        {initialCurrencies.find(c => c.code === to)?.symbol} {result.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                <div className="bg-gradient-to-br from-primary/20 to-transparent border border-primary/30 rounded-[2rem] p-8 text-center space-y-2">
+                    <p className="text-sm text-gray-400 font-medium uppercase tracking-widest">Resultado Convertido</p>
+                    <div className="text-4xl md:text-5xl font-black text-white tracking-tighter">
+                        <span className="text-primary mr-2">{allCurrencies.find(c => c.code === to)?.symbol}</span>
+                        {result.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </div>
+                    <p className="text-xs text-gray-500 font-bold uppercase mt-4">
+                        1 {from} = {((from === "BRL" ? 1 : rates[from]) / (to === "BRL" ? 1 : rates[to])).toFixed(4)} {to}
+                    </p>
                 </div>
 
-                <p className="text-[10px] text-gray-500 text-center uppercase tracking-wider">
-                    {loading ? "Atualizando taxas..." : "Taxas atualizadas em tempo real via AwesomeAPI"}
-                </p>
+                <div className="flex items-center justify-center gap-2 text-[10px] text-gray-500 font-bold uppercase tracking-widest">
+                    <div className={`w-2 h-2 rounded-full ${loading ? 'bg-yellow-500 animate-pulse' : 'bg-green-500'}`} />
+                    {loading ? "Sincronizando taxas mundiais..." : "Taxas atualizadas em tempo real via AwesomeAPI"}
+                </div>
             </div>
         </div>
     );
 }
+
+import { Globe } from "lucide-react";
+
 
 

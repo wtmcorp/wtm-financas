@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
     Calculator, Calendar, DollarSign, TrendingUp, Home, Car,
     Percent, PieChart, Coffee, Fuel, Clock, Lock, User,
-    BookOpen, Lightbulb, Plane, Briefcase, AlertCircle
+    BookOpen, Lightbulb, Plane, Briefcase, AlertCircle, Search, X, Check, Wrench, Globe
 } from "lucide-react";
 import Calculators from "@/components/tools/Calculators";
-
 import MoreCalculators from "@/components/tools/MoreCalculators";
+import CurrencyConverter from "@/components/tools/CurrencyConverter";
 
 export default function ToolsPage() {
     const [selectedTool, setSelectedTool] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const tools = [
         // --- Original 20 Tools ---
@@ -37,6 +38,7 @@ export default function ToolsPage() {
         { id: "trip", icon: Plane, title: "Viagem", desc: "Quanto guardar para viajar" },
 
         // --- NEW 20 Tools ---
+        { id: "currency-converter", icon: Globe, title: "Conversor de Moedas", desc: "Taxas de câmbio mundiais em tempo real" },
         { id: "savings-yield", icon: TrendingUp, title: "Rendimento Poupança", desc: "Simule o retorno da poupança" },
         { id: "cdi-vs-savings", icon: TrendingUp, title: "CDI vs Poupança", desc: "Comparativo de rentabilidade" },
         { id: "roi", icon: Percent, title: "ROI", desc: "Retorno sobre Investimento" },
@@ -59,40 +61,80 @@ export default function ToolsPage() {
         { id: "number-draw", icon: Calculator, title: "Sorteio", desc: "Sorteador de números" },
     ];
 
+    const filteredTools = useMemo(() => {
+        return tools.filter(tool =>
+            tool.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            tool.desc.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [searchQuery]);
+
     return (
         <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
             <div className="max-w-7xl mx-auto space-y-12">
-                <header className="reveal space-y-4">
-                    <div className="flex items-center gap-3">
-                        <div className="w-1.5 h-8 bg-primary rounded-full" />
-                        <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
-                            Central de <span className="gradient-text">Utilidades</span>
-                        </h1>
+                <header className="reveal space-y-6">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-3">
+                                <div className="w-1.5 h-8 bg-primary rounded-full" />
+                                <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
+                                    Central de <span className="gradient-text">Utilidades</span>
+                                </h1>
+                            </div>
+                            <p className="text-gray-500 text-lg font-medium max-w-2xl">
+                                {tools.length} ferramentas inteligentes para simplificar suas decisões financeiras e produtividade diária.
+                            </p>
+                        </div>
+
+                        <div className="relative w-full md:w-80">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
+                            <input
+                                type="text"
+                                placeholder="Buscar ferramenta..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white focus:border-primary/50 outline-none transition-all placeholder:text-gray-600 focus:bg-black/60"
+                            />
+                            {searchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery("")}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+                                >
+                                    <X size={18} />
+                                </button>
+                            )}
+                        </div>
                     </div>
-                    <p className="text-gray-500 text-lg font-medium max-w-2xl">
-                        40 ferramentas inteligentes para simplificar suas decisões financeiras e produtividade diária.
-                    </p>
                 </header>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal" style={{ animationDelay: '0.1s' }}>
-                    {tools.map((tool) => (
-                        <button
-                            key={tool.id}
-                            onClick={() => setSelectedTool(tool.id)}
-                            className="card-premium p-6 text-left group hover:scale-[1.02]"
-                        >
-                            <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors border border-primary/20">
-                                <tool.icon className="text-primary" size={24} />
-                            </div>
-                            <h3 className="text-white font-black text-lg tracking-tight mb-2 group-hover:text-primary transition-colors">
-                                {tool.title}
-                            </h3>
-                            <p className="text-gray-500 text-sm font-medium leading-relaxed">
-                                {tool.desc}
-                            </p>
-                        </button>
-                    ))}
-                </div>
+                {filteredTools.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal" style={{ animationDelay: '0.1s' }}>
+                        {filteredTools.map((tool) => (
+                            <button
+                                key={tool.id}
+                                onClick={() => setSelectedTool(tool.id)}
+                                className="card-premium p-6 text-left group hover:scale-[1.02]"
+                            >
+                                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors border border-primary/20">
+                                    <tool.icon className="text-primary" size={24} />
+                                </div>
+                                <h3 className="text-white font-black text-lg tracking-tight mb-2 group-hover:text-primary transition-colors">
+                                    {tool.title}
+                                </h3>
+                                <p className="text-gray-500 text-sm font-medium leading-relaxed">
+                                    {tool.desc}
+                                </p>
+                            </button>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center py-20 reveal">
+                        <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/10">
+                            <Search className="text-gray-600" size={32} />
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-2">Nenhuma ferramenta encontrada</h3>
+                        <p className="text-gray-500">Tente buscar por outros termos ou palavras-chave.</p>
+                    </div>
+                )}
             </div>
 
             {selectedTool && (
@@ -106,8 +148,14 @@ export default function ToolsPage() {
                         </button>
 
                         <div className="mt-4">
-                            <Calculators type={selectedTool} />
-                            <MoreCalculators type={selectedTool} />
+                            {selectedTool === "currency-converter" ? (
+                                <CurrencyConverter />
+                            ) : (
+                                <>
+                                    <Calculators type={selectedTool} />
+                                    <MoreCalculators type={selectedTool} />
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -116,4 +164,3 @@ export default function ToolsPage() {
     );
 }
 
-import { Wrench, X, Check } from "lucide-react";
