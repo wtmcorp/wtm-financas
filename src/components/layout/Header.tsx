@@ -11,18 +11,18 @@ export default function Header() {
     const { user, logout } = useAuth();
 
     return (
-        <header className="fixed top-0 left-0 right-0 glass z-50">
-            <div className="px-6 py-4">
+        <header className="fixed top-0 left-0 right-0 glass z-50 border-b border-white/5">
+            <div className="px-6 py-3 md:py-4">
                 <div className="flex justify-between items-center max-w-7xl mx-auto w-full">
-                    <Link href="/" className="group flex items-center gap-2">
-                        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-black text-black text-lg group-hover:rotate-6 transition-transform">W</div>
-                        <span className="text-white font-bold text-xl tracking-tighter group-hover:text-primary transition-colors">
+                    <Link href="/" className="group flex items-center gap-3">
+                        <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center font-black text-black text-xl group-hover:rotate-6 transition-all duration-300 shadow-lg shadow-primary/20">W</div>
+                        <span className="text-white font-black text-2xl tracking-tighter group-hover:text-primary transition-colors hidden sm:block">
                             Wtm<span className="text-primary/80">Corps</span>
                         </span>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center gap-8">
+                    <nav className="hidden lg:flex items-center gap-1 bg-white/5 p-1 rounded-2xl border border-white/5">
                         {[
                             { name: "Dashboard", href: "/" },
                             { name: "Cartões", href: "/cards" },
@@ -30,42 +30,48 @@ export default function Header() {
                             { name: "I.As Úteis", href: "/ai-tools" },
                             { name: "Desafio", href: "/private" },
                             { name: "Aprenda", href: "/learn" },
-                            { name: "Perfil", href: "/dashboard" },
                         ].map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-primary transition-colors"
+                                className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all"
                             >
                                 {item.name}
                             </Link>
                         ))}
                     </nav>
 
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-4 md:gap-6">
                         <div className="hidden md:flex items-center gap-6">
                             {user ? (
-                                <div className="flex items-center gap-6">
-                                    <Link href="/private" className="text-gray-400 hover:text-primary transition-colors" title="Desafio Privado">
+                                <div className="flex items-center gap-4">
+                                    <Link href="/private" className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-gray-400 hover:text-primary hover:bg-primary/10 transition-all border border-white/5" title="Desafio Privado">
                                         <Heart size={20} />
                                     </Link>
-                                    <Link href="/dashboard" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
-                                        {user.name.split(" ")[0]}
+                                    <div className="h-8 w-[1px] bg-white/10" />
+                                    <Link href="/profile" className="flex items-center gap-3 group">
+                                        <div className="text-right hidden sm:block">
+                                            <p className="text-xs font-black text-white leading-none">{user.name.split(" ")[0]}</p>
+                                            <p className="text-[9px] font-bold text-gray-500 uppercase tracking-tighter mt-1">Nível Platinum</p>
+                                        </div>
+                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center text-black font-black border border-white/10 group-hover:scale-105 transition-transform">
+                                            {user.name[0]}
+                                        </div>
                                     </Link>
                                     <button
                                         onClick={() => logout()}
-                                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:bg-red-500/10 hover:text-red-400 transition-all"
+                                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-gray-400 hover:bg-red-500/10 hover:text-red-400 transition-all border border-white/5"
                                         title="Sair"
                                     >
-                                        <LogOut size={16} />
+                                        <LogOut size={18} />
                                     </button>
                                 </div>
                             ) : (
                                 <Link
                                     href="/login"
-                                    className="px-5 py-2 bg-white text-black rounded-full text-sm font-bold hover:bg-primary transition-all active:scale-95"
+                                    className="px-6 py-2.5 bg-white text-black rounded-xl text-sm font-black hover:bg-primary transition-all active:scale-95 shadow-lg shadow-white/10"
                                 >
-                                    Entrar
+                                    ENTRAR
                                 </Link>
                             )}
                         </div>
@@ -75,7 +81,7 @@ export default function Header() {
             </div>
 
             {/* Real-time Market Ticker Bar - Slimmer & Cleaner */}
-            <div className="border-t border-white/5 bg-black/40 px-6 backdrop-blur-sm">
+            <div className="border-t border-white/5 bg-black/40 px-6 backdrop-blur-md">
                 <div className="max-w-7xl mx-auto">
                     <MarketTicker />
                 </div>

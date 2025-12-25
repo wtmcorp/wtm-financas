@@ -39,37 +39,46 @@ export default function Home() {
             <div className="max-w-7xl mx-auto space-y-8 md:space-y-12">
 
                 {/* Command Center Header */}
-                <header className="reveal relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e] border border-white/10 p-6 md:p-12 shadow-2xl">
-                    <div className="absolute top-0 right-0 p-12 opacity-10">
-                        <Crown size={200} className="text-primary rotate-12" />
+                <header className="reveal relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e] border border-white/10 p-6 md:p-12 shadow-2xl group">
+                    {/* Animated Background Elements */}
+                    <div className="absolute top-0 right-0 p-12 opacity-10 group-hover:opacity-20 transition-opacity duration-700">
+                        <Crown size={200} className="text-primary rotate-12 animate-float" />
                     </div>
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none"></div>
+                    <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-pulse-slow pointer-events-none"></div>
 
                     <div className="relative z-10 space-y-6">
                         <div className="flex items-center gap-3">
-                            <div className="px-3 py-1 bg-primary/20 text-primary border border-primary/20 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                            <div className="px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 shadow-[0_0_10px_rgba(167,139,250,0.2)]">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                </span>
                                 Sistema Operacional Financeiro
                             </div>
                         </div>
 
                         <div className="space-y-2">
                             <h1 className="text-3xl md:text-6xl font-black text-white tracking-tighter">
-                                {greeting}, <span className="gradient-text">{user?.name?.split(" ")[0] || "Comandante"}</span>
+                                {greeting}, <span className="gradient-text relative inline-block">
+                                    {user?.name?.split(" ")[0] || "Comandante"}
+                                    <span className="absolute -bottom-2 left-0 w-full h-1 bg-primary/50 rounded-full blur-sm opacity-50"></span>
+                                </span>
                             </h1>
                             <p className="text-gray-400 text-base md:text-lg max-w-2xl font-medium leading-relaxed flex items-center gap-2">
-                                <Sparkles size={16} className="text-yellow-500" />
-                                "{quote}"
+                                <Sparkles size={16} className="text-yellow-500 animate-pulse" />
+                                <span className="italic">"{quote}"</span>
                             </p>
                         </div>
 
                         <div className="flex flex-wrap gap-4 pt-4">
-                            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg border border-white/5">
-                                <Zap size={16} className="text-yellow-500" />
-                                <span className="text-sm font-bold text-gray-300">Status: <span className="text-green-400">Operacional</span></span>
+                            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-colors backdrop-blur-sm">
+                                <Zap size={16} className="text-yellow-500 fill-yellow-500/20" />
+                                <span className="text-xs font-bold text-gray-300 uppercase tracking-wider">Status: <span className="text-green-400 text-shadow-glow">Operacional</span></span>
                             </div>
-                            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg border border-white/5">
-                                <Cloud size={16} className="text-blue-400" />
-                                <span className="text-sm font-bold text-gray-300">Sincronização: <span className="text-white">Automática</span></span>
+                            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-colors backdrop-blur-sm">
+                                <Cloud size={16} className="text-blue-400 fill-blue-400/20" />
+                                <span className="text-xs font-bold text-gray-300 uppercase tracking-wider">Sincronização: <span className="text-white">Automática</span></span>
                             </div>
                         </div>
                     </div>

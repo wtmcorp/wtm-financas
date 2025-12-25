@@ -47,21 +47,24 @@ const TransactionList = ({ limit }: TransactionListProps) => {
 
     return (
         <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             <div className="relative card-premium p-6 rounded-2xl">
-                <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                        <List className="w-5 h-5 text-indigo-400" />
-                        Transações Recentes
-                    </h3>
-                    <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div className="flex items-center gap-2">
+                        <div className="w-1 h-4 bg-indigo-400 rounded-full" />
+                        <h3 className="text-xl font-bold text-white flex items-center gap-2 uppercase tracking-tight">
+                            <List className="w-5 h-5 text-indigo-400" />
+                            Transações
+                        </h3>
+                    </div>
+                    <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
                         {filterButtons.map((btn) => (
                             <button
                                 key={btn.value}
                                 onClick={() => setFilterType(btn.value)}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filterType === btn.value
-                                    ? `bg-gradient-to-r ${btn.gradient} text-white shadow-lg`
-                                    : 'bg-gray-800/50 text-gray-400 hover:bg-gray-800'
+                                className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border ${filterType === btn.value
+                                    ? `bg-gradient-to-r ${btn.gradient} text-white border-transparent shadow-lg shadow-indigo-500/20`
+                                    : 'bg-white/5 text-gray-400 border-white/5 hover:bg-white/10 hover:text-white'
                                     }`}
                             >
                                 {btn.label}
@@ -72,25 +75,25 @@ const TransactionList = ({ limit }: TransactionListProps) => {
 
                 {/* Search */}
                 <div className="relative mb-6">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                     <input
                         type="text"
                         placeholder="Buscar transações..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-white placeholder-gray-500 transition-all"
+                        className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/5 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent text-white placeholder-gray-500 transition-all text-sm"
                     />
                 </div>
 
                 {/* Transaction List */}
                 <div className="space-y-3">
                     {filteredTransactions.length === 0 ? (
-                        <div className="text-center py-16">
-                            <div className="w-16 h-16 bg-gray-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div className="text-center py-16 glass rounded-2xl border border-white/5">
+                            <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/5">
                                 <List className="w-8 h-8 text-gray-600" />
                             </div>
-                            <p className="text-gray-400 font-medium">Nenhuma transação encontrada</p>
-                            <p className="text-sm text-gray-500 mt-2">
+                            <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Nenhuma transação encontrada</p>
+                            <p className="text-[10px] text-gray-500 mt-2 uppercase tracking-tighter">
                                 Adicione sua primeira transação para começar
                             </p>
                         </div>
@@ -98,34 +101,34 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                         filteredTransactions.map((transaction) => (
                             <div
                                 key={transaction.id}
-                                className="group/item flex items-center justify-between p-4 bg-gray-800/30 hover:bg-gray-800/50 rounded-xl transition-all border border-gray-700/30 hover:border-gray-600/50"
+                                className="group/item flex items-center justify-between p-4 glass hover:bg-white/5 rounded-xl transition-all border border-white/5 hover:border-white/10"
                             >
                                 <div className="flex items-center gap-4 flex-1">
-                                    <div className={`p-3 rounded-xl ${transaction.type === 'income'
-                                        ? 'bg-gradient-to-br from-emerald-500/20 to-green-600/20'
-                                        : 'bg-gradient-to-br from-red-500/20 to-orange-600/20'
+                                    <div className={`p-3 rounded-xl border ${transaction.type === 'income'
+                                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                                        : 'bg-red-500/10 border-red-500/20 text-red-400'
                                         }`}>
                                         {transaction.type === 'income' ? (
-                                            <TrendingUp className="w-5 h-5 text-emerald-400" />
+                                            <TrendingUp className="w-5 h-5" />
                                         ) : (
-                                            <TrendingDown className="w-5 h-5 text-red-400" />
+                                            <TrendingDown className="w-5 h-5" />
                                         )}
                                     </div>
-                                    <div className="flex-1">
-                                        <p className="font-semibold text-white">
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-bold text-white truncate text-sm sm:text-base">
                                             {transaction.description}
                                         </p>
                                         <div className="flex items-center gap-3 mt-1">
-                                            <span className="text-xs px-2.5 py-1 bg-gray-700/50 rounded-full text-gray-300 font-medium">
+                                            <span className="text-[9px] px-2 py-0.5 bg-white/5 rounded-full text-gray-400 font-black uppercase tracking-widest border border-white/5">
                                                 {transaction.category}
                                             </span>
-                                            <span className="text-xs text-gray-500">
+                                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-tighter">
                                                 {formatDate(transaction.date)}
                                             </span>
                                         </div>
                                     </div>
-                                    <div className="text-right">
-                                        <p className={`font-bold text-xl ${transaction.type === 'income'
+                                    <div className="text-right ml-2">
+                                        <p className={`font-black text-base sm:text-xl tracking-tighter ${transaction.type === 'income'
                                             ? 'text-emerald-400'
                                             : 'text-red-400'
                                             }`}>
@@ -133,13 +136,13 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                                         </p>
                                     </div>
                                 </div>
-                                <div className="flex gap-2 ml-4 opacity-100 md:opacity-0 md:group-hover/item:opacity-100 transition-opacity">
+                                <div className="flex gap-1 ml-4 opacity-100 md:opacity-0 md:group-hover/item:opacity-100 transition-opacity">
                                     <button
                                         onClick={() => setEditingTransaction(transaction)}
-                                        className="p-2.5 hover:bg-blue-500/20 rounded-lg transition-colors group/edit"
+                                        className="p-2 hover:bg-white/10 rounded-lg transition-colors group/edit"
                                         title="Editar"
                                     >
-                                        <Edit className="w-4 h-4 text-gray-400 group-hover/edit:text-blue-400" />
+                                        <Edit className="w-4 h-4 text-gray-500 group-hover/edit:text-white" />
                                     </button>
                                     <button
                                         onClick={() => {
@@ -147,10 +150,10 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                                                 deleteTransaction(transaction.id);
                                             }
                                         }}
-                                        className="p-2.5 hover:bg-red-500/20 rounded-lg transition-colors group/delete"
+                                        className="p-2 hover:bg-red-500/10 rounded-lg transition-colors group/delete"
                                         title="Excluir"
                                     >
-                                        <Trash2 className="w-4 h-4 text-gray-400 group-hover/delete:text-red-400" />
+                                        <Trash2 className="w-4 h-4 text-gray-500 group-hover/delete:text-red-400" />
                                     </button>
                                 </div>
                             </div>
