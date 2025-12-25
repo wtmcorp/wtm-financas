@@ -26,7 +26,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 <WelcomeModal />
                 <Header />
 
-                <main className="pb-20 pt-32 flex-1">
+                <main className="pb-20 pt-20 md:pt-32 flex-1">
                     {children}
                 </main>
 

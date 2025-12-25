@@ -12,11 +12,11 @@ export default function Header() {
 
     return (
         <header className="fixed top-0 left-0 right-0 glass z-50 border-b border-white/5">
-            <div className="px-6 py-3 md:py-4">
+            <div className="px-4 md:px-6 py-3 md:py-4">
                 <div className="flex justify-between items-center max-w-7xl mx-auto w-full">
-                    <Link href="/" className="group flex items-center gap-3">
-                        <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center font-black text-black text-xl group-hover:rotate-6 transition-all duration-300 shadow-lg shadow-primary/20">W</div>
-                        <span className="text-white font-black text-2xl tracking-tighter group-hover:text-primary transition-colors hidden sm:block">
+                    <Link href="/" className="group flex items-center gap-2 md:gap-3">
+                        <div className="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg md:rounded-xl flex items-center justify-center font-black text-black text-lg md:text-xl group-hover:rotate-6 transition-all duration-300 shadow-lg shadow-primary/20">W</div>
+                        <span className="text-white font-black text-xl md:text-2xl tracking-tighter group-hover:text-primary transition-colors">
                             Wtm<span className="text-primary/80">Corps</span>
                         </span>
                     </Link>
@@ -41,7 +41,7 @@ export default function Header() {
                         ))}
                     </nav>
 
-                    <div className="flex items-center gap-4 md:gap-6">
+                    <div className="flex items-center gap-2 md:gap-6">
                         <div className="hidden md:flex items-center gap-6">
                             {user ? (
                                 <div className="flex items-center gap-4">
@@ -80,8 +80,8 @@ export default function Header() {
                 </div>
             </div>
 
-            {/* Real-time Market Ticker Bar - Slimmer & Cleaner */}
-            <div className="border-t border-white/5 bg-black/40 px-6 backdrop-blur-md">
+            {/* Real-time Market Ticker Bar - Slimmer & Cleaner - Hidden on Mobile */}
+            <div className="hidden md:block border-t border-white/5 bg-black/40 px-6 backdrop-blur-md">
                 <div className="max-w-7xl mx-auto">
                     <MarketTicker />
                 </div>

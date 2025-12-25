@@ -32,12 +32,11 @@ export default function MobileMenu() {
     }, [isOpen]);
 
     const menuItems = [
-        { href: "/dashboard", icon: Home, label: "Visão Geral" },
+        { href: "/", icon: Home, label: "Dashboard" },
         { href: "/cards", icon: CreditCard, label: "Arsenal de Cartões" },
         { href: "/tools", icon: Wrench, label: "Ferramentas & Calculadoras" },
         { href: "/ai-tools", icon: Sparkles, label: "I.As Úteis" },
-        { href: "/invest", icon: TrendingUp, label: "Investimentos" },
-        { href: "/debts", icon: DollarSign, label: "Gestão de Dívidas" },
+        { href: "/learn", icon: Sparkles, label: "Aprenda & Evolua" },
         { href: "/private", icon: Heart, label: "Desafio Privado" },
         { href: "/profile", icon: User, label: "Meu Perfil" },
     ];
