@@ -8,7 +8,7 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                     <div className="space-y-4">
-                        <Logo iconSize={24} textSize="text-lg" />
+                        <Logo size={120} />
                         <p className="text-gray-500 text-sm leading-relaxed">
                             A nova era da gestão patrimonial. Inteligência, elegância e precisão em cada centavo.
                         </p>

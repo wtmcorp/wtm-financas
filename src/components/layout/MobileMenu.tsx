@@ -82,7 +82,7 @@ export default function MobileMenu() {
                 >
                     {/* Header Area */}
                     <div className="px-6 py-8 flex items-center justify-between border-b border-white/10 bg-black shrink-0">
-                        <Logo iconSize={40} textSize="text-3xl" />
+                        <Logo size={200} />
                         <button
                             onClick={() => setIsOpen(false)}
                             className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-white hover:bg-white/10 transition-all active:scale-90 border border-white/10"
