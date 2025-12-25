@@ -65,7 +65,7 @@ const QuickActions = () => {
         <>
             <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="relative card-premium p-6 rounded-2xl h-[400px] flex flex-col">
+                <div className="relative card-premium p-6 rounded-2xl h-auto md:h-[400px] flex flex-col">
                     <div className="flex items-center gap-2 mb-6">
                         <Zap className="w-5 h-5 text-indigo-400" />
                         <h3 className="text-lg font-semibold text-white">Ações Rápidas</h3>

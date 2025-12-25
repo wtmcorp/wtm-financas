@@ -133,7 +133,7 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                                         </p>
                                     </div>
                                 </div>
-                                <div className="flex gap-2 ml-4 opacity-0 group-hover/item:opacity-100 transition-opacity">
+                                <div className="flex gap-2 ml-4 opacity-100 md:opacity-0 md:group-hover/item:opacity-100 transition-opacity">
                                     <button
                                         onClick={() => setEditingTransaction(transaction)}
                                         className="p-2.5 hover:bg-blue-500/20 rounded-lg transition-colors group/edit"

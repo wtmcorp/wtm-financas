@@ -36,10 +36,10 @@ export default function Home() {
 
     return (
         <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
-            <div className="max-w-7xl mx-auto space-y-12">
+            <div className="max-w-7xl mx-auto space-y-8 md:space-y-12">
 
                 {/* Command Center Header */}
-                <header className="reveal relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e] border border-white/10 p-8 md:p-12 shadow-2xl">
+                <header className="reveal relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e] border border-white/10 p-6 md:p-12 shadow-2xl">
                     <div className="absolute top-0 right-0 p-12 opacity-10">
                         <Crown size={200} className="text-primary rotate-12" />
                     </div>
@@ -53,10 +53,10 @@ export default function Home() {
                         </div>
 
                         <div className="space-y-2">
-                            <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
+                            <h1 className="text-3xl md:text-6xl font-black text-white tracking-tighter">
                                 {greeting}, <span className="gradient-text">{user?.name?.split(" ")[0] || "Comandante"}</span>
                             </h1>
-                            <p className="text-gray-400 text-lg max-w-2xl font-medium leading-relaxed flex items-center gap-2">
+                            <p className="text-gray-400 text-base md:text-lg max-w-2xl font-medium leading-relaxed flex items-center gap-2">
                                 <Sparkles size={16} className="text-yellow-500" />
                                 "{quote}"
                             </p>

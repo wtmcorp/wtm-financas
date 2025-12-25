@@ -26,11 +26,11 @@ const BalanceCard = () => {
     };
 
     return (
-        <div className="card-premium p-8 group">
-            <div className="flex justify-between items-start mb-8">
+        <div className="card-premium p-6 md:p-8 group">
+            <div className="flex justify-between items-start mb-6 md:mb-8">
                 <div className="space-y-1">
                     <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Saldo Total</p>
-                    <h3 className="text-4xl font-black text-white tracking-tighter reveal">
+                    <h3 className="text-3xl md:text-4xl font-black text-white tracking-tighter reveal">
                         {formatCurrency(balance)}
                     </h3>
                 </div>
