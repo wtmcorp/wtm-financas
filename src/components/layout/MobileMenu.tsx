@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import {
     Menu, X, Home, CreditCard, Wrench, User, LogOut,
-    Heart, DollarSign, TrendingUp
+    Heart, DollarSign, TrendingUp, Sparkles
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -35,6 +35,7 @@ export default function MobileMenu() {
         { href: "/dashboard", icon: Home, label: "Visão Geral" },
         { href: "/cards", icon: CreditCard, label: "Arsenal de Cartões" },
         { href: "/tools", icon: Wrench, label: "Ferramentas & Calculadoras" },
+        { href: "/ai-tools", icon: Sparkles, label: "I.As Úteis" },
         { href: "/invest", icon: TrendingUp, label: "Investimentos" },
         { href: "/debts", icon: DollarSign, label: "Gestão de Dívidas" },
         { href: "/private", icon: Heart, label: "Desafio Privado" },
@@ -46,8 +47,8 @@ export default function MobileMenu() {
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={`p-2 rounded-lg border transition-all ${isOpen
-                        ? "text-primary border-primary bg-primary/10"
-                        : "text-gray-400 border-white/10 hover:border-white/30 hover:text-white"
+                    ? "text-primary border-primary bg-primary/10"
+                    : "text-gray-400 border-white/10 hover:border-white/30 hover:text-white"
                     }`}
                 aria-label="Abrir menu"
             >
@@ -66,8 +67,8 @@ export default function MobileMenu() {
                                 href={item.href}
                                 onClick={() => setIsOpen(false)}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all border ${isActive
-                                        ? "bg-primary/10 text-primary border-primary/20 font-bold"
-                                        : "text-gray-400 border-transparent hover:bg-white/5 hover:text-white"
+                                    ? "bg-primary/10 text-primary border-primary/20 font-bold"
+                                    : "text-gray-400 border-transparent hover:bg-white/5 hover:text-white"
                                     }`}
                             >
                                 <item.icon size={18} />

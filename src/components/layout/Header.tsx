@@ -27,6 +27,7 @@ export default function Header() {
                             { name: "Dashboard", href: "/" },
                             { name: "Cartões", href: "/cards" },
                             { name: "Ferramentas", href: "/tools" },
+                            { name: "I.As Úteis", href: "/ai-tools" },
                             { name: "Desafio", href: "/private" },
                             { name: "Aprenda", href: "/learn" },
                             { name: "Perfil", href: "/dashboard" },

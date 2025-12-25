@@ -31,9 +31,9 @@ export const Tooltip = ({ text, children, position = 'top' }: TooltipProps) => {
                         {text}
                     </p>
                     <div className={`absolute w-2 h-2 bg-black border-r border-b border-white/20 rotate-45 ${position === 'top' ? 'top-full left-1/2 -translate-x-1/2 -translate-y-1/2' :
-                            position === 'bottom' ? 'bottom-full left-1/2 -translate-x-1/2 translate-y-1/2' :
-                                position === 'left' ? 'left-full top-1/2 -translate-x-1/2 -translate-y-1/2' :
-                                    'right-full top-1/2 translate-x-1/2 -translate-y-1/2'
+                        position === 'bottom' ? 'bottom-full left-1/2 -translate-x-1/2 translate-y-1/2' :
+                            position === 'left' ? 'left-full top-1/2 -translate-x-1/2 -translate-y-1/2' :
+                                'right-full top-1/2 translate-x-1/2 -translate-y-1/2'
                         }`} />
                 </div>
             )}
