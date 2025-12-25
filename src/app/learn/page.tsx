@@ -34,7 +34,17 @@ export default function LearnPage() {
                             <h3>2. Ativos vs Passivos</h3>
                             <p>Ativos colocam dinheiro no seu bolso (ações, imóveis de aluguel). Passivos tiram dinheiro (carro caro, assinaturas não usadas). Foque em acumular ativos.</p>
                         </div>
-                    )
+                    ),
+                    quiz: {
+                        question: "O que é um Ativo financeiro?",
+                        options: [
+                            "Algo que tira dinheiro do seu bolso (ex: carro)",
+                            "Algo que coloca dinheiro no seu bolso (ex: ações)",
+                            "Qualquer bem que você possui",
+                            "Dinheiro guardado embaixo do colchão"
+                        ],
+                        correctAnswer: 1
+                    }
                 },
                 {
                     id: "budget",
@@ -42,7 +52,17 @@ export default function LearnPage() {
                     duration: "15 min",
                     type: "article" as const,
                     completed: true,
-                    content: <p>Conteúdo sobre como criar um orçamento que funciona...</p>
+                    content: <p>Conteúdo sobre como criar um orçamento que funciona...</p>,
+                    quiz: {
+                        question: "Qual a regra recomendada para divisão de renda?",
+                        options: [
+                            "50-30-20 (Necessidades, Desejos, Investimentos)",
+                            "80-20 (Gastos, Investimentos)",
+                            "100-0 (Gastar tudo)",
+                            "60-40 (Necessidades, Lazer)"
+                        ],
+                        correctAnswer: 0
+                    }
                 },
                 {
                     id: "emergency",
@@ -86,7 +106,17 @@ export default function LearnPage() {
                     duration: "15 min",
                     type: "article" as const,
                     completed: true,
-                    content: <p>A sopa de letrinhas explicada de forma simples...</p>
+                    content: <p>A sopa de letrinhas explicada de forma simples...</p>,
+                    quiz: {
+                        question: "O que acontece com a Renda Fixa quando a Selic sobe?",
+                        options: [
+                            "Ela rende menos",
+                            "Ela rende mais",
+                            "Não muda nada",
+                            "Ela perde valor"
+                        ],
+                        correctAnswer: 1
+                    }
                 },
                 {
                     id: "tesouro",
@@ -104,10 +134,87 @@ export default function LearnPage() {
             description: "Torne-se sócio das maiores empresas do Brasil e do mundo. Aprenda a analisar e escolher ações.",
             icon: TrendingUp,
             level: "Intermediário" as const,
-            progress: 0,
-            totalLessons: 8,
-            completedLessons: 0,
-            lessons: []
+            progress: 10,
+            totalLessons: 4,
+            completedLessons: 1,
+            lessons: [
+                {
+                    id: "stocks-intro",
+                    title: "O que é uma Ação?",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: true,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Uma ação é a menor fração do capital social de uma empresa. Ao comprar uma ação, você se torna sócio dela, participando dos seus lucros (dividendos) e riscos.</p>
+                            <h3>Tipos de Ações</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Ordinárias (ON - Final 3):</strong> Dão direito a voto nas assembleias. Ex: PETR3, VALE3.</li>
+                                <li><strong>Preferenciais (PN - Final 4):</strong> Têm preferência no recebimento de dividendos, mas sem voto. Ex: PETR4, ITUB4.</li>
+                                <li><strong>Units (Final 11):</strong> Pacotes com ações ON e PN misturadas. Ex: TAEE11.</li>
+                            </ul>
+                            <h3>Como ganho dinheiro?</h3>
+                            <p>1. <strong>Valorização:</strong> Comprar barato e vender caro.</p>
+                            <p>2. <strong>Dividendos:</strong> Parte do lucro da empresa distribuída aos acionistas (isento de IR).</p>
+                        </div>
+                    ),
+                    quiz: {
+                        question: "Qual tipo de ação dá direito a voto nas assembleias?",
+                        options: [
+                            "Preferenciais (PN)",
+                            "Ordinárias (ON)",
+                            "Units",
+                            "Fundos Imobiliários"
+                        ],
+                        correctAnswer: 1
+                    }
+                },
+                {
+                    id: "analysis",
+                    title: "Análise Fundamentalista Básica",
+                    duration: "20 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Não compre ações como se fosse loteria. Analise os fundamentos da empresa.</p>
+                            <h3>Principais Indicadores</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>P/L (Preço sobre Lucro):</strong> Em quantos anos o lucro da empresa paga o preço da ação. Quanto menor, "mais barata" (teoricamente).</li>
+                                <li><strong>P/VP (Preço sobre Valor Patrimonial):</strong> Quanto o mercado paga pelo patrimônio líquido. Abaixo de 1.0 indica desconto.</li>
+                                <li><strong>Dividend Yield (DY):</strong> Quanto a ação pagou de proventos nos últimos 12 meses em relação ao preço atual.</li>
+                                <li><strong>ROE (Retorno sobre Patrimônio):</strong> Mede a eficiência da empresa em gerar lucro com o dinheiro dos sócios.</li>
+                            </ul>
+                        </div>
+                    ),
+                    quiz: {
+                        question: "O que indica um P/VP abaixo de 1.0?",
+                        options: [
+                            "A empresa está cara",
+                            "A empresa está sendo negociada abaixo do seu valor patrimonial (desconto)",
+                            "A empresa vai falir",
+                            "A empresa paga muitos dividendos"
+                        ],
+                        correctAnswer: 1
+                    }
+                },
+                {
+                    id: "home-broker",
+                    title: "Operando o Home Broker",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: <p>Guia prático de como enviar ordens de compra e venda...</p>
+                },
+                {
+                    id: "risks",
+                    title: "Gestão de Risco",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: <p>Diversificação, Stop Loss e como não perder tudo...</p>
+                }
+            ]
         },
         {
             id: "fiis",
@@ -116,9 +223,64 @@ export default function LearnPage() {
             icon: Coins,
             level: "Intermediário" as const,
             progress: 0,
-            totalLessons: 5,
+            totalLessons: 3,
             completedLessons: 0,
-            lessons: []
+            lessons: [
+                {
+                    id: "fiis-intro",
+                    title: "A Mágica dos Fundos Imobiliários",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>FIIs são fundos que investem no mercado imobiliário. Eles são obrigados por lei a distribuir 95% do lucro semestral aos cotistas (na prática, pagam todo mês).</p>
+                            <h3>Vantagens sobre Imóveis Físicos</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Liquidez:</strong> Venda suas cotas em segundos na bolsa.</li>
+                                <li><strong>Acessibilidade:</strong> Comece com R$ 10,00 ou R$ 100,00.</li>
+                                <li><strong>Isenção de IR:</strong> Os rendimentos mensais são isentos para PF.</li>
+                                <li><strong>Diversificação:</strong> Com uma cota, você pode ser dono de pedaços de 10 shoppings ou 20 galpões logísticos.</li>
+                            </ul>
+                        </div>
+                    ),
+                    quiz: {
+                        question: "Qual a porcentagem mínima do lucro que os FIIs devem distribuir?",
+                        options: [
+                            "50%",
+                            "80%",
+                            "95%",
+                            "100%"
+                        ],
+                        correctAnswer: 2
+                    }
+                },
+                {
+                    id: "types-fiis",
+                    title: "Tijolo vs Papel",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <h3>FIIs de Tijolo</h3>
+                            <p>Investem em imóveis reais: Shoppings, Galpões Logísticos, Lajes Corporativas, Hospitais. Ganham com aluguel e valorização do imóvel.</p>
+                            <h3>FIIs de Papel</h3>
+                            <p>Investem em dívida imobiliária (CRI, LCI). Funcionam como uma "Renda Fixa turbinada". Pagam dividendos altos, mas não costumam valorizar tanto a cota.</p>
+                            <h3>Fiagro</h3>
+                            <p>Primos dos FIIs, mas focados no Agronegócio. Investem em terras ou dívidas de produtores rurais.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "analysis-fiis",
+                    title: "Como escolher um FII?",
+                    duration: "18 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: <p>Vacância, Cap Rate, Localização e Qualidade dos inquilinos...</p>
+                }
+            ]
         },
         {
             id: "global",
