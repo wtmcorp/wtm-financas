@@ -289,10 +289,71 @@ export default function LearnPage() {
             icon: Globe,
             level: "Avançado" as const,
             progress: 0,
-            totalLessons: 4,
+            totalLessons: 3,
             completedLessons: 0,
-            isLocked: true,
-            lessons: []
+            lessons: [
+                {
+                    id: "why-global",
+                    title: "Por que investir no exterior?",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>O Brasil representa menos de 1% da economia global. Ficar restrito aqui é correr o "Risco Brasil" desnecessariamente.</p>
+                            <h3>Motivos para dolarizar:</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Moeda Forte:</strong> O Dólar é a reserva de valor do mundo. O Real perde poder de compra historicamente.</li>
+                                <li><strong>Maiores Empresas:</strong> Apple, Microsoft, Google, Amazon não estão na B3 (diretamente).</li>
+                                <li><strong>Proteção:</strong> Em crises locais, o dólar costuma subir, protegendo seu patrimônio.</li>
+                            </ul>
+                        </div>
+                    ),
+                    quiz: {
+                        question: "Qual a principal vantagem de investir no exterior?",
+                        options: [
+                            "Pagar mais impostos",
+                            "Acessar moedas fortes e diluir o risco país",
+                            "É mais fácil que investir no Brasil",
+                            "Garantia de lucro rápido"
+                        ],
+                        correctAnswer: 1
+                    }
+                },
+                {
+                    id: "stocks-reits",
+                    title: "Stocks e REITs",
+                    duration: "20 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <h3>Stocks (Ações Americanas)</h3>
+                            <p>Funcionam como as ações no Brasil, mas em um mercado muito mais maduro e líquido. Você vira sócio das marcas que usa todo dia.</p>
+                            <h3>REITs (Real Estate Investment Trusts)</h3>
+                            <p>Os "primos" dos FIIs. São empresas que operam imóveis nos EUA. Diferente dos FIIs, eles podem se alavancar (tomar dívida) para crescer, o que aumenta o potencial de retorno (e o risco).</p>
+                        </div>
+                    ),
+                    quiz: {
+                        question: "O que são REITs?",
+                        options: [
+                            "Ações de tecnologia",
+                            "Títulos de dívida do governo americano",
+                            "Empresas que operam imóveis nos EUA (semelhantes a FIIs)",
+                            "Criptomoedas"
+                        ],
+                        correctAnswer: 2
+                    }
+                },
+                {
+                    id: "how-to-global",
+                    title: "Como começar?",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: <p>BDRs (na B3) vs Conta no Exterior (Avenue, Nomad, IBKR). Prós e contras de cada caminho...</p>
+                }
+            ]
         },
         {
             id: "crypto",
@@ -301,10 +362,83 @@ export default function LearnPage() {
             icon: BrainCircuit,
             level: "Avançado" as const,
             progress: 0,
-            totalLessons: 6,
+            totalLessons: 4,
             completedLessons: 0,
-            isLocked: true,
-            lessons: []
+            lessons: [
+                {
+                    id: "bitcoin",
+                    title: "Bitcoin: O Ouro Digital",
+                    duration: "25 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>O Bitcoin (BTC) é a primeira moeda digital descentralizada e escassa do mundo. Não depende de governos ou bancos.</p>
+                            <h3>Características:</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Descentralização:</strong> A rede roda em milhares de computadores pelo mundo.</li>
+                                <li><strong>Escassez:</strong> Só existirão 21 milhões de unidades. Impossível "imprimir" mais.</li>
+                                <li><strong>Segurança:</strong> A Blockchain do Bitcoin nunca foi hackeada.</li>
+                            </ul>
+                        </div>
+                    ),
+                    quiz: {
+                        question: "Qual o limite máximo de Bitcoins que existirão?",
+                        options: [
+                            "Infinito",
+                            "100 milhões",
+                            "21 milhões",
+                            "Depende do governo"
+                        ],
+                        correctAnswer: 2
+                    }
+                },
+                {
+                    id: "ethereum",
+                    title: "Ethereum e Smart Contracts",
+                    duration: "20 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Se o Bitcoin é o ouro digital, o Ethereum é o "petróleo" da internet descentralizada. Ele permite criar programas (Smart Contracts) que rodam sozinhos.</p>
+                            <p>É a base para NFTs, DeFi (Finanças Descentralizadas) e o Metaverso.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "security-crypto",
+                    title: "Segurança: Not Your Keys...",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <h3>Hot Wallets vs Cold Wallets</h3>
+                            <p>Deixar cripto na corretora é arriscado. O ideal é fazer a auto-custódia.</p>
+                            <p><strong>Frase de ouro:</strong> "Not your keys, not your coins" (Sem suas chaves, sem suas moedas).</p>
+                        </div>
+                    ),
+                    quiz: {
+                        question: "Onde é o lugar mais seguro para guardar criptomoedas a longo prazo?",
+                        options: [
+                            "Na corretora (Exchange)",
+                            "Em uma Cold Wallet (Carteira Fria/Hardware)",
+                            "No banco",
+                            "No email"
+                        ],
+                        correctAnswer: 1
+                    }
+                },
+                {
+                    id: "defi",
+                    title: "DeFi: O Banco sem Banqueiro",
+                    duration: "18 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: <p>Como emprestar dinheiro e ganhar juros, fazer trocas e seguros sem intermediários...</p>
+                }
+            ]
         }
     ];
 
