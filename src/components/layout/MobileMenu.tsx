@@ -61,7 +61,7 @@ export default function MobileMenu() {
                 />
 
                 {/* Menu Content */}
-                <div className={`absolute top-0 right-0 w-[85%] max-w-[320px] h-full bg-[#0a0a0a] border-l border-white/10 shadow-2xl transition-transform duration-300 ease-out flex flex-col ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
+                <div className={`absolute top-0 right-0 w-[85%] max-w-[320px] h-full bg-black border-l border-white/10 shadow-2xl transition-transform duration-300 ease-out flex flex-col z-[110] ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
 
                     {/* Header */}
                     <div className="p-6 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-white/5 to-transparent">
