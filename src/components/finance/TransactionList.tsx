@@ -5,7 +5,11 @@ import { useFinance } from '@/contexts/FinanceContext';
 import { Search, Trash2, Edit, TrendingUp, TrendingDown, Filter, List } from 'lucide-react';
 import TransactionModal from './TransactionModal';
 
-const TransactionList = () => {
+interface TransactionListProps {
+    limit?: number;
+}
+
+const TransactionList = ({ limit }: TransactionListProps) => {
     const { transactions, deleteTransaction } = useFinance();
     const [searchTerm, setSearchTerm] = useState('');
     const [filterType, setFilterType] = useState<'all' | 'income' | 'expense'>('all');
@@ -18,7 +22,7 @@ const TransactionList = () => {
             const matchesType = filterType === 'all' || t.type === filterType;
             return matchesSearch && matchesType;
         })
-        .slice(0, 10);
+        .slice(0, limit || 10);
 
     const formatCurrency = (value: number) => {
         return new Intl.NumberFormat('pt-BR', {
@@ -56,8 +60,8 @@ const TransactionList = () => {
                                 key={btn.value}
                                 onClick={() => setFilterType(btn.value)}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filterType === btn.value
-                                        ? `bg-gradient-to-r ${btn.gradient} text-white shadow-lg`
-                                        : 'bg-gray-800/50 text-gray-400 hover:bg-gray-800'
+                                    ? `bg-gradient-to-r ${btn.gradient} text-white shadow-lg`
+                                    : 'bg-gray-800/50 text-gray-400 hover:bg-gray-800'
                                     }`}
                             >
                                 {btn.label}
@@ -98,8 +102,8 @@ const TransactionList = () => {
                             >
                                 <div className="flex items-center gap-4 flex-1">
                                     <div className={`p-3 rounded-xl ${transaction.type === 'income'
-                                            ? 'bg-gradient-to-br from-emerald-500/20 to-green-600/20'
-                                            : 'bg-gradient-to-br from-red-500/20 to-orange-600/20'
+                                        ? 'bg-gradient-to-br from-emerald-500/20 to-green-600/20'
+                                        : 'bg-gradient-to-br from-red-500/20 to-orange-600/20'
                                         }`}>
                                         {transaction.type === 'income' ? (
                                             <TrendingUp className="w-5 h-5 text-emerald-400" />
@@ -122,8 +126,8 @@ const TransactionList = () => {
                                     </div>
                                     <div className="text-right">
                                         <p className={`font-bold text-xl ${transaction.type === 'income'
-                                                ? 'text-emerald-400'
-                                                : 'text-red-400'
+                                            ? 'text-emerald-400'
+                                            : 'text-red-400'
                                             }`}>
                                             {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}
                                         </p>

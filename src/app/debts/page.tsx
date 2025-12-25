@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, Plus, Trash2, CheckCircle, TrendingDown, Info } from "lucide-react";
+import { AlertTriangle, Plus, Trash2, CheckCircle, TrendingDown, Info, ShieldAlert, Target, ArrowUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import DebtPayoffCalculator from "@/components/tools/DebtPayoffCalculator";
@@ -18,11 +18,11 @@ interface Debt {
 }
 
 const debtCategories = {
-    credit_card: { name: "Cartão de Crédito", color: "bg-red-500", icon: "💳", avgRate: 14.5 },
-    overdraft: { name: "Cheque Especial", color: "bg-orange-500", icon: "🏦", avgRate: 8.2 },
-    loan: { name: "Empréstimo Pessoal", color: "bg-yellow-500", icon: "💰", avgRate: 4.5 },
-    financing: { name: "Financiamento", color: "bg-blue-500", icon: "🏠", avgRate: 1.2 },
-    other: { name: "Outros", color: "bg-gray-500", icon: "📋", avgRate: 5.0 },
+    credit_card: { name: "Cartão de Crédito", color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", icon: "💳" },
+    overdraft: { name: "Cheque Especial", color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20", icon: "🏦" },
+    loan: { name: "Empréstimo", color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", icon: "💰" },
+    financing: { name: "Financiamento", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", icon: "🏠" },
+    other: { name: "Outros", color: "text-gray-400", bg: "bg-gray-500/10", border: "border-gray-500/20", icon: "📋" },
 };
 
 export default function DebtsPage() {
@@ -78,148 +78,186 @@ export default function DebtsPage() {
     const sortedByAmount = [...debts].sort((a, b) => a.amount - b.amount);
 
     return (
-        <div className="p-6 space-y-6">
-            <div className="mb-6">
-                <h1 className="text-2xl font-bold text-primary flex items-center gap-2">
-                    <AlertTriangle size={28} />
-                    Gerenciador de Dívidas
-                </h1>
-                <p className="text-sm text-gray-400 mt-1">
-                    Organize suas dívidas e crie um plano para quitá-las
-                </p>
-            </div>
+        <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
+            <div className="max-w-7xl mx-auto space-y-12">
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Tooltip text="Soma de todas as suas dívidas cadastradas. Este é o valor total que você deve hoje.">
-                    <div className="bg-gradient-to-br from-red-500/20 to-red-500/5 border border-red-500/30 rounded-xl p-6">
-                        <div className="text-red-400 text-sm font-medium mb-2">Total em Dívidas</div>
-                        <div className="text-3xl font-bold text-white">R$ {totalDebt.toFixed(2)}</div>
+                {/* Header */}
+                <header className="reveal space-y-6 text-center md:text-left">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 mb-4">
+                        <ShieldAlert size={16} className="text-red-500" />
+                        <span className="text-sm font-medium text-red-400">Sala de Guerra</span>
                     </div>
-                </Tooltip>
+                    <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
+                        Gestão de <span className="gradient-text text-red-400">Dívidas</span>
+                    </h1>
+                    <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
+                        Não ignore o problema. Ataque-o. Organize, priorize e elimine suas dívidas com estratégia militar.
+                    </p>
+                </header>
 
-                <Tooltip text="O valor mínimo que você precisa pagar este mês para evitar o inadimplemento total.">
-                    <div className="bg-gradient-to-br from-yellow-500/20 to-yellow-500/5 border border-yellow-500/30 rounded-xl p-6">
-                        <div className="text-yellow-400 text-sm font-medium mb-2">Pagamento Mínimo Total</div>
-                        <div className="text-3xl font-bold text-white">R$ {totalMinimum.toFixed(2)}</div>
-                    </div>
-                </Tooltip>
-
-                <div className="bg-gradient-to-br from-blue-500/20 to-blue-500/5 border border-blue-500/30 rounded-xl p-6">
-                    <div className="text-blue-400 text-sm font-medium mb-2">Número de Dívidas</div>
-                    <div className="text-3xl font-bold text-white">{debts.length}</div>
-                </div>
-            </div>
-
-            <div className="bg-card border border-white/10 rounded-xl p-6">
-                <h3 className="text-lg font-bold text-white mb-4">Adicionar Dívida</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome da dívida" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-primary/50" />
-                    <select value={category} onChange={(e) => setCategory(e.target.value as keyof typeof debtCategories)} className="bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-primary/50">
-                        {Object.entries(debtCategories).map(([key, cat]) => (
-                            <option key={key} value={key}>{cat.icon} {cat.name}</option>
-                        ))}
-                    </select>
-                    <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Valor total (R$)" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-primary/50" />
-                    <input type="number" value={interestRate} onChange={(e) => setInterestRate(e.target.value)} placeholder="Taxa de juros mensal (%)" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-primary/50" />
-                    <input type="number" value={minimumPayment} onChange={(e) => setMinimumPayment(e.target.value)} placeholder="Pagamento mínimo (R$)" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-primary/50" />
-                    <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-primary/50" />
-                </div>
-                <button onClick={addDebt} className="w-full mt-4 bg-primary hover:bg-primary/90 text-black font-bold py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
-                    <Plus size={18} /> Adicionar Dívida
-                </button>
-            </div>
-
-            {debts.length > 0 && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="bg-card border border-white/10 rounded-xl p-6">
-                        <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                            <TrendingDown className="text-red-500" size={20} /> Método Avalanche
-                        </h3>
-                        <Tooltip text="O método Avalanche foca em quitar primeiro a dívida com os juros mais altos, economizando o máximo de dinheiro a longo prazo.">
-                            <div className="space-y-2">
-                                {sortedByRate.map((debt, index) => (
-                                    <div key={debt.id} className="bg-white/5 border border-white/10 rounded-lg p-3">
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-sm font-medium text-white">{index + 1}. {debt.name}</span>
-                                            <span className="text-sm font-bold text-red-400">{debt.interestRate}% a.m.</span>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </Tooltip>
-                    </div>
-
-                    <div className="bg-card border border-white/10 rounded-xl p-6">
-                        <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                            <CheckCircle className="text-green-500" size={20} /> Método Bola de Neve
-                        </h3>
-                        <Tooltip text="O método Bola de Neve foca em quitar primeiro as dívidas de menor valor para gerar vitórias rápidas e manter a motivação.">
-                            <div className="space-y-2">
-                                {sortedByAmount.map((debt, index) => (
-                                    <div key={debt.id} className="bg-white/5 border border-white/10 rounded-lg p-3">
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-sm font-medium text-white">{index + 1}. {debt.name}</span>
-                                            <span className="text-sm font-bold text-green-400">R$ {debt.amount.toFixed(2)}</span>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </Tooltip>
-                    </div>
-                </div>
-            )}
-
-            <div className="bg-card border border-white/10 rounded-xl p-6">
-                <h3 className="text-lg font-bold text-white mb-4">Suas Dívidas</h3>
-                <div className="space-y-3">
-                    {debts.length === 0 ? (
-                        <div className="text-center py-12">
-                            <CheckCircle size={64} className="mx-auto mb-4 text-green-500 opacity-20" />
-                            <p className="text-gray-400">Nenhuma dívida cadastrada! 🎉</p>
+                {/* KPI Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 reveal" style={{ animationDelay: '0.1s' }}>
+                    <div className="card-premium p-6 border-red-500/30 bg-gradient-to-br from-red-500/10 to-transparent">
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 bg-red-500/20 rounded-lg text-red-400"><AlertTriangle size={20} /></div>
+                            <span className="text-sm font-bold text-red-200 uppercase tracking-wider">Dívida Total</span>
                         </div>
-                    ) : (
-                        debts.map(debt => (
-                            <motion.div key={debt.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="bg-white/5 border border-white/10 rounded-lg p-4">
-                                <div className="flex items-start justify-between">
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <span className="text-base font-bold text-white">{debt.name}</span>
-                                            <span className="text-xs bg-white/10 px-2 py-0.5 rounded-full text-gray-400">
-                                                {debtCategories[debt.category].icon} {debtCategories[debt.category].name}
-                                            </span>
-                                        </div>
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-                                            <div><span className="text-gray-500">Valor:</span><span className="text-red-400 font-bold ml-2">R$ {debt.amount.toFixed(2)}</span></div>
-                                            <div><span className="text-gray-500">Juros:</span><span className="text-yellow-400 font-bold ml-2">{debt.interestRate}% a.m.</span></div>
-                                            <div><span className="text-gray-500">Mínimo:</span><span className="text-white font-bold ml-2">R$ {debt.minimumPayment.toFixed(2)}</span></div>
-                                            {debt.dueDate && (
-                                                <div><span className="text-gray-500">Vencimento:</span><span className="text-white font-bold ml-2">{new Date(debt.dueDate).toLocaleDateString('pt-BR')}</span></div>
-                                            )}
-                                        </div>
+                        <div className="text-4xl font-black text-white">R$ {totalDebt.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+                    </div>
+
+                    <div className="card-premium p-6 border-yellow-500/30 bg-gradient-to-br from-yellow-500/10 to-transparent">
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 bg-yellow-500/20 rounded-lg text-yellow-400"><Target size={20} /></div>
+                            <span className="text-sm font-bold text-yellow-200 uppercase tracking-wider">Mínimo Mensal</span>
+                        </div>
+                        <div className="text-4xl font-black text-white">R$ {totalMinimum.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+                    </div>
+
+                    <div className="card-premium p-6 border-blue-500/30 bg-gradient-to-br from-blue-500/10 to-transparent">
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 bg-blue-500/20 rounded-lg text-blue-400"><Info size={20} /></div>
+                            <span className="text-sm font-bold text-blue-200 uppercase tracking-wider">Qtd. Dívidas</span>
+                        </div>
+                        <div className="text-4xl font-black text-white">{debts.length}</div>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 reveal" style={{ animationDelay: '0.2s' }}>
+
+                    {/* Add Debt Form */}
+                    <div className="card-premium p-8">
+                        <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                            <Plus className="text-primary" /> Nova Dívida
+                        </h3>
+                        <div className="space-y-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome (ex: Cartão Nubank)" className="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary/50 transition-all" />
+                                <select value={category} onChange={(e) => setCategory(e.target.value as keyof typeof debtCategories)} className="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary/50 transition-all appearance-none">
+                                    {Object.entries(debtCategories).map(([key, cat]) => (
+                                        <option key={key} value={key}>{cat.icon} {cat.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Valor Total (R$)" className="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary/50 transition-all" />
+                                <input type="number" value={interestRate} onChange={(e) => setInterestRate(e.target.value)} placeholder="Juros (% a.m.)" className="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary/50 transition-all" />
+                                <input type="number" value={minimumPayment} onChange={(e) => setMinimumPayment(e.target.value)} placeholder="Mínimo (R$)" className="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary/50 transition-all" />
+                            </div>
+                            <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary/50 transition-all" />
+
+                            <button onClick={addDebt} className="w-full py-4 bg-primary text-black font-bold rounded-xl hover:bg-primary/90 transition-all active:scale-95 shadow-lg shadow-primary/20">
+                                Adicionar ao Plano de Ataque
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Strategy Panel */}
+                    <div className="space-y-6">
+                        {debts.length > 0 ? (
+                            <>
+                                <div className="card-premium p-6 border-red-500/20">
+                                    <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                        <TrendingDown className="text-red-500" /> Prioridade: Avalanche (Matemático)
+                                    </h3>
+                                    <p className="text-xs text-gray-400 mb-4">Foque nestas dívidas primeiro para pagar menos juros.</p>
+                                    <div className="space-y-2">
+                                        {sortedByRate.slice(0, 3).map((debt, index) => (
+                                            <div key={debt.id} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5">
+                                                <div className="flex items-center gap-3">
+                                                    <span className="w-6 h-6 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-xs font-bold">{index + 1}</span>
+                                                    <span className="text-white font-medium">{debt.name}</span>
+                                                </div>
+                                                <span className="text-red-400 font-bold">{debt.interestRate}% a.m.</span>
+                                            </div>
+                                        ))}
                                     </div>
-                                    <button onClick={() => deleteDebt(debt.id)} className="text-gray-400 hover:text-red-500 transition-colors ml-4">
+                                </div>
+
+                                <div className="card-premium p-6 border-green-500/20">
+                                    <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                        <CheckCircle className="text-green-500" /> Prioridade: Bola de Neve (Psicológico)
+                                    </h3>
+                                    <p className="text-xs text-gray-400 mb-4">Quite estas primeiro para ganhar confiança rápido.</p>
+                                    <div className="space-y-2">
+                                        {sortedByAmount.slice(0, 3).map((debt, index) => (
+                                            <div key={debt.id} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5">
+                                                <div className="flex items-center gap-3">
+                                                    <span className="w-6 h-6 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center text-xs font-bold">{index + 1}</span>
+                                                    <span className="text-white font-medium">{debt.name}</span>
+                                                </div>
+                                                <span className="text-green-400 font-bold">R$ {debt.amount.toLocaleString()}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="h-full card-premium flex flex-col items-center justify-center p-8 text-center space-y-4">
+                                <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center text-green-500">
+                                    <CheckCircle size={40} />
+                                </div>
+                                <h3 className="text-xl font-bold text-white">Zona Livre de Dívidas</h3>
+                                <p className="text-gray-400">Você está limpo! Use a aba de Investimentos para multiplicar seu patrimônio.</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Debts List */}
+                {debts.length > 0 && (
+                    <div className="card-premium p-8 reveal" style={{ animationDelay: '0.3s' }}>
+                        <h3 className="text-xl font-bold text-white mb-6">Inventário de Dívidas</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {debts.map(debt => (
+                                <motion.div
+                                    key={debt.id}
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className={`relative p-6 rounded-2xl border ${debtCategories[debt.category].bg} ${debtCategories[debt.category].border}`}
+                                >
+                                    <button
+                                        onClick={() => deleteDebt(debt.id)}
+                                        className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors"
+                                    >
                                         <Trash2 size={18} />
                                     </button>
-                                </div>
-                            </motion.div>
-                        ))
-                    )}
-                </div>
-            </div>
 
-            <DebtPayoffCalculator />
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <span className="text-2xl">{debtCategories[debt.category].icon}</span>
+                                        <div>
+                                            <h4 className="font-bold text-white">{debt.name}</h4>
+                                            <span className={`text-xs font-bold uppercase tracking-wider ${debtCategories[debt.category].color}`}>
+                                                {debtCategories[debt.category].name}
+                                            </span>
+                                        </div>
+                                    </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-primary/10 border border-primary/30 rounded-xl p-6">
-                    <h3 className="text-lg font-bold text-primary mb-3">💡 Dicas de Ouro para Sair do Vermelho</h3>
-                    <ul className="space-y-3 text-sm text-gray-300">
-                        <li className="flex gap-2"><span className="text-primary font-bold">1.</span><span><strong>Negocie TUDO:</strong> Ligue para os credores no final do mês.</span></li>
-                        <li className="flex gap-2"><span className="text-primary font-bold">2.</span><span><strong>Troque a dívida:</strong> Troque juros altos por juros baixos.</span></li>
-                        <li className="flex gap-2"><span className="text-primary font-bold">3.</span><span><strong>Cancele serviços inúteis:</strong> Tarifas bancárias, assinaturas.</span></li>
-                        <li className="flex gap-2"><span className="text-primary font-bold">4.</span><span><strong>Venda o passivo:</strong> Venda o que não usa para quitar dívidas.</span></li>
-                    </ul>
+                                    <div className="space-y-3">
+                                        <div className="flex justify-between items-end">
+                                            <span className="text-xs text-gray-400 uppercase">Valor</span>
+                                            <span className="text-xl font-black text-white">R$ {debt.amount.toLocaleString()}</span>
+                                        </div>
+                                        <div className="flex justify-between items-end">
+                                            <span className="text-xs text-gray-400 uppercase">Juros</span>
+                                            <span className="text-sm font-bold text-red-400">{debt.interestRate}% a.m.</span>
+                                        </div>
+                                        {debt.dueDate && (
+                                            <div className="pt-3 mt-3 border-t border-white/5 flex items-center gap-2 text-xs text-gray-400">
+                                                <AlertTriangle size={12} />
+                                                Vence em: {new Date(debt.dueDate).toLocaleDateString('pt-BR')}
+                                            </div>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <div className="reveal" style={{ animationDelay: '0.4s' }}>
+                    <DebtPayoffCalculator />
                 </div>
-                <FinancialHacks />
             </div>
         </div>
     );
