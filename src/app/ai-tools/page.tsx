@@ -98,12 +98,36 @@ export default function AiToolsPage() {
             color: "text-pink-400"
         },
         {
+            name: "Krea.ai",
+            description: "Geração e aprimoramento de imagens em tempo real com alta fidelidade.",
+            category: "Imagem & Vídeo",
+            icon: ImageIcon,
+            url: "https://www.krea.ai",
+            color: "text-indigo-300"
+        },
+        {
             name: "Runway",
             description: "Ferramentas avançadas para edição e geração de vídeo com IA.",
             category: "Vídeo",
             icon: Video,
             url: "https://runwayml.com",
             color: "text-yellow-400"
+        },
+        {
+            name: "Luma Dream Machine",
+            description: "Crie vídeos realistas e de alta qualidade a partir de texto e imagens.",
+            category: "Vídeo",
+            icon: Video,
+            url: "https://lumalabs.ai/dream-machine",
+            color: "text-green-300"
+        },
+        {
+            name: "Pika",
+            description: "Plataforma de criação de vídeo que anima suas ideias.",
+            category: "Vídeo",
+            icon: Video,
+            url: "https://pika.art",
+            color: "text-purple-300"
         },
         {
             name: "Suno",
@@ -130,6 +154,14 @@ export default function AiToolsPage() {
             color: "text-gray-200"
         },
         {
+            name: "Descript",
+            description: "Edição de áudio e vídeo tão simples quanto editar um documento de texto.",
+            category: "Áudio & Vídeo",
+            icon: Mic,
+            url: "https://www.descript.com",
+            color: "text-blue-500"
+        },
+        {
             name: "Gamma",
             description: "Crie apresentações, documentos e sites bonitos em segundos.",
             category: "Produtividade",
@@ -146,12 +178,36 @@ export default function AiToolsPage() {
             color: "text-blue-300"
         },
         {
+            name: "Notion AI",
+            description: "Espaço de trabalho conectado com IA para notas e documentos.",
+            category: "Produtividade",
+            icon: Zap,
+            url: "https://www.notion.so/product/ai",
+            color: "text-gray-100"
+        },
+        {
             name: "Copy.ai",
             description: "Plataforma de IA para marketing e redação de vendas.",
             category: "Marketing",
             icon: Zap,
             url: "https://www.copy.ai",
             color: "text-lime-400"
+        },
+        {
+            name: "Jasper",
+            description: "Copiloto de IA para times de marketing empresarial.",
+            category: "Marketing",
+            icon: Zap,
+            url: "https://www.jasper.ai",
+            color: "text-purple-500"
+        },
+        {
+            name: "Canva Magic",
+            description: "Suíte de ferramentas de design com IA integrada.",
+            category: "Design",
+            icon: ImageIcon,
+            url: "https://www.canva.com/magic",
+            color: "text-cyan-400"
         },
         {
             name: "Hugging Face",
@@ -163,11 +219,35 @@ export default function AiToolsPage() {
         },
         {
             name: "Replit",
-            description: "IDE online com assistente de codificação IA integrado (Ghostwriter).",
+            description: "IDE online com assistente de codificação IA integrado.",
             category: "Dev",
             icon: Code,
             url: "https://replit.com",
             color: "text-orange-500"
+        },
+        {
+            name: "Cursor",
+            description: "O editor de código IA que entende todo o seu projeto.",
+            category: "Dev",
+            icon: Code,
+            url: "https://cursor.sh",
+            color: "text-blue-200"
+        },
+        {
+            name: "v0.dev",
+            description: "Gere interfaces de usuário (UI) React/Tailwind a partir de texto.",
+            category: "Dev & Design",
+            icon: Code,
+            url: "https://v0.dev",
+            color: "text-white"
+        },
+        {
+            name: "Synthesia",
+            description: "Crie vídeos com avatares de IA que falam qualquer texto.",
+            category: "Vídeo",
+            icon: Video,
+            url: "https://www.synthesia.io",
+            color: "text-green-500"
         }
     ];
 
