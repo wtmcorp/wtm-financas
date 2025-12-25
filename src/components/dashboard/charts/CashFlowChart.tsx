@@ -37,46 +37,62 @@ const CashFlowChart = () => {
                     >
                         <defs>
                             <linearGradient id="colorEntrada" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#10b981" stopOpacity={0.8} />
-                                <stop offset="100%" stopColor="#059669" stopOpacity={1} />
+                                <stop offset="0%" stopColor="#10b981" stopOpacity={0.9} />
+                                <stop offset="100%" stopColor="#059669" stopOpacity={0.6} />
                             </linearGradient>
                             <linearGradient id="colorSaida" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#ef4444" stopOpacity={0.8} />
-                                <stop offset="100%" stopColor="#dc2626" stopOpacity={1} />
+                                <stop offset="0%" stopColor="#ef4444" stopOpacity={0.9} />
+                                <stop offset="100%" stopColor="#dc2626" stopOpacity={0.6} />
                             </linearGradient>
+                            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="3" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.03)" />
                         <XAxis
                             dataKey="name"
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fill: '#9ca3af', fontSize: 12 }}
+                            tick={{ fill: '#6b7280', fontSize: 11, fontWeight: 600 }}
                         />
                         <YAxis
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fill: '#9ca3af', fontSize: 12 }}
+                            tick={{ fill: '#6b7280', fontSize: 11, fontWeight: 600 }}
                             tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
                         />
                         <Tooltip
-                            formatter={(value: number) => formatCurrency(value)}
-                            contentStyle={{
-                                backgroundColor: '#13131a',
-                                borderRadius: '12px',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-                                padding: '12px'
+                            cursor={{ fill: 'rgba(255, 255, 255, 0.03)' }}
+                            content={({ active, payload }) => {
+                                if (active && payload && payload.length) {
+                                    return (
+                                        <div className="glass p-4 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl animate-in zoom-in-95 duration-200">
+                                            <div className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">{payload[0].payload.name}</div>
+                                            <div className="space-y-2">
+                                                {payload.map((entry: any, index: number) => (
+                                                    <div key={index} className="flex items-center justify-between gap-8">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color === 'url(#colorEntrada)' ? '#10b981' : '#ef4444' }} />
+                                                            <span className="text-gray-300 text-sm font-medium">{entry.name}</span>
+                                                        </div>
+                                                        <span className="text-white font-bold">{formatCurrency(entry.value)}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                                return null;
                             }}
-                            labelStyle={{ color: '#f8f9fa', fontWeight: 600 }}
-                            itemStyle={{ color: '#d1d5db' }}
-                            cursor={{ fill: 'rgba(99, 102, 241, 0.1)' }}
                         />
                         <Legend
-                            wrapperStyle={{ color: '#d1d5db', fontSize: '13px' }}
+                            wrapperStyle={{ paddingTop: '20px' }}
                             iconType="circle"
+                            formatter={(value) => <span className="text-gray-400 text-xs font-bold uppercase tracking-wider ml-1">{value}</span>}
                         />
-                        <Bar dataKey="entrada" name="Entradas" fill="url(#colorEntrada)" radius={[8, 8, 0, 0]} />
-                        <Bar dataKey="saida" name="Saídas" fill="url(#colorSaida)" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="entrada" name="Entradas" fill="url(#colorEntrada)" radius={[6, 6, 0, 0]} style={{ filter: 'url(#glow)' }} />
+                        <Bar dataKey="saida" name="Saídas" fill="url(#colorSaida)" radius={[6, 6, 0, 0]} style={{ filter: 'url(#glow)' }} />
                     </BarChart>
                 </ResponsiveContainer>
             </div>

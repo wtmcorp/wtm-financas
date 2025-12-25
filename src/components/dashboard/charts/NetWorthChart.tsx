@@ -37,42 +37,57 @@ const NetWorthChart = () => {
                     >
                         <defs>
                             <linearGradient id="colorValor" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.4} />
-                                <stop offset="95%" stopColor="#6366f1" stopOpacity={0.05} />
+                                <stop offset="0%" stopColor="#6366f1" stopOpacity={0.6} />
+                                <stop offset="50%" stopColor="#6366f1" stopOpacity={0.2} />
+                                <stop offset="100%" stopColor="#6366f1" stopOpacity={0} />
                             </linearGradient>
+                            <filter id="glow-line" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="4" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.03)" />
                         <XAxis
                             dataKey="name"
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fill: '#9ca3af', fontSize: 12 }}
+                            tick={{ fill: '#6b7280', fontSize: 11, fontWeight: 600 }}
                         />
                         <YAxis
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fill: '#9ca3af', fontSize: 12 }}
+                            tick={{ fill: '#6b7280', fontSize: 11, fontWeight: 600 }}
                             tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
                         />
                         <Tooltip
-                            formatter={(value: number) => formatCurrency(value)}
-                            contentStyle={{
-                                backgroundColor: '#13131a',
-                                borderRadius: '12px',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-                                padding: '12px'
+                            content={({ active, payload }) => {
+                                if (active && payload && payload.length) {
+                                    return (
+                                        <div className="glass p-4 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl animate-in zoom-in-95 duration-200">
+                                            <div className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">{payload[0].payload.name}</div>
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+                                                <div className="text-2xl font-black text-white">
+                                                    {formatCurrency(payload[0].value as number)}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                                return null;
                             }}
-                            labelStyle={{ color: '#f8f9fa', fontWeight: 600 }}
-                            itemStyle={{ color: '#d1d5db' }}
                         />
                         <Area
                             type="monotone"
                             dataKey="valor"
                             stroke="#6366f1"
-                            strokeWidth={3}
+                            strokeWidth={4}
                             fillOpacity={1}
                             fill="url(#colorValor)"
+                            animationDuration={2000}
+                            style={{ filter: 'url(#glow-line)' }}
+                            dot={{ r: 4, fill: '#6366f1', strokeWidth: 2, stroke: '#13131a' }}
+                            activeDot={{ r: 6, fill: '#fff', stroke: '#6366f1', strokeWidth: 3 }}
                         />
                     </AreaChart>
                 </ResponsiveContainer>

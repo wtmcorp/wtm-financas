@@ -45,10 +45,22 @@ const ExpenseChart = () => {
                             <defs>
                                 {data.map((entry, index) => (
                                     <linearGradient key={`gradient-${index}`} id={`gradient-${index}`} x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stopColor={entry.color} stopOpacity={0.8} />
-                                        <stop offset="100%" stopColor={entry.color} stopOpacity={1} />
+                                        <stop offset="0%" stopColor={entry.color} stopOpacity={0.9} />
+                                        <stop offset="50%" stopColor={entry.color} stopOpacity={0.6} />
+                                        <stop offset="100%" stopColor={entry.color} stopOpacity={0.9} />
                                     </linearGradient>
                                 ))}
+                                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+                                    <feOffset dx="0" dy="4" result="offsetblur" />
+                                    <feComponentTransfer>
+                                        <feFuncA type="linear" slope="0.5" />
+                                    </feComponentTransfer>
+                                    <feMerge>
+                                        <feMergeNode />
+                                        <feMergeNode in="SourceGraphic" />
+                                    </feMerge>
+                                </filter>
                             </defs>
                             <Pie
                                 data={data}
@@ -56,33 +68,49 @@ const ExpenseChart = () => {
                                 cy="45%"
                                 innerRadius={70}
                                 outerRadius={110}
-                                paddingAngle={3}
+                                paddingAngle={5}
                                 dataKey="value"
+                                animationBegin={0}
+                                animationDuration={1500}
+                                stroke="none"
                             >
                                 {data.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={`url(#gradient-${index})`} stroke="#13131a" strokeWidth={2} />
+                                    <Cell
+                                        key={`cell-${index}`}
+                                        fill={`url(#gradient-${index})`}
+                                        style={{ filter: 'url(#shadow)', cursor: 'pointer', outline: 'none' }}
+                                        className="hover:opacity-80 transition-opacity"
+                                    />
                                 ))}
                             </Pie>
                             <Tooltip
-                                formatter={(value: number) => formatCurrency(value)}
-                                contentStyle={{
-                                    backgroundColor: '#13131a',
-                                    borderRadius: '12px',
-                                    border: '1px solid rgba(255,255,255,0.1)',
-                                    boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-                                    padding: '12px'
+                                content={({ active, payload }) => {
+                                    if (active && payload && payload.length) {
+                                        const data = payload[0].payload;
+                                        return (
+                                            <div className="glass p-4 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl animate-in zoom-in-95 duration-200">
+                                                <div className="flex items-center gap-3 mb-2">
+                                                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: data.color }} />
+                                                    <span className="text-white font-bold">{data.name}</span>
+                                                </div>
+                                                <div className="text-2xl font-black text-white">
+                                                    {formatCurrency(data.value)}
+                                                </div>
+                                            </div>
+                                        );
+                                    }
+                                    return null;
                                 }}
-                                labelStyle={{ color: '#f8f9fa', fontWeight: 600 }}
-                                itemStyle={{ color: '#d1d5db' }}
                             />
                             <Legend
                                 verticalAlign="bottom"
                                 height={36}
+                                iconType="circle"
                                 formatter={(value, entry: any) => {
                                     const percentage = ((entry.payload.value / data.reduce((sum, item) => sum + item.value, 0)) * 100).toFixed(1);
                                     return (
-                                        <span style={{ color: '#d1d5db', fontSize: '13px' }}>
-                                            {value} <span style={{ color: '#9ca3af' }}>({percentage}%)</span>
+                                        <span className="text-gray-400 text-xs font-bold uppercase tracking-wider ml-2">
+                                            {value} <span className="text-primary/60">{percentage}%</span>
                                         </span>
                                     );
                                 }}

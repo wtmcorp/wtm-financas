@@ -449,51 +449,77 @@ export default function LearnPage() {
             <div className="max-w-7xl mx-auto space-y-12">
 
                 {/* Header */}
-                <header className="reveal space-y-6 text-center md:text-left">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
-                        <GraduationCap size={16} className="text-primary" />
-                        <span className="text-sm font-medium text-primary">Wtm Academy</span>
+                <header className="reveal space-y-6 text-center md:text-left relative p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5 overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -mr-32 -mt-32 animate-pulse-slow" />
+
+                    <div className="relative z-10">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
+                            <GraduationCap size={16} className="text-primary animate-bounce" />
+                            <span className="text-xs font-bold text-primary uppercase tracking-widest">Wtm Academy</span>
+                        </div>
+                        <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-none mb-6">
+                            Domine o <br />
+                            <span className="gradient-text">Jogo do Dinheiro</span>
+                        </h1>
+                        <p className="text-gray-400 text-lg max-w-2xl leading-relaxed font-medium">
+                            Educação financeira não é sobre economizar cafezinho. É sobre <span className="text-white">liberdade</span>. Escolha sua trilha e comece a evoluir seu patrimônio hoje.
+                        </p>
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
-                        Domine o <span className="gradient-text">Jogo do Dinheiro</span>
-                    </h1>
-                    <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
-                        Educação financeira não é sobre economizar cafezinho. É sobre liberdade. Escolha sua trilha e comece a evoluir.
-                    </p>
                 </header>
 
                 {/* Progress Overview */}
-                <div className="reveal card-premium p-8 bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e]" style={{ animationDelay: '0.1s' }}>
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-                        <div className="flex items-center gap-6">
-                            <div className="relative w-24 h-24">
-                                <svg className="w-full h-full transform -rotate-90">
-                                    <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-gray-800" />
-                                    <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-primary" strokeDasharray="251.2" strokeDashoffset="200" />
+                <div className="reveal card-premium p-10 bg-gradient-to-br from-[#0f0f13] via-[#13131a] to-[#1a1a2e] relative overflow-hidden" style={{ animationDelay: '0.1s' }}>
+                    <div className="absolute top-0 right-0 w-full h-full bg-[url('/noise.png')] opacity-[0.03] pointer-events-none" />
+                    <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/10 rounded-full blur-[80px] animate-pulse-slow" />
+
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+                        <div className="flex items-center gap-8">
+                            <div className="relative w-32 h-32 group">
+                                <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/30 transition-all duration-500" />
+                                <svg className="w-full h-full transform -rotate-90 relative z-10">
+                                    <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-white/5" />
+                                    <circle
+                                        cx="64"
+                                        cy="64"
+                                        r="56"
+                                        stroke="currentColor"
+                                        strokeWidth="12"
+                                        fill="transparent"
+                                        className="text-primary"
+                                        strokeDasharray="351.8"
+                                        strokeDashoffset="281.4"
+                                        strokeLinecap="round"
+                                        style={{ filter: 'drop-shadow(0 0 8px rgba(167,139,250,0.5))' }}
+                                    />
                                 </svg>
-                                <div className="absolute inset-0 flex items-center justify-center flex-col">
-                                    <span className="text-2xl font-black text-white">20%</span>
+                                <div className="absolute inset-0 flex items-center justify-center flex-col z-20">
+                                    <span className="text-3xl font-black text-white">20%</span>
                                 </div>
                             </div>
-                            <div>
-                                <h3 className="text-xl font-bold text-white">Nível 1: Aprendiz</h3>
-                                <p className="text-sm text-gray-400">Complete mais 3 módulos para avançar.</p>
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                    <BrainCircuit size={20} className="text-primary" />
+                                    <h3 className="text-2xl font-black text-white tracking-tight">Nível 1: Aprendiz</h3>
+                                </div>
+                                <p className="text-gray-400 font-medium">Complete mais <span className="text-white">3 módulos</span> para atingir o nível <span className="text-primary">Estrategista</span>.</p>
+                                <div className="w-full h-1.5 bg-white/5 rounded-full mt-4 overflow-hidden">
+                                    <div className="w-1/5 h-full bg-primary shadow-[0_0_10px_rgba(167,139,250,0.5)]" />
+                                </div>
                             </div>
                         </div>
 
-                        <div className="flex gap-4">
-                            <div className="text-center px-6 py-3 bg-white/5 rounded-2xl border border-white/5">
-                                <div className="text-2xl font-black text-white">6</div>
-                                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Aulas</div>
-                            </div>
-                            <div className="text-center px-6 py-3 bg-white/5 rounded-2xl border border-white/5">
-                                <div className="text-2xl font-black text-white">2</div>
-                                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Módulos</div>
-                            </div>
-                            <div className="text-center px-6 py-3 bg-white/5 rounded-2xl border border-white/5">
-                                <div className="text-2xl font-black text-white">0</div>
-                                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Certificados</div>
-                            </div>
+                        <div className="grid grid-cols-3 gap-6 w-full md:w-auto">
+                            {[
+                                { label: 'Aulas', value: '6', icon: BookOpen },
+                                { label: 'Módulos', value: '2', icon: TrendingUp },
+                                { label: 'Certificados', value: '0', icon: ShieldCheck }
+                            ].map((stat, i) => (
+                                <div key={i} className="text-center px-8 py-5 bg-white/[0.03] rounded-[2rem] border border-white/5 hover:bg-white/[0.06] transition-all group">
+                                    <stat.icon size={16} className="mx-auto mb-3 text-gray-500 group-hover:text-primary transition-colors" />
+                                    <div className="text-3xl font-black text-white mb-1">{stat.value}</div>
+                                    <div className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">{stat.label}</div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

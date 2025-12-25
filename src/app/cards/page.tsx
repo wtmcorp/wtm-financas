@@ -66,54 +66,59 @@ export default function CardsPage() {
             <div className="max-w-7xl mx-auto space-y-12">
 
                 {/* Header */}
-                <header className="reveal space-y-6 text-center md:text-left relative">
-                    <div className="absolute top-0 right-0 hidden md:block opacity-20">
-                        <Trophy size={120} className="text-primary rotate-12" />
+                <header className="reveal space-y-6 text-center md:text-left relative overflow-hidden p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5">
+                    <div className="absolute top-0 right-0 hidden md:block opacity-10 -mr-10 -mt-10">
+                        <Trophy size={240} className="text-primary rotate-12 animate-pulse-slow" />
                     </div>
 
-                    <div className="space-y-2">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-4">
-                            <Crown size={16} className="text-yellow-500" />
-                            <span className="text-sm font-medium text-gray-300">A Elite dos Cartões</span>
+                    {/* Animated background elements */}
+                    <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-[100px] animate-pulse-slow" />
+                    <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-indigo-500/10 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+
+                    <div className="relative z-10 space-y-4">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4 backdrop-blur-md">
+                            <Crown size={16} className="text-yellow-500 animate-bounce" />
+                            <span className="text-xs font-bold text-primary uppercase tracking-widest">A Elite dos Cartões</span>
                         </div>
-                        <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter">
-                            Arsenal de <span className="gradient-text">Crédito</span>
+                        <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-none">
+                            Arsenal de <br />
+                            <span className="gradient-text">Crédito</span>
                         </h1>
-                        <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
-                            Não é apenas plástico. É acesso, poder e estratégia. Escolha a ferramenta certa para construir seu império.
+                        <p className="text-gray-400 text-lg max-w-2xl leading-relaxed font-medium">
+                            Não é apenas plástico. É acesso, poder e estratégia. Escolha a ferramenta certa para construir seu império financeiro.
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap gap-4 pt-4">
+                    <div className="relative z-10 flex flex-wrap gap-4 pt-8">
                         <button
                             onClick={() => setShowWizard(true)}
-                            className="px-8 py-4 bg-primary text-black font-bold rounded-2xl hover:bg-primary/90 transition-all active:scale-95 flex items-center gap-2 shadow-[0_0_30px_rgba(167,139,250,0.3)]"
+                            className="px-8 py-4 bg-primary text-black font-black rounded-2xl hover:bg-primary/90 transition-all active:scale-95 flex items-center gap-3 shadow-[0_0_40px_rgba(167,139,250,0.4)] group"
                         >
-                            <Sparkles size={20} />
+                            <Sparkles size={20} className="group-hover:rotate-12 transition-transform" />
                             Encontrar Meu Cartão Ideal
                         </button>
-                        <div className="relative flex-1 max-w-md">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
+                        <div className="relative flex-1 max-w-md group">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-primary transition-colors" size={20} />
                             <input
                                 type="text"
                                 placeholder="Buscar por banco, nome ou benefício..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white focus:outline-none focus:border-primary/50 transition-all"
+                                className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white focus:outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all placeholder:text-gray-600"
                             />
                         </div>
                     </div>
                 </header>
 
                 {/* Categories */}
-                <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar reveal" style={{ animationDelay: '0.1s' }}>
+                <div className="flex gap-3 overflow-x-auto pb-4 no-scrollbar reveal" style={{ animationDelay: '0.1s' }}>
                     {(["all", "premium", "intermediário", "básico"] as const).map((cat) => (
                         <button
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
-                            className={`px-6 py-3 rounded-xl font-bold uppercase tracking-wider text-xs whitespace-nowrap transition-all ${activeCategory === cat
-                                ? "bg-white text-black"
-                                : "bg-white/5 text-gray-500 hover:bg-white/10 hover:text-white"
+                            className={`px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] whitespace-nowrap transition-all border ${activeCategory === cat
+                                ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                                : "bg-white/5 text-gray-500 border-white/5 hover:bg-white/10 hover:text-white hover:border-white/20"
                                 }`}
                         >
                             {cat === "all" ? "Todos os Cartões" : cat}

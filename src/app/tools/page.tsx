@@ -71,35 +71,38 @@ export default function ToolsPage() {
     return (
         <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
             <div className="max-w-7xl mx-auto space-y-12">
-                <header className="reveal space-y-6">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <header className="reveal space-y-8 p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -mr-32 -mt-32 animate-pulse-slow" />
+
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 relative z-10">
                         <div className="space-y-4">
-                            <div className="flex items-center gap-3">
-                                <div className="w-1.5 h-8 bg-primary rounded-full" />
-                                <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
-                                    Central de <span className="gradient-text">Utilidades</span>
+                            <div className="flex items-center gap-4">
+                                <div className="w-2 h-10 bg-primary rounded-full shadow-[0_0_15px_rgba(167,139,250,0.5)]" />
+                                <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none">
+                                    Central de <br />
+                                    <span className="gradient-text">Utilidades</span>
                                 </h1>
                             </div>
-                            <p className="text-gray-500 text-lg font-medium max-w-2xl">
-                                {tools.length} ferramentas inteligentes para simplificar suas decisões financeiras e produtividade diária.
+                            <p className="text-gray-400 text-lg font-medium max-w-2xl leading-relaxed">
+                                <span className="text-white font-black">{tools.length}</span> ferramentas inteligentes projetadas para simplificar suas decisões financeiras e maximizar sua produtividade.
                             </p>
                         </div>
 
-                        <div className="relative w-full md:w-80">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
+                        <div className="relative w-full md:w-96 group">
+                            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-primary transition-colors" size={22} />
                             <input
                                 type="text"
                                 placeholder="Buscar ferramenta..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white focus:border-primary/50 outline-none transition-all placeholder:text-gray-600 focus:bg-black/60"
+                                className="w-full bg-black/40 border border-white/10 rounded-[1.5rem] pl-14 pr-12 py-5 text-white focus:border-primary/50 outline-none transition-all placeholder:text-gray-600 focus:bg-black/60 focus:shadow-[0_0_30px_rgba(167,139,250,0.15)]"
                             />
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery("")}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+                                    className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors p-1 hover:bg-white/5 rounded-full"
                                 >
-                                    <X size={18} />
+                                    <X size={20} />
                                 </button>
                             )}
                         </div>
@@ -112,17 +115,24 @@ export default function ToolsPage() {
                             <button
                                 key={tool.id}
                                 onClick={() => setSelectedTool(tool.id)}
-                                className="card-premium p-6 text-left group hover:scale-[1.02]"
+                                className="card-premium p-8 text-left group hover:scale-[1.03] transition-all duration-300 relative overflow-hidden"
                             >
-                                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors border border-primary/20">
-                                    <tool.icon className="text-primary" size={24} />
+                                <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl -mr-12 -mt-12 group-hover:bg-primary/10 transition-colors" />
+
+                                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary/20 transition-all duration-500 border border-primary/20 group-hover:rotate-6 group-hover:scale-110">
+                                    <tool.icon className="text-primary" size={28} />
                                 </div>
-                                <h3 className="text-white font-black text-lg tracking-tight mb-2 group-hover:text-primary transition-colors">
+                                <h3 className="text-white font-black text-xl tracking-tight mb-3 group-hover:text-primary transition-colors">
                                     {tool.title}
                                 </h3>
-                                <p className="text-gray-500 text-sm font-medium leading-relaxed">
+                                <p className="text-gray-500 text-sm font-medium leading-relaxed group-hover:text-gray-400 transition-colors">
                                     {tool.desc}
                                 </p>
+
+                                <div className="mt-6 flex items-center gap-2 text-[10px] font-black text-primary uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                                    Abrir Ferramenta
+                                    <Wrench size={10} />
+                                </div>
                             </button>
                         ))}
                     </div>
