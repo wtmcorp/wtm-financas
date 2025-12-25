@@ -1,5 +1,6 @@
 import { Heart, Github, Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
+import Logo from "./Logo";
 
 export default function Footer() {
     return (
@@ -7,10 +8,7 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                     <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 bg-primary rounded flex items-center justify-center font-black text-black text-xs">W</div>
-                            <span className="text-white font-bold text-lg tracking-tighter">Wtm<span className="text-primary/80">Corps</span></span>
-                        </div>
+                        <Logo iconSize={24} textSize="text-lg" />
                         <p className="text-gray-500 text-sm leading-relaxed">
                             A nova era da gestão patrimonial. Inteligência, elegância e precisão em cada centavo.
                         </p>

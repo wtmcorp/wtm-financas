@@ -12,6 +12,8 @@ import {
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
+import Logo from "./Logo";
+
 export default function MobileMenu() {
     const [isOpen, setIsOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
@@ -80,12 +82,7 @@ export default function MobileMenu() {
                 >
                     {/* Header Area */}
                     <div className="px-6 py-8 flex items-center justify-between border-b border-white/10 bg-black shrink-0">
-                        <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center font-black text-black text-2xl shadow-lg shadow-primary/20">W</div>
-                            <span className="text-white font-black text-3xl tracking-tighter">
-                                Wtm<span className="text-primary/80">Corps</span>
-                            </span>
-                        </div>
+                        <Logo iconSize={40} textSize="text-3xl" />
                         <button
                             onClick={() => setIsOpen(false)}
                             className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-white hover:bg-white/10 transition-all active:scale-90 border border-white/10"
@@ -102,7 +99,7 @@ export default function MobileMenu() {
                                 href="/profile"
                                 className="flex items-center gap-5 p-6 rounded-[2rem] bg-gradient-to-br from-primary/20 to-transparent border border-primary/20 shadow-2xl"
                             >
-                                <div className="w-20 h-20 rounded-3xl bg-primary flex items-center justify-center text-black text-3xl font-black shadow-xl shadow-primary/30">
+                                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/40 to-primary/10 flex items-center justify-center text-white text-3xl font-black shadow-2xl border-2 border-primary/20">
                                     {user.name[0]}
                                 </div>
                                 <div className="flex-1">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { User, LogOut, LogIn, Heart } from "lucide-react";
 import MobileMenu from "./MobileMenu";
+import Logo from "./Logo";
 import MarketTicker from "../dashboard/MarketTicker";
 
 
@@ -14,11 +15,8 @@ export default function Header() {
         <header className="fixed top-0 left-0 right-0 glass z-50 border-b border-white/5">
             <div className="px-4 md:px-6 py-3 md:py-4">
                 <div className="flex justify-between items-center max-w-7xl mx-auto w-full">
-                    <Link href="/" className="group flex items-center gap-2 md:gap-3">
-                        <div className="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg md:rounded-xl flex items-center justify-center font-black text-black text-lg md:text-xl group-hover:rotate-6 transition-all duration-300 shadow-lg shadow-primary/20">W</div>
-                        <span className="text-white font-black text-xl md:text-2xl tracking-tighter group-hover:text-primary transition-colors">
-                            Wtm<span className="text-primary/80">Corps</span>
-                        </span>
+                    <Link href="/">
+                        <Logo />
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -54,7 +52,7 @@ export default function Header() {
                                             <p className="text-xs font-black text-white leading-none">{user.name.split(" ")[0]}</p>
                                             <p className="text-[9px] font-bold text-gray-500 uppercase tracking-tighter mt-1">Nível Platinum</p>
                                         </div>
-                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center text-black font-black border border-white/10 group-hover:scale-105 transition-transform">
+                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/40 to-primary/10 flex items-center justify-center text-white font-black border border-primary/20 group-hover:scale-105 transition-transform shadow-lg shadow-primary/10">
                                             {user.name[0]}
                                         </div>
                                     </Link>
