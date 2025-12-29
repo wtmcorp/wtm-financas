@@ -32,17 +32,22 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
 
         try {
             setIsLoading(true);
-            // Call our new API route that uses ms-edge-tts
+
+            // Add a timeout to the fetch request to prevent infinite loading UI
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
+
             const response = await fetch("/api/tts", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     text: cleanText(text),
-                    voice: "pt-BR-AntonioNeural", // High quality male voice
-                    pitch: "-5Hz", // Deeper voice for "Gojo" effect
-                    rate: "-5%"   // Slightly slower/calmer
+                    // Voice params are now handled in the API for consistency
                 }),
+                signal: controller.signal
             });
+
+            clearTimeout(timeoutId);
 
             if (!response.ok) throw new Error("Failed to generate audio");
 
@@ -61,13 +66,26 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
                 }
             };
 
-            setAudio(newAudio);
-            newAudio.play();
-            setIsPlaying(true);
+            newAudio.onerror = () => {
+                console.error("Audio playback error");
+                setIsPlaying(false);
+                setIsLoading(false);
+            };
+
+            // Wait for audio to be ready
+            newAudio.oncanplaythrough = () => {
+                setAudio(newAudio);
+                newAudio.play().catch(e => console.error("Play error:", e));
+                setIsPlaying(true);
+                setIsLoading(false);
+            };
+
+            // Fallback if canplaythrough doesn't fire immediately
+            newAudio.load();
+
         } catch (error) {
             console.error("Narrator error:", error);
             setIsPlaying(false);
-        } finally {
             setIsLoading(false);
         }
     };
