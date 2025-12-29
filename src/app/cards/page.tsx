@@ -44,18 +44,38 @@ export default function CardsPage() {
     };
 
     const getWizardResult = () => {
-        // Simple heuristic based on answers
-        let result = creditCardsData.filter(c => c.category === "básico"); // Default
+        let result = [...creditCardsData];
 
-        if (wizardAnswers.income === "high") {
-            result = creditCardsData.filter(c => c.category === "premium");
-            if (wizardAnswers.goal === "travel") {
-                result = result.sort((a, b) => (b.milesRate || 0) - (a.milesRate || 0));
-            } else {
-                result = result.sort((a, b) => b.cashback - a.cashback);
-            }
+        // Filter by Income
+        if (wizardAnswers.income === "low") {
+            result = result.filter(c => c.minIncome <= 2000);
         } else if (wizardAnswers.income === "medium") {
-            result = creditCardsData.filter(c => c.category === "intermediário");
+            result = result.filter(c => c.minIncome <= 10000);
+        } else if (wizardAnswers.income === "high") {
+            result = result.filter(c => c.minIncome >= 10000);
+        }
+
+        // Filter by Spending (Heuristic for annual fee waiver)
+        if (wizardAnswers.spending === "low") {
+            result = result.filter(c => c.annualFeeType !== "paid");
+        }
+
+        // Filter by Annual Fee Preference
+        if (wizardAnswers.feePreference === "zero") {
+            result = result.filter(c => c.annualFee === 0 || c.annualFeeType === "free");
+        }
+
+        // Sort by Goal
+        if (wizardAnswers.goal === "travel") {
+            result = result.sort((a, b) => {
+                const aVal = (a.milesRate || 0) + (a.loungeAccess === "unlimited" ? 5 : a.loungeAccess === "limited" ? 2 : 0);
+                const bVal = (b.milesRate || 0) + (b.loungeAccess === "unlimited" ? 5 : b.loungeAccess === "limited" ? 2 : 0);
+                return bVal - aVal;
+            });
+        } else if (wizardAnswers.goal === "cashback") {
+            result = result.sort((a, b) => b.cashback - a.cashback);
+        } else if (wizardAnswers.goal === "economy") {
+            result = result.sort((a, b) => a.annualFee - b.annualFee);
         }
 
         return result.slice(0, 3);
@@ -265,7 +285,7 @@ export default function CardsPage() {
                                             <Sparkles size={40} />
                                         </div>
                                         <h2 className="text-3xl font-bold text-white">Vamos encontrar sua arma secreta</h2>
-                                        <p className="text-gray-400">Responda 3 perguntas rápidas para descobrirmos o cartão perfeito para o seu momento.</p>
+                                        <p className="text-gray-400">Responda 5 perguntas rápidas para descobrirmos o cartão perfeito para o seu momento.</p>
                                         <button onClick={() => setWizardStep(1)} className="btn-premium w-full max-w-xs mx-auto">
                                             Começar
                                         </button>
@@ -294,6 +314,42 @@ export default function CardsPage() {
 
                                 {wizardStep === 2 && (
                                     <div className="space-y-6">
+                                        <h3 className="text-2xl font-bold text-white">Quanto você gasta no cartão por mês?</h3>
+                                        <div className="grid gap-4">
+                                            <button onClick={() => handleWizardAnswer('spending', 'low')} className="p-4 bg-white/5 hover:bg-white/10 rounded-xl text-left border border-white/5 hover:border-primary/50 transition-all">
+                                                <div className="font-bold text-white">Até R$ 2.000</div>
+                                                <div className="text-sm text-gray-500">Uso básico para o dia a dia</div>
+                                            </button>
+                                            <button onClick={() => handleWizardAnswer('spending', 'medium')} className="p-4 bg-white/5 hover:bg-white/10 rounded-xl text-left border border-white/5 hover:border-primary/50 transition-all">
+                                                <div className="font-bold text-white">R$ 2.000 a R$ 5.000</div>
+                                                <div className="text-sm text-gray-500">Uso frequente, busco benefícios</div>
+                                            </button>
+                                            <button onClick={() => handleWizardAnswer('spending', 'high')} className="p-4 bg-white/5 hover:bg-white/10 rounded-xl text-left border border-white/5 hover:border-primary/50 transition-all">
+                                                <div className="font-bold text-white">Acima de R$ 5.000</div>
+                                                <div className="text-sm text-gray-500">Concentro todos os meus gastos no cartão</div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {wizardStep === 3 && (
+                                    <div className="space-y-6">
+                                        <h3 className="text-2xl font-bold text-white">Você aceita pagar anuidade por benefícios?</h3>
+                                        <div className="grid gap-4">
+                                            <button onClick={() => handleWizardAnswer('feePreference', 'zero')} className="p-4 bg-white/5 hover:bg-white/10 rounded-xl text-left border border-white/5 hover:border-primary/50 transition-all">
+                                                <div className="font-bold text-white">Não, quero anuidade zero</div>
+                                                <div className="text-sm text-gray-500">Prefiro economizar na taxa mensal</div>
+                                            </button>
+                                            <button onClick={() => handleWizardAnswer('feePreference', 'any')} className="p-4 bg-white/5 hover:bg-white/10 rounded-xl text-left border border-white/5 hover:border-primary/50 transition-all">
+                                                <div className="font-bold text-white">Sim, se os benefícios valerem a pena</div>
+                                                <div className="text-sm text-gray-500">Aceito pagar se tiver milhas ou salas VIP</div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {wizardStep === 4 && (
+                                    <div className="space-y-6">
                                         <h3 className="text-2xl font-bold text-white">O que você mais valoriza?</h3>
                                         <div className="grid gap-4">
                                             <button onClick={() => handleWizardAnswer('goal', 'travel')} className="p-4 bg-white/5 hover:bg-white/10 rounded-xl text-left border border-white/5 hover:border-primary/50 transition-all flex items-center gap-4">
@@ -321,7 +377,7 @@ export default function CardsPage() {
                                     </div>
                                 )}
 
-                                {wizardStep === 3 && (
+                                {wizardStep === 5 && (
                                     <div className="space-y-8">
                                         <div className="text-center">
                                             <h3 className="text-2xl font-bold text-white mb-2">Encontramos seus pares perfeitos</h3>

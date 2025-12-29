@@ -3,7 +3,7 @@
 import { useState } from "react";
 import ModuleCard from "@/components/education/ModuleCard";
 import LessonModal from "@/components/education/LessonModal";
-import { GraduationCap, BookOpen, TrendingUp, ShieldCheck, Coins, Globe, BrainCircuit } from "lucide-react";
+import { GraduationCap, BookOpen, TrendingUp, ShieldCheck, Coins, Globe, BrainCircuit, Plane } from "lucide-react";
 
 export default function LearnPage() {
     const [activeModule, setActiveModule] = useState<string | null>(null);
@@ -17,7 +17,7 @@ export default function LearnPage() {
             icon: ShieldCheck,
             level: "Iniciante" as const,
             progress: 80,
-            totalLessons: 5,
+            totalLessons: 7,
             completedLessons: 4,
             lessons: [
                 {
@@ -87,6 +87,29 @@ export default function LearnPage() {
                     type: "article" as const,
                     completed: false,
                     content: <p>Como transformar sonhos em metas financeiras tangíveis...</p>
+                },
+                {
+                    id: "compound-interest",
+                    title: "O Poder dos Juros Compostos",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Einstein chamou os juros compostos de a "oitava maravilha do mundo". É o dinheiro trabalhando para você, onde os juros de hoje rendem juros amanhã.</p>
+                            <h3>A Fórmula do Enriquecimento</h3>
+                            <p>Tempo + Aportes Constantes + Rentabilidade = Fortuna.</p>
+                            <p>Quanto mais cedo você começa, menos esforço precisa fazer no futuro.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "inflation",
+                    title: "Inflação: O Inimigo Invisível",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: <p>Como a inflação corrói seu poder de compra e por que você precisa de investimentos que ganhem do IPCA...</p>
                 }
             ]
         },
@@ -437,6 +460,117 @@ export default function LearnPage() {
                     type: "article" as const,
                     completed: false,
                     content: <p>Como emprestar dinheiro e ganhar juros, fazer trocas e seguros sem intermediários...</p>
+                }
+            ]
+        },
+        {
+            id: "miles",
+            title: "Cartões de Crédito & Milhas",
+            description: "Transforme seus gastos diários em viagens e dinheiro. O guia definitivo sobre milhas aéreas.",
+            icon: Plane,
+            level: "Intermediário" as const,
+            progress: 0,
+            totalLessons: 4,
+            completedLessons: 0,
+            lessons: [
+                {
+                    id: "miles-intro",
+                    title: "O que são Milhas e Pontos?",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Pontos e milhas são moedas de programas de fidelidade. Pontos geralmente são acumulados em bancos (Livelo, Esfera) e milhas em companhias aéreas (Smiles, TudoAzul, LATAM Pass).</p>
+                            <h3>Como Acumular</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Cartão de Crédito:</strong> A forma mais comum, mas não a única.</li>
+                                <li><strong>Compras Bonificadas:</strong> Ganhe 10 pontos por real gasto em lojas parceiras.</li>
+                                <li><strong>Clubes de Fidelidade:</strong> Assinaturas mensais que garantem pontos.</li>
+                                <li><strong>Transferências:</strong> Mova pontos do banco para a aérea com bônus (ex: 100% de bônus).</li>
+                            </ul>
+                        </div>
+                    ),
+                    quiz: {
+                        question: "Qual a diferença básica entre pontos e milhas?",
+                        options: [
+                            "Nenhuma, são a mesma coisa",
+                            "Pontos são do banco, milhas são da companhia aérea",
+                            "Milhas valem mais que pontos",
+                            "Pontos expiram e milhas não"
+                        ],
+                        correctAnswer: 1
+                    }
+                },
+                {
+                    id: "best-cards-miles",
+                    title: "Escolhendo o Cartão Certo",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: <p>Análise de cartões que pontuam mais e oferecem benefícios de viagem...</p>
+                },
+                {
+                    id: "transfer-bonus",
+                    title: "A Mágica da Transferência Bonificada",
+                    duration: "18 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: <p>Como dobrar seus pontos esperando o momento certo para transferir...</p>
+                },
+                {
+                    id: "selling-miles",
+                    title: "Vendendo Milhas: Renda Extra",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: <p>Como transformar milhas em dinheiro no bolso através de plataformas de venda...</p>
+                }
+            ]
+        },
+        {
+            id: "taxes",
+            title: "Impostos e Declaração",
+            description: "Não tenha medo do Leão. Aprenda a declarar seus investimentos e otimizar seus impostos.",
+            icon: ShieldCheck,
+            level: "Avançado" as const,
+            progress: 0,
+            totalLessons: 3,
+            completedLessons: 0,
+            lessons: [
+                {
+                    id: "irpf-intro",
+                    title: "IRPF para Investidores",
+                    duration: "20 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Investir obriga você a declarar o Imposto de Renda, mesmo que não tenha imposto a pagar. O segredo é a organização.</p>
+                            <h3>O que declarar?</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Bens e Direitos:</strong> Onde você lista o que possui (ações, FIIs, saldo em conta).</li>
+                                <li><strong>Rendimentos Isentos:</strong> Dividendos e rendimentos de FIIs.</li>
+                                <li><strong>Rendimentos Tributáveis:</strong> Juros sobre Capital Próprio (JCP).</li>
+                            </ul>
+                        </div>
+                    )
+                },
+                {
+                    id: "darf",
+                    title: "Como Gerar e Pagar DARF",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: <p>Guia passo a passo para calcular o lucro em ações e pagar o imposto mensal quando necessário...</p>
+                },
+                {
+                    id: "tax-optimization",
+                    title: "Otimização Fiscal Legal",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: <p>Como usar a isenção de R$ 20 mil em vendas de ações e outras estratégias legais para pagar menos imposto...</p>
                 }
             ]
         }

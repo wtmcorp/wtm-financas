@@ -18,7 +18,10 @@ export const creditCardsData: CreditCard[] = [
         category: "premium",
         color: "#8a05be",
         applyLink: "https://nubank.com.br/ultravioleta/",
-        yield: "200% do CDI"
+        yield: "200% do CDI",
+        annualFeeType: "waivable",
+        insurance: ["Seguro Viagem", "Seguro Bagagem", "Proteção de Compra"],
+        pointsExpiration: "Não expiram"
     },
     {
         id: "inter-black",
@@ -36,7 +39,10 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 10000,
         category: "premium",
         color: "#ff7a00",
-        applyLink: "https://www.bancointer.com.br/pra-voce/cartoes/black/"
+        applyLink: "https://www.bancointer.com.br/pra-voce/cartoes/black/",
+        annualFeeType: "free",
+        insurance: ["Seguro Viagem", "Proteção de Compra"],
+        pointsExpiration: "Não expiram"
     },
     {
         id: "santander-unlimited",
@@ -56,7 +62,10 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 30000,
         category: "premium",
         color: "#ec0000",
-        applyLink: "https://www.santander.com.br/cartoes/unlimited"
+        applyLink: "https://www.santander.com.br/cartoes/unlimited",
+        annualFeeType: "waivable",
+        insurance: ["Seguro Viagem", "Proteção de Compra", "Seguro Veículo Alugado"],
+        pointsExpiration: "Não expiram"
     },
     {
         id: "bradesco-eternu",
@@ -76,7 +85,10 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 50000,
         category: "premium",
         color: "#cc092f",
-        applyLink: "https://banco.bradesco/html/classic/produtos-servicos/cartoes/eternu-visa-infinite.shtm"
+        applyLink: "https://banco.bradesco/html/classic/produtos-servicos/cartoes/eternu-visa-infinite.shtm",
+        annualFeeType: "waivable",
+        insurance: ["Seguro Viagem", "Proteção de Compra", "Seguro Veículo Alugado"],
+        pointsExpiration: "Não expiram"
     },
     {
         id: "itau-the-one",
@@ -96,7 +108,10 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 100000,
         category: "premium",
         color: "#003399",
-        applyLink: "https://www.itau.com.br/cartoes/escolher/itau-personnalite-the-one-mastercard-black"
+        applyLink: "https://www.itau.com.br/cartoes/escolher/itau-personnalite-the-one-mastercard-black",
+        annualFeeType: "paid",
+        insurance: ["Seguro Viagem", "Proteção de Compra", "Seguro Veículo Alugado"],
+        pointsExpiration: "Não expiram"
     },
     {
         id: "xp-visa-infinite",
@@ -115,7 +130,10 @@ export const creditCardsData: CreditCard[] = [
         category: "intermediário",
         color: "#000000",
         applyLink: "https://www.xpi.com.br/produtos/cartao-de-credito/",
-        yield: "Investback 1%"
+        yield: "Investback 1%",
+        annualFeeType: "free",
+        insurance: ["Seguro Viagem", "Proteção de Compra"],
+        pointsExpiration: "Não expiram"
     },
     {
         id: "btg-black",
@@ -135,7 +153,10 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 15000,
         category: "premium",
         color: "#001a33",
-        applyLink: "https://www.btgpactual.com/cartoes"
+        applyLink: "https://www.btgpactual.com/cartoes",
+        annualFeeType: "waivable",
+        insurance: ["Seguro Viagem", "Proteção de Compra"],
+        pointsExpiration: "Não expiram"
     },
     {
         id: "c6-carbon",
@@ -155,7 +176,10 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 5000,
         category: "premium",
         color: "#222222",
-        applyLink: "https://www.c6bank.com.br/cartao-c6-carbon-mastercard-black"
+        applyLink: "https://www.c6bank.com.br/cartao-c6-carbon-mastercard-black",
+        annualFeeType: "waivable",
+        insurance: ["Seguro Viagem", "Proteção de Compra"],
+        pointsExpiration: "Não expiram"
     },
     {
         id: "picpay-card",
@@ -391,6 +415,30 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 20000,
         category: "premium",
         color: "#cfcfcf",
-        applyLink: "https://banco.bradesco/html/classic/produtos-servicos/cartoes/the-platinum-card.shtm"
+        applyLink: "https://banco.bradesco/html/classic/produtos-servicos/cartoes/the-platinum-card.shtm",
+        annualFeeType: "paid",
+        insurance: ["Seguro Viagem", "Proteção de Compra", "Seguro Veículo Alugado"],
+        pointsExpiration: "Não expiram"
+    },
+    {
+        id: "inter-win",
+        name: "Inter Win",
+        bank: "Banco Inter",
+        brand: "Mastercard",
+        annualFee: 0,
+        interestRate: 11.90,
+        cashback: 1.25,
+        miles: false,
+        loungeAccess: "unlimited",
+        loungeType: ["LoungeKey", "Inter Lounge"],
+        benefits: ["Cashback de 1.25%", "Sala VIP ilimitada", "Wealth Management"],
+        exclusiveBenefits: ["Atendimento exclusivo", "Inter Pass VIP"],
+        minIncome: 1000000, // Investimento
+        category: "premium",
+        color: "#000000",
+        applyLink: "https://www.bancointer.com.br/pra-voce/investimentos/win/",
+        annualFeeType: "free",
+        insurance: ["Seguro Viagem Completo"],
+        pointsExpiration: "Não expiram"
     }
 ];
