@@ -15,14 +15,26 @@ export default function PremiumNotifications() {
     const [notifications, setNotifications] = useState<Notification[]>([]);
 
     // Exemplo de notificação automática ao carregar
+    // Fetch real news for notification
     useEffect(() => {
-        const timer = setTimeout(() => {
-            addNotification({
-                title: "Mercado em Alta",
-                message: "O Bitcoin subiu 5% nas últimas 2 horas. Confira seus investimentos.",
-                type: "success"
-            });
-        }, 3000);
+        const fetchLatestNews = async () => {
+            try {
+                const res = await fetch('/api/news');
+                const data = await res.json();
+                if (data.news && data.news.length > 0) {
+                    const latest = data.news[0];
+                    addNotification({
+                        title: latest.source,
+                        message: latest.title,
+                        type: "info"
+                    });
+                }
+            } catch (error) {
+                console.error("Error fetching notification news:", error);
+            }
+        };
+
+        const timer = setTimeout(fetchLatestNews, 3000);
         return () => clearTimeout(timer);
     }, []);
 

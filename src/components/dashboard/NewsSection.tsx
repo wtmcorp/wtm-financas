@@ -4,56 +4,53 @@ import { TrendingUp, TrendingDown, AlertCircle, ExternalLink, Globe, Clock, Arro
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const MARKET_NEWS = [
-    {
-        id: 1,
-        source: "Bloomberg",
-        title: "Fed sinaliza possível corte de juros em 2026",
-        time: "2h atrás",
-        type: "positive"
-    },
-    {
-        id: 2,
-        source: "Valor Econômico",
-        title: "Ibovespa fecha em alta impulsionada por commodities",
-        time: "4h atrás",
-        type: "positive"
-    },
-    {
-        id: 3,
-        source: "Reuters",
-        title: "Petróleo recua com aumento de estoques nos EUA",
-        time: "5h atrás",
-        type: "negative"
-    },
-    {
-        id: 4,
-        source: "InfoMoney",
-        title: "Novas regras para fundos imobiliários entram em vigor",
-        time: "6h atrás",
-        type: "neutral"
-    },
-    {
-        id: 5,
-        source: "Exame",
-        title: "Criptomoedas registram forte volume de negociação",
-        time: "7h atrás",
-        type: "positive"
-    }
-];
-
-export default function NewsSection() {
+const NewsSection = () => {
+    const [news, setNews] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
     const [lastUpdate, setLastUpdate] = useState("");
 
     useEffect(() => {
+        const fetchNews = async () => {
+            try {
+                const res = await fetch('/api/news');
+                const data = await res.json();
+                if (data.news) {
+                    setNews(data.news);
+                }
+            } catch (error) {
+                console.error("Error fetching news:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchNews();
         const updateTime = () => {
             const now = new Date();
             setLastUpdate(now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
         };
         updateTime();
-        const interval = setInterval(updateTime, 60000);
+        const interval = setInterval(() => {
+            fetchNews();
+            updateTime();
+        }, 60000 * 5); // Update every 5 minutes
+
         return () => clearInterval(interval);
     }, []);
+
+    const formatTime = (dateString: string) => {
+        try {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+
+            if (diffInHours < 1) return "Agora mesmo";
+            if (diffInHours === 1) return "1h atrás";
+            return `${diffInHours}h atrás`;
+        } catch (e) {
+            return "Recente";
+        }
+    };
 
     return (
         <div className="card-premium p-8 h-full border border-white/5 hover:border-primary/10 transition-all group/news">
@@ -81,27 +78,42 @@ export default function NewsSection() {
             </div>
 
             <div className="space-y-6">
-                {MARKET_NEWS.map((news, idx) => (
-                    <motion.div
-                        key={news.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.1 }}
-                        className="group cursor-pointer relative"
-                    >
-                        <div className="flex justify-between items-start mb-2">
-                            <span className="text-[9px] font-black text-primary uppercase tracking-[0.2em] bg-primary/10 px-2 py-0.5 rounded-md border border-primary/10">
-                                {news.source}
-                            </span>
-                            <span className="text-[9px] text-gray-600 font-bold uppercase tracking-tighter">{news.time}</span>
+                {loading ? (
+                    // Loading Skeleton
+                    [...Array(5)].map((_, i) => (
+                        <div key={i} className="animate-pulse space-y-2">
+                            <div className="flex justify-between">
+                                <div className="h-4 w-20 bg-white/5 rounded"></div>
+                                <div className="h-4 w-12 bg-white/5 rounded"></div>
+                            </div>
+                            <div className="h-4 w-full bg-white/5 rounded"></div>
+                            <div className="w-full h-px bg-white/5 mt-4" />
                         </div>
-                        <h4 className="text-sm font-bold text-gray-300 group-hover:text-white transition-all leading-relaxed pr-6">
-                            {news.title}
-                        </h4>
-                        <ArrowRight size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
-                        <div className="w-full h-px bg-white/5 mt-4 group-last:hidden" />
-                    </motion.div>
-                ))}
+                    ))
+                ) : (
+                    news.map((item, idx) => (
+                        <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                            className="group cursor-pointer relative"
+                            onClick={() => item.url && window.open(item.url, '_blank')}
+                        >
+                            <div className="flex justify-between items-start mb-2">
+                                <span className={`text-[9px] font-black uppercase tracking-[0.2em] px-2 py-0.5 rounded-md border ${item.color || 'text-primary border-primary/10 bg-primary/10'}`}>
+                                    {item.source}
+                                </span>
+                                <span className="text-[9px] text-gray-600 font-bold uppercase tracking-tighter">{formatTime(item.time)}</span>
+                            </div>
+                            <h4 className="text-sm font-bold text-gray-300 group-hover:text-white transition-all leading-relaxed pr-6 line-clamp-2">
+                                {item.title}
+                            </h4>
+                            <ArrowRight size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                            <div className="w-full h-px bg-white/5 mt-4 group-last:hidden" />
+                        </motion.div>
+                    ))
+                )}
             </div>
 
             <button className="w-full mt-8 py-4 bg-white/[0.03] hover:bg-white/[0.08] text-[10px] font-black text-gray-500 hover:text-white rounded-2xl transition-all flex items-center justify-center gap-3 uppercase tracking-[0.2em] border border-white/5 hover:border-white/20 group/btn">
@@ -111,4 +123,6 @@ export default function NewsSection() {
         </div>
     );
 }
+
+export default NewsSection;
 
