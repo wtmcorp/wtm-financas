@@ -147,10 +147,10 @@ export default function LessonModal({
                                             onClick={() => handleLessonSelect(index)}
                                             disabled={isLocked}
                                             className={`w-full text-left p-4 rounded-2xl transition-all border ${isActive
-                                                    ? "bg-primary/10 border-primary/20 text-white shadow-[0_0_20px_rgba(167,139,250,0.1)]"
-                                                    : isLocked
-                                                        ? "bg-transparent border-transparent text-gray-700 opacity-50 cursor-not-allowed"
-                                                        : "bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300"
+                                                ? "bg-primary/10 border-primary/20 text-white shadow-[0_0_20px_rgba(167,139,250,0.1)]"
+                                                : isLocked
+                                                    ? "bg-transparent border-transparent text-gray-700 opacity-50 cursor-not-allowed"
+                                                    : "bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300"
                                                 }`}
                                         >
                                             <div className="flex items-start gap-4">
@@ -190,7 +190,10 @@ export default function LessonModal({
                         <X size={20} />
                     </button>
 
-                    <div className="flex-1 overflow-y-auto p-6 md:p-16 custom-scrollbar">
+                    <div className="flex-1 overflow-y-auto p-6 md:p-16 custom-scrollbar relative">
+                        {/* Narrator Component */}
+                        <LessonNarrator text={extractTextFromNode(activeLesson.content)} />
+
                         <div className="max-w-3xl mx-auto space-y-10">
                             <div className="flex items-center gap-3 text-[10px] font-black text-gray-600 uppercase tracking-[0.2em]">
                                 <span className="hover:text-primary cursor-pointer transition-colors">{moduleTitle}</span>
@@ -229,8 +232,8 @@ export default function LessonModal({
                                                     setQuizSelected(idx);
                                                 }}
                                                 className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 ${quizSelected === idx
-                                                        ? "bg-primary/20 border-primary text-white shadow-[0_0_30px_rgba(167,139,250,0.2)]"
-                                                        : "bg-black/40 border-white/5 text-gray-500 hover:border-white/20 hover:text-gray-300"
+                                                    ? "bg-primary/20 border-primary text-white shadow-[0_0_30px_rgba(167,139,250,0.2)]"
+                                                    : "bg-black/40 border-white/5 text-gray-500 hover:border-white/20 hover:text-gray-300"
                                                     } ${quizResult === 'correct' && idx === activeLesson.quiz!.correctAnswer ? "bg-green-500/20 border-green-500 text-green-400" : ""}
                                                   ${quizResult === 'incorrect' && idx === quizSelected ? "bg-red-500/20 border-red-500 text-red-400" : ""}
                                                 `}
@@ -326,3 +329,16 @@ export default function LessonModal({
 }
 
 import { BrainCircuit } from "lucide-react";
+import LessonNarrator from "./LessonNarrator";
+
+// Helper to extract text from ReactNode (simplified)
+const extractTextFromNode = (node: React.ReactNode): string => {
+    if (typeof node === 'string') return node;
+    if (typeof node === 'number') return String(node);
+    if (Array.isArray(node)) return node.map(extractTextFromNode).join(' ');
+    if (typeof node === 'object' && node && 'props' in node) {
+        const props = (node as any).props;
+        if (props.children) return extractTextFromNode(props.children);
+    }
+    return '';
+};
