@@ -11,7 +11,7 @@ export default function MarketTicker() {
     useEffect(() => {
         const fetchMarket = async () => {
             try {
-                const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL");
+                const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL,ETH-BRL,SOL-BRL");
                 const json = await res.json();
                 if (json && !json.status) {
                     setData(json);
@@ -23,7 +23,7 @@ export default function MarketTicker() {
             }
         };
         fetchMarket();
-        const interval = setInterval(fetchMarket, 30000);
+        const interval = setInterval(fetchMarket, 10000); // Updated to 10s for real-time feel
         return () => clearInterval(interval);
     }, []);
 
@@ -40,13 +40,15 @@ export default function MarketTicker() {
         { label: "Dólar", key: "USDBRL", icon: "🇺🇸" },
         { label: "Euro", key: "EURBRL", icon: "🇪🇺" },
         { label: "Bitcoin", key: "BTCBRL", icon: "₿" },
+        { label: "Ethereum", key: "ETHBRL", icon: "Ξ" },
+        { label: "Solana", key: "SOLBRL", icon: "S" },
     ];
 
     return (
         <div className="flex items-center gap-8 overflow-x-auto no-scrollbar py-2 h-10">
             <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full border border-primary/20 shrink-0">
-                <Globe size={12} className="text-primary animate-pulse" />
-                <span className="text-[9px] font-black text-primary uppercase tracking-widest">Global Live</span>
+                <div className="w-1.5 h-1.5 bg-primary rounded-full animate-ping" />
+                <span className="text-[9px] font-black text-primary uppercase tracking-widest">Mercado em Tempo Real</span>
             </div>
 
             <AnimatePresence mode="wait">
@@ -71,8 +73,8 @@ export default function MarketTicker() {
                                     <div className="flex items-center gap-2">
                                         <span className="text-sm font-black text-white tracking-tight">
                                             R$ {parseFloat(market.bid || "0").toLocaleString('pt-BR', {
-                                                minimumFractionDigits: item.key === 'BTCBRL' ? 0 : 2,
-                                                maximumFractionDigits: item.key === 'BTCBRL' ? 0 : 2
+                                                minimumFractionDigits: item.key.includes('BTC') || item.key.includes('ETH') || item.key.includes('SOL') ? 0 : 2,
+                                                maximumFractionDigits: item.key.includes('BTC') || item.key.includes('ETH') || item.key.includes('SOL') ? 0 : 2
                                             })}
                                         </span>
                                         <span className={`flex items-center text-[10px] font-black px-1.5 py-0.5 rounded-md ${isUp ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"

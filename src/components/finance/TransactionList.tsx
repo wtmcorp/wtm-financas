@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import { useFinance } from '@/contexts/FinanceContext';
-import { Search, Trash2, Edit, TrendingUp, TrendingDown, Filter, List } from 'lucide-react';
+import { Search, Trash2, Edit, TrendingUp, TrendingDown, Filter, List, ArrowRight } from 'lucide-react';
 import TransactionModal from './TransactionModal';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface TransactionListProps {
     limit?: number;
@@ -40,20 +41,21 @@ const TransactionList = ({ limit }: TransactionListProps) => {
     };
 
     const filterButtons = [
-        { value: 'all' as const, label: 'Todas', gradient: 'from-indigo-500 to-purple-600' },
-        { value: 'income' as const, label: 'Receitas', gradient: 'from-emerald-500 to-green-600' },
-        { value: 'expense' as const, label: 'Despesas', gradient: 'from-red-500 to-orange-600' },
+        { value: 'all' as const, label: 'Todas', gradient: 'from-[#6366f1] to-[#a855f7]' },
+        { value: 'income' as const, label: 'Receitas', gradient: 'from-[#10b981] to-[#3b82f6]' },
+        { value: 'expense' as const, label: 'Despesas', gradient: 'from-[#ef4444] to-[#f59e0b]' },
     ];
 
     return (
         <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-            <div className="relative card-premium p-6 rounded-2xl">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                    <div className="flex items-center gap-2">
-                        <div className="w-1 h-4 bg-indigo-400 rounded-full" />
-                        <h3 className="text-xl font-bold text-white flex items-center gap-2 uppercase tracking-tight">
+            <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <div className="relative card-premium p-8 rounded-[2rem] border border-white/5 group-hover:border-white/10 transition-all">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-indigo-500/10 rounded-lg">
                             <List className="w-5 h-5 text-indigo-400" />
+                        </div>
+                        <h3 className="text-xl font-black text-white uppercase tracking-tight">
                             Transações
                         </h3>
                     </div>
@@ -74,91 +76,99 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                 </div>
 
                 {/* Search */}
-                <div className="relative mb-6">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <div className="relative mb-8 group/search">
+                    <div className="absolute inset-0 bg-primary/5 rounded-2xl blur-md opacity-0 group-focus-within/search:opacity-100 transition-opacity" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within/search:text-primary transition-colors" />
                     <input
                         type="text"
                         placeholder="Buscar transações..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/5 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent text-white placeholder-gray-500 transition-all text-sm"
+                        className="relative w-full pl-12 pr-4 py-4 bg-white/5 border border-white/5 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary/30 text-white placeholder-gray-600 transition-all text-sm outline-none"
                     />
                 </div>
 
                 {/* Transaction List */}
-                <div className="space-y-3 max-h-[400px] md:max-h-none overflow-y-auto pr-1 md:pr-0 scrollbar-thin">
-                    {filteredTransactions.length === 0 ? (
-                        <div className="text-center py-16 glass rounded-2xl border border-white/5">
-                            <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/5">
-                                <List className="w-8 h-8 text-gray-600" />
-                            </div>
-                            <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Nenhuma transação encontrada</p>
-                            <p className="text-[10px] text-gray-500 mt-2 uppercase tracking-tighter">
-                                Adicione sua primeira transação para começar
-                            </p>
-                        </div>
-                    ) : (
-                        filteredTransactions.map((transaction) => (
-                            <div
-                                key={transaction.id}
-                                className="group/item flex items-center justify-between p-4 glass hover:bg-white/5 rounded-xl transition-all border border-white/5 hover:border-white/10"
+                <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                    <AnimatePresence mode="popLayout">
+                        {filteredTransactions.length === 0 ? (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="text-center py-20 bg-white/[0.02] rounded-[2rem] border border-white/5"
                             >
-                                <div className="flex items-center gap-4 flex-1">
-                                    <div className={`p-3 rounded-xl border ${transaction.type === 'income'
-                                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
-                                        : 'bg-red-500/10 border-red-500/20 text-red-400'
-                                        }`}>
-                                        {transaction.type === 'income' ? (
-                                            <TrendingUp className="w-5 h-5" />
-                                        ) : (
-                                            <TrendingDown className="w-5 h-5" />
-                                        )}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-bold text-white truncate text-sm sm:text-base">
-                                            {transaction.description}
-                                        </p>
-                                        <div className="flex items-center gap-3 mt-1">
-                                            <span className="text-[9px] px-2 py-0.5 bg-white/5 rounded-full text-gray-400 font-black uppercase tracking-widest border border-white/5">
-                                                {transaction.category}
-                                            </span>
-                                            <span className="text-[9px] text-gray-500 font-bold uppercase tracking-tighter">
-                                                {formatDate(transaction.date)}
-                                            </span>
+                                <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/5">
+                                    <List className="w-10 h-10 text-gray-700" />
+                                </div>
+                                <p className="text-gray-500 font-black uppercase tracking-[0.2em] text-xs">Nenhuma transação encontrada</p>
+                            </motion.div>
+                        ) : (
+                            filteredTransactions.map((transaction, idx) => (
+                                <motion.div
+                                    key={transaction.id}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    transition={{ delay: idx * 0.05 }}
+                                    className="group/item flex items-center justify-between p-4 bg-white/[0.02] hover:bg-white/[0.05] rounded-2xl transition-all border border-white/5 hover:border-white/20"
+                                >
+                                    <div className="flex items-center gap-5 flex-1">
+                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center border transition-all ${transaction.type === 'income'
+                                            ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 group-hover/item:bg-emerald-500/20'
+                                            : 'bg-red-500/10 border-red-500/20 text-red-400 group-hover/item:bg-red-500/20'
+                                            }`}>
+                                            {transaction.type === 'income' ? (
+                                                <TrendingUp size={20} />
+                                            ) : (
+                                                <TrendingDown size={20} />
+                                            )}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-black text-white truncate text-base tracking-tight">
+                                                {transaction.description}
+                                            </p>
+                                            <div className="flex items-center gap-3 mt-1">
+                                                <span className="text-[9px] px-2 py-0.5 bg-white/5 rounded-md text-gray-500 font-black uppercase tracking-widest border border-white/5">
+                                                    {transaction.category}
+                                                </span>
+                                                <span className="text-[9px] text-gray-600 font-bold uppercase tracking-tighter">
+                                                    {formatDate(transaction.date)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="text-right ml-4">
+                                            <p className={`font-black text-xl tracking-tighter ${transaction.type === 'income'
+                                                ? 'text-emerald-400'
+                                                : 'text-red-400'
+                                                }`}>
+                                                {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}
+                                            </p>
                                         </div>
                                     </div>
-                                    <div className="text-right ml-2">
-                                        <p className={`font-black text-base sm:text-xl tracking-tighter ${transaction.type === 'income'
-                                            ? 'text-emerald-400'
-                                            : 'text-red-400'
-                                            }`}>
-                                            {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}
-                                        </p>
+                                    <div className="flex gap-1 ml-6 opacity-0 group-hover/item:opacity-100 transition-all translate-x-4 group-hover/item:translate-x-0">
+                                        <button
+                                            onClick={() => setEditingTransaction(transaction)}
+                                            className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all group/edit border border-white/5"
+                                            title="Editar"
+                                        >
+                                            <Edit className="w-4 h-4 text-gray-500 group-hover/edit:text-white" />
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                if (confirm('Deseja realmente excluir esta transação?')) {
+                                                    deleteTransaction(transaction.id);
+                                                }
+                                            }}
+                                            className="p-2.5 bg-white/5 hover:bg-red-500/10 rounded-xl transition-all group/delete border border-white/5"
+                                            title="Excluir"
+                                        >
+                                            <Trash2 className="w-4 h-4 text-gray-500 group-hover/delete:text-red-400" />
+                                        </button>
                                     </div>
-                                </div>
-                                <div className="flex gap-1 ml-4 opacity-100 md:opacity-0 md:group-hover/item:opacity-100 transition-opacity">
-                                    <button
-                                        onClick={() => setEditingTransaction(transaction)}
-                                        className="p-2 hover:bg-white/10 rounded-lg transition-colors group/edit"
-                                        title="Editar"
-                                    >
-                                        <Edit className="w-4 h-4 text-gray-500 group-hover/edit:text-white" />
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            if (confirm('Deseja realmente excluir esta transação?')) {
-                                                deleteTransaction(transaction.id);
-                                            }
-                                        }}
-                                        className="p-2 hover:bg-red-500/10 rounded-lg transition-colors group/delete"
-                                        title="Excluir"
-                                    >
-                                        <Trash2 className="w-4 h-4 text-gray-500 group-hover/delete:text-red-400" />
-                                    </button>
-                                </div>
-                            </div>
-                        ))
-                    )}
+                                </motion.div>
+                            ))
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
-import { PlayCircle, BookOpen, CheckCircle2, Lock } from "lucide-react";
+import { PlayCircle, BookOpen, CheckCircle2, Lock, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface ModuleCardProps {
     title: string;
@@ -34,76 +35,89 @@ export default function ModuleCard({
     };
 
     return (
-        <div
+        <motion.div
+            layout
+            whileHover={!isLocked ? { y: -8, scale: 1.02 } : {}}
+            whileTap={!isLocked ? { scale: 0.98 } : {}}
             onClick={!isLocked ? onClick : undefined}
             className={`
-                group relative p-6 rounded-3xl border transition-all duration-300
+                group relative p-8 rounded-[2.5rem] border transition-all duration-500
                 ${isLocked
                     ? "bg-white/5 border-white/5 opacity-50 cursor-not-allowed"
-                    : "bg-[#0f0f13] border-white/10 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(167,139,250,0.15)] cursor-pointer"
+                    : "bg-gradient-to-br from-[#0f0f13] to-[#1a1a2e] border-white/10 hover:border-primary/50 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)] cursor-pointer"
                 }
             `}
         >
             {/* Background Glow */}
             {!isLocked && (
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-all duration-700" />
             )}
 
-            <div className="relative z-10 space-y-4">
-                <div className="flex justify-between items-start">
-                    <div className={`p-3 rounded-2xl ${isLocked ? "bg-white/5 text-gray-500" : "bg-primary/10 text-primary"}`}>
-                        <Icon size={24} />
+            <div className="relative z-10 space-y-6">
+                <div className="flex justify-between items-center">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-500 ${isLocked
+                            ? "bg-white/5 text-gray-600 border-white/5"
+                            : "bg-primary/10 text-primary border-primary/20 group-hover:scale-110 group-hover:rotate-6 shadow-2xl"
+                        }`}>
+                        <Icon size={28} />
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${getLevelColor()}`}>
+                    <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border backdrop-blur-md ${getLevelColor()}`}>
                         {level}
                     </span>
                 </div>
 
-                <div>
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">
+                <div className="space-y-3">
+                    <h3 className="text-2xl font-black text-white tracking-tighter leading-none group-hover:text-primary transition-colors">
                         {title}
                     </h3>
-                    <p className="text-sm text-gray-400 line-clamp-2">
+                    <p className="text-gray-500 text-sm font-medium leading-relaxed line-clamp-2 group-hover:text-gray-400 transition-colors">
                         {description}
                     </p>
                 </div>
 
-                <div className="space-y-2">
-                    <div className="flex justify-between text-xs font-medium text-gray-500">
-                        <span>{completedLessons}/{totalLessons} Aulas</span>
-                        <span>{progress}%</span>
+                <div className="space-y-3 pt-2">
+                    <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-gray-600">
+                        <span className="group-hover:text-gray-400 transition-colors">{completedLessons}/{totalLessons} Aulas</span>
+                        <span className="text-primary">{progress}%</span>
                     </div>
-                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                        <div
-                            className={`h-full rounded-full transition-all duration-500 ${isLocked ? "bg-gray-700" : "bg-primary"}`}
-                            style={{ width: `${progress}%` }}
+                    <div className="h-2 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                        <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${progress}%` }}
+                            transition={{ duration: 1, ease: "circOut" }}
+                            className={`h-full rounded-full ${isLocked ? "bg-gray-700" : "bg-gradient-to-r from-primary to-purple-500 shadow-[0_0_15px_rgba(167,139,250,0.5)]"}`}
                         />
                     </div>
                 </div>
 
-                <div className="pt-4 flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                    {isLocked ? (
-                        <>
-                            <Lock size={14} />
-                            Bloqueado
-                        </>
-                    ) : (
-                        <>
-                            {progress === 100 ? (
-                                <span className="text-green-500 flex items-center gap-2">
-                                    <CheckCircle2 size={14} />
-                                    Concluído
-                                </span>
-                            ) : (
-                                <span className="group-hover:text-white transition-colors flex items-center gap-2">
-                                    <PlayCircle size={14} />
-                                    Continuar
-                                </span>
-                            )}
-                        </>
+                <div className="pt-6 border-t border-white/5 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">
+                        {isLocked ? (
+                            <>
+                                <Lock size={14} className="text-gray-700" />
+                                Bloqueado
+                            </>
+                        ) : (
+                            <>
+                                {progress === 100 ? (
+                                    <span className="text-green-500 flex items-center gap-2">
+                                        <CheckCircle2 size={14} />
+                                        Módulo Concluído
+                                    </span>
+                                ) : (
+                                    <span className="group-hover:text-white transition-colors flex items-center gap-2">
+                                        <PlayCircle size={14} className="text-primary" />
+                                        {progress > 0 ? "Continuar Jornada" : "Iniciar Módulo"}
+                                    </span>
+                                )}
+                            </>
+                        )}
+                    </div>
+                    {!isLocked && (
+                        <ArrowRight size={18} className="text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                     )}
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }

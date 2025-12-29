@@ -1,6 +1,7 @@
 "use client";
 
-import { Calendar, Clock, ExternalLink, Newspaper } from "lucide-react";
+import { Calendar, Clock, ExternalLink, Newspaper, ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 const news = [
     {
@@ -47,49 +48,61 @@ const news = [
 
 export default function NewsFeed() {
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
             <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                    <Newspaper className="text-primary" />
-                    Manchetes do Dia
-                </h3>
-                <button className="text-xs font-bold text-gray-500 hover:text-white transition-colors">Ver Todas</button>
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                        <Newspaper className="text-primary" size={20} />
+                    </div>
+                    <h3 className="text-2xl font-black text-white tracking-tight">
+                        Manchetes do Dia
+                    </h3>
+                </div>
+                <button className="text-[10px] font-black text-gray-500 hover:text-white uppercase tracking-widest transition-all hover:bg-white/5 px-4 py-2 rounded-full border border-white/5">Ver Todas</button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {news.map((item, i) => (
-                    <div key={i} className="group relative bg-[#0f0f13] border border-white/10 rounded-3xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:-translate-y-1">
-                        <div className="aspect-video w-full overflow-hidden relative">
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10 opacity-80" />
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.1 }}
+                        whileHover={{ y: -8 }}
+                        className="group relative bg-[#0f0f13] border border-white/10 rounded-[2.5rem] overflow-hidden hover:border-primary/50 transition-all duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
+                    >
+                        <div className="aspect-[16/10] w-full overflow-hidden relative">
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f13] via-transparent to-transparent z-10 opacity-90" />
                             <img
                                 src={item.image}
                                 alt={item.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                             />
-                            <div className="absolute top-4 left-4 z-20">
-                                <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border backdrop-blur-md ${item.color}`}>
+                            <div className="absolute top-6 left-6 z-20">
+                                <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border backdrop-blur-xl ${item.color}`}>
                                     {item.tag}
                                 </span>
                             </div>
                         </div>
 
-                        <div className="p-6 space-y-4">
-                            <div className="flex items-center justify-between text-xs text-gray-500 font-medium">
-                                <span className="flex items-center gap-1"><Clock size={12} /> {item.time}</span>
-                                <span className="uppercase tracking-wider">{item.source}</span>
+                        <div className="p-8 space-y-5">
+                            <div className="flex items-center justify-between text-[10px] text-gray-500 font-black uppercase tracking-widest">
+                                <span className="flex items-center gap-1.5"><Clock size={12} className="text-primary" /> {item.time}</span>
+                                <span className="text-gray-600">{item.source}</span>
                             </div>
 
-                            <h3 className="text-lg font-bold text-white leading-snug group-hover:text-primary transition-colors">
+                            <h3 className="text-xl font-black text-white leading-[1.3] group-hover:text-primary transition-colors line-clamp-2">
                                 {item.title}
                             </h3>
 
-                            <div className="pt-4 border-t border-white/5 flex justify-end">
-                                <button className="text-xs font-bold text-gray-400 hover:text-white flex items-center gap-1 transition-colors">
-                                    Ler Matéria <ExternalLink size={12} />
+                            <div className="pt-6 border-t border-white/5 flex justify-end">
+                                <button className="text-[10px] font-black text-gray-500 group-hover:text-white flex items-center gap-2 transition-all uppercase tracking-widest">
+                                    Ler Matéria <ArrowUpRight size={16} className="text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
             </div>
         </div>

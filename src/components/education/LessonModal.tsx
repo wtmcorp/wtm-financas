@@ -1,7 +1,8 @@
 "use client";
 
-import { X, Play, FileText, CheckCircle2, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { X, Play, FileText, CheckCircle2, ChevronRight, ChevronLeft, Menu } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface QuizQuestion {
     question: string;
@@ -26,9 +27,12 @@ interface LessonModalProps {
 }
 
 export default function LessonModal({ moduleTitle, lessons, onClose }: LessonModalProps) {
-    const [activeLesson, setActiveLesson] = useState<Lesson>(lessons[0]);
+    const [activeLessonIndex, setActiveLessonIndex] = useState(0);
     const [quizSelected, setQuizSelected] = useState<number | null>(null);
     const [quizResult, setQuizResult] = useState<"correct" | "incorrect" | null>(null);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    const activeLesson = lessons[activeLessonIndex];
 
     const handleQuizSubmit = () => {
         if (quizSelected === null || !activeLesson.quiz) return;
@@ -40,84 +44,135 @@ export default function LessonModal({ moduleTitle, lessons, onClose }: LessonMod
         }
     };
 
-    // Reset quiz when lesson changes
-    const handleLessonChange = (lesson: Lesson) => {
-        setActiveLesson(lesson);
+    const handleNextLesson = () => {
+        if (activeLessonIndex < lessons.length - 1) {
+            setActiveLessonIndex(prev => prev + 1);
+            setQuizSelected(null);
+            setQuizResult(null);
+            setIsMobileMenuOpen(false);
+        } else {
+            onClose();
+        }
+    };
+
+    const handlePrevLesson = () => {
+        if (activeLessonIndex > 0) {
+            setActiveLessonIndex(prev => prev - 1);
+            setQuizSelected(null);
+            setQuizResult(null);
+            setIsMobileMenuOpen(false);
+        }
+    };
+
+    // Reset quiz when lesson changes via sidebar
+    const handleLessonSelect = (index: number) => {
+        setActiveLessonIndex(index);
         setQuizSelected(null);
         setQuizResult(null);
+        setIsMobileMenuOpen(false);
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-300">
-            <div className="bg-[#0f0f13] border border-white/10 rounded-3xl w-full max-w-6xl h-[85vh] flex overflow-hidden shadow-2xl relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-4 bg-black/95 backdrop-blur-2xl animate-in fade-in duration-300">
+            <div className="bg-[#0f0f13] border-t md:border border-white/10 rounded-t-3xl md:rounded-3xl w-full max-w-7xl h-full md:h-[90vh] flex flex-col md:flex-row overflow-hidden shadow-2xl relative">
 
-                {/* Close Button */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 z-50 p-2 bg-black/50 hover:bg-white hover:text-black rounded-full text-white transition-all"
-                >
-                    <X size={20} />
-                </button>
+                {/* Header - Mobile Only */}
+                <div className="md:hidden flex items-center justify-between p-4 border-b border-white/10 bg-black/20">
+                    <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-gray-400 hover:text-white">
+                        <Menu size={24} />
+                    </button>
+                    <span className="text-xs font-bold text-primary uppercase tracking-widest truncate max-w-[200px]">{moduleTitle}</span>
+                    <button onClick={onClose} className="p-2 text-gray-400 hover:text-white">
+                        <X size={24} />
+                    </button>
+                </div>
 
                 {/* Sidebar - Lesson List */}
-                <div className="w-80 border-r border-white/10 bg-black/20 flex flex-col hidden md:flex">
-                    <div className="p-6 border-b border-white/10">
-                        <h3 className="text-xs font-bold text-primary uppercase tracking-widest mb-2">Módulo</h3>
-                        <h2 className="text-xl font-black text-white leading-tight">{moduleTitle}</h2>
-                    </div>
-
-                    <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                        {lessons.map((lesson, index) => (
-                            <button
-                                key={lesson.id}
-                                onClick={() => handleLessonChange(lesson)}
-                                className={`w-full text-left p-4 rounded-xl transition-all border ${activeLesson.id === lesson.id
-                                        ? "bg-primary/10 border-primary/20 text-white"
-                                        : "bg-transparent border-transparent text-gray-400 hover:bg-white/5 hover:text-gray-200"
-                                    }`}
-                            >
-                                <div className="flex items-start gap-3">
-                                    <div className={`mt-0.5 ${activeLesson.id === lesson.id ? "text-primary" : "text-gray-600"}`}>
-                                        {lesson.completed ? <CheckCircle2 size={16} /> : (lesson.type === 'video' ? <Play size={16} /> : <FileText size={16} />)}
-                                    </div>
-                                    <div>
-                                        <div className="text-sm font-bold mb-1 line-clamp-2">{index + 1}. {lesson.title}</div>
-                                        <div className="text-xs opacity-60">{lesson.duration}</div>
-                                    </div>
+                <AnimatePresence>
+                    {(isMobileMenuOpen || !window.matchMedia("(max-width: 768px)").matches) && (
+                        <motion.div
+                            initial={{ x: -320 }}
+                            animate={{ x: 0 }}
+                            exit={{ x: -320 }}
+                            className={`w-full md:w-80 border-r border-white/10 bg-black/40 flex flex-col absolute md:relative inset-0 z-40 md:z-auto ${isMobileMenuOpen ? "flex" : "hidden md:flex"}`}
+                        >
+                            <div className="p-6 border-b border-white/10 flex justify-between items-center">
+                                <div>
+                                    <h3 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-1">Módulo</h3>
+                                    <h2 className="text-lg font-black text-white leading-tight">{moduleTitle}</h2>
                                 </div>
-                            </button>
-                        ))}
-                    </div>
-                </div>
+                                <button onClick={() => setIsMobileMenuOpen(false)} className="md:hidden p-2 text-gray-400">
+                                    <X size={20} />
+                                </button>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto p-4 space-y-2 custom-scrollbar">
+                                {lessons.map((lesson, index) => (
+                                    <button
+                                        key={lesson.id}
+                                        onClick={() => handleLessonSelect(index)}
+                                        className={`w-full text-left p-4 rounded-2xl transition-all border ${activeLessonIndex === index
+                                            ? "bg-primary/10 border-primary/20 text-white shadow-[0_0_20px_rgba(167,139,250,0.1)]"
+                                            : "bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300"
+                                            }`}
+                                    >
+                                        <div className="flex items-start gap-4">
+                                            <div className={`mt-1 shrink-0 ${activeLessonIndex === index ? "text-primary" : "text-gray-700"}`}>
+                                                {lesson.completed ? <CheckCircle2 size={18} /> : (lesson.type === 'video' ? <Play size={18} /> : <FileText size={18} />)}
+                                            </div>
+                                            <div>
+                                                <div className="text-sm font-black mb-1 line-clamp-2">{lesson.title}</div>
+                                                <div className="text-[10px] font-bold opacity-40 uppercase tracking-widest">{lesson.duration}</div>
+                                            </div>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Main Content Area */}
                 <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0a0a0c]">
-                    <div className="flex-1 overflow-y-auto p-8 md:p-12">
-                        <div className="max-w-3xl mx-auto space-y-8">
-                            <div className="flex items-center gap-3 text-sm text-gray-500 mb-8">
-                                <span>{moduleTitle}</span>
-                                <ChevronRight size={14} />
-                                <span className="text-white font-medium">{activeLesson.title}</span>
+                    {/* Desktop Close Button */}
+                    <button
+                        onClick={onClose}
+                        className="hidden md:flex absolute top-6 right-6 z-50 p-3 bg-white/5 hover:bg-white hover:text-black rounded-full text-white transition-all border border-white/10"
+                    >
+                        <X size={20} />
+                    </button>
+
+                    <div className="flex-1 overflow-y-auto p-6 md:p-16 custom-scrollbar">
+                        <div className="max-w-3xl mx-auto space-y-10">
+                            <div className="flex items-center gap-3 text-[10px] font-black text-gray-600 uppercase tracking-[0.2em]">
+                                <span className="hover:text-primary cursor-pointer transition-colors">{moduleTitle}</span>
+                                <ChevronRight size={12} />
+                                <span className="text-white">{activeLesson.title}</span>
                             </div>
 
-                            <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">
+                            <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-[1.1]">
                                 {activeLesson.title}
                             </h1>
 
-                            <div className="prose prose-invert prose-lg max-w-none">
+                            <div className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-headings:font-black prose-p:text-gray-400 prose-p:leading-relaxed prose-strong:text-white">
                                 {activeLesson.content}
                             </div>
 
                             {/* Quiz Section */}
                             {activeLesson.quiz && (
-                                <div className="mt-12 p-8 bg-white/5 rounded-3xl border border-white/10">
-                                    <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                                        <CheckCircle2 className="text-primary" />
-                                        Teste seu Conhecimento
-                                    </h3>
-                                    <p className="text-lg text-white mb-6 font-medium">{activeLesson.quiz.question}</p>
+                                <div className="mt-16 p-8 md:p-12 bg-white/[0.02] rounded-[2.5rem] border border-white/5 relative overflow-hidden group">
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-all duration-500" />
 
-                                    <div className="space-y-3">
+                                    <h3 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
+                                        <div className="p-2 bg-primary/20 rounded-lg">
+                                            <BrainCircuit className="text-primary" size={24} />
+                                        </div>
+                                        Desafio de Conhecimento
+                                    </h3>
+
+                                    <p className="text-xl text-white mb-8 font-bold leading-snug">{activeLesson.quiz.question}</p>
+
+                                    <div className="space-y-4">
                                         {activeLesson.quiz.options.map((option, idx) => (
                                             <button
                                                 key={idx}
@@ -125,38 +180,68 @@ export default function LessonModal({ moduleTitle, lessons, onClose }: LessonMod
                                                     if (quizResult) return;
                                                     setQuizSelected(idx);
                                                 }}
-                                                className={`w-full text-left p-4 rounded-xl border transition-all ${quizSelected === idx
-                                                        ? "bg-primary/20 border-primary text-white"
-                                                        : "bg-black/20 border-white/10 text-gray-400 hover:bg-white/5"
+                                                className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 ${quizSelected === idx
+                                                    ? "bg-primary/20 border-primary text-white shadow-[0_0_30px_rgba(167,139,250,0.2)]"
+                                                    : "bg-black/40 border-white/5 text-gray-500 hover:border-white/20 hover:text-gray-300"
                                                     } ${quizResult === 'correct' && idx === activeLesson.quiz!.correctAnswer ? "bg-green-500/20 border-green-500 text-green-400" : ""}
                                                   ${quizResult === 'incorrect' && idx === quizSelected ? "bg-red-500/20 border-red-500 text-red-400" : ""}
                                                 `}
                                             >
-                                                {option}
+                                                <div className="flex items-center gap-4">
+                                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black border ${quizSelected === idx ? "bg-primary border-primary text-black" : "bg-white/5 border-white/10"}`}>
+                                                        {String.fromCharCode(65 + idx)}
+                                                    </div>
+                                                    <span className="font-bold">{option}</span>
+                                                </div>
                                             </button>
                                         ))}
                                     </div>
 
-                                    {!quizResult && quizSelected !== null && (
-                                        <button
-                                            onClick={handleQuizSubmit}
-                                            className="mt-6 px-6 py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors"
-                                        >
-                                            Verificar Resposta
-                                        </button>
-                                    )}
+                                    <AnimatePresence>
+                                        {!quizResult && quizSelected !== null && (
+                                            <motion.button
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                onClick={handleQuizSubmit}
+                                                className="mt-8 w-full py-5 bg-white text-black font-black rounded-2xl hover:bg-primary hover:text-black transition-all shadow-xl uppercase tracking-widest text-xs"
+                                            >
+                                                Verificar Resposta
+                                            </motion.button>
+                                        )}
+                                    </AnimatePresence>
 
                                     {quizResult === 'correct' && (
-                                        <div className="mt-6 p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 font-bold animate-in fade-in slide-in-from-bottom-2">
-                                            Parabéns! Você acertou. 🎉
-                                        </div>
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.95 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            className="mt-8 p-6 bg-green-500/10 border border-green-500/20 rounded-2xl text-green-400 font-black flex items-center gap-4"
+                                        >
+                                            <div className="p-2 bg-green-500/20 rounded-full">
+                                                <CheckCircle2 size={24} />
+                                            </div>
+                                            <div>
+                                                <div className="text-lg">Excelente! Resposta correta.</div>
+                                                <div className="text-sm opacity-60 font-bold">Você está dominando o conteúdo! 🎉</div>
+                                            </div>
+                                        </motion.div>
                                     )}
 
                                     {quizResult === 'incorrect' && (
-                                        <div className="mt-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 font-bold animate-in fade-in slide-in-from-bottom-2">
-                                            Ops! Tente novamente.
-                                            <button onClick={() => setQuizResult(null)} className="ml-4 underline">Tentar de novo</button>
-                                        </div>
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.95 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            className="mt-8 p-6 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 font-black"
+                                        >
+                                            <div className="flex items-center gap-4 mb-2">
+                                                <div className="p-2 bg-red-500/20 rounded-full">
+                                                    <X size={24} />
+                                                </div>
+                                                <div className="text-lg">Não foi dessa vez...</div>
+                                            </div>
+                                            <button onClick={() => { setQuizResult(null); setQuizSelected(null); }} className="text-sm underline hover:text-white transition-colors ml-12">
+                                                Tentar novamente
+                                            </button>
+                                        </motion.div>
                                     )}
                                 </div>
                             )}
@@ -164,12 +249,26 @@ export default function LessonModal({ moduleTitle, lessons, onClose }: LessonMod
                     </div>
 
                     {/* Footer Actions */}
-                    <div className="p-6 border-t border-white/10 bg-black/40 flex justify-between items-center">
-                        <button className="text-sm font-bold text-gray-500 hover:text-white transition-colors">
-                            Anterior
+                    <div className="p-6 md:p-8 border-t border-white/10 bg-black/60 backdrop-blur-md flex justify-between items-center">
+                        <button
+                            onClick={handlePrevLesson}
+                            disabled={activeLessonIndex === 0}
+                            className={`flex items-center gap-2 text-xs font-black uppercase tracking-widest transition-all ${activeLessonIndex === 0 ? "opacity-20 cursor-not-allowed" : "text-gray-500 hover:text-white"}`}
+                        >
+                            <ChevronLeft size={16} /> Anterior
                         </button>
-                        <button className="px-8 py-3 bg-primary text-black font-bold rounded-xl hover:bg-primary/90 transition-all flex items-center gap-2">
-                            Próxima Aula <ChevronRight size={16} />
+
+                        <div className="hidden md:flex items-center gap-1">
+                            {lessons.map((_, i) => (
+                                <div key={i} className={`h-1 rounded-full transition-all duration-500 ${i === activeLessonIndex ? "w-8 bg-primary" : "w-2 bg-white/10"}`} />
+                            ))}
+                        </div>
+
+                        <button
+                            onClick={handleNextLesson}
+                            className="px-8 md:px-12 py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(167,139,250,0.3)] uppercase tracking-widest text-xs"
+                        >
+                            {activeLessonIndex === lessons.length - 1 ? "Finalizar Módulo" : "Próxima Aula"} <ChevronRight size={18} />
                         </button>
                     </div>
                 </div>
@@ -177,3 +276,5 @@ export default function LessonModal({ moduleTitle, lessons, onClose }: LessonMod
         </div>
     );
 }
+
+import { BrainCircuit } from "lucide-react";

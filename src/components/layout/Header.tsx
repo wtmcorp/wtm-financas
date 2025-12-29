@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { User, LogOut, LogIn, Heart } from "lucide-react";
+import { User, LogOut, LogIn, Heart, Search } from "lucide-react";
 import MobileMenu from "./MobileMenu";
 import Logo from "./Logo";
 import MarketTicker from "../dashboard/MarketTicker";
-
+import CommandPalette from "../ui/CommandPalette";
 
 export default function Header() {
     const { user, logout } = useAuth();
@@ -14,32 +14,37 @@ export default function Header() {
     return (
         <header className="fixed top-0 left-0 right-0 glass z-50 border-b border-white/5">
             <div className="px-4 md:px-6 py-3 md:py-4">
-                <div className="flex justify-between items-center max-w-7xl mx-auto w-full">
-                    <Link href="/">
-                        <Logo />
-                    </Link>
+                <div className="flex justify-between items-center max-w-7xl mx-auto w-full gap-4">
+                    <div className="flex items-center gap-4 md:gap-8">
+                        <Link href="/">
+                            <Logo />
+                        </Link>
 
-                    {/* Desktop Navigation */}
-                    <nav className="hidden lg:flex items-center gap-1 bg-white/5 p-1 rounded-2xl border border-white/5">
-                        {[
-                            { name: "Dashboard", href: "/" },
-                            { name: "Cartões", href: "/cards" },
-                            { name: "Ferramentas", href: "/tools" },
-                            { name: "I.As Úteis", href: "/ai-tools" },
-                            { name: "Desafio", href: "/private" },
-                            { name: "Aprenda", href: "/learn" },
-                        ].map((item) => (
-                            <Link
-                                key={item.name}
-                                href={item.href}
-                                className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all"
-                            >
-                                {item.name}
-                            </Link>
-                        ))}
-                    </nav>
+                        {/* Desktop Navigation */}
+                        <nav className="hidden lg:flex items-center gap-1 bg-white/5 p-1 rounded-2xl border border-white/5">
+                            {[
+                                { name: "Dashboard", href: "/" },
+                                { name: "Cartões", href: "/cards" },
+                                { name: "Ferramentas", href: "/tools" },
+                                { name: "I.As Úteis", href: "/ai-tools" },
+                                { name: "Desafio", href: "/private" },
+                                { name: "Aprenda", href: "/learn" },
+                            ].map((item) => (
+                                <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all"
+                                >
+                                    {item.name}
+                                </Link>
+                            ))}
+                        </nav>
+                    </div>
 
                     <div className="flex items-center gap-2 md:gap-6">
+                        {/* Command Palette Trigger */}
+                        <CommandPalette />
+
                         <div className="hidden md:flex items-center gap-6">
                             {user ? (
                                 <div className="flex items-center gap-4">
@@ -78,8 +83,8 @@ export default function Header() {
                 </div>
             </div>
 
-            {/* Real-time Market Ticker Bar - Slimmer & Cleaner - Hidden on Mobile */}
-            <div className="hidden md:block border-t border-white/5 bg-black/40 px-6 backdrop-blur-md">
+            {/* Real-time Market Ticker Bar - Slimmer & Cleaner */}
+            <div className="border-t border-white/5 bg-black/40 px-4 md:px-6 backdrop-blur-md">
                 <div className="max-w-7xl mx-auto">
                     <MarketTicker />
                 </div>

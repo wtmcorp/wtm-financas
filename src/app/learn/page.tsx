@@ -33,12 +33,34 @@ export default function LearnPage() {
             icon: ShieldCheck,
             level: "Iniciante" as const,
             progress: 80,
-            totalLessons: 7,
+            totalLessons: 8,
             completedLessons: 4,
             lessons: [
                 {
+                    id: "intro-wealth",
+                    title: "Aula 0: O Despertar Financeiro",
+                    duration: "5 min",
+                    type: "article" as const,
+                    completed: true,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Bem-vindo à sua jornada rumo à liberdade financeira. Antes de falarmos de números, precisamos falar de propósito. Por que você quer ser rico?</p>
+                            <p>Riqueza sem propósito é apenas um número. Nesta aula, vamos alinhar suas expectativas e entender que o dinheiro é uma ferramenta, não o fim.</p>
+                            <div className="bg-primary/10 p-6 rounded-2xl border border-primary/20">
+                                <h4 className="text-primary font-bold mb-2">O que você vai aprender neste módulo:</h4>
+                                <ul className="list-disc pl-5 space-y-2 text-gray-300">
+                                    <li>Como reprogramar sua mente para a abundância.</li>
+                                    <li>A diferença crucial entre ativos e passivos.</li>
+                                    <li>Como criar um orçamento que não te sufoca.</li>
+                                    <li>O passo a passo para sair das dívidas.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    )
+                },
+                {
                     id: "mindset",
-                    title: "Mentalidade de Investidor",
+                    title: "Aula 1: Mentalidade de Investidor",
                     duration: "10 min",
                     type: "article" as const,
                     completed: true,
@@ -46,9 +68,12 @@ export default function LearnPage() {
                         <div className="space-y-6">
                             <p>Para construir riqueza, o primeiro passo não é ganhar mais, mas pensar diferente. A mentalidade de escassez foca no que falta; a de abundância foca no que pode ser criado.</p>
                             <h3>1. Pague-se Primeiro</h3>
-                            <p>Antes de pagar contas ou gastar, separe uma parte para o seu futuro. Trate seu investimento como um boleto obrigatório.</p>
+                            <p>Antes de pagar contas ou gastar, separe uma parte para o seu futuro. Trate seu investimento como um boleto obrigatório. Se você esperar sobrar dinheiro no fim do mês, nunca sobrará.</p>
                             <h3>2. Ativos vs Passivos</h3>
-                            <p>Ativos colocam dinheiro no seu bolso (ações, imóveis de aluguel). Passivos tiram dinheiro (carro caro, assinaturas não usadas). Foque em acumular ativos.</p>
+                            <p>Ativos colocam dinheiro no seu bolso (ações, imóveis de aluguel, negócios). Passivos tiram dinheiro (carro caro, assinaturas não usadas, roupas de marca parceladas). Foque em acumular ativos.</p>
+                            <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
+                                <p className="text-yellow-500 text-sm font-medium"><strong>Dica de Ouro:</strong> Sua casa própria, se você mora nela e paga manutenção, é um passivo. Ela só se torna um ativo se gerar renda.</p>
+                            </div>
                         </div>
                     ),
                     quiz: {
@@ -64,11 +89,22 @@ export default function LearnPage() {
                 },
                 {
                     id: "budget",
-                    title: "O Orçamento Blindado",
+                    title: "Aula 2: O Orçamento Blindado",
                     duration: "15 min",
                     type: "article" as const,
                     completed: true,
-                    content: <p>Conteúdo sobre como criar um orçamento que funciona...</p>,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Um orçamento não serve para te impedir de gastar, mas para te dar permissão para gastar com o que realmente importa.</p>
+                            <h3>A Regra 50-30-20</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>50% Necessidades:</strong> Aluguel, comida, contas básicas.</li>
+                                <li><strong>30% Desejos:</strong> Lazer, hobbies, saídas.</li>
+                                <li><strong>20% Futuro:</strong> Investimentos e quitação de dívidas.</li>
+                            </ul>
+                            <p>Se suas necessidades ultrapassam 50%, você tem um problema de custo de vida ou de renda. Ajuste ou aumente sua renda.</p>
+                        </div>
+                    ),
                     quiz: {
                         question: "Qual a regra recomendada para divisão de renda?",
                         options: [
@@ -82,31 +118,62 @@ export default function LearnPage() {
                 },
                 {
                     id: "emergency",
-                    title: "Reserva de Emergência",
+                    title: "Aula 3: Reserva de Emergência",
                     duration: "12 min",
                     type: "article" as const,
                     completed: true,
-                    content: <p>Por que você precisa de 6 meses de custo de vida guardados...</p>
+                    content: (
+                        <div className="space-y-6">
+                            <p>A reserva de emergência é o seu seguro contra o caos. Sem ela, qualquer imprevisto te joga de volta nas dívidas.</p>
+                            <h3>Quanto guardar?</h3>
+                            <p>O ideal é ter entre 6 a 12 meses do seu <strong>custo de vida</strong> (não do seu salário) guardados em um lugar de fácil acesso (liquidez imediata).</p>
+                            <h3>Onde deixar?</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li>Tesouro Selic</li>
+                                <li>CDB de Liquidez Diária (100% CDI)</li>
+                                <li>Contas remuneradas de bancos sólidos</li>
+                            </ul>
+                        </div>
+                    )
                 },
                 {
                     id: "debt",
-                    title: "Matando Dívidas",
+                    title: "Aula 4: Matando Dívidas",
                     duration: "20 min",
                     type: "article" as const,
                     completed: true,
-                    content: <p>Estratégias Avalanche e Bola de Neve explicadas...</p>
+                    content: (
+                        <div className="space-y-6">
+                            <p>Dívidas com juros altos (cartão de crédito, cheque especial) são o câncer da sua vida financeira. Elas precisam ser eliminadas antes de começar a investir pesado.</p>
+                            <h3>Estratégia Bola de Neve</h3>
+                            <p>Pague a dívida menor primeiro para ganhar motivação psicológica, depois use o valor que sobrava para atacar a próxima.</p>
+                            <h3>Estratégia Avalanche</h3>
+                            <p>Pague a dívida com o maior juro primeiro. Matematicamente é a melhor opção, pois você economiza mais dinheiro no longo prazo.</p>
+                        </div>
+                    )
                 },
                 {
                     id: "goals",
-                    title: "Definindo Metas Claras",
+                    title: "Aula 5: Definindo Metas Claras",
                     duration: "8 min",
                     type: "article" as const,
                     completed: false,
-                    content: <p>Como transformar sonhos em metas financeiras tangíveis...</p>
+                    content: (
+                        <div className="space-y-6">
+                            <p>Quem não sabe para onde vai, qualquer caminho serve. Suas metas precisam ser SMART:</p>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>S (Específica):</strong> "Quero R$ 10.000" em vez de "Quero ser rico".</li>
+                                <li><strong>M (Mensurável):</strong> Você consegue acompanhar o progresso.</li>
+                                <li><strong>A (Atingível):</strong> Seja realista, mas ambicioso.</li>
+                                <li><strong>R (Relevante):</strong> Tem que fazer sentido para sua vida.</li>
+                                <li><strong>T (Temporal):</strong> "Até dezembro de 2026".</li>
+                            </ul>
+                        </div>
+                    )
                 },
                 {
                     id: "compound-interest",
-                    title: "O Poder dos Juros Compostos",
+                    title: "Aula 6: O Poder dos Juros Compostos",
                     duration: "15 min",
                     type: "article" as const,
                     completed: false,
@@ -114,18 +181,23 @@ export default function LearnPage() {
                         <div className="space-y-6">
                             <p>Einstein chamou os juros compostos de a "oitava maravilha do mundo". É o dinheiro trabalhando para você, onde os juros de hoje rendem juros amanhã.</p>
                             <h3>A Fórmula do Enriquecimento</h3>
-                            <p>Tempo + Aportes Constantes + Rentabilidade = Fortuna.</p>
-                            <p>Quanto mais cedo você começa, menos esforço precisa fazer no futuro.</p>
+                            <p className="text-2xl font-black text-center py-4 bg-white/5 rounded-xl">Tempo + Aportes Constantes + Rentabilidade = Fortuna.</p>
+                            <p>O fator mais importante é o <strong>Tempo</strong>. Quanto mais cedo você começa, menos esforço precisa fazer no futuro. O segundo mais importante é o <strong>Aporte</strong> (quanto você investe todo mês).</p>
                         </div>
                     )
                 },
                 {
                     id: "inflation",
-                    title: "Inflação: O Inimigo Invisível",
+                    title: "Aula 7: Inflação: O Inimigo Invisível",
                     duration: "10 min",
                     type: "article" as const,
                     completed: false,
-                    content: <p>Como a inflação corrói seu poder de compra e por que você precisa de investimentos que ganhem do IPCA...</p>
+                    content: (
+                        <div className="space-y-6">
+                            <p>A inflação é o aumento generalizado dos preços. Ela corrói o seu poder de compra. R$ 100 hoje compram muito menos do que compravam há 10 anos.</p>
+                            <p>Seu investimento precisa render <strong>acima da inflação</strong> (ganho real). Se a inflação é 5% e seu investimento rende 5%, você não ganhou nada, apenas manteve o valor.</p>
+                        </div>
+                    )
                 }
             ]
         },
@@ -136,16 +208,34 @@ export default function LearnPage() {
             icon: BookOpen,
             level: "Iniciante" as const,
             progress: 30,
-            totalLessons: 6,
+            totalLessons: 7,
             completedLessons: 2,
             lessons: [
                 {
+                    id: "intro-fixed",
+                    title: "Aula 0: O que é Renda Fixa?",
+                    duration: "8 min",
+                    type: "article" as const,
+                    completed: true,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Investir em Renda Fixa é basicamente emprestar dinheiro para alguém (Governo, Banco ou Empresa) em troca de juros.</p>
+                            <p>É o porto seguro do investidor, ideal para objetivos de curto e médio prazo ou para a reserva de emergência.</p>
+                        </div>
+                    )
+                },
+                {
                     id: "selic-cdi",
-                    title: "O que é Selic e CDI?",
+                    title: "Aula 1: O que é Selic e CDI?",
                     duration: "15 min",
                     type: "article" as const,
                     completed: true,
-                    content: <p>A sopa de letrinhas explicada de forma simples...</p>,
+                    content: (
+                        <div className="space-y-6">
+                            <p>A Selic é a taxa básica de juros da economia brasileira, definida pelo Banco Central. O CDI (Certificado de Depósito Interbancário) é uma taxa que anda colada na Selic e é usada pelos bancos.</p>
+                            <p>Quando a Selic sobe, a Renda Fixa paga mais. Quando cai, paga menos.</p>
+                        </div>
+                    ),
                     quiz: {
                         question: "O que acontece com a Renda Fixa quando a Selic sobe?",
                         options: [
@@ -159,11 +249,38 @@ export default function LearnPage() {
                 },
                 {
                     id: "tesouro",
-                    title: "Tesouro Direto: Empreste para o Governo",
+                    title: "Aula 2: Tesouro Direto: Empreste para o Governo",
                     duration: "18 min",
                     type: "article" as const,
                     completed: true,
-                    content: <p>Selic, IPCA+ ou Prefixado? Qual escolher?</p>
+                    content: (
+                        <div className="space-y-6">
+                            <p>O Tesouro Direto é o investimento mais seguro do país. Você empresta dinheiro para o Governo Federal.</p>
+                            <h3>Principais Títulos:</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Tesouro Selic:</strong> Ideal para reserva de emergência.</li>
+                                <li><strong>Tesouro IPCA+:</strong> Protege contra a inflação. Ideal para aposentadoria.</li>
+                                <li><strong>Tesouro Prefixado:</strong> Você sabe exatamente quanto vai receber no final.</li>
+                            </ul>
+                        </div>
+                    )
+                },
+                {
+                    id: "cdb-lci-lca",
+                    title: "Aula 3: CDB, LCI e LCA",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Aqui você empresta para os bancos.</p>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>CDB:</strong> Certificado de Depósito Bancário. Tem imposto de renda.</li>
+                                <li><strong>LCI/LCA:</strong> Letras de Crédito Imobiliário/Agronegócio. São <strong>isentas de IR</strong> para pessoa física.</li>
+                            </ul>
+                            <p>Sempre compare o rendimento líquido (após impostos) para saber qual vale mais a pena.</p>
+                        </div>
+                    )
                 }
             ]
         },
@@ -174,12 +291,25 @@ export default function LearnPage() {
             icon: TrendingUp,
             level: "Intermediário" as const,
             progress: 10,
-            totalLessons: 4,
+            totalLessons: 6,
             completedLessons: 1,
             lessons: [
                 {
+                    id: "intro-stocks",
+                    title: "Aula 0: O Mundo da Renda Variável",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: true,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Na Renda Variável, você não sabe exatamente quanto vai ganhar. O risco é maior, mas o potencial de retorno também.</p>
+                            <p>É aqui que a verdadeira riqueza é construída no longo prazo, através da participação no lucro de grandes empresas.</p>
+                        </div>
+                    )
+                },
+                {
                     id: "stocks-intro",
-                    title: "O que é uma Ação?",
+                    title: "Aula 1: O que é uma Ação?",
                     duration: "10 min",
                     type: "article" as const,
                     completed: true,
@@ -194,7 +324,7 @@ export default function LearnPage() {
                             </ul>
                             <h3>Como ganho dinheiro?</h3>
                             <p>1. <strong>Valorização:</strong> Comprar barato e vender caro.</p>
-                            <p>2. <strong>Dividendos:</strong> Parte do lucro da empresa distribuída aos acionistas (isento de IR).</p>
+                            <p>2. <strong>Dividendos:</strong> Parte do lucro da empresa distribuída aos acionistas (isento de IR no Brasil atualmente).</p>
                         </div>
                     ),
                     quiz: {
@@ -210,7 +340,7 @@ export default function LearnPage() {
                 },
                 {
                     id: "analysis",
-                    title: "Análise Fundamentalista Básica",
+                    title: "Aula 2: Análise Fundamentalista Básica",
                     duration: "20 min",
                     type: "article" as const,
                     completed: false,
@@ -219,10 +349,10 @@ export default function LearnPage() {
                             <p>Não compre ações como se fosse loteria. Analise os fundamentos da empresa.</p>
                             <h3>Principais Indicadores</h3>
                             <ul className="list-disc pl-5 space-y-2">
-                                <li><strong>P/L (Preço sobre Lucro):</strong> Em quantos anos o lucro da empresa paga o preço da ação. Quanto menor, "mais barata" (teoricamente).</li>
+                                <li><strong>P/L (Preço sobre Lucro):</strong> Em quantos anos o lucro da empresa paga o preço da ação.</li>
                                 <li><strong>P/VP (Preço sobre Valor Patrimonial):</strong> Quanto o mercado paga pelo patrimônio líquido. Abaixo de 1.0 indica desconto.</li>
-                                <li><strong>Dividend Yield (DY):</strong> Quanto a ação pagou de proventos nos últimos 12 meses em relação ao preço atual.</li>
-                                <li><strong>ROE (Retorno sobre Patrimônio):</strong> Mede a eficiência da empresa em gerar lucro com o dinheiro dos sócios.</li>
+                                <li><strong>Dividend Yield (DY):</strong> Quanto a ação pagou de proventos nos últimos 12 meses.</li>
+                                <li><strong>ROE (Retorno sobre Patrimônio):</strong> Mede a eficiência da empresa em gerar lucro.</li>
                             </ul>
                         </div>
                     ),
@@ -236,22 +366,6 @@ export default function LearnPage() {
                         ],
                         correctAnswer: 1
                     }
-                },
-                {
-                    id: "home-broker",
-                    title: "Operando o Home Broker",
-                    duration: "15 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: <p>Guia prático de como enviar ordens de compra e venda...</p>
-                },
-                {
-                    id: "risks",
-                    title: "Gestão de Risco",
-                    duration: "12 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: <p>Diversificação, Stop Loss e como não perder tudo...</p>
                 }
             ]
         },
@@ -262,24 +376,36 @@ export default function LearnPage() {
             icon: Coins,
             level: "Intermediário" as const,
             progress: 0,
-            totalLessons: 3,
+            totalLessons: 5,
             completedLessons: 0,
             lessons: [
                 {
+                    id: "intro-fiis",
+                    title: "Aula 0: O que são FIIs?",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Fundos Imobiliários (FIIs) são condomínios de investidores que reúnem recursos para investir no mercado imobiliário.</p>
+                            <p>É a forma mais fácil e barata de investir em imóveis de altíssima qualidade (shoppings, galpões, prédios comerciais) e receber aluguel todo mês.</p>
+                        </div>
+                    )
+                },
+                {
                     id: "fiis-intro",
-                    title: "A Mágica dos Fundos Imobiliários",
+                    title: "Aula 1: A Mágica dos FIIs",
                     duration: "12 min",
                     type: "article" as const,
                     completed: false,
                     content: (
                         <div className="space-y-6">
-                            <p>FIIs são fundos que investem no mercado imobiliário. Eles são obrigados por lei a distribuir 95% do lucro semestral aos cotistas (na prática, pagam todo mês).</p>
-                            <h3>Vantagens sobre Imóveis Físicos</h3>
+                            <p>FIIs são obrigados por lei a distribuir 95% do lucro semestral aos cotistas. Na prática, a maioria paga mensalmente.</p>
+                            <h3>Vantagens:</h3>
                             <ul className="list-disc pl-5 space-y-2">
-                                <li><strong>Liquidez:</strong> Venda suas cotas em segundos na bolsa.</li>
-                                <li><strong>Acessibilidade:</strong> Comece com R$ 10,00 ou R$ 100,00.</li>
-                                <li><strong>Isenção de IR:</strong> Os rendimentos mensais são isentos para PF.</li>
-                                <li><strong>Diversificação:</strong> Com uma cota, você pode ser dono de pedaços de 10 shoppings ou 20 galpões logísticos.</li>
+                                <li><strong>Liquidez:</strong> Venda suas cotas em segundos.</li>
+                                <li><strong>Acessibilidade:</strong> Comece com menos de R$ 100,00.</li>
+                                <li><strong>Isenção de IR:</strong> Rendimentos mensais isentos para pessoas físicas.</li>
                             </ul>
                         </div>
                     ),
@@ -293,300 +419,6 @@ export default function LearnPage() {
                         ],
                         correctAnswer: 2
                     }
-                },
-                {
-                    id: "types-fiis",
-                    title: "Tijolo vs Papel",
-                    duration: "15 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <h3>FIIs de Tijolo</h3>
-                            <p>Investem em imóveis reais: Shoppings, Galpões Logísticos, Lajes Corporativas, Hospitais. Ganham com aluguel e valorização do imóvel.</p>
-                            <h3>FIIs de Papel</h3>
-                            <p>Investem em dívida imobiliária (CRI, LCI). Funcionam como uma "Renda Fixa turbinada". Pagam dividendos altos, mas não costumam valorizar tanto a cota.</p>
-                            <h3>Fiagro</h3>
-                            <p>Primos dos FIIs, mas focados no Agronegócio. Investem em terras ou dívidas de produtores rurais.</p>
-                        </div>
-                    )
-                },
-                {
-                    id: "analysis-fiis",
-                    title: "Como escolher um FII?",
-                    duration: "18 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: <p>Vacância, Cap Rate, Localização e Qualidade dos inquilinos...</p>
-                }
-            ]
-        },
-        {
-            id: "global",
-            title: "Investidor Global",
-            description: "Proteja seu patrimônio investindo em Dólar, Stocks e REITs. A importância da diversificação internacional.",
-            icon: Globe,
-            level: "Avançado" as const,
-            progress: 0,
-            totalLessons: 3,
-            completedLessons: 0,
-            lessons: [
-                {
-                    id: "why-global",
-                    title: "Por que investir no exterior?",
-                    duration: "15 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <p>O Brasil representa menos de 1% da economia global. Ficar restrito aqui é correr o "Risco Brasil" desnecessariamente.</p>
-                            <h3>Motivos para dolarizar:</h3>
-                            <ul className="list-disc pl-5 space-y-2">
-                                <li><strong>Moeda Forte:</strong> O Dólar é a reserva de valor do mundo. O Real perde poder de compra historicamente.</li>
-                                <li><strong>Maiores Empresas:</strong> Apple, Microsoft, Google, Amazon não estão na B3 (diretamente).</li>
-                                <li><strong>Proteção:</strong> Em crises locais, o dólar costuma subir, protegendo seu patrimônio.</li>
-                            </ul>
-                        </div>
-                    ),
-                    quiz: {
-                        question: "Qual a principal vantagem de investir no exterior?",
-                        options: [
-                            "Pagar mais impostos",
-                            "Acessar moedas fortes e diluir o risco país",
-                            "É mais fácil que investir no Brasil",
-                            "Garantia de lucro rápido"
-                        ],
-                        correctAnswer: 1
-                    }
-                },
-                {
-                    id: "stocks-reits",
-                    title: "Stocks e REITs",
-                    duration: "20 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <h3>Stocks (Ações Americanas)</h3>
-                            <p>Funcionam como as ações no Brasil, mas em um mercado muito mais maduro e líquido. Você vira sócio das marcas que usa todo dia.</p>
-                            <h3>REITs (Real Estate Investment Trusts)</h3>
-                            <p>Os "primos" dos FIIs. São empresas que operam imóveis nos EUA. Diferente dos FIIs, eles podem se alavancar (tomar dívida) para crescer, o que aumenta o potencial de retorno (e o risco).</p>
-                        </div>
-                    ),
-                    quiz: {
-                        question: "O que são REITs?",
-                        options: [
-                            "Ações de tecnologia",
-                            "Títulos de dívida do governo americano",
-                            "Empresas que operam imóveis nos EUA (semelhantes a FIIs)",
-                            "Criptomoedas"
-                        ],
-                        correctAnswer: 2
-                    }
-                },
-                {
-                    id: "how-to-global",
-                    title: "Como começar?",
-                    duration: "10 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: <p>BDRs (na B3) vs Conta no Exterior (Avenue, Nomad, IBKR). Prós e contras de cada caminho...</p>
-                }
-            ]
-        },
-        {
-            id: "crypto",
-            title: "Criptoeconomia",
-            description: "Bitcoin, Ethereum e DeFi. Entenda a nova economia digital e como investir com cautela.",
-            icon: BrainCircuit,
-            level: "Avançado" as const,
-            progress: 0,
-            totalLessons: 4,
-            completedLessons: 0,
-            lessons: [
-                {
-                    id: "bitcoin",
-                    title: "Bitcoin: O Ouro Digital",
-                    duration: "25 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <p>O Bitcoin (BTC) é a primeira moeda digital descentralizada e escassa do mundo. Não depende de governos ou bancos.</p>
-                            <h3>Características:</h3>
-                            <ul className="list-disc pl-5 space-y-2">
-                                <li><strong>Descentralização:</strong> A rede roda em milhares de computadores pelo mundo.</li>
-                                <li><strong>Escassez:</strong> Só existirão 21 milhões de unidades. Impossível "imprimir" mais.</li>
-                                <li><strong>Segurança:</strong> A Blockchain do Bitcoin nunca foi hackeada.</li>
-                            </ul>
-                        </div>
-                    ),
-                    quiz: {
-                        question: "Qual o limite máximo de Bitcoins que existirão?",
-                        options: [
-                            "Infinito",
-                            "100 milhões",
-                            "21 milhões",
-                            "Depende do governo"
-                        ],
-                        correctAnswer: 2
-                    }
-                },
-                {
-                    id: "ethereum",
-                    title: "Ethereum e Smart Contracts",
-                    duration: "20 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <p>Se o Bitcoin é o ouro digital, o Ethereum é o "petróleo" da internet descentralizada. Ele permite criar programas (Smart Contracts) que rodam sozinhos.</p>
-                            <p>É a base para NFTs, DeFi (Finanças Descentralizadas) e o Metaverso.</p>
-                        </div>
-                    )
-                },
-                {
-                    id: "security-crypto",
-                    title: "Segurança: Not Your Keys...",
-                    duration: "15 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <h3>Hot Wallets vs Cold Wallets</h3>
-                            <p>Deixar cripto na corretora é arriscado. O ideal é fazer a auto-custódia.</p>
-                            <p><strong>Frase de ouro:</strong> "Not your keys, not your coins" (Sem suas chaves, sem suas moedas).</p>
-                        </div>
-                    ),
-                    quiz: {
-                        question: "Onde é o lugar mais seguro para guardar criptomoedas a longo prazo?",
-                        options: [
-                            "Na corretora (Exchange)",
-                            "Em uma Cold Wallet (Carteira Fria/Hardware)",
-                            "No banco",
-                            "No email"
-                        ],
-                        correctAnswer: 1
-                    }
-                },
-                {
-                    id: "defi",
-                    title: "DeFi: O Banco sem Banqueiro",
-                    duration: "18 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: <p>Como emprestar dinheiro e ganhar juros, fazer trocas e seguros sem intermediários...</p>
-                }
-            ]
-        },
-        {
-            id: "miles",
-            title: "Cartões de Crédito & Milhas",
-            description: "Transforme seus gastos diários em viagens e dinheiro. O guia definitivo sobre milhas aéreas.",
-            icon: Plane,
-            level: "Intermediário" as const,
-            progress: 0,
-            totalLessons: 4,
-            completedLessons: 0,
-            lessons: [
-                {
-                    id: "miles-intro",
-                    title: "O que são Milhas e Pontos?",
-                    duration: "12 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <p>Pontos e milhas são moedas de programas de fidelidade. Pontos geralmente são acumulados em bancos (Livelo, Esfera) e milhas em companhias aéreas (Smiles, TudoAzul, LATAM Pass).</p>
-                            <h3>Como Acumular</h3>
-                            <ul className="list-disc pl-5 space-y-2">
-                                <li><strong>Cartão de Crédito:</strong> A forma mais comum, mas não a única.</li>
-                                <li><strong>Compras Bonificadas:</strong> Ganhe 10 pontos por real gasto em lojas parceiras.</li>
-                                <li><strong>Clubes de Fidelidade:</strong> Assinaturas mensais que garantem pontos.</li>
-                                <li><strong>Transferências:</strong> Mova pontos do banco para a aérea com bônus (ex: 100% de bônus).</li>
-                            </ul>
-                        </div>
-                    ),
-                    quiz: {
-                        question: "Qual a diferença básica entre pontos e milhas?",
-                        options: [
-                            "Nenhuma, são a mesma coisa",
-                            "Pontos são do banco, milhas são da companhia aérea",
-                            "Milhas valem mais que pontos",
-                            "Pontos expiram e milhas não"
-                        ],
-                        correctAnswer: 1
-                    }
-                },
-                {
-                    id: "best-cards-miles",
-                    title: "Escolhendo o Cartão Certo",
-                    duration: "15 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: <p>Análise de cartões que pontuam mais e oferecem benefícios de viagem...</p>
-                },
-                {
-                    id: "transfer-bonus",
-                    title: "A Mágica da Transferência Bonificada",
-                    duration: "18 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: <p>Como dobrar seus pontos esperando o momento certo para transferir...</p>
-                },
-                {
-                    id: "selling-miles",
-                    title: "Vendendo Milhas: Renda Extra",
-                    duration: "10 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: <p>Como transformar milhas em dinheiro no bolso através de plataformas de venda...</p>
-                }
-            ]
-        },
-        {
-            id: "taxes",
-            title: "Impostos e Declaração",
-            description: "Não tenha medo do Leão. Aprenda a declarar seus investimentos e otimizar seus impostos.",
-            icon: ShieldCheck,
-            level: "Avançado" as const,
-            progress: 0,
-            totalLessons: 3,
-            completedLessons: 0,
-            lessons: [
-                {
-                    id: "irpf-intro",
-                    title: "IRPF para Investidores",
-                    duration: "20 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <p>Investir obriga você a declarar o Imposto de Renda, mesmo que não tenha imposto a pagar. O segredo é a organização.</p>
-                            <h3>O que declarar?</h3>
-                            <ul className="list-disc pl-5 space-y-2">
-                                <li><strong>Bens e Direitos:</strong> Onde você lista o que possui (ações, FIIs, saldo em conta).</li>
-                                <li><strong>Rendimentos Isentos:</strong> Dividendos e rendimentos de FIIs.</li>
-                                <li><strong>Rendimentos Tributáveis:</strong> Juros sobre Capital Próprio (JCP).</li>
-                            </ul>
-                        </div>
-                    )
-                },
-                {
-                    id: "darf",
-                    title: "Como Gerar e Pagar DARF",
-                    duration: "15 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: <p>Guia passo a passo para calcular o lucro em ações e pagar o imposto mensal quando necessário...</p>
-                },
-                {
-                    id: "tax-optimization",
-                    title: "Otimização Fiscal Legal",
-                    duration: "12 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: <p>Como usar a isenção de R$ 20 mil em vendas de ações e outras estratégias legais para pagar menos imposto...</p>
                 }
             ]
         }

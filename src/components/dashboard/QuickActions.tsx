@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Plus, Download, Target, TrendingUp, Zap } from 'lucide-react';
+import { Plus, Download, Target, TrendingUp, Zap, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import TransactionModal from '@/components/finance/TransactionModal';
 import { Tooltip } from '@/components/ui/Tooltip';
+import { motion } from 'framer-motion';
 
 const QuickActions = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,28 +35,28 @@ const QuickActions = () => {
         {
             icon: Plus,
             label: 'Adicionar',
-            gradient: 'from-indigo-500 to-purple-600',
+            gradient: 'from-[#6366f1] to-[#a855f7]',
             onClick: () => setIsModalOpen(true),
             tooltip: 'Adicione uma nova transação de entrada ou saída rapidamente.'
         },
         {
             icon: Target,
             label: 'Metas',
-            gradient: 'from-emerald-500 to-green-600',
+            gradient: 'from-[#10b981] to-[#3b82f6]',
             onClick: () => router.push('/goals'),
             tooltip: 'Visualize e gerencie suas metas financeiras de curto e longo prazo.'
         },
         {
             icon: TrendingUp,
             label: 'Relatórios',
-            gradient: 'from-blue-500 to-cyan-600',
+            gradient: 'from-[#3b82f6] to-[#2dd4bf]',
             onClick: () => router.push('/trends'),
             tooltip: 'Acesse relatórios detalhados sobre seus gastos e evolução patrimonial.'
         },
         {
             icon: Download,
             label: 'Exportar',
-            gradient: 'from-orange-500 to-amber-600',
+            gradient: 'from-[#f59e0b] to-[#ef4444]',
             onClick: exportTransactions,
             tooltip: 'Baixe todas as suas transações em formato CSV para abrir no Excel.'
         },
@@ -64,28 +65,39 @@ const QuickActions = () => {
     return (
         <>
             <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <div className="relative card-premium p-6 rounded-2xl h-auto md:h-[400px] flex flex-col">
-                    <div className="flex items-center gap-2 mb-6">
-                        <div className="w-1 h-4 bg-indigo-400 rounded-full" />
-                        <Zap className="w-5 h-5 text-indigo-400" />
-                        <h3 className="text-lg font-bold text-white uppercase tracking-tight">Ações Rápidas</h3>
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="relative card-premium p-8 rounded-[2rem] h-auto md:h-[420px] flex flex-col border border-white/5 group-hover:border-white/10 transition-all">
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-primary/10 rounded-lg">
+                                <Zap className="w-5 h-5 text-primary" />
+                            </div>
+                            <h3 className="text-xl font-black text-white tracking-tight uppercase">Ações Rápidas</h3>
+                        </div>
+                        <div className="h-1 w-12 bg-white/5 rounded-full" />
                     </div>
-                    <div className="grid grid-cols-2 gap-3 flex-1">
+
+                    <div className="grid grid-cols-2 gap-4 flex-1">
                         {actions.map((action, index) => (
                             <Tooltip key={index} text={action.tooltip}>
-                                <button
+                                <motion.button
+                                    whileHover={{ scale: 1.02, y: -2 }}
+                                    whileTap={{ scale: 0.98 }}
                                     onClick={action.onClick}
-                                    className="w-full h-full group/btn relative overflow-hidden rounded-xl transition-all hover:scale-[1.02] active:scale-95"
+                                    className="w-full h-full group/btn relative overflow-hidden rounded-2xl transition-all"
                                 >
-                                    <div className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-5 group-hover/btn:opacity-10 transition-opacity`}></div>
-                                    <div className="relative glass h-full flex flex-col items-center justify-center p-4 gap-3 border border-white/5 group-hover/btn:border-white/10 transition-all">
-                                        <div className={`p-3 bg-gradient-to-br ${action.gradient} rounded-xl shadow-lg group-hover/btn:scale-110 transition-transform duration-300`}>
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 group-hover/btn:opacity-10 transition-opacity duration-500`}></div>
+                                    <div className="relative h-full flex flex-col items-center justify-center p-5 gap-4 bg-white/[0.02] border border-white/5 group-hover/btn:border-white/20 transition-all backdrop-blur-sm">
+                                        <div className={`p-4 bg-gradient-to-br ${action.gradient} rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.3)] group-hover/btn:shadow-primary/20 group-hover/btn:scale-110 transition-all duration-500`}>
                                             <action.icon className="w-6 h-6 text-white" />
                                         </div>
-                                        <span className="text-xs font-bold text-gray-300 group-hover/btn:text-white transition-colors uppercase tracking-widest">{action.label}</span>
+                                        <div className="text-center">
+                                            <span className="text-[10px] font-black text-gray-400 group-hover/btn:text-white transition-colors uppercase tracking-[0.2em]">{action.label}</span>
+                                        </div>
+
+                                        <ArrowRight size={14} className="absolute bottom-4 right-4 text-white/0 group-hover/btn:text-white/40 transition-all -translate-x-2 group-hover/btn:translate-x-0" />
                                     </div>
-                                </button>
+                                </motion.button>
                             </Tooltip>
                         ))}
                     </div>
