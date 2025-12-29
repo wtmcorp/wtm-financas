@@ -68,25 +68,50 @@ const FALLBACK_NEWS = [
     }
 ];
 
-async function fetchAlphaVantageNews() {
+async function fetchGoogleNewsRSS() {
     try {
         const response = await fetch(
-            `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&topics=finance,economy,technology&apikey=${ALPHA_VANTAGE_KEY}&limit=20`
+            "https://news.google.com/rss/search?q=mercado+financeiro+brasil&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+            { next: { revalidate: 300 } }
         );
 
         if (!response.ok) {
-            throw new Error("Alpha Vantage API request failed");
+            throw new Error("Google News RSS request failed");
         }
 
-        const data = await response.json();
+        const xmlText = await response.text();
 
-        if (!data.feed || data.feed.length === 0) {
-            throw new Error("No news data received");
+        // Simple Regex Parser for RSS items
+        const items = [];
+        const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+        let match;
+
+        while ((match = itemRegex.exec(xmlText)) !== null) {
+            if (items.length >= 6) break;
+            const itemContent = match[1];
+
+            const titleMatch = itemContent.match(/<title>(.*?)<\/title>/);
+            const linkMatch = itemContent.match(/<link>(.*?)<\/link>/);
+            const pubDateMatch = itemContent.match(/<pubDate>(.*?)<\/pubDate>/);
+            const sourceMatch = itemContent.match(/<source url=".*?">(.*?)<\/source>/);
+
+            if (titleMatch && linkMatch) {
+                items.push({
+                    title: titleMatch[1].replace(" - " + (sourceMatch ? sourceMatch[1] : ""), ""), // Clean title
+                    link: linkMatch[1],
+                    pubDate: pubDateMatch ? pubDateMatch[1] : new Date().toISOString(),
+                    source: sourceMatch ? sourceMatch[1] : "Google News"
+                });
+            }
         }
 
-        // Transform Alpha Vantage data to our format
-        const transformedNews = data.feed.slice(0, 6).map((item: any, index: number) => {
-            const tags = ["Mercado", "Economia", "Investimentos", "Tecnologia", "Cripto", "Dividendos"];
+        if (items.length === 0) {
+            throw new Error("No news items found in RSS");
+        }
+
+        // Transform to our format
+        const transformedNews = items.map((item, index) => {
+            const tags = ["Mercado", "Economia", "Investimentos", "Bolsa", "Finanças", "Brasil"];
             const colors = [
                 "text-blue-400 border-blue-500/20 bg-blue-500/10",
                 "text-green-400 border-green-500/20 bg-green-500/10",
@@ -97,19 +122,19 @@ async function fetchAlphaVantageNews() {
             ];
 
             return {
-                source: item.source || "Financial News",
+                source: item.source,
                 title: item.title,
                 tag: tags[index % tags.length],
                 color: colors[index % colors.length],
-                time: item.time_published,
-                url: item.url,
-                image: item.banner_image || `https://images.unsplash.com/photo-${1611974765270 + index}?q=80&w=800&auto=format&fit=crop`
+                time: item.pubDate,
+                url: item.link,
+                image: `https://images.unsplash.com/photo-${1611974765270 + index}?q=80&w=800&auto=format&fit=crop`
             };
         });
 
         return transformedNews;
     } catch (error) {
-        console.error("Error fetching from Alpha Vantage:", error);
+        console.error("Error fetching from Google News RSS:", error);
         return null;
     }
 }
@@ -127,18 +152,18 @@ export async function GET() {
             });
         }
 
-        // Try to fetch from Alpha Vantage
-        const alphaNews = await fetchAlphaVantageNews();
+        // Try to fetch from Google News RSS
+        const googleNews = await fetchGoogleNewsRSS();
 
-        if (alphaNews && alphaNews.length > 0) {
-            newsCache = alphaNews;
+        if (googleNews && googleNews.length > 0) {
+            newsCache = googleNews;
             lastFetch = now;
 
             return NextResponse.json({
-                news: alphaNews,
+                news: googleNews,
                 cached: false,
                 timestamp: new Date().toISOString(),
-                source: "Alpha Vantage"
+                source: "Google News RSS"
             });
         }
 
