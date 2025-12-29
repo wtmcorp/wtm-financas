@@ -1070,6 +1070,162 @@ export default function LearnPage() {
                             </ul>
                         </div>
                     )
+                },
+                {
+                    id: "geo-arbitrage",
+                    title: "Aula 8: Geo-arbitragem (Ganhar em Dólar, Gastar em Real)",
+                    duration: "25 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>A forma mais rápida de enriquecer não é investir melhor, é mudar a moeda que você ganha.</p>
+
+                            <h3>O Conceito:</h3>
+                            <p>Geo-arbitragem é explorar a diferença de custo de vida entre países. Você ganha em moeda forte (USD, EUR, GBP) e vive em um país de moeda fraca (BRL, ARS, THB).</p>
+
+                            <h3>Estratégias Práticas:</h3>
+
+                            <h4>1. Trabalho Remoto Internacional</h4>
+                            <p>Sites como Toptal, Crossover e Turing pagam desenvolvedores e designers em dólar. Um salário "baixo" de $3k USD é R$ 15k+ no Brasil.</p>
+
+                            <h4>2. Residência Fiscal Estratégica</h4>
+                            <p>Se você não mora em nenhum lugar por mais de 183 dias, pode se tornar um "turista perpétuo" e legalmente não pagar imposto de renda em lugar nenhum (exige consultoria especializada).</p>
+
+                            <h4>3. Turismo de Parto</h4>
+                            <p>Ter filhos em países que dão cidadania por solo (Jus Soli), como EUA ou Brasil, para garantir passaportes fortes para a família.</p>
+
+                            <div className="bg-primary/10 p-6 rounded-2xl border border-primary/20">
+                                <p className="text-primary font-bold">Hack de Viagem:</p>
+                                <p className="text-gray-300">Use VPN para comprar passagens aéreas simulando estar em um país mais pobre. Os preços mudam drasticamente.</p>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: "churning",
+                    title: "Aula 9: Churning e Milhas (Dinheiro Grátis)",
+                    duration: "30 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Bancos e companhias aéreas gastam bilhões em marketing. Churning é a arte de pegar esse dinheiro para você.</p>
+
+                            <h3>1. Bônus de Cadastro (Sign-up Bonuses)</h3>
+                            <p>Nos EUA, é comum ganhar $500-$1000 apenas por abrir uma conta e gastar um valor mínimo. No Brasil, foque em promoções de adesão de cartões Black com isenção e bônus de milhas.</p>
+
+                            <h3>2. Manufactured Spending (Gasto Fabricado)</h3>
+                            <p>A técnica de gastar dinheiro no cartão de crédito sem realmente gastar dinheiro, apenas para gerar milhas.</p>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Carteiras Digitais:</strong> Pagar boletos de consumo ou de outros bancos usando cartão de crédito (99Pay, RecargaPay, PicPay). Cuidado com as taxas.</li>
+                                <li><strong>Compra e Venda de Milhas:</strong> Comprar milhas com desconto (ex: Livelo 50% off) e vender em sites como HotMilhas com lucro ou usar para viajar de executiva pelo preço de econômica.</li>
+                            </ul>
+
+                            <h3>3. Proteção de Preço</h3>
+                            <p>Compre um produto caro (iPhone, TV) com um cartão Visa Infinite/Mastercard Black. Se o preço cair em 30 dias, o seguro te devolve a diferença. Alguns "fabricam" anúncios falsos mais baratos para acionar o seguro (ILEGAL/FRAUDE).</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "leverage",
+                    title: "Aula 10: Alavancagem (Dinheiro dos Outros)",
+                    duration: "20 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Ricos usam dívida para enriquecer. Pobres usam dívida para empobrecer.</p>
+
+                            <h3>OPM (Other People's Money)</h3>
+                            <p>Usar dinheiro do banco para investir e ficar com o lucro da diferença (spread).</p>
+
+                            <h4>Exemplo Prático (Carry Trade):</h4>
+                            <p>1. Pegar empréstimo a juros baixos (ex: Japão, ou crédito subsidiado no Brasil como Pronampe/BNDES).</p>
+                            <p>2. Investir em algo com retorno garantido maior (ex: LCI/LCA ou FIIs).</p>
+                            <p>3. Lucro = Retorno do Investimento - Custo do Empréstimo.</p>
+
+                            <div className="bg-red-500/10 p-6 rounded-2xl border border-red-500/20">
+                                <p className="text-red-500 font-bold">⚠️ Risco de Ruína:</p>
+                                <p className="text-gray-300">Se o investimento der errado, você deve o banco. Alavancagem multiplica ganhos, mas também multiplica perdas.</p>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: "overemployment",
+                    title: "Aula 11: Overemployment (2 Empregos ao Mesmo Tempo)",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Por que ganhar 1 salário se você pode ganhar 2 (ou 3) trabalhando as mesmas 8 horas?</p>
+
+                            <h3>A Estratégia:</h3>
+                            <p>Com o trabalho remoto, ninguém vê o que você está fazendo. A ideia é ter 2 empregos full-time remotos simultâneos (J1 e J2).</p>
+
+                            <h3>Regras de Ouro:</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Seja Medíocre:</strong> Não tente ser promovido. Faça apenas o necessário para não ser demitido.</li>
+                                <li><strong>Sem LinkedIn:</strong> Hibernar o perfil para que J1 não descubra J2.</li>
+                                <li><strong>Gestão de Reuniões:</strong> Bloqueie a agenda. Se houver conflito, invente "problemas de internet" ou "conflito pessoal".</li>
+                                <li><strong>Equipamento Separado:</strong> Nunca use o laptop da empresa A para trabalhar na empresa B.</li>
+                            </ul>
+
+                            <p><strong>Ético?</strong> As empresas te demitem sem pensar duas vezes. Você está apenas vendendo seu serviço para mais de um cliente.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "social-engineering",
+                    title: "Aula 12: Engenharia Social Corporativa",
+                    duration: "22 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>O mundo corporativo não é uma meritocracia. É um jogo político.</p>
+
+                            <h3>As 48 Leis do Poder (Aplicadas):</h3>
+
+                            <h4>1. Nunca ofusque o mestre</h4>
+                            <p>Faça seu chefe parecer brilhante, mesmo que ele seja incompetente. Se ele se sentir ameaçado, vai te demitir.</p>
+
+                            <h4>2. Crie dependência</h4>
+                            <p>Torne-se a única pessoa que sabe resolver um problema crítico (e não documente a solução). Se não podem te substituir, não podem te demitir.</p>
+
+                            <h4>3. Use a informação como arma</h4>
+                            <p>Descubra salários dos colegas, planos de reestruturação e fofocas. Informação é poder de negociação.</p>
+
+                            <h4>4. A técnica do "Espelho"</h4>
+                            <p>Imite sutilmente a linguagem corporal e o tom de voz do seu interlocutor. Isso cria conexão subconsciente imediata.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "extreme-optimization",
+                    title: "Aula 13: Otimização de Vida Extrema",
+                    duration: "18 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <h3>Hacks de Estilo de Vida:</h3>
+
+                            <h4>1. House Hacking</h4>
+                            <p>Compre um imóvel multifamiliar (duplex/triplex). More em uma unidade e alugue as outras. O aluguel dos inquilinos paga sua hipoteca. Você mora de graça.</p>
+
+                            <h4>2. Compras de Alto Valor</h4>
+                            <p>Nunca compre carro zero. Compre de leilão ou usados de luxo que já depreciaram o máximo (curva em J). Use por 1 ano e venda pelo mesmo preço ou mais caro.</p>
+
+                            <h4>3. Arbitragem de Produtos</h4>
+                            <p>Comprar itens em liquidação (Black Friday, queima de estoque) e revender na Amazon/Mercado Livre pelo preço normal.</p>
+
+                            <h4>4. "Wardrobing" (Antiético)</h4>
+                            <p>Comprar roupas caras para um evento, usar com a etiqueta escondida e devolver no dia seguinte. (Lojas odeiam isso e banem clientes frequentes).</p>
+                        </div>
+                    )
                 }
             ]
         }
