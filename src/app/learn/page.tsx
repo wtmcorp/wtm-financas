@@ -5,9 +5,18 @@ import ModuleCard from "@/components/education/ModuleCard";
 import LessonModal from "@/components/education/LessonModal";
 import { GraduationCap, BookOpen, TrendingUp, ShieldCheck, Coins, Globe, BrainCircuit, Plane } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLearnProgress } from "@/hooks/useLearnProgress";
 
 export default function LearnPage() {
     const [activeModule, setActiveModule] = useState<string | null>(null);
+    const {
+        progress,
+        loading: progressLoading,
+        markLessonComplete,
+        canAccessLesson,
+        getModuleProgress,
+        getCompletedLessonsCount
+    } = useLearnProgress();
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -513,21 +522,31 @@ export default function LearnPage() {
 
                 {/* Modules Grid */}
                 <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {modules.map((module) => (
-                        <ModuleCard
-                            key={module.id}
-                            {...module}
-                            onClick={() => setActiveModule(module.id)}
-                        />
-                    ))}
+                    {modules.map((module) => {
+                        const realProgress = getModuleProgress(module.id, module.totalLessons);
+                        const realCompletedLessons = getCompletedLessonsCount(module.id);
+
+                        return (
+                            <ModuleCard
+                                key={module.id}
+                                {...module}
+                                progress={realProgress}
+                                completedLessons={realCompletedLessons}
+                                onClick={() => setActiveModule(module.id)}
+                            />
+                        );
+                    })}
                 </motion.div>
 
                 {/* Active Lesson Modal */}
                 {activeModule && activeModuleData && (
                     <LessonModal
+                        moduleId={activeModule}
                         moduleTitle={activeModuleData.title}
                         lessons={activeModuleData.lessons}
                         onClose={() => setActiveModule(null)}
+                        canAccessLesson={canAccessLesson}
+                        markLessonComplete={markLessonComplete}
                     />
                 )}
             </div>

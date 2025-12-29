@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Play, FileText, CheckCircle2, ChevronRight, ChevronLeft, Menu } from "lucide-react";
+import { X, Play, FileText, CheckCircle2, ChevronRight, ChevronLeft, Menu, Lock } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -21,16 +21,38 @@ interface Lesson {
 }
 
 interface LessonModalProps {
+    moduleId: string;
     moduleTitle: string;
     lessons: Lesson[];
     onClose: () => void;
+    canAccessLesson: (moduleId: string, lessonIndex: number) => boolean;
+    markLessonComplete: (moduleId: string, lessonId: string, lessonIndex: number) => Promise<void>;
 }
 
-export default function LessonModal({ moduleTitle, lessons, onClose }: LessonModalProps) {
+export default function LessonModal({
+    moduleId,
+    moduleTitle,
+    lessons,
+    onClose,
+    canAccessLesson,
+    markLessonComplete
+}: LessonModalProps) {
     const [activeLessonIndex, setActiveLessonIndex] = useState(0);
     const [quizSelected, setQuizSelected] = useState<number | null>(null);
     const [quizResult, setQuizResult] = useState<"correct" | "incorrect" | null>(null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Detect mobile on client side only
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const activeLesson = lessons[activeLessonIndex];
 
@@ -44,7 +66,10 @@ export default function LessonModal({ moduleTitle, lessons, onClose }: LessonMod
         }
     };
 
-    const handleNextLesson = () => {
+    const handleNextLesson = async () => {
+        // Mark current lesson as complete before moving to next
+        await markLessonComplete(moduleId, activeLesson.id, activeLessonIndex);
+
         if (activeLessonIndex < lessons.length - 1) {
             setActiveLessonIndex(prev => prev + 1);
             setQuizSelected(null);
@@ -66,6 +91,11 @@ export default function LessonModal({ moduleTitle, lessons, onClose }: LessonMod
 
     // Reset quiz when lesson changes via sidebar
     const handleLessonSelect = (index: number) => {
+        // Check if user can access this lesson
+        if (!canAccessLesson(moduleId, index)) {
+            return; // Don't allow navigation to locked lessons
+        }
+
         setActiveLessonIndex(index);
         setQuizSelected(null);
         setQuizResult(null);
@@ -89,7 +119,7 @@ export default function LessonModal({ moduleTitle, lessons, onClose }: LessonMod
 
                 {/* Sidebar - Lesson List */}
                 <AnimatePresence>
-                    {(isMobileMenuOpen || !window.matchMedia("(max-width: 768px)").matches) && (
+                    {(isMobileMenuOpen || !isMobile) && (
                         <motion.div
                             initial={{ x: -320 }}
                             animate={{ x: 0 }}
@@ -107,26 +137,44 @@ export default function LessonModal({ moduleTitle, lessons, onClose }: LessonMod
                             </div>
 
                             <div className="flex-1 overflow-y-auto p-4 space-y-2 custom-scrollbar">
-                                {lessons.map((lesson, index) => (
-                                    <button
-                                        key={lesson.id}
-                                        onClick={() => handleLessonSelect(index)}
-                                        className={`w-full text-left p-4 rounded-2xl transition-all border ${activeLessonIndex === index
-                                            ? "bg-primary/10 border-primary/20 text-white shadow-[0_0_20px_rgba(167,139,250,0.1)]"
-                                            : "bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300"
-                                            }`}
-                                    >
-                                        <div className="flex items-start gap-4">
-                                            <div className={`mt-1 shrink-0 ${activeLessonIndex === index ? "text-primary" : "text-gray-700"}`}>
-                                                {lesson.completed ? <CheckCircle2 size={18} /> : (lesson.type === 'video' ? <Play size={18} /> : <FileText size={18} />)}
+                                {lessons.map((lesson, index) => {
+                                    const isLocked = !canAccessLesson(moduleId, index);
+                                    const isActive = activeLessonIndex === index;
+
+                                    return (
+                                        <button
+                                            key={lesson.id}
+                                            onClick={() => handleLessonSelect(index)}
+                                            disabled={isLocked}
+                                            className={`w-full text-left p-4 rounded-2xl transition-all border ${isActive
+                                                    ? "bg-primary/10 border-primary/20 text-white shadow-[0_0_20px_rgba(167,139,250,0.1)]"
+                                                    : isLocked
+                                                        ? "bg-transparent border-transparent text-gray-700 opacity-50 cursor-not-allowed"
+                                                        : "bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300"
+                                                }`}
+                                        >
+                                            <div className="flex items-start gap-4">
+                                                <div className={`mt-1 shrink-0 ${isActive ? "text-primary" : isLocked ? "text-gray-700" : "text-gray-500"}`}>
+                                                    {isLocked ? (
+                                                        <Lock size={18} />
+                                                    ) : lesson.completed ? (
+                                                        <CheckCircle2 size={18} />
+                                                    ) : lesson.type === 'video' ? (
+                                                        <Play size={18} />
+                                                    ) : (
+                                                        <FileText size={18} />
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <div className="text-sm font-black mb-1 line-clamp-2">{lesson.title}</div>
+                                                    <div className="text-[10px] font-bold opacity-40 uppercase tracking-widest">
+                                                        {isLocked ? "Bloqueada" : lesson.duration}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <div className="text-sm font-black mb-1 line-clamp-2">{lesson.title}</div>
-                                                <div className="text-[10px] font-bold opacity-40 uppercase tracking-widest">{lesson.duration}</div>
-                                            </div>
-                                        </div>
-                                    </button>
-                                ))}
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </motion.div>
                     )}
@@ -181,8 +229,8 @@ export default function LessonModal({ moduleTitle, lessons, onClose }: LessonMod
                                                     setQuizSelected(idx);
                                                 }}
                                                 className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 ${quizSelected === idx
-                                                    ? "bg-primary/20 border-primary text-white shadow-[0_0_30px_rgba(167,139,250,0.2)]"
-                                                    : "bg-black/40 border-white/5 text-gray-500 hover:border-white/20 hover:text-gray-300"
+                                                        ? "bg-primary/20 border-primary text-white shadow-[0_0_30px_rgba(167,139,250,0.2)]"
+                                                        : "bg-black/40 border-white/5 text-gray-500 hover:border-white/20 hover:text-gray-300"
                                                     } ${quizResult === 'correct' && idx === activeLesson.quiz!.correctAnswer ? "bg-green-500/20 border-green-500 text-green-400" : ""}
                                                   ${quizResult === 'incorrect' && idx === quizSelected ? "bg-red-500/20 border-red-500 text-red-400" : ""}
                                                 `}
