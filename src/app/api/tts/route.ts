@@ -9,6 +9,15 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
     try {
+        const apiKey = process.env.OPENAI_API_KEY;
+        if (!apiKey) {
+            console.error("OpenAI API Key is missing");
+            return NextResponse.json({
+                error: "Configuration Error",
+                details: "OpenAI API Key is not configured in the server environment."
+            }, { status: 500 });
+        }
+
         const { text } = await req.json();
 
         if (!text) {

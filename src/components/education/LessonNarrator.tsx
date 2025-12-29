@@ -151,10 +151,10 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
 
             // If max retries reached or other error, skip to next chunk
             // But if it's the first chunk, show error
-            if (index === 0 && retryCount >= 2) {
+            if (index === 0) {
                 setIsPlaying(false);
                 setIsLoading(false);
-                alert("Não foi possível gerar o áudio. Tente novamente.");
+                alert(`Erro na narração: ${error.message}`);
             } else {
                 playQueue(chunks, index + 1);
             }
