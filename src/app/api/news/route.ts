@@ -72,7 +72,7 @@ async function fetchGoogleNewsRSS() {
     try {
         const response = await fetch(
             "https://news.google.com/rss/search?q=mercado+financeiro+brasil&hl=pt-BR&gl=BR&ceid=BR:pt-419",
-            { next: { revalidate: 300 } }
+            { next: { revalidate: 60 } }
         );
 
         if (!response.ok) {

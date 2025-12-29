@@ -59,8 +59,8 @@ export default function NewsFeed() {
     useEffect(() => {
         fetchNews();
 
-        // Auto-refresh every 15 minutes
-        const interval = setInterval(fetchNews, 15 * 60 * 1000);
+        // Auto-refresh every 1 minute
+        const interval = setInterval(fetchNews, 60 * 1000);
         return () => clearInterval(interval);
     }, []);
 

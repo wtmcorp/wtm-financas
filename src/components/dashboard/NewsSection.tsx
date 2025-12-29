@@ -33,7 +33,7 @@ const NewsSection = () => {
         const interval = setInterval(() => {
             fetchNews();
             updateTime();
-        }, 60000 * 5); // Update every 5 minutes
+        }, 60000); // Update every 1 minute
 
         return () => clearInterval(interval);
     }, []);

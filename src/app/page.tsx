@@ -8,6 +8,7 @@ import ExpenseChart from "@/components/dashboard/charts/ExpenseChart";
 import CashFlowChart from "@/components/dashboard/charts/CashFlowChart";
 import NetWorthChart from "@/components/dashboard/charts/NetWorthChart";
 import QuickActions from "@/components/dashboard/QuickActions";
+import NewsSection from "@/components/dashboard/NewsSection";
 import TransactionList from "@/components/finance/TransactionList";
 import { TrendingUp, Sparkles, Sun, Moon, Cloud, Zap, Crown, ArrowUpRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -164,12 +165,16 @@ export default function Home() {
                     <motion.div variants={itemVariants} className="space-y-12">
                         <QuickActions />
 
+                        <div className="h-[500px]">
+                            <NewsSection />
+                        </div>
+
                         <div className="card-premium p-8">
                             <div className="flex items-center justify-between mb-8">
                                 <h3 className="text-xl font-black text-white tracking-tight">Transações Recentes</h3>
                                 <button className="text-[10px] font-black text-primary hover:text-white uppercase tracking-widest transition-colors">Ver Tudo</button>
                             </div>
-                            <div className="max-h-[600px] overflow-y-auto pr-4 scrollbar-thin">
+                            <div className="max-h-[400px] overflow-y-auto pr-4 scrollbar-thin">
                                 <TransactionList limit={6} />
                             </div>
                         </div>
