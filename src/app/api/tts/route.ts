@@ -27,7 +27,7 @@ export async function POST(req: Request) {
         const readable = await tts.toStream(ssml);
 
         // Convert stream to buffer
-        const chunks = [];
+        const chunks: any[] = [];
         for await (const chunk of readable) {
             chunks.push(chunk);
         }
