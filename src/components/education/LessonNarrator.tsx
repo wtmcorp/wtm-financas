@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Volume2, VolumeX, Play, Pause, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -14,6 +14,7 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
     const [isLoading, setIsLoading] = useState(false);
     const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
     const [progress, setProgress] = useState(0);
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     // Clean text for speech
     const cleanText = (md: string) => {
@@ -22,6 +23,39 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             .replace(/\[(.*?)\]\(.*?\)/g, "$1")
             .replace(/\n/g, ". ");
     };
+
+    // Reset and cleanup when text changes
+    useEffect(() => {
+        // Stop any current audio
+        if (audio) {
+            audio.pause();
+            audio.src = "";
+        }
+
+        // Abort any pending fetch
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+
+        // Reset state
+        setAudio(null);
+        setIsPlaying(false);
+        setIsLoading(false);
+        setProgress(0);
+    }, [text]);
+
+    // Cleanup on unmount
+    useEffect(() => {
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            if (audio) {
+                audio.pause();
+                audio.src = "";
+            }
+        };
+    }, [audio]);
 
     const handlePlay = async () => {
         if (audio) {
@@ -33,8 +67,15 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
         try {
             setIsLoading(true);
 
-            // Add a timeout to the fetch request to prevent infinite loading UI
+            // Abort previous request if any
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+
             const controller = new AbortController();
+            abortControllerRef.current = controller;
+
+            // Add a timeout to the fetch request
             const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
 
             const response = await fetch("/api/tts", {
@@ -42,7 +83,6 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     text: cleanText(text),
-                    // Voice params are now handled in the API for consistency
                 }),
                 signal: controller.signal
             });
@@ -83,9 +123,12 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             // Fallback if canplaythrough doesn't fire immediately
             newAudio.load();
 
-        } catch (error) {
-            console.error("Narrator error:", error);
-            setIsPlaying(false);
+        } catch (error: any) {
+            if (error.name === 'AbortError') {
+                console.log("TTS request aborted");
+            } else {
+                console.error("Narrator error:", error);
+            }
             setIsLoading(false);
         }
     };
@@ -105,16 +148,6 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             setProgress(0);
         }
     };
-
-    // Cleanup
-    useEffect(() => {
-        return () => {
-            if (audio) {
-                audio.pause();
-                audio.src = "";
-            }
-        };
-    }, [audio]);
 
     return (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-4 p-2 pl-4 pr-2 bg-[#0f0f13]/90 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl animate-in slide-in-from-bottom-10 duration-500">
