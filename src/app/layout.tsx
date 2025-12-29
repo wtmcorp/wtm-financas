@@ -4,6 +4,7 @@ import { Providers } from "@/components/providers/Providers";
 import MouseTracker from "@/components/ui/MouseTracker";
 import PremiumNotifications from "@/components/ui/PremiumNotifications";
 import BottomNav from "@/components/layout/BottomNav";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
                     <PremiumNotifications />
                     {children}
                     <BottomNav />
+                    <ScrollToTop />
                 </Providers>
             </body>
         </html>

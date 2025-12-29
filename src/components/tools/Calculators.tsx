@@ -119,12 +119,6 @@ export default function Calculators({ type }: CalculatorsProps) {
                     </div>
                 );
 
-            case "password":
-                return <PasswordGenerator />;
-
-            case "bbq":
-                return <BBQCalculator />;
-
             case "fuel":
                 return <FuelCalculator />;
 
@@ -183,11 +177,7 @@ export default function Calculators({ type }: CalculatorsProps) {
                 return <TripPlanner />;
 
             default:
-                return (
-                    <div className="text-center py-12">
-                        <p className="text-gray-400">Ferramenta em desenvolvimento: {type}</p>
-                    </div>
-                );
+                return null;
         }
     };
 

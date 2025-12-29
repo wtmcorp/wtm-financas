@@ -36,11 +36,86 @@ export default function MoreCalculators({ type }: Props) {
     }, [type]);
 
     switch (type) {
+        case "amortization":
+            const calcAmort = () => {
+                const p = Number(val1);
+                const r = Number(val2) / 100 / 12;
+                const n = Number(val3);
+                const pmt = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+                const totalPaid = pmt * n;
+                const totalInterest = totalPaid - p;
+                setRes({ pmt, totalPaid, totalInterest });
+            };
+            return (
+                <div className="space-y-4">
+                    <h2 className="text-2xl font-bold text-white">Simulador de Amortização (Price)</h2>
+                    <Input label="Valor do Financiamento (R$)" value={val1} onChange={setVal1} placeholder="Ex: 200000" />
+                    <Input label="Taxa de Juros Anual (%)" value={val2} onChange={setVal2} placeholder="Ex: 10" />
+                    <Input label="Prazo (Meses)" value={val3} onChange={setVal3} placeholder="Ex: 360" />
+                    <button onClick={calcAmort} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Simular</button>
+                    {res && (
+                        <div className="bg-white/5 p-4 rounded-xl space-y-2">
+                            <div className="flex justify-between text-gray-400"><span>Parcela Mensal:</span> <span className="text-white font-bold">R$ {res.pmt.toFixed(2)}</span></div>
+                            <div className="flex justify-between text-gray-400"><span>Total em Juros:</span> <span className="text-red-400">R$ {res.totalInterest.toFixed(2)}</span></div>
+                            <div className="flex justify-between text-xl font-bold text-white pt-2 border-t border-white/10"><span>Total Pago:</span> <span className="text-primary">R$ {res.totalPaid.toFixed(2)}</span></div>
+                        </div>
+                    )}
+                </div>
+            );
+
+        case "card-interest":
+            const calcCard = () => {
+                const balance = Number(val1);
+                const rate = Number(val2) / 100;
+                const interest = balance * rate;
+                setRes({ interest, total: balance + interest });
+            };
+            return (
+                <div className="space-y-4">
+                    <h2 className="text-2xl font-bold text-white">Juros do Cartão de Crédito</h2>
+                    <p className="text-xs text-gray-400">Veja o custo de rolar a dívida para o próximo mês.</p>
+                    <Input label="Valor da Fatura (R$)" value={val1} onChange={setVal1} />
+                    <Input label="Taxa de Juros Mensal (%)" value={val2} onChange={setVal2} placeholder="Ex: 14.5" />
+                    <button onClick={calcCard} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular Custo</button>
+                    {res && (
+                        <div className="bg-red-500/10 p-4 rounded-xl border border-red-500/20">
+                            <div className="flex justify-between text-gray-300"><span>Juros no próximo mês:</span> <span className="font-bold text-red-400">R$ {res.interest.toFixed(2)}</span></div>
+                            <div className="flex justify-between text-white font-bold mt-2"><span>Total da Dívida:</span> <span>R$ {res.total.toFixed(2)}</span></div>
+                        </div>
+                    )}
+                </div>
+            );
+
+        case "investment-compare":
+            const compareInv = () => {
+                const p = Number(val1);
+                const m = Number(val2);
+                const cdb = p * Math.pow(1.0085, m);
+                const lci = p * Math.pow(1.0075, m);
+                const tesouro = p * Math.pow(1.009, m);
+                setRes({ cdb, lci, tesouro });
+            };
+            return (
+                <div className="space-y-4">
+                    <h2 className="text-2xl font-bold text-white">Comparador de Investimentos</h2>
+                    <Input label="Valor Inicial (R$)" value={val1} onChange={setVal1} />
+                    <Input label="Prazo (Meses)" value={val2} onChange={setVal2} />
+                    <button onClick={compareInv} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Comparar</button>
+                    {res && (
+                        <div className="space-y-2">
+                            <div className="bg-white/5 p-3 rounded-lg flex justify-between text-white"><span>CDB (100% CDI):</span> <span>R$ {res.cdb.toFixed(2)}</span></div>
+                            <div className="bg-primary/20 p-3 rounded-lg flex justify-between text-primary font-bold"><span>LCI/LCA (Isento):</span> <span>R$ {res.lci.toFixed(2)}</span></div>
+                            <div className="bg-white/5 p-3 rounded-lg flex justify-between text-white"><span>Tesouro Selic:</span> <span>R$ {res.tesouro.toFixed(2)}</span></div>
+                        </div>
+                    )}
+                </div>
+            );
+
         case "savings-yield":
             const calcSavings = () => {
                 const p = Number(val1);
                 const m = Number(val2);
-                const r = 0.005; // Approx 0.5% month
+                const r = 0.005;
                 setRes((p * Math.pow(1 + r, m)).toFixed(2));
             };
             return (
@@ -58,7 +133,7 @@ export default function MoreCalculators({ type }: Props) {
                 const p = Number(val1);
                 const m = Number(val2);
                 const sav = p * Math.pow(1.005, m);
-                const cdi = p * Math.pow(1.008, m); // Approx 100% CDI
+                const cdi = p * Math.pow(1.008, m);
                 setRes({ sav, cdi });
             };
             return (
@@ -281,13 +356,20 @@ export default function MoreCalculators({ type }: Props) {
             );
 
         case "cpf-validator":
+            const handleCPFChange = (v: string) => {
+                const digits = v.replace(/\D/g, "").slice(0, 11);
+                let masked = digits;
+                if (digits.length > 9) masked = `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`;
+                else if (digits.length > 6) masked = `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`;
+                else if (digits.length > 3) masked = `${digits.slice(0, 3)}.${digits.slice(3)}`;
+                setVal1(masked);
+            };
             const validateCPF = () => {
                 const cpf = val1.replace(/\D/g, "");
                 if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) {
                     setRes("CPF Inválido");
                     return;
                 }
-
                 let sum = 0;
                 for (let i = 1; i <= 9; i++) sum = sum + parseInt(cpf.substring(i - 1, i)) * (11 - i);
                 let rest = (sum * 10) % 11;
@@ -296,7 +378,6 @@ export default function MoreCalculators({ type }: Props) {
                     setRes("CPF Inválido");
                     return;
                 }
-
                 sum = 0;
                 for (let i = 1; i <= 10; i++) sum = sum + parseInt(cpf.substring(i - 1, i)) * (12 - i);
                 rest = (sum * 10) % 11;
@@ -305,14 +386,7 @@ export default function MoreCalculators({ type }: Props) {
                     setRes("CPF Inválido");
                     return;
                 }
-
                 setRes("CPF Válido");
-            };
-            const handleCPFChange = (v: string) => {
-                const x = v.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
-                if (!x) return;
-                const masked = !x[2] ? x[1] : x[1] + "." + x[2] + (x[3] ? "." + x[3] : "") + (x[4] ? "-" + x[4] : "");
-                setVal1(masked);
             };
             return (
                 <div className="space-y-4">
@@ -324,13 +398,21 @@ export default function MoreCalculators({ type }: Props) {
             );
 
         case "cnpj-validator":
+            const handleCNPJChange = (v: string) => {
+                const digits = v.replace(/\D/g, "").slice(0, 14);
+                let masked = digits;
+                if (digits.length > 12) masked = `${digits.slice(0, 2)}.${digits.slice(2, 5)}.${digits.slice(5, 8)}/${digits.slice(8, 12)}-${digits.slice(12)}`;
+                else if (digits.length > 8) masked = `${digits.slice(0, 2)}.${digits.slice(2, 5)}.${digits.slice(5, 8)}/${digits.slice(8)}`;
+                else if (digits.length > 5) masked = `${digits.slice(0, 2)}.${digits.slice(2, 5)}.${digits.slice(5)}`;
+                else if (digits.length > 2) masked = `${digits.slice(0, 2)}.${digits.slice(2)}`;
+                setVal1(masked);
+            };
             const validateCNPJ = () => {
                 const cnpj = val1.replace(/\D/g, "");
                 if (cnpj.length !== 14 || !!cnpj.match(/(\d)\1{13}/)) {
                     setRes("CNPJ Inválido");
                     return;
                 }
-
                 let size = cnpj.length - 2;
                 let numbers = cnpj.substring(0, size);
                 const digits = cnpj.substring(size);
@@ -345,7 +427,6 @@ export default function MoreCalculators({ type }: Props) {
                     setRes("CNPJ Inválido");
                     return;
                 }
-
                 size = size + 1;
                 numbers = cnpj.substring(0, size);
                 sum = 0;
@@ -359,14 +440,7 @@ export default function MoreCalculators({ type }: Props) {
                     setRes("CNPJ Inválido");
                     return;
                 }
-
                 setRes("CNPJ Válido");
-            };
-            const handleCNPJChange = (v: string) => {
-                const x = v.replace(/\D/g, "").match(/(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,2})/);
-                if (!x) return;
-                const masked = !x[2] ? x[1] : x[1] + "." + x[2] + "." + x[3] + "/" + x[4] + (x[5] ? "-" + x[5] : "");
-                setVal1(masked);
             };
             return (
                 <div className="space-y-4">
@@ -379,114 +453,6 @@ export default function MoreCalculators({ type }: Props) {
 
         case "pomodoro":
             return <PomodoroTimer />;
-
-        case "unit-converter":
-            const convert = () => {
-                const v = Number(val1);
-                const type = val2; // km-mi, kg-lb, etc
-                let result = 0;
-                if (type === "km-mi") result = v * 0.621371;
-                else if (type === "mi-km") result = v / 0.621371;
-                else if (type === "kg-lb") result = v * 2.20462;
-                else if (type === "lb-kg") result = v / 2.20462;
-                setRes(result.toFixed(2));
-            };
-            return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Conversor de Medidas</h2>
-                    <Input label="Valor" value={val1} onChange={setVal1} />
-                    <div className="space-y-1">
-                        <label className="text-xs text-gray-400 uppercase font-bold">Conversão</label>
-                        <select
-                            value={val2}
-                            onChange={(e) => setVal2(e.target.value)}
-                            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 outline-none"
-                        >
-                            <option value="km-mi">Km para Milhas</option>
-                            <option value="mi-km">Milhas para Km</option>
-                            <option value="kg-lb">Kg para Libras</option>
-                            <option value="lb-kg">Libras para Kg</option>
-                        </select>
-                    </div>
-                    <button onClick={convert} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Converter</button>
-                    {res && <div className="text-center text-xl font-bold text-white">Resultado: {res}</div>}
-                </div>
-            );
-
-        case "tip-calc":
-            const calcTip = () => {
-                const bill = Number(val1);
-                const tipPerc = Number(val2) || 10;
-                const tip = bill * (tipPerc / 100);
-                setRes({ tip, total: bill + tip });
-            };
-            return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Calculadora de Gorjeta</h2>
-                    <Input label="Valor da Conta (R$)" value={val1} onChange={setVal1} />
-                    <Input label="Gorjeta (%)" value={val2} onChange={setVal2} placeholder="10" />
-                    <button onClick={calcTip} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular</button>
-                    {res && (
-                        <div className="text-center text-white">
-                            <p>Gorjeta: R$ {res.tip.toFixed(2)}</p>
-                            <p className="font-bold text-lg">Total: R$ {res.total.toFixed(2)}</p>
-                        </div>
-                    )}
-                </div>
-            );
-
-        case "pizza-calc":
-            const calcPizza = () => {
-                const people = Number(val1);
-                const slices = people * 3;
-                const pizzas = Math.ceil(slices / 8);
-                setRes(pizzas);
-            };
-            return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Calculadora de Pizza</h2>
-                    <Input label="Número de Pessoas" value={val1} onChange={setVal1} />
-                    <button onClick={calcPizza} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular</button>
-                    {res && <div className="text-center text-xl font-bold text-white">Peça {res} pizzas grandes!</div>}
-                </div>
-            );
-
-        case "qr-code":
-            return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Gerador de QR Code</h2>
-                    <Input label="Texto ou Link" type="text" value={val1} onChange={setVal1} placeholder="https://exemplo.com" />
-                    <button onClick={() => setRes(val1)} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Gerar QR Code</button>
-                    {res && (
-                        <div className="flex flex-col items-center gap-4 p-4 bg-white rounded-2xl">
-                            <img
-                                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(res)}`}
-                                alt="QR Code"
-                                className="w-48 h-48"
-                            />
-                            <p className="text-black text-xs font-bold">{res}</p>
-                        </div>
-                    )}
-                </div>
-            );
-
-        case "number-draw":
-            const draw = () => {
-                const min = Number(val1);
-                const max = Number(val2);
-                setRes(Math.floor(Math.random() * (max - min + 1)) + min);
-            };
-            return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Sorteador</h2>
-                    <div className="flex gap-4">
-                        <Input label="Min" value={val1} onChange={setVal1} />
-                        <Input label="Max" value={val2} onChange={setVal2} />
-                    </div>
-                    <button onClick={draw} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Sortear</button>
-                    {res !== null && <div className="text-center text-6xl font-black text-primary animate-in zoom-in">{res}</div>}
-                </div>
-            );
 
         default:
             return null;

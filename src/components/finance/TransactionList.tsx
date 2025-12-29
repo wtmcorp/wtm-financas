@@ -86,7 +86,7 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                 </div>
 
                 {/* Transaction List */}
-                <div className="space-y-3">
+                <div className="space-y-3 max-h-[400px] md:max-h-none overflow-y-auto pr-1 md:pr-0 scrollbar-thin">
                     {filteredTransactions.length === 0 ? (
                         <div className="text-center py-16 glass rounded-2xl border border-white/5">
                             <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/5">

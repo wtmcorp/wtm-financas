@@ -1,6 +1,6 @@
 "use client";
 
-import { DollarSign, RefreshCw, Loader2, Search } from "lucide-react";
+import { DollarSign, RefreshCw, Loader2, Search, Globe } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 
 // Lista expandida de moedas mundiais
@@ -200,8 +200,3 @@ export default function CurrencyConverter() {
         </div>
     );
 }
-
-import { Globe } from "lucide-react";
-
-
-

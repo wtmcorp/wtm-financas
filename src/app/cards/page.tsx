@@ -290,8 +290,8 @@ export default function CardsPage() {
 
                 {/* Wizard Modal */}
                 {showWizard && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 max-w-2xl w-full relative overflow-hidden">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4 bg-black/80 backdrop-blur-md">
+                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-6 md:p-8 max-w-2xl w-full relative overflow-hidden max-h-[95vh] overflow-y-auto">
                             <button
                                 onClick={() => { setShowWizard(false); setWizardStep(0); }}
                                 className="absolute top-4 right-4 text-gray-500 hover:text-white"
@@ -423,8 +423,8 @@ export default function CardsPage() {
 
                 {/* Card Details Modal */}
                 {selectedCard && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl overflow-y-auto">
-                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl max-w-4xl w-full relative overflow-hidden flex flex-col md:flex-row my-8">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4 bg-black/90 backdrop-blur-xl overflow-y-auto">
+                        <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl max-w-4xl w-full relative overflow-hidden flex flex-col md:flex-row my-4 md:my-8">
                             <button
                                 onClick={() => setSelectedCard(null)}
                                 className="absolute top-4 right-4 z-20 p-2 bg-black/50 rounded-full text-white hover:bg-white hover:text-black transition-colors"

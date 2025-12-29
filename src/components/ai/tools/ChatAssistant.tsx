@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, Copy, Check, Sparkles, Code, Terminal } from "lucide-react";
+import { Send, Bot, User, Copy, Check, Sparkles, Code, Terminal, Trash2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 interface Message {
@@ -65,19 +65,30 @@ export default function ChatAssistant() {
     };
 
     return (
-        <div className="flex flex-col h-[calc(100vh-140px)] bg-[#0a0a0a] rounded-2xl border border-white/10 overflow-hidden">
+        <div className="flex flex-col h-[calc(100vh-180px)] md:h-[calc(100vh-140px)] bg-[#0a0a0a] rounded-2xl border border-white/10 overflow-hidden">
             {/* Chat Header */}
             <div className="p-4 border-b border-white/10 bg-white/5 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
                     <Bot size={24} />
                 </div>
-                <div>
+                <div className="flex-1">
                     <h3 className="font-bold text-white">Assistente Virtual Wtm</h3>
                     <p className="text-xs text-gray-400 flex items-center gap-1">
                         <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                         Online • Ilimitado
                     </p>
                 </div>
+                <button
+                    onClick={() => {
+                        if (confirm("Deseja limpar o histórico do chat?")) {
+                            setMessages([{ role: "assistant", content: "Olá! Sou sua IA pessoal. Posso ajudar com códigos, textos, análises e muito mais. O que vamos criar hoje?" }]);
+                        }
+                    }}
+                    className="p-2 hover:bg-white/10 rounded-lg text-gray-500 hover:text-white transition-all"
+                    title="Limpar Chat"
+                >
+                    <Trash2 size={18} />
+                </button>
             </div>
 
             {/* Messages Area */}
@@ -92,9 +103,9 @@ export default function ChatAssistant() {
                             {msg.role === "user" ? <User size={16} /> : <Bot size={16} />}
                         </div>
 
-                        <div className={`max-w-[80%] rounded-2xl p-4 ${msg.role === "user"
-                                ? "bg-primary text-black font-medium"
-                                : "bg-white/5 text-gray-200 border border-white/5"
+                        <div className={`max-w-[90%] md:max-w-[80%] rounded-2xl p-4 ${msg.role === "user"
+                            ? "bg-primary text-black font-medium"
+                            : "bg-white/5 text-gray-200 border border-white/5"
                             }`}>
                             <div className="prose prose-invert prose-sm max-w-none">
                                 <ReactMarkdown

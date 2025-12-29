@@ -31,7 +31,7 @@ export default function ToolsPage() {
     };
 
     const tools = [
-        // --- Original 20 Tools ---
+        // --- Original Tools ---
         { id: "net-salary", icon: DollarSign, title: "Salário Líquido", desc: "Calcule descontos de INSS e IRRF" },
         { id: "vacation", icon: Calendar, title: "Férias", desc: "Estime o valor das suas férias + 1/3" },
         { id: "thirteenth", icon: Calculator, title: "13º Salário", desc: "Calcule o valor proporcional" },
@@ -44,17 +44,18 @@ export default function ToolsPage() {
         { id: "rate-converter", icon: Percent, title: "Conversor de Taxas", desc: "Mensal ↔ Anual" },
         { id: "inflation", icon: TrendingUp, title: "Inflação", desc: "Poder de compra no futuro" },
         { id: "budget-50-30-20", icon: PieChart, title: "Regra 50/30/20", desc: "Divisão ideal do orçamento" },
-        { id: "bbq", icon: Coffee, title: "Churrasco", desc: "Calcule carnes e bebidas" },
         { id: "fuel", icon: Fuel, title: "Álcool vs Gasolina", desc: "Qual compensa abastecer?" },
         { id: "overtime", icon: Clock, title: "Horas Extras", desc: "Cálculo do valor da hora" },
-        { id: "password", icon: Lock, title: "Gerador de Senha", desc: "Crie senhas seguras" },
         { id: "investor-profile", icon: User, title: "Perfil Investidor", desc: "Descubra seu perfil de risco" },
         { id: "glossary", icon: BookOpen, title: "Glossário", desc: "Termos financeiros explicados" },
         { id: "tips", icon: Lightbulb, title: "Dica do Dia", desc: "Conselhos financeiros rápidos" },
         { id: "trip", icon: Plane, title: "Viagem", desc: "Quanto guardar para viajar" },
 
-        // --- NEW 20 Tools ---
+        // --- Financial & Productivity Tools ---
         { id: "currency-converter", icon: Globe, title: "Conversor de Moedas", desc: "Taxas de câmbio mundiais em tempo real" },
+        { id: "amortization", icon: Calculator, title: "Amortização", desc: "Simule economia com parcelas antecipadas" },
+        { id: "card-interest", icon: Percent, title: "Juros de Cartão", desc: "O custo de pagar o mínimo" },
+        { id: "investment-compare", icon: TrendingUp, title: "Comparador", desc: "CDB vs LCI vs LCA vs Tesouro" },
         { id: "savings-yield", icon: TrendingUp, title: "Rendimento Poupança", desc: "Simule o retorno da poupança" },
         { id: "cdi-vs-savings", icon: TrendingUp, title: "CDI vs Poupança", desc: "Comparativo de rentabilidade" },
         { id: "roi", icon: Percent, title: "ROI", desc: "Retorno sobre Investimento" },
@@ -70,11 +71,6 @@ export default function ToolsPage() {
         { id: "cpf-validator", icon: Check, title: "Validador CPF", desc: "Verifique se é válido" },
         { id: "cnpj-validator", icon: Check, title: "Validador CNPJ", desc: "Verifique se é válido" },
         { id: "pomodoro", icon: Clock, title: "Pomodoro Timer", desc: "Foco e produtividade" },
-        { id: "unit-converter", icon: Calculator, title: "Conversor Medidas", desc: "Peso, Distância, etc." },
-        { id: "tip-calc", icon: DollarSign, title: "Gorjeta", desc: "Dividir conta e 10%" },
-        { id: "pizza-calc", icon: Coffee, title: "Calc. de Pizza", desc: "Quantas pizzas pedir?" },
-        { id: "qr-code", icon: Calculator, title: "Gerador QR Code", desc: "Crie códigos QR" },
-        { id: "number-draw", icon: Calculator, title: "Sorteio", desc: "Sorteador de números" },
     ];
 
     const filteredTools = useMemo(() => {
