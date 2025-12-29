@@ -9,10 +9,26 @@ import {
 import Calculators from "@/components/tools/Calculators";
 import MoreCalculators from "@/components/tools/MoreCalculators";
 import CurrencyConverter from "@/components/tools/CurrencyConverter";
+import { motion } from "framer-motion";
 
 export default function ToolsPage() {
     const [selectedTool, setSelectedTool] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, cubicBezier: [0.23, 1, 0.32, 1] } }
+    };
 
     const tools = [
         // --- Original 20 Tools ---
@@ -69,9 +85,14 @@ export default function ToolsPage() {
     }, [searchQuery]);
 
     return (
-        <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32"
+        >
             <div className="max-w-7xl mx-auto space-y-12">
-                <header className="reveal space-y-8 p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5 relative overflow-hidden">
+                <motion.header variants={itemVariants} className="space-y-8 p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -mr-32 -mt-32 animate-pulse-slow" />
 
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 relative z-10">
@@ -107,10 +128,10 @@ export default function ToolsPage() {
                             )}
                         </div>
                     </div>
-                </header>
+                </motion.header>
 
                 {filteredTools.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal" style={{ animationDelay: '0.1s' }}>
+                    <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {filteredTools.map((tool) => (
                             <button
                                 key={tool.id}
@@ -135,15 +156,15 @@ export default function ToolsPage() {
                                 </div>
                             </button>
                         ))}
-                    </div>
+                    </motion.div>
                 ) : (
-                    <div className="text-center py-20 reveal">
+                    <motion.div variants={itemVariants} className="text-center py-20">
                         <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/10">
                             <Search className="text-gray-600" size={32} />
                         </div>
                         <h3 className="text-xl font-bold text-white mb-2">Nenhuma ferramenta encontrada</h3>
                         <p className="text-gray-500">Tente buscar por outros termos ou palavras-chave.</p>
-                    </div>
+                    </motion.div>
                 )}
             </div>
 
@@ -170,7 +191,6 @@ export default function ToolsPage() {
                     </div>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 }
-

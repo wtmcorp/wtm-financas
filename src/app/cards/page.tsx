@@ -19,12 +19,28 @@ import {
     ChevronRight,
     Trophy
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function CardsPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCard, setSelectedCard] = useState<CreditCard | null>(null);
     const [activeCategory, setActiveCategory] = useState<"all" | "premium" | "intermediário" | "básico">("all");
     const [showWizard, setShowWizard] = useState(false);
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, cubicBezier: [0.23, 1, 0.32, 1] } }
+    };
 
     // Filtering logic
     const filteredCards = creditCardsData.filter(card => {
@@ -82,11 +98,16 @@ export default function CardsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32"
+        >
             <div className="max-w-7xl mx-auto space-y-12">
 
                 {/* Header */}
-                <header className="reveal space-y-6 text-center md:text-left relative overflow-hidden p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5">
+                <motion.header variants={itemVariants} className="space-y-6 text-center md:text-left relative overflow-hidden p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5">
                     <div className="absolute top-0 right-0 hidden md:block opacity-10 -mr-10 -mt-10">
                         <Trophy size={240} className="text-primary rotate-12 animate-pulse-slow" />
                     </div>
@@ -128,9 +149,9 @@ export default function CardsPage() {
                             />
                         </div>
                     </div>
-                </header>
+                </motion.header>
                 {/* Top 10 Rankings */}
-                <section className="reveal space-y-8" style={{ animationDelay: '0.05s' }}>
+                <motion.section variants={itemVariants} className="space-y-8">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="p-3 bg-yellow-500/20 rounded-2xl text-yellow-500">
                             <Trophy size={24} />
@@ -238,10 +259,10 @@ export default function CardsPage() {
                             </div>
                         </div>
                     </div>
-                </section>
+                </motion.section>
 
                 {/* Categories */}
-                <div className="flex gap-3 overflow-x-auto pb-4 no-scrollbar reveal" style={{ animationDelay: '0.1s' }}>
+                <motion.div variants={itemVariants} className="flex gap-3 overflow-x-auto pb-4 no-scrollbar">
                     {(["all", "premium", "intermediário", "básico"] as const).map((cat) => (
                         <button
                             key={cat}
@@ -254,10 +275,10 @@ export default function CardsPage() {
                             {cat === "all" ? "Todos os Cartões" : cat}
                         </button>
                     ))}
-                </div>
+                </motion.div>
 
                 {/* Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 reveal" style={{ animationDelay: '0.2s' }}>
+                <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                     {filteredCards.map((card) => (
                         <CreditCard3D
                             key={card.id}
@@ -265,7 +286,7 @@ export default function CardsPage() {
                             onClick={() => setSelectedCard(card)}
                         />
                     ))}
-                </div>
+                </motion.div>
 
                 {/* Wizard Modal */}
                 {showWizard && (
@@ -481,6 +502,6 @@ export default function CardsPage() {
                     </div>
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 }

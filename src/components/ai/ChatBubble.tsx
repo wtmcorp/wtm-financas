@@ -195,60 +195,66 @@ export default function ChatBubble() {
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-24 left-4 sm:left-6 bg-gradient-to-br from-primary to-primary/70 text-black p-3 rounded-full shadow-lg hover:shadow-primary/50 hover:scale-110 transition-all z-40 group"
+                className="fixed bottom-24 left-4 sm:left-6 bg-white text-black p-4 rounded-2xl shadow-[0_10px_40px_rgba(167,139,250,0.3)] hover:shadow-primary/50 hover:scale-110 transition-all z-40 group border border-primary/20"
                 aria-label="Abrir Wtm AI"
             >
-                <MessageCircle size={24} className="group-hover:animate-pulse" />
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <div className="relative">
+                    <MessageCircle size={24} className="group-hover:rotate-12 transition-transform" />
+                    <div className="absolute -top-4 -right-4 bg-primary text-[8px] font-black px-1.5 py-0.5 rounded-full animate-bounce">AI</div>
+                </div>
             </button>
 
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="fixed bottom-4 left-4 right-4 sm:bottom-36 sm:left-6 sm:right-auto sm:w-96 bg-gradient-to-b from-card to-black border border-primary/20 rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col h-[500px] max-h-[80vh]"
+                        initial={{ opacity: 0, scale: 0.95, y: 40, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, scale: 0.95, y: 40, filter: "blur(10px)" }}
+                        className="fixed bottom-4 left-4 right-4 sm:bottom-36 sm:left-6 sm:right-auto sm:w-[400px] glass rounded-[2.5rem] z-50 overflow-hidden flex flex-col h-[600px] max-h-[85vh] shadow-[0_30px_100px_rgba(0,0,0,0.8)] border-white/10"
                     >
-                        <div className="bg-gradient-to-r from-primary/20 to-primary/10 p-4 flex justify-between items-center border-b border-primary/20">
-                            <div className="flex items-center gap-3">
+                        {/* Header */}
+                        <div className="bg-white/5 p-6 flex justify-between items-center border-b border-white/5 backdrop-blur-xl">
+                            <div className="flex items-center gap-4">
                                 <div className="relative">
-                                    <Sparkles className="text-primary" size={20} />
-                                    <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-primary/40 flex items-center justify-center shadow-lg shadow-primary/20">
+                                        <Sparkles className="text-black" size={24} />
+                                    </div>
+                                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-4 border-[#0f0f13] animate-pulse"></div>
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-primary text-sm flex items-center gap-2">
+                                    <h3 className="font-black text-white text-base flex items-center gap-2 tracking-tight">
                                         Wtm AI
-                                        <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full">GPT-4</span>
+                                        <span className="text-[9px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-black uppercase tracking-widest">Premium</span>
                                     </h3>
-                                    <p className="text-xs text-gray-400">Assistente Financeiro Inteligente</p>
+                                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Sempre Online</p>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
+                                className="text-gray-500 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-xl border border-transparent hover:border-white/10"
                                 aria-label="Fechar chat"
                             >
-                                <X size={18} />
+                                <X size={20} />
                             </button>
                         </div>
 
-                        <div className="flex-1 p-4 overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-primary/20">
+                        {/* Messages */}
+                        <div className="flex-1 p-6 overflow-y-auto space-y-6 scrollbar-thin scrollbar-thumb-primary/20 bg-gradient-to-b from-transparent to-primary/5">
                             {messages.map((msg) => (
                                 <motion.div
                                     key={msg.id}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, x: msg.sender === "user" ? 20 : -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
                                     className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                                 >
                                     <div
-                                        className={`max-w-[85%] p-3 rounded-lg ${msg.sender === "user"
-                                            ? "bg-primary/20 text-white rounded-br-none border border-primary/30"
-                                            : "bg-white/5 text-gray-300 rounded-tl-none border border-white/10"
+                                        className={`max-w-[85%] p-4 rounded-2xl shadow-xl ${msg.sender === "user"
+                                            ? "bg-primary text-black rounded-br-none font-medium"
+                                            : "bg-white/5 text-gray-200 rounded-tl-none border border-white/10 backdrop-blur-md"
                                             }`}
                                     >
                                         <p className="text-sm whitespace-pre-line leading-relaxed">{msg.text}</p>
-                                        <p className="text-xs text-gray-500 mt-1">
+                                        <p className={`text-[9px] mt-2 font-bold uppercase tracking-widest ${msg.sender === "user" ? "text-black/50" : "text-gray-500"}`}>
                                             {msg.timestamp.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                                         </p>
                                     </div>
@@ -260,37 +266,44 @@ export default function ChatBubble() {
                                     animate={{ opacity: 1 }}
                                     className="flex justify-start"
                                 >
-                                    <div className="bg-white/5 border border-white/10 rounded-lg rounded-tl-none p-3">
-                                        <Loader2 className="animate-spin text-primary" size={20} />
+                                    <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-none p-4 backdrop-blur-md">
+                                        <div className="flex gap-1">
+                                            <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                                            <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                                            <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce"></span>
+                                        </div>
                                     </div>
                                 </motion.div>
                             )}
                             <div ref={messagesEndRef} />
                         </div>
 
+                        {/* Input */}
                         <form
                             onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-                            className="p-3 border-t border-white/10 flex gap-2 bg-black/30"
+                            className="p-6 border-t border-white/5 bg-white/5 backdrop-blur-2xl"
                         >
-                            <input
-                                ref={inputRef}
-                                type="text"
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
-                                placeholder="Pergunte sobre finanças..."
-                                disabled={isLoading}
-                                className="flex-1 bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-primary/50 transition-colors placeholder:text-gray-500 disabled:opacity-50"
-                                autoComplete="off"
-                                autoFocus
-                            />
-                            <button
-                                type="submit"
-                                disabled={!inputValue.trim() || isLoading}
-                                className="p-2 bg-primary/20 hover:bg-primary/30 text-primary rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                aria-label="Enviar mensagem"
-                            >
-                                {isLoading ? <Loader2 className="animate-spin" size={18} /> : <Send size={18} />}
-                            </button>
+                            <div className="relative flex items-center">
+                                <input
+                                    ref={inputRef}
+                                    type="text"
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    placeholder="Como posso ajudar hoje?"
+                                    disabled={isLoading}
+                                    className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-sm text-white outline-none focus:border-primary/50 transition-all placeholder:text-gray-600 disabled:opacity-50 pr-14 shadow-inner"
+                                    autoComplete="off"
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={!inputValue.trim() || isLoading}
+                                    className="absolute right-2 p-3 bg-primary text-black rounded-xl transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20"
+                                    aria-label="Enviar mensagem"
+                                >
+                                    {isLoading ? <Loader2 className="animate-spin" size={18} /> : <Send size={18} />}
+                                </button>
+                            </div>
+                            <p className="text-[8px] text-center text-gray-600 mt-4 font-black uppercase tracking-[0.2em]">Powered by Wtm Intelligence</p>
                         </form>
                     </motion.div>
                 )}

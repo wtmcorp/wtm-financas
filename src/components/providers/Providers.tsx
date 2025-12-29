@@ -10,6 +10,7 @@ import BottomNav from "@/components/layout/BottomNav";
 import ChatBubble from "@/components/ai/ChatBubble";
 import WhatsAppButton from "@/components/contact/WhatsAppButton";
 import BugReportButton from "@/components/feedback/BugReportButton";
+import MouseTracker from "@/components/ui/MouseTracker";
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
@@ -24,6 +25,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 }} />
 
                 <WelcomeModal />
+                <MouseTracker />
                 <Header />
 
                 <main className="pb-20 pt-20 md:pt-32 flex-1">

@@ -4,9 +4,25 @@ import { useState } from "react";
 import ModuleCard from "@/components/education/ModuleCard";
 import LessonModal from "@/components/education/LessonModal";
 import { GraduationCap, BookOpen, TrendingUp, ShieldCheck, Coins, Globe, BrainCircuit, Plane } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function LearnPage() {
     const [activeModule, setActiveModule] = useState<string | null>(null);
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, cubicBezier: [0.23, 1, 0.32, 1] } }
+    };
 
     // Mock Data for Modules
     const modules = [
@@ -579,11 +595,16 @@ export default function LearnPage() {
     const activeModuleData = modules.find(m => m.id === activeModule);
 
     return (
-        <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32"
+        >
             <div className="max-w-7xl mx-auto space-y-12">
 
                 {/* Header */}
-                <header className="reveal space-y-6 text-center md:text-left relative p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5 overflow-hidden">
+                <motion.header variants={itemVariants} className="space-y-6 text-center md:text-left relative p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5 overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -mr-32 -mt-32 animate-pulse-slow" />
 
                     <div className="relative z-10">
@@ -599,10 +620,10 @@ export default function LearnPage() {
                             Educação financeira não é sobre economizar cafezinho. É sobre <span className="text-white">liberdade</span>. Escolha sua trilha e comece a evoluir seu patrimônio hoje.
                         </p>
                     </div>
-                </header>
+                </motion.header>
 
                 {/* Progress Overview */}
-                <div className="reveal card-premium p-10 bg-gradient-to-br from-[#0f0f13] via-[#13131a] to-[#1a1a2e] relative overflow-hidden" style={{ animationDelay: '0.1s' }}>
+                <motion.div variants={itemVariants} className="card-premium p-10 bg-gradient-to-br from-[#0f0f13] via-[#13131a] to-[#1a1a2e] relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-full h-full bg-[url('/noise.png')] opacity-[0.03] pointer-events-none" />
                     <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/10 rounded-full blur-[80px] animate-pulse-slow" />
 
@@ -656,10 +677,10 @@ export default function LearnPage() {
                             ))}
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Modules Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 reveal" style={{ animationDelay: '0.2s' }}>
+                <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {modules.map((module) => (
                         <ModuleCard
                             key={module.id}
@@ -667,7 +688,7 @@ export default function LearnPage() {
                             onClick={() => setActiveModule(module.id)}
                         />
                     ))}
-                </div>
+                </motion.div>
 
                 {/* Active Lesson Modal */}
                 {activeModule && activeModuleData && (
@@ -678,6 +699,6 @@ export default function LearnPage() {
                     />
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 }

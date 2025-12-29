@@ -5,16 +5,38 @@ import NewsFeed from "@/components/trends/NewsFeed";
 import MarketOverview from "@/components/trends/Heatmap";
 import { TrendingUp, CalendarDays, Globe2 } from "lucide-react";
 
+import { motion } from "framer-motion";
+
 export default function TrendsPage() {
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, cubicBezier: [0.23, 1, 0.32, 1] } }
+    };
+
     return (
-        <div className="min-h-screen bg-mesh pb-32">
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="min-h-screen bg-mesh pb-32"
+        >
             {/* Ticker is full width */}
             <MarketTicker />
 
             <div className="p-4 md:p-8 lg:p-12 max-w-7xl mx-auto space-y-12">
 
                 {/* Header */}
-                <header className="reveal space-y-6 text-center md:text-left">
+                <motion.header variants={itemVariants} className="space-y-6 text-center md:text-left">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4">
                         <Globe2 size={16} className="text-blue-500" />
                         <span className="text-sm font-medium text-blue-400">Global Markets</span>
@@ -25,7 +47,7 @@ export default function TrendsPage() {
                     <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
                         Fique à frente do mercado. Notícias, cotações e análises em tempo real para tomar as melhores decisões.
                     </p>
-                </header>
+                </motion.header>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 reveal" style={{ animationDelay: '0.1s' }}>
 
@@ -64,7 +86,7 @@ export default function TrendsPage() {
                                             </div>
                                         </div>
                                         <div className={`w-2 h-2 rounded-full ${item.impact === 'high' ? 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]' :
-                                                item.impact === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
+                                            item.impact === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
                                             }`} title={`Impacto: ${item.impact}`} />
                                     </div>
                                 ))}
@@ -95,6 +117,6 @@ export default function TrendsPage() {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }

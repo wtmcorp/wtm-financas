@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { TrendingUp, TrendingDown, Loader2 } from "lucide-react";
+import { TrendingUp, TrendingDown, Loader2, Globe } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function MarketTicker() {
     const [data, setData] = useState<any>(null);
@@ -12,7 +13,7 @@ export default function MarketTicker() {
             try {
                 const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL");
                 const json = await res.json();
-                if (json && !json.status) { // Check if it's not an error response
+                if (json && !json.status) {
                     setData(json);
                 }
             } catch (error) {
@@ -22,50 +23,70 @@ export default function MarketTicker() {
             }
         };
         fetchMarket();
-        const interval = setInterval(fetchMarket, 30000); // Update every 30s
+        const interval = setInterval(fetchMarket, 30000);
         return () => clearInterval(interval);
     }, []);
 
     if (loading) return (
-        <div className="flex items-center gap-2 text-xs text-gray-500 animate-pulse h-9">
+        <div className="flex items-center gap-3 text-[10px] font-black text-primary/50 uppercase tracking-[0.2em] h-10">
             <Loader2 size={12} className="animate-spin" />
-            Carregando dados do mercado...
+            Sincronizando Mercados...
         </div>
     );
 
     if (!data) return null;
 
     const items = [
-        { label: "Dólar", key: "USDBRL" },
-        { label: "Euro", key: "EURBRL" },
-        { label: "Bitcoin", key: "BTCBRL" },
+        { label: "Dólar", key: "USDBRL", icon: "🇺🇸" },
+        { label: "Euro", key: "EURBRL", icon: "🇪🇺" },
+        { label: "Bitcoin", key: "BTCBRL", icon: "₿" },
     ];
 
     return (
-        <div className="flex items-center gap-6 overflow-x-auto no-scrollbar py-2 h-9">
-            {items.map((item) => {
-                const market = data[item.key];
-                if (!market) return null;
+        <div className="flex items-center gap-8 overflow-x-auto no-scrollbar py-2 h-10">
+            <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full border border-primary/20 shrink-0">
+                <Globe size={12} className="text-primary animate-pulse" />
+                <span className="text-[9px] font-black text-primary uppercase tracking-widest">Global Live</span>
+            </div>
 
-                const pct = parseFloat(market.pctChange || "0");
-                const isUp = pct >= 0;
+            <AnimatePresence mode="wait">
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex items-center gap-8"
+                >
+                    {items.map((item) => {
+                        const market = data[item.key];
+                        if (!market) return null;
 
-                return (
-                    <div key={item.key} className="flex items-center gap-2 whitespace-nowrap">
-                        <span className="text-xs font-bold text-gray-400 uppercase">{item.label}</span>
-                        <span className="text-sm font-mono font-bold text-white">
-                            R$ {parseFloat(market.bid || "0").toLocaleString('pt-BR', {
-                                minimumFractionDigits: item.key === 'BTCBRL' ? 0 : 2,
-                                maximumFractionDigits: item.key === 'BTCBRL' ? 0 : 2
-                            })}
-                        </span>
-                        <span className={`flex items-center text-[10px] font-bold ${isUp ? "text-green-400" : "text-red-400"}`}>
-                            {isUp ? <TrendingUp size={10} className="mr-0.5" /> : <TrendingDown size={10} className="mr-0.5" />}
-                            {isUp ? "+" : ""}{pct}%
-                        </span>
-                    </div>
-                );
-            })}
+                        const pct = parseFloat(market.pctChange || "0");
+                        const isUp = pct >= 0;
+
+                        return (
+                            <div key={item.key} className="flex items-center gap-3 whitespace-nowrap group cursor-default">
+                                <div className="flex flex-col">
+                                    <span className="text-[9px] font-black text-gray-500 uppercase tracking-tighter group-hover:text-gray-300 transition-colors">
+                                        {item.label}
+                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-sm font-black text-white tracking-tight">
+                                            R$ {parseFloat(market.bid || "0").toLocaleString('pt-BR', {
+                                                minimumFractionDigits: item.key === 'BTCBRL' ? 0 : 2,
+                                                maximumFractionDigits: item.key === 'BTCBRL' ? 0 : 2
+                                            })}
+                                        </span>
+                                        <span className={`flex items-center text-[10px] font-black px-1.5 py-0.5 rounded-md ${isUp ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"
+                                            }`}>
+                                            {isUp ? <TrendingUp size={10} className="mr-1" /> : <TrendingDown size={10} className="mr-1" />}
+                                            {isUp ? "+" : ""}{pct}%
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </motion.div>
+            </AnimatePresence>
         </div>
     );
 }

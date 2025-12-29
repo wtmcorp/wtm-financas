@@ -6,16 +6,38 @@ import InvestmentCard from "@/components/finance/InvestmentCard";
 import { Calculator, Info, TrendingUp, Shield, Zap, Award, Target, ArrowRight } from "lucide-react";
 import { Tooltip } from "@/components/ui/Tooltip";
 
+import { motion } from "framer-motion";
+
 export default function InvestPage() {
     const [simulationAmount, setSimulationAmount] = useState<string>("1000");
     const amount = parseFloat(simulationAmount) || 0;
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, cubicBezier: [0.23, 1, 0.32, 1] } }
+    };
+
     return (
-        <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32"
+        >
             <div className="max-w-7xl mx-auto space-y-12">
 
                 {/* Header */}
-                <header className="reveal space-y-6 text-center md:text-left">
+                <motion.header variants={itemVariants} className="space-y-6 text-center md:text-left">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 mb-4">
                         <TrendingUp size={16} className="text-green-500" />
                         <span className="text-sm font-medium text-green-400">Multiplicador de Patrimônio</span>
@@ -26,7 +48,7 @@ export default function InvestPage() {
                     <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
                         Compare, simule e escolha onde seu dinheiro vai trabalhar mais por você.
                     </p>
-                </header>
+                </motion.header>
 
                 {/* Simulation Bar */}
                 <div className="reveal card-premium p-6 md:p-8 bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e]" style={{ animationDelay: '0.1s' }}>
@@ -201,6 +223,6 @@ export default function InvestPage() {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
