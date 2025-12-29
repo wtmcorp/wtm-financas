@@ -77,7 +77,13 @@ export function useLearnProgress() {
 
             // Save to Firebase
             const progressRef = doc(db, "learnProgress", user.id);
-            await updateDoc(progressRef, updatedProgress);
+            const progressSnap = await getDoc(progressRef);
+
+            if (progressSnap.exists()) {
+                await updateDoc(progressRef, updatedProgress);
+            } else {
+                await setDoc(progressRef, updatedProgress);
+            }
 
             setProgress(updatedProgress);
         } catch (error) {

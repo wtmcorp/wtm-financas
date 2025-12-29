@@ -83,17 +83,20 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
     const playQueue = async (chunks: string[], index: number, retryCount = 0) => {
         if (index >= chunks.length) {
             setIsPlaying(false);
+            setIsLoading(false);
             setProgress(100);
             return;
         }
 
         try {
             const chunk = chunks[index];
+            console.log(`Playing chunk ${index + 1}/${chunks.length}:`, chunk.substring(0, 30) + "...");
+
             const controller = new AbortController();
             abortControllerRef.current = controller;
 
-            // 15s timeout for client fetch
-            const timeoutId = setTimeout(() => controller.abort(), 15000);
+            // 20s timeout for client fetch
+            const timeoutId = setTimeout(() => controller.abort(), 20000);
 
             const response = await fetch("/api/tts", {
                 method: "POST",
@@ -106,55 +109,58 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.details || "Failed to fetch audio chunk");
+                throw new Error(errorData.details || `HTTP error! status: ${response.status}`);
             }
 
             const blob = await response.blob();
+            if (blob.size === 0) throw new Error("Received empty audio blob");
+
             const url = URL.createObjectURL(blob);
             const newAudio = new Audio(url);
             currentAudioRef.current = newAudio;
             setAudio(newAudio);
 
             newAudio.onended = () => {
+                URL.revokeObjectURL(url);
                 playQueue(chunks, index + 1);
             };
 
             newAudio.ontimeupdate = () => {
                 if (newAudio.duration) {
-                    // Calculate overall progress based on chunk index
                     const chunkProgress = (newAudio.currentTime / newAudio.duration);
                     const totalProgress = ((index + chunkProgress) / chunks.length) * 100;
                     setProgress(totalProgress);
                 }
             };
 
-            newAudio.onerror = () => {
-                console.error("Audio playback error");
-                // Try next chunk if this one fails to play
+            newAudio.onerror = (e) => {
+                console.error("Audio playback error:", e);
+                URL.revokeObjectURL(url);
                 playQueue(chunks, index + 1);
             };
 
-            await newAudio.play();
-            setIsLoading(false); // Loading done once first chunk starts
+            await newAudio.play().catch(err => {
+                console.error("Failed to start playback:", err);
+                playQueue(chunks, index + 1);
+            });
+
+            setIsLoading(false);
 
         } catch (error: any) {
             console.error("Queue playback error:", error);
 
             if (error.name === 'AbortError' || error.message.includes('Timeout')) {
-                console.log("Retrying chunk due to timeout...");
                 if (retryCount < 2) {
-                    // Retry same chunk up to 2 times
+                    console.log(`Retrying chunk ${index} (attempt ${retryCount + 1})...`);
                     playQueue(chunks, index, retryCount + 1);
                     return;
                 }
             }
 
-            // If max retries reached or other error, skip to next chunk
-            // But if it's the first chunk, show error
             if (index === 0) {
                 setIsPlaying(false);
                 setIsLoading(false);
-                alert(`Erro na narração: ${error.message}`);
+                console.error("Critical TTS error on first chunk:", error);
             } else {
                 playQueue(chunks, index + 1);
             }

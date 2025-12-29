@@ -67,16 +67,23 @@ export default function LessonModal({
     };
 
     const handleNextLesson = async () => {
-        // Mark current lesson as complete before moving to next
-        await markLessonComplete(moduleId, activeLesson.id, activeLessonIndex);
+        const nextIndex = activeLessonIndex + 1;
 
+        // Optimistic update: move to next lesson immediately
         if (activeLessonIndex < lessons.length - 1) {
-            setActiveLessonIndex(prev => prev + 1);
+            setActiveLessonIndex(nextIndex);
             setQuizSelected(null);
             setQuizResult(null);
             setIsMobileMenuOpen(false);
         } else {
             onClose();
+        }
+
+        // Mark current lesson as complete in the background
+        try {
+            await markLessonComplete(moduleId, activeLesson.id, activeLessonIndex);
+        } catch (error) {
+            console.error("Failed to mark lesson as complete:", error);
         }
     };
 
