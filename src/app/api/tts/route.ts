@@ -44,7 +44,16 @@ export async function POST(req: Request) {
                 </speak>
             `;
 
-            const readable = await tts.toStream(ssml);
+            // Add timeout to TTS generation (10 seconds per chunk)
+            const timeoutPromise = new Promise<any>((_, reject) =>
+                setTimeout(() => reject(new Error("TTS Generation Timeout")), 10000)
+            );
+
+            const readable = await Promise.race([
+                tts.toStream(ssml),
+                timeoutPromise
+            ]) as any;
+
             const chunkBuffers: any[] = [];
             for await (const data of readable) {
                 chunkBuffers.push(data);
@@ -61,8 +70,11 @@ export async function POST(req: Request) {
             },
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error("TTS Error:", error);
-        return NextResponse.json({ error: "Failed to generate speech" }, { status: 500 });
+        return NextResponse.json({
+            error: "Failed to generate speech",
+            details: error.message
+        }, { status: 500 });
     }
 }

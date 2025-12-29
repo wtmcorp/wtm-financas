@@ -80,7 +80,7 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
         };
     }, []);
 
-    const playQueue = async (chunks: string[], index: number) => {
+    const playQueue = async (chunks: string[], index: number, retryCount = 0) => {
         if (index >= chunks.length) {
             setIsPlaying(false);
             setProgress(100);
@@ -92,6 +92,9 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             const controller = new AbortController();
             abortControllerRef.current = controller;
 
+            // 15s timeout for client fetch
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+
             const response = await fetch("/api/tts", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -99,7 +102,12 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
                 signal: controller.signal
             });
 
-            if (!response.ok) throw new Error("Failed to fetch audio chunk");
+            clearTimeout(timeoutId);
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.details || "Failed to fetch audio chunk");
+            }
 
             const blob = await response.blob();
             const url = URL.createObjectURL(blob);
@@ -122,17 +130,33 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
 
             newAudio.onerror = () => {
                 console.error("Audio playback error");
-                playQueue(chunks, index + 1); // Skip to next chunk on error
+                // Try next chunk if this one fails to play
+                playQueue(chunks, index + 1);
             };
 
             await newAudio.play();
             setIsLoading(false); // Loading done once first chunk starts
 
         } catch (error: any) {
-            if (error.name !== 'AbortError') {
-                console.error("Queue playback error:", error);
+            console.error("Queue playback error:", error);
+
+            if (error.name === 'AbortError' || error.message.includes('Timeout')) {
+                console.log("Retrying chunk due to timeout...");
+                if (retryCount < 2) {
+                    // Retry same chunk up to 2 times
+                    playQueue(chunks, index, retryCount + 1);
+                    return;
+                }
+            }
+
+            // If max retries reached or other error, skip to next chunk
+            // But if it's the first chunk, show error
+            if (index === 0 && retryCount >= 2) {
                 setIsPlaying(false);
                 setIsLoading(false);
+                alert("Não foi possível gerar o áudio. Tente novamente.");
+            } else {
+                playQueue(chunks, index + 1);
             }
         }
     };
