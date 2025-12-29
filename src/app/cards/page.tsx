@@ -109,6 +109,116 @@ export default function CardsPage() {
                         </div>
                     </div>
                 </header>
+                {/* Top 10 Rankings */}
+                <section className="reveal space-y-8" style={{ animationDelay: '0.05s' }}>
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="p-3 bg-yellow-500/20 rounded-2xl text-yellow-500">
+                            <Trophy size={24} />
+                        </div>
+                        <div>
+                            <h2 className="text-3xl font-black text-white">Top 10 Rankings</h2>
+                            <p className="text-gray-500 text-sm">Os melhores cartões do mercado em cada categoria</p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {/* Top Cashback */}
+                        <div className="card-premium p-6 space-y-4">
+                            <div className="flex items-center justify-between">
+                                <h3 className="font-bold text-white flex items-center gap-2">
+                                    <DollarSign size={18} className="text-green-500" />
+                                    Top Cashback
+                                </h3>
+                                <span className="text-[10px] font-black uppercase tracking-tighter bg-green-500/20 text-green-500 px-2 py-1 rounded-lg">Dinheiro de Volta</span>
+                            </div>
+                            <div className="space-y-3">
+                                {creditCardsData
+                                    .filter(c => c.cashback > 0)
+                                    .sort((a, b) => b.cashback - a.cashback)
+                                    .slice(0, 10)
+                                    .map((card, idx) => (
+                                        <div
+                                            key={card.id}
+                                            onClick={() => setSelectedCard(card)}
+                                            className="flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-pointer group"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-xs font-black text-gray-600 group-hover:text-primary">#{idx + 1}</span>
+                                                <span className="text-sm font-medium text-gray-300 group-hover:text-white">{card.name}</span>
+                                            </div>
+                                            <span className="text-xs font-bold text-primary">{card.cashback}%</span>
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
+
+                        {/* Top Milhas */}
+                        <div className="card-premium p-6 space-y-4">
+                            <div className="flex items-center justify-between">
+                                <h3 className="font-bold text-white flex items-center gap-2">
+                                    <Plane size={18} className="text-blue-500" />
+                                    Top Milhas
+                                </h3>
+                                <span className="text-[10px] font-black uppercase tracking-tighter bg-blue-500/20 text-blue-500 px-2 py-1 rounded-lg">Pontuação</span>
+                            </div>
+                            <div className="space-y-3">
+                                {creditCardsData
+                                    .filter(c => c.miles)
+                                    .sort((a, b) => (b.milesRate || 0) - (a.milesRate || 0))
+                                    .slice(0, 10)
+                                    .map((card, idx) => (
+                                        <div
+                                            key={card.id}
+                                            onClick={() => setSelectedCard(card)}
+                                            className="flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-pointer group"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-xs font-black text-gray-600 group-hover:text-primary">#{idx + 1}</span>
+                                                <span className="text-sm font-medium text-gray-300 group-hover:text-white">{card.name}</span>
+                                            </div>
+                                            <span className="text-xs font-bold text-primary">{card.milesRate} pts/$</span>
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
+
+                        {/* Top VIP/Acesso */}
+                        <div className="card-premium p-6 space-y-4">
+                            <div className="flex items-center justify-between">
+                                <h3 className="font-bold text-white flex items-center gap-2">
+                                    <Crown size={18} className="text-purple-500" />
+                                    Top VIP
+                                </h3>
+                                <span className="text-[10px] font-black uppercase tracking-tighter bg-purple-500/20 text-purple-500 px-2 py-1 rounded-lg">Salas VIP</span>
+                            </div>
+                            <div className="space-y-3">
+                                {creditCardsData
+                                    .filter(c => c.loungeAccess !== 'none')
+                                    .sort((a, b) => {
+                                        if (a.loungeAccess === 'unlimited' && b.loungeAccess !== 'unlimited') return -1;
+                                        if (b.loungeAccess === 'unlimited' && a.loungeAccess !== 'unlimited') return 1;
+                                        return b.minIncome - a.minIncome;
+                                    })
+                                    .slice(0, 10)
+                                    .map((card, idx) => (
+                                        <div
+                                            key={card.id}
+                                            onClick={() => setSelectedCard(card)}
+                                            className="flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-pointer group"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-xs font-black text-gray-600 group-hover:text-primary">#{idx + 1}</span>
+                                                <span className="text-sm font-medium text-gray-300 group-hover:text-white">{card.name}</span>
+                                            </div>
+                                            <span className="text-[10px] font-bold text-primary uppercase">
+                                                {card.loungeAccess === 'unlimited' ? 'Ilimitado' : 'Limitado'}
+                                            </span>
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 {/* Categories */}
                 <div className="flex gap-3 overflow-x-auto pb-4 no-scrollbar reveal" style={{ animationDelay: '0.1s' }}>

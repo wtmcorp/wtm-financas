@@ -180,29 +180,29 @@ body::before {
       filter: blur(0);
     }
   }
+}
 
-  @layer components {
-    .btn-premium {
-      @apply relative overflow-hidden px-6 py-3 rounded-2xl font-bold transition-all duration-300 active:scale-95;
-      background: var(--primary);
-      color: #000;
-      box-shadow: 0 0 10px rgba(167, 139, 250, 0.2);
-    }
-
-    .btn-premium:hover {
-      box-shadow: 0 0 25px var(--primary-glow);
-      transform: translateY(-1px);
-    }
+@layer components {
+  .btn-premium {
+    @apply relative overflow-hidden px-6 py-3 rounded-2xl font-bold transition-all duration-300 active:scale-95;
+    background: var(--primary);
+    color: #000;
+    box-shadow: 0 0 10px rgba(167, 139, 250, 0.2);
   }
 
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  .btn-premium:hover {
+    box-shadow: 0 0 25px var(--primary-glow);
+    transform: translateY(-1px);
   }
+}
 
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @layer base {
