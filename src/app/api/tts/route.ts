@@ -1,77 +1,37 @@
 import { NextResponse } from "next/server";
-import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
+import OpenAI from "openai";
+
+export const dynamic = 'force-dynamic';
+
+const openai = new OpenAI({
+    apiKey: (process.env.OPENAI_API_KEY || "").trim(),
+});
 
 export async function POST(req: Request) {
     try {
-        const { text, voice = "pt-BR-AntonioNeural", pitch = "-2Hz", rate = "+5%" } = await req.json();
+        const { text } = await req.json();
 
         if (!text) {
             return NextResponse.json({ error: "Text is required" }, { status: 400 });
         }
 
-        // Split text into chunks to avoid Vercel timeouts (approx 200 chars per chunk)
-        // Simple regex to split by sentences but keep delimiters
-        const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
-        const chunks: string[] = [];
-        let currentChunk = "";
+        const mp3 = await openai.audio.speech.create({
+            model: "tts-1",
+            voice: "onyx", // Deep, authoritative voice
+            input: text,
+        });
 
-        for (const sentence of sentences) {
-            if ((currentChunk + sentence).length > 200) {
-                chunks.push(currentChunk);
-                currentChunk = sentence;
-            } else {
-                currentChunk += sentence;
-            }
-        }
-        if (currentChunk) chunks.push(currentChunk);
+        const buffer = Buffer.from(await mp3.arrayBuffer());
 
-        // Generate audio for each chunk
-        const audioBuffers: Buffer[] = [];
-
-        for (const chunk of chunks) {
-            if (!chunk.trim()) continue;
-
-            const tts = new MsEdgeTTS();
-            await tts.setMetadata(voice, OUTPUT_FORMAT.WEBM_24KHZ_16BIT_MONO_OPUS);
-
-            const ssml = `
-                <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="pt-BR">
-                    <voice name="${voice}">
-                        <prosody pitch="${pitch}" rate="${rate}">
-                            ${chunk}
-                        </prosody>
-                    </voice>
-                </speak>
-            `;
-
-            // Add timeout to TTS generation (10 seconds per chunk)
-            const timeoutPromise = new Promise<any>((_, reject) =>
-                setTimeout(() => reject(new Error("TTS Generation Timeout")), 10000)
-            );
-
-            const readable = await Promise.race([
-                tts.toStream(ssml),
-                timeoutPromise
-            ]) as any;
-
-            const chunkBuffers: any[] = [];
-            for await (const data of readable) {
-                chunkBuffers.push(data);
-            }
-            audioBuffers.push(Buffer.concat(chunkBuffers));
-        }
-
-        const finalAudio = Buffer.concat(audioBuffers);
-
-        return new NextResponse(finalAudio, {
+        return new NextResponse(buffer, {
             headers: {
-                "Content-Type": "audio/webm",
-                "Content-Length": finalAudio.length.toString(),
+                "Content-Type": "audio/mpeg",
+                "Content-Length": buffer.length.toString(),
             },
         });
 
     } catch (error: any) {
-        console.error("TTS Error:", error);
+        console.error("OpenAI TTS Error:", error);
         return NextResponse.json({
             error: "Failed to generate speech",
             details: error.message
