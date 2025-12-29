@@ -147,9 +147,13 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             setIsLoading(false);
 
         } catch (error: any) {
+            if (error.name === 'AbortError') {
+                console.log("Fetch aborted intentionally");
+                return;
+            }
             console.error("Queue playback error:", error);
 
-            if (error.name === 'AbortError' || error.message.includes('Timeout')) {
+            if (error.message.includes('Timeout')) {
                 if (retryCount < 2) {
                     console.log(`Retrying chunk ${index} (attempt ${retryCount + 1})...`);
                     playQueue(chunks, index, retryCount + 1);

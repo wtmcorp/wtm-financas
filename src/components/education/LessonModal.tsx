@@ -324,9 +324,9 @@ export default function LessonModal({
 
                         <button
                             onClick={handleNextLesson}
-                            className="px-8 md:px-12 py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(167,139,250,0.3)] uppercase tracking-widest text-xs"
+                            className="flex-1 md:flex-none px-6 md:px-12 py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(167,139,250,0.3)] uppercase tracking-widest text-xs"
                         >
-                            {activeLessonIndex === lessons.length - 1 ? "Finalizar Módulo" : "Próxima Aula"} <ChevronRight size={18} />
+                            <span className="truncate">{activeLessonIndex === lessons.length - 1 ? "Finalizar" : "Próxima"}</span> <ChevronRight size={18} />
                         </button>
                     </div>
                 </div>
