@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Copy } from "lucide-react";
 
 interface Props {
@@ -41,23 +42,46 @@ export default function MoreCalculators({ type }: Props) {
                 const p = Number(val1);
                 const r = Number(val2) / 100 / 12;
                 const n = Number(val3);
-                const pmt = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-                const totalPaid = pmt * n;
-                const totalInterest = totalPaid - p;
-                setRes({ pmt, totalPaid, totalInterest });
+
+                // PRICE
+                const pmtPrice = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+                const totalPrice = pmtPrice * n;
+                const interestPrice = totalPrice - p;
+
+                // SAC (First installment)
+                const amortSac = p / n;
+                const pmtSacFirst = amortSac + (p * r);
+                const totalSac = ((pmtSacFirst + (amortSac + (amortSac * r))) / 2) * n; // Approx
+                const interestSac = totalSac - p;
+
+                setRes({ pmtPrice, totalPrice, interestPrice, pmtSacFirst, totalSac, interestSac });
             };
             return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Simulador de Amortização (Price)</h2>
-                    <Input label="Valor do Financiamento (R$)" value={val1} onChange={setVal1} placeholder="Ex: 200000" />
-                    <Input label="Taxa de Juros Anual (%)" value={val2} onChange={setVal2} placeholder="Ex: 10" />
+                <div className="space-y-6">
+                    <h2 className="text-2xl font-bold text-white">SAC vs PRICE</h2>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Valor (R$)" value={val1} onChange={setVal1} placeholder="Ex: 200000" />
+                        <Input label="Taxa Mensal (%)" value={val2} onChange={setVal2} placeholder="Ex: 1" />
+                    </div>
                     <Input label="Prazo (Meses)" value={val3} onChange={setVal3} placeholder="Ex: 360" />
-                    <button onClick={calcAmort} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Simular</button>
+                    <button onClick={calcAmort} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Comparar Sistemas</button>
                     {res && (
-                        <div className="bg-white/5 p-4 rounded-xl space-y-2">
-                            <div className="flex justify-between text-gray-400"><span>Parcela Mensal:</span> <span className="text-white font-bold">R$ {res.pmt.toFixed(2)}</span></div>
-                            <div className="flex justify-between text-gray-400"><span>Total em Juros:</span> <span className="text-red-400">R$ {res.totalInterest.toFixed(2)}</span></div>
-                            <div className="flex justify-between text-xl font-bold text-white pt-2 border-t border-white/10"><span>Total Pago:</span> <span className="text-primary">R$ {res.totalPaid.toFixed(2)}</span></div>
+                        <div className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                    <p className="text-[10px] text-primary font-black uppercase mb-2">Tabela PRICE</p>
+                                    <p className="text-sm text-gray-400">Parcela: <span className="text-white font-bold">R$ {res.pmtPrice.toFixed(2)}</span></p>
+                                    <p className="text-sm text-gray-400">Total Juros: <span className="text-red-400 font-bold">R$ {res.interestPrice.toFixed(2)}</span></p>
+                                </div>
+                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                    <p className="text-[10px] text-primary font-black uppercase mb-2">Tabela SAC</p>
+                                    <p className="text-sm text-gray-400">1ª Parcela: <span className="text-white font-bold">R$ {res.pmtSacFirst.toFixed(2)}</span></p>
+                                    <p className="text-sm text-gray-400">Total Juros: <span className="text-emerald-400 font-bold">R$ {res.interestSac.toFixed(2)}</span></p>
+                                </div>
+                            </div>
+                            <div className="bg-primary/10 p-4 rounded-xl text-center border border-primary/20">
+                                <p className="text-sm text-white">Economia com SAC: <span className="font-black text-primary">R$ {(res.interestPrice - res.interestSac).toFixed(2)}</span></p>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -65,22 +89,44 @@ export default function MoreCalculators({ type }: Props) {
 
         case "card-interest":
             const calcCard = () => {
-                const balance = Number(val1);
-                const rate = Number(val2) / 100;
-                const interest = balance * rate;
-                setRes({ interest, total: balance + interest });
+                const b = Number(val1);
+                const r = Number(val2) / 100;
+
+                let balance = b;
+                let months = 0;
+                let totalPaid = 0;
+                const p = b * 0.15; // Assuming 15% min payment
+
+                while (balance > 1 && months < 360) {
+                    const interest = balance * r;
+                    const payment = Math.max(p, interest + 10);
+                    balance = balance + interest - payment;
+                    totalPaid += payment;
+                    months++;
+                    if (payment <= interest) { months = 999; break; }
+                }
+
+                setRes({ months, totalPaid, interest: totalPaid - b });
             };
             return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Juros do Cartão de Crédito</h2>
-                    <p className="text-xs text-gray-400">Veja o custo de rolar a dívida para o próximo mês.</p>
-                    <Input label="Valor da Fatura (R$)" value={val1} onChange={setVal1} />
-                    <Input label="Taxa de Juros Mensal (%)" value={val2} onChange={setVal2} placeholder="Ex: 14.5" />
-                    <button onClick={calcCard} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular Custo</button>
+                <div className="space-y-6">
+                    <h2 className="text-2xl font-bold text-white">Efeito Bola de Neve</h2>
+                    <p className="text-xs text-gray-400">Veja o perigo de pagar apenas o mínimo do cartão.</p>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Dívida (R$)" value={val1} onChange={setVal1} />
+                        <Input label="Juros Mensais (%)" value={val2} onChange={setVal2} placeholder="Ex: 14" />
+                    </div>
+                    <button onClick={calcCard} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Simular Impacto</button>
                     {res && (
-                        <div className="bg-red-500/10 p-4 rounded-xl border border-red-500/20">
-                            <div className="flex justify-between text-gray-300"><span>Juros no próximo mês:</span> <span className="font-bold text-red-400">R$ {res.interest.toFixed(2)}</span></div>
-                            <div className="flex justify-between text-white font-bold mt-2"><span>Total da Dívida:</span> <span>R$ {res.total.toFixed(2)}</span></div>
+                        <div className="space-y-4">
+                            <div className="bg-red-500/10 p-6 rounded-2xl border border-red-500/20 text-center">
+                                <p className="text-xs text-red-400 font-black uppercase tracking-widest mb-1">Custo Total da Dívida</p>
+                                <p className="text-3xl font-black text-white">R$ {res.totalPaid.toFixed(2)}</p>
+                                <p className="text-sm text-red-400 mt-2">Você pagará <span className="font-bold">R$ {res.interest.toFixed(2)}</span> só de juros</p>
+                            </div>
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/10 text-center">
+                                <p className="text-sm text-gray-400">Tempo para quitar: <span className="text-white font-bold">{res.months === 999 ? "Infinita (Juros > Pagamento)" : `${res.months} meses`}</span></p>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -96,16 +142,42 @@ export default function MoreCalculators({ type }: Props) {
                 setRes({ cdb, lci, tesouro });
             };
             return (
-                <div className="space-y-4">
+                <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-white">Comparador de Investimentos</h2>
-                    <Input label="Valor Inicial (R$)" value={val1} onChange={setVal1} />
-                    <Input label="Prazo (Meses)" value={val2} onChange={setVal2} />
-                    <button onClick={compareInv} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Comparar</button>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Valor Inicial (R$)" value={val1} onChange={setVal1} />
+                        <Input label="Prazo (Meses)" value={val2} onChange={setVal2} />
+                    </div>
+                    <button onClick={compareInv} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Comparar Retornos</button>
                     {res && (
-                        <div className="space-y-2">
-                            <div className="bg-white/5 p-3 rounded-lg flex justify-between text-white"><span>CDB (100% CDI):</span> <span>R$ {res.cdb.toFixed(2)}</span></div>
-                            <div className="bg-primary/20 p-3 rounded-lg flex justify-between text-primary font-bold"><span>LCI/LCA (Isento):</span> <span>R$ {res.lci.toFixed(2)}</span></div>
-                            <div className="bg-white/5 p-3 rounded-lg flex justify-between text-white"><span>Tesouro Selic:</span> <span>R$ {res.tesouro.toFixed(2)}</span></div>
+                        <div className="grid gap-3">
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/10 flex justify-between items-center group hover:border-primary/30 transition-all">
+                                <div>
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold">CDB (100% CDI)</p>
+                                    <p className="text-lg font-bold text-white">R$ {res.cdb.toFixed(2)}</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-[10px] text-red-400 uppercase font-bold">Com IR</p>
+                                </div>
+                            </div>
+                            <div className="bg-primary/10 p-4 rounded-xl border border-primary/30 flex justify-between items-center group">
+                                <div>
+                                    <p className="text-[10px] text-primary font-black uppercase">LCI/LCA (Isento)</p>
+                                    <p className="text-lg font-black text-white">R$ {res.lci.toFixed(2)}</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-[10px] text-primary font-black uppercase">Melhor Opção</p>
+                                </div>
+                            </div>
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/10 flex justify-between items-center group hover:border-primary/30 transition-all">
+                                <div>
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Tesouro Selic</p>
+                                    <p className="text-lg font-bold text-white">R$ {res.tesouro.toFixed(2)}</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Segurança Máxima</p>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -115,37 +187,61 @@ export default function MoreCalculators({ type }: Props) {
             const calcSavings = () => {
                 const p = Number(val1);
                 const m = Number(val2);
-                const r = 0.005;
-                setRes((p * Math.pow(1 + r, m)).toFixed(2));
+                const r = 0.005; // 0.5% per month
+                const total = p * Math.pow(1 + r, m);
+                setRes({ total, interest: total - p });
             };
             return (
-                <div className="space-y-4">
+                <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-white">Rendimento Poupança</h2>
-                    <Input label="Valor Inicial (R$)" value={val1} onChange={setVal1} />
-                    <Input label="Meses" value={val2} onChange={setVal2} />
-                    <button onClick={calcSavings} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular</button>
-                    {res && <div className="text-center text-xl font-bold text-white">Total: R$ {res}</div>}
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Valor Inicial (R$)" value={val1} onChange={setVal1} />
+                        <Input label="Meses" value={val2} onChange={setVal2} />
+                    </div>
+                    <button onClick={calcSavings} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular Rendimento</button>
+                    {res && (
+                        <div className="space-y-4">
+                            <div className="bg-emerald-500/10 p-6 rounded-2xl border border-emerald-500/20 text-center">
+                                <p className="text-xs text-emerald-400 font-black uppercase tracking-widest mb-1">Total Acumulado</p>
+                                <p className="text-3xl font-black text-white">R$ {res.total.toFixed(2)}</p>
+                            </div>
+                            <p className="text-center text-sm text-gray-400">Lucro de <span className="text-emerald-400 font-bold">R$ {res.interest.toFixed(2)}</span> no período</p>
+                        </div>
+                    )}
                 </div>
             );
 
         case "cdi-vs-savings":
-            const calcComp = () => {
+            const calcCompCDI = () => {
                 const p = Number(val1);
                 const m = Number(val2);
                 const sav = p * Math.pow(1.005, m);
                 const cdi = p * Math.pow(1.008, m);
-                setRes({ sav, cdi });
+                setRes({ sav, cdi, diff: cdi - sav });
             };
             return (
-                <div className="space-y-4">
+                <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-white">CDI vs Poupança</h2>
-                    <Input label="Valor (R$)" value={val1} onChange={setVal1} />
-                    <Input label="Meses" value={val2} onChange={setVal2} />
-                    <button onClick={calcComp} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Comparar</button>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Valor (R$)" value={val1} onChange={setVal1} />
+                        <Input label="Meses" value={val2} onChange={setVal2} />
+                    </div>
+                    <button onClick={calcCompCDI} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Comparar Ganhos</button>
                     {res && (
-                        <div className="space-y-2">
-                            <div className="bg-white/5 p-3 rounded-lg flex justify-between text-white"><span>Poupança:</span> <span>R$ {res.sav.toFixed(2)}</span></div>
-                            <div className="bg-primary/20 p-3 rounded-lg flex justify-between text-primary font-bold"><span>100% CDI:</span> <span>R$ {res.cdi.toFixed(2)}</span></div>
+                        <div className="space-y-4">
+                            <div className="grid grid-cols-2 gap-3">
+                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Poupança</p>
+                                    <p className="text-lg font-bold text-white">R$ {res.sav.toFixed(2)}</p>
+                                </div>
+                                <div className="bg-primary/10 p-4 rounded-xl border border-primary/20">
+                                    <p className="text-[10px] text-primary uppercase font-bold">100% CDI</p>
+                                    <p className="text-lg font-bold text-white">R$ {res.cdi.toFixed(2)}</p>
+                                </div>
+                            </div>
+                            <div className="bg-emerald-500/10 p-4 rounded-xl text-center border border-emerald-500/20">
+                                <p className="text-sm text-white">O CDI rende <span className="font-black text-emerald-400">R$ {res.diff.toFixed(2)}</span> a mais</p>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -155,15 +251,24 @@ export default function MoreCalculators({ type }: Props) {
             const calcRoi = () => {
                 const gain = Number(val1);
                 const cost = Number(val2);
-                setRes(((gain - cost) / cost) * 100);
+                const roi = ((gain - cost) / cost) * 100;
+                setRes(roi);
             };
             return (
-                <div className="space-y-4">
+                <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-white">Calculadora de ROI</h2>
-                    <Input label="Receita Obtida (R$)" value={val1} onChange={setVal1} />
-                    <Input label="Custo do Investimento (R$)" value={val2} onChange={setVal2} />
-                    <button onClick={calcRoi} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular ROI</button>
-                    {res !== null && <div className="text-center text-xl font-bold text-white">ROI: {res.toFixed(2)}%</div>}
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Ganho Total (R$)" value={val1} onChange={setVal1} />
+                        <Input label="Custo Total (R$)" value={val2} onChange={setVal2} />
+                    </div>
+                    <button onClick={calcRoi} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular Retorno</button>
+                    {res !== null && (
+                        <div className="bg-white/5 p-6 rounded-2xl border border-white/10 text-center">
+                            <p className="text-xs text-gray-400 uppercase font-black tracking-widest mb-1">Retorno sobre Investimento</p>
+                            <p className={`text-4xl font-black ${res >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>{res.toFixed(2)}%</p>
+                            <p className="text-sm text-gray-500 mt-2">Para cada R$ 1,00 investido, você {res >= 0 ? 'ganhou' : 'perdeu'} R$ {Math.abs(res / 100).toFixed(2)}</p>
+                        </div>
+                    )}
                 </div>
             );
 
@@ -171,15 +276,36 @@ export default function MoreCalculators({ type }: Props) {
             const calcMargin = () => {
                 const cost = Number(val1);
                 const price = Number(val2);
-                setRes(((price - cost) / price) * 100);
+                const margin = ((price - cost) / price) * 100;
+                const markup = ((price - cost) / cost) * 100;
+                setRes({ margin, markup, profit: price - cost });
             };
             return (
-                <div className="space-y-4">
+                <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-white">Margem de Lucro</h2>
-                    <Input label="Custo do Produto (R$)" value={val1} onChange={setVal1} />
-                    <Input label="Preço de Venda (R$)" value={val2} onChange={setVal2} />
-                    <button onClick={calcMargin} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular Margem</button>
-                    {res !== null && <div className="text-center text-xl font-bold text-white">Margem: {res.toFixed(2)}%</div>}
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Custo (R$)" value={val1} onChange={setVal1} />
+                        <Input label="Venda (R$)" value={val2} onChange={setVal2} />
+                    </div>
+                    <button onClick={calcMargin} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Analisar Lucratividade</button>
+                    {res && (
+                        <div className="space-y-4">
+                            <div className="bg-emerald-500/10 p-6 rounded-2xl border border-emerald-500/20 text-center">
+                                <p className="text-xs text-emerald-400 font-black uppercase tracking-widest mb-1">Lucro por Unidade</p>
+                                <p className="text-3xl font-black text-white">R$ {res.profit.toFixed(2)}</p>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Margem (Venda)</p>
+                                    <p className="text-lg font-bold text-emerald-400">{res.margin.toFixed(2)}%</p>
+                                </div>
+                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Markup (Custo)</p>
+                                    <p className="text-lg font-bold text-white">{res.markup.toFixed(2)}%</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
 
@@ -188,16 +314,31 @@ export default function MoreCalculators({ type }: Props) {
                 const fixed = Number(val1);
                 const price = Number(val2);
                 const varCost = Number(val3);
-                setRes(fixed / (price - varCost));
+                const units = fixed / (price - varCost);
+                const revenue = units * price;
+                setRes({ units, revenue });
             };
             return (
-                <div className="space-y-4">
+                <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-white">Ponto de Equilíbrio</h2>
-                    <Input label="Custos Fixos (R$)" value={val1} onChange={setVal1} />
-                    <Input label="Preço de Venda (R$)" value={val2} onChange={setVal2} />
-                    <Input label="Custo Variável por Unidade (R$)" value={val3} onChange={setVal3} />
-                    <button onClick={calcBE} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular</button>
-                    {res !== null && <div className="text-center text-xl font-bold text-white">Vender {Math.ceil(res)} unidades</div>}
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Custos Fixos (R$)" value={val1} onChange={setVal1} />
+                        <Input label="Preço Venda (R$)" value={val2} onChange={setVal2} />
+                    </div>
+                    <Input label="Custo Variável/Unid (R$)" value={val3} onChange={setVal3} />
+                    <button onClick={calcBE} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular Equilíbrio</button>
+                    {res && (
+                        <div className="space-y-4">
+                            <div className="bg-white/5 p-6 rounded-2xl border border-white/10 text-center">
+                                <p className="text-xs text-gray-400 uppercase font-black tracking-widest mb-1">Meta de Vendas</p>
+                                <p className="text-3xl font-black text-white">{Math.ceil(res.units)} <span className="text-sm font-normal text-gray-500">unidades</span></p>
+                            </div>
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/10 text-center">
+                                <p className="text-[10px] text-gray-500 uppercase font-bold mb-1">Faturamento Mínimo</p>
+                                <p className="text-lg font-bold text-primary">R$ {res.revenue.toFixed(2)}</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
 
@@ -205,15 +346,29 @@ export default function MoreCalculators({ type }: Props) {
             const calcDisc = () => {
                 const price = Number(val1);
                 const disc = Number(val2);
-                setRes(price * (1 - disc / 100));
+                const final = price * (1 - disc / 100);
+                setRes({ final, saved: price - final });
             };
             return (
-                <div className="space-y-4">
+                <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-white">Calculadora de Desconto</h2>
-                    <Input label="Preço Original (R$)" value={val1} onChange={setVal1} />
-                    <Input label="Desconto (%)" value={val2} onChange={setVal2} />
-                    <button onClick={calcDisc} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular</button>
-                    {res !== null && <div className="text-center text-xl font-bold text-white">Preço Final: R$ {res.toFixed(2)}</div>}
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Preço (R$)" value={val1} onChange={setVal1} />
+                        <Input label="Desconto (%)" value={val2} onChange={setVal2} />
+                    </div>
+                    <button onClick={calcDisc} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Aplicar Desconto</button>
+                    {res && (
+                        <div className="grid grid-cols-2 gap-3">
+                            <div className="bg-emerald-500/10 p-4 rounded-xl border border-emerald-500/20">
+                                <p className="text-[10px] text-emerald-400 uppercase font-bold">Preço Final</p>
+                                <p className="text-lg font-bold text-white">R$ {res.final.toFixed(2)}</p>
+                            </div>
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                <p className="text-[10px] text-gray-500 uppercase font-bold">Você Economiza</p>
+                                <p className="text-lg font-bold text-emerald-400">R$ {res.saved.toFixed(2)}</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
 
@@ -221,42 +376,73 @@ export default function MoreCalculators({ type }: Props) {
             const calcRaise = () => {
                 const sal = Number(val1);
                 const perc = Number(val2);
-                setRes(sal * (1 + perc / 100));
+                const next = sal * (1 + perc / 100);
+                setRes({ next, diff: next - sal });
             };
             return (
-                <div className="space-y-4">
+                <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-white">Calculadora de Aumento</h2>
-                    <Input label="Salário Atual (R$)" value={val1} onChange={setVal1} />
-                    <Input label="Aumento (%)" value={val2} onChange={setVal2} />
-                    <button onClick={calcRaise} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular</button>
-                    {res !== null && <div className="text-center text-xl font-bold text-white">Novo Salário: R$ {res.toFixed(2)}</div>}
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Salário (R$)" value={val1} onChange={setVal1} />
+                        <Input label="Aumento (%)" value={val2} onChange={setVal2} />
+                    </div>
+                    <button onClick={calcRaise} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular Novo Valor</button>
+                    {res && (
+                        <div className="grid grid-cols-2 gap-3">
+                            <div className="bg-primary/10 p-4 rounded-xl border border-primary/20">
+                                <p className="text-[10px] text-primary uppercase font-bold">Novo Salário</p>
+                                <p className="text-lg font-bold text-white">R$ {res.next.toFixed(2)}</p>
+                            </div>
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                <p className="text-[10px] text-gray-500 uppercase font-bold">Aumento Real</p>
+                                <p className="text-lg font-bold text-emerald-400">R$ {res.diff.toFixed(2)}</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
 
         case "price-per-unit":
             return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Qual compensa?</h2>
-                    <p className="text-gray-400 text-sm">Compare o preço por unidade/litro/kg</p>
+                <div className="space-y-6">
+                    <h2 className="text-2xl font-bold text-white">Qual compensa mais?</h2>
+                    <p className="text-xs text-gray-400">Compare o preço por unidade, litro ou quilo.</p>
                     <div className="grid grid-cols-2 gap-4">
-                        <Input label="Preço A" value={val1} onChange={setVal1} />
-                        <Input label="Qtd A" value={val2} onChange={setVal2} />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input label="Preço B" value={val3} onChange={setVal3} />
-                        <Input label="Qtd B" value={res?.qB || ""} onChange={(v: string) => setRes({ ...res, qB: v })} />
+                        <div className="space-y-3">
+                            <p className="text-[10px] text-primary font-black uppercase text-center">Opção A</p>
+                            <Input label="Preço (R$)" value={val1} onChange={setVal1} />
+                            <Input label="Qtd (un/ml/g)" value={val2} onChange={setVal2} />
+                        </div>
+                        <div className="space-y-3">
+                            <p className="text-[10px] text-primary font-black uppercase text-center">Opção B</p>
+                            <Input label="Preço (R$)" value={val3} onChange={setVal3} />
+                            <Input label="Qtd (un/ml/g)" value={res?.qB || ""} onChange={(v: string) => setRes({ ...res, qB: v })} />
+                        </div>
                     </div>
                     <button onClick={() => {
                         const qB = Number(res?.qB || 0);
                         const pA = Number(val1) / Number(val2);
                         const pB = Number(val3) / qB;
-                        setRes({ ...res, pA, pB, calculated: true });
-                    }} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Comparar</button>
+                        const savings = Math.abs(pA - pB) / Math.max(pA, pB) * 100;
+                        setRes({ ...res, pA, pB, savings, winner: pA < pB ? "Opção A" : "Opção B", calculated: true });
+                    }} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Comparar Preços</button>
                     {res?.calculated && (
-                        <div className="text-center text-white">
-                            <p>Opção A: R$ {res.pA.toFixed(2)} /unid</p>
-                            <p>Opção B: R$ {res.pB.toFixed(2)} /unid</p>
-                            <p className="font-bold text-primary mt-2">{res.pA < res.pB ? "Opção A é mais barata!" : "Opção B é mais barata!"}</p>
+                        <div className="space-y-4">
+                            <div className="bg-primary/20 p-6 rounded-2xl text-center border border-primary/30">
+                                <p className="text-xs text-primary font-black uppercase tracking-widest mb-1">Melhor Custo-Benefício</p>
+                                <p className="text-2xl font-black text-white">{res.winner}</p>
+                                <p className="text-sm text-primary/80 mt-2">Economia de <span className="font-bold">{res.savings.toFixed(1)}%</span> por unidade</p>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Preço/Unid A</p>
+                                    <p className="text-lg font-bold text-white">R$ {res.pA.toFixed(4)}</p>
+                                </div>
+                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Preço/Unid B</p>
+                                    <p className="text-lg font-bold text-white">R$ {res.pB.toFixed(4)}</p>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -270,21 +456,26 @@ export default function MoreCalculators({ type }: Props) {
                 setRes((b * c) / a);
             };
             return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Regra de Três</h2>
-                    <div className="flex items-center gap-2">
-                        <Input value={val1} onChange={setVal1} placeholder="A" />
-                        <span className="text-white">está para</span>
-                        <Input value={val2} onChange={setVal2} placeholder="B" />
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Input value={val3} onChange={setVal3} placeholder="C" />
-                        <span className="text-white">está para</span>
-                        <div className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-primary font-bold text-center">
-                            {res ? res.toFixed(2) : "X"}
+                <div className="space-y-8">
+                    <h2 className="text-2xl font-bold text-white">Regra de Três Simples</h2>
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-4">
+                            <div className="flex-1"><Input value={val1} onChange={setVal1} placeholder="Valor A" /></div>
+                            <div className="text-primary font-black">→</div>
+                            <div className="flex-1"><Input value={val2} onChange={setVal2} placeholder="Valor B" /></div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <div className="flex-1"><Input value={val3} onChange={setVal3} placeholder="Valor C" /></div>
+                            <div className="text-primary font-black">→</div>
+                            <div className="flex-1">
+                                <div className="w-full bg-primary/10 border border-primary/30 rounded-xl px-4 py-3 text-primary font-black text-center text-xl shadow-[0_0_15px_rgba(167,139,250,0.2)]">
+                                    {res ? res.toFixed(2) : "X"}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <button onClick={calcRule} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular X</button>
+                    <button onClick={calcRule} className="btn-primary w-full py-4 rounded-xl font-bold bg-primary text-black hover:scale-[1.02] transition-transform">Descobrir Valor de X</button>
+                    <p className="text-[10px] text-gray-500 text-center uppercase font-bold tracking-widest">A está para B, assim como C está para X</p>
                 </div>
             );
 
@@ -312,43 +503,58 @@ export default function MoreCalculators({ type }: Props) {
             );
 
         case "hour-sum":
-            const calcHourSum = () => {
+            const calcHours = (op: 'sum' | 'sub') => {
                 const h1 = val1.split(":").map(Number);
                 const h2 = val2.split(":").map(Number);
-                let totalMin = (h1[0] || 0) * 60 + (h1[1] || 0) + (h2[0] || 0) * 60 + (h2[1] || 0);
+                const m1 = (h1[0] || 0) * 60 + (h1[1] || 0);
+                const m2 = (h2[0] || 0) * 60 + (h2[1] || 0);
+                const totalMin = op === 'sum' ? m1 + m2 : Math.abs(m1 - m2);
                 const h = Math.floor(totalMin / 60);
                 const m = totalMin % 60;
-                setRes(`${h}h ${m}m`);
+                setRes(`${h}h ${m < 10 ? '0' : ''}${m}m`);
             };
             return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Soma de Horas</h2>
+                <div className="space-y-6">
+                    <h2 className="text-2xl font-bold text-white">Calculadora de Horas</h2>
                     <div className="grid grid-cols-2 gap-4">
-                        <Input label="Tempo 1 (HH:MM)" type="text" placeholder="02:30" value={val1} onChange={setVal1} />
-                        <Input label="Tempo 2 (HH:MM)" type="text" placeholder="01:45" value={val2} onChange={setVal2} />
+                        <Input label="Tempo 1 (HH:MM)" placeholder="02:30" value={val1} onChange={setVal1} />
+                        <Input label="Tempo 2 (HH:MM)" placeholder="01:45" value={val2} onChange={setVal2} />
                     </div>
-                    <button onClick={calcHourSum} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Somar</button>
-                    {res && <div className="text-center text-xl font-bold text-white">Total: {res}</div>}
+                    <div className="flex gap-3">
+                        <button onClick={() => calcHours('sum')} className="flex-1 py-3 bg-primary text-black font-bold rounded-xl">Somar</button>
+                        <button onClick={() => calcHours('sub')} className="flex-1 py-3 bg-white/5 text-white border border-white/10 font-bold rounded-xl">Subtrair</button>
+                    </div>
+                    {res && (
+                        <div className="bg-white/5 p-6 rounded-2xl border border-white/10 text-center">
+                            <p className="text-[10px] text-gray-500 uppercase font-bold mb-1">Resultado</p>
+                            <p className="text-4xl font-black text-white">{res}</p>
+                        </div>
+                    )}
                 </div>
             );
 
         case "receipt":
             const generateReceipt = () => {
-                const text = `RECIBO\n\nRecebi de ${val1 || "__________"} a quantia de R$ ${val2 || "0,00"} referente a ${val3 || "__________"}.\n\nData: ${new Date().toLocaleDateString()}\n\nAssinatura: ____________________`;
+                const text = `RECIBO DE PAGAMENTO\n\nRecebi de ${val1 || "__________"}\na quantia de R$ ${val2 || "0,00"}\nreferente a ${val3 || "__________"}.\n\nData: ${new Date().toLocaleDateString('pt-BR')}\n\nAssinatura: ____________________`;
                 setRes(text);
             };
             return (
-                <div className="space-y-4">
+                <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-white">Gerador de Recibo</h2>
-                    <Input label="Pagador" type="text" value={val1} onChange={setVal1} />
-                    <Input label="Valor (R$)" value={val2} onChange={setVal2} />
-                    <Input label="Referente a" type="text" value={val3} onChange={setVal3} />
-                    <button onClick={generateReceipt} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Gerar</button>
+                    <div className="space-y-4">
+                        <Input label="Pagador" type="text" value={val1} onChange={setVal1} placeholder="Nome completo" />
+                        <Input label="Valor (R$)" value={val2} onChange={setVal2} placeholder="0,00" />
+                        <Input label="Referente a" type="text" value={val3} onChange={setVal3} placeholder="Descrição do serviço" />
+                    </div>
+                    <button onClick={generateReceipt} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Gerar Recibo</button>
                     {res && (
-                        <div className="bg-white/5 p-4 rounded-xl space-y-4">
-                            <pre className="text-xs text-gray-300 whitespace-pre-wrap font-mono">{res}</pre>
-                            <button onClick={() => navigator.clipboard.writeText(res)} className="w-full py-2 bg-white/10 rounded-lg text-xs flex items-center justify-center gap-2">
-                                <Copy size={14} /> Copiar Recibo
+                        <div className="bg-white p-6 rounded-xl space-y-4 border border-white/10 shadow-2xl">
+                            <pre className="text-[10px] text-black whitespace-pre-wrap font-mono leading-relaxed">{res}</pre>
+                            <button onClick={() => {
+                                navigator.clipboard.writeText(res);
+                                alert("Recibo copiado!");
+                            }} className="w-full py-2 bg-black text-white rounded-lg text-xs flex items-center justify-center gap-2 font-bold">
+                                <Copy size={14} /> Copiar Texto
                             </button>
                         </div>
                     )}
@@ -483,21 +689,31 @@ function PomodoroTimer() {
     };
 
     return (
-        <div className="text-center space-y-6">
-            <h2 className="text-2xl font-bold text-white">Pomodoro Timer</h2>
-            <div className="text-7xl font-black text-primary font-mono">{format(timeLeft)}</div>
-            <div className="flex gap-4">
-                <button
-                    onClick={() => setIsActive(!isActive)}
-                    className={`flex-1 py-3 rounded-xl font-bold ${isActive ? "bg-red-500/20 text-red-500" : "bg-primary text-black"}`}
-                >
+        <div className="space-y-8 text-center py-4">
+            <h2 className="text-2xl font-bold text-white">Foco Financeiro</h2>
+            <div className="relative inline-block">
+                <svg className="w-48 h-48 -rotate-90">
+                    <circle cx="96" cy="96" r="88" className="stroke-white/5 fill-none" strokeWidth="8" />
+                    <motion.circle
+                        cx="96" cy="96" r="88"
+                        className="stroke-primary fill-none"
+                        strokeWidth="8"
+                        strokeDasharray="553"
+                        animate={{ strokeDashoffset: 553 - (553 * timeLeft) / (25 * 60) }}
+                    />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-5xl font-black text-white tabular-nums">{format(timeLeft)}</span>
+                    <span className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mt-1">Minutos</span>
+                </div>
+            </div>
+
+            <div className="flex gap-4 justify-center">
+                <button onClick={() => setIsActive(!isActive)} className="flex-1 py-3 bg-primary text-black font-bold rounded-xl hover:scale-105 transition-transform">
                     {isActive ? "Pausar" : "Iniciar"}
                 </button>
-                <button
-                    onClick={() => { setTimeLeft(25 * 60); setIsActive(false); }}
-                    className="px-6 py-3 bg-white/10 text-white rounded-xl font-bold"
-                >
-                    Reset
+                <button onClick={() => { setTimeLeft(25 * 60); setIsActive(false); }} className="px-8 py-3 bg-white/5 text-white font-bold rounded-xl border border-white/10">
+                    Resetar
                 </button>
             </div>
         </div>
