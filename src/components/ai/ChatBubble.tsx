@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle, X, Send, Sparkles, Loader2, Bot, Zap } from "lucide-react";
+import { MessageCircle, X, Send, Sparkles, Loader2, Bot, Zap, Volume2, VolumeX, Play, Pause, RefreshCw } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -31,6 +31,145 @@ export default function ChatBubble() {
     const [chatId, setChatId] = useState<string>("");
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    // TTS State
+    const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+    const [isLoadingAudio, setIsLoadingAudio] = useState(false);
+    const [activeAudioMessageId, setActiveAudioMessageId] = useState<string | null>(null);
+    const abortControllerRef = useRef<AbortController | null>(null);
+    const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+
+    // Gojo intros
+    const gojoIntros = [
+        "E aí? Presta atenção que o pai tá on. ",
+        "Vamos lá, foco aqui. Vou te explicar isso rapidinho. ",
+        "Ei! Hora de aprender algo novo com o melhor. ",
+        "Relaxa, eu vou te ajudar com isso agora. ",
+    ];
+
+    // Clean text for speech
+    const cleanText = (md: string) => {
+        return md
+            .replace(/[#*`_]/g, "")
+            .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+            .replace(/\n/g, ". ");
+    };
+
+    // Split text into smaller chunks
+    const splitText = (text: string): string[] => {
+        const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+        const chunks: string[] = [];
+        let currentChunk = "";
+
+        for (const sentence of sentences) {
+            if ((currentChunk + sentence).length > 200) {
+                chunks.push(currentChunk.trim());
+                currentChunk = sentence;
+            } else {
+                currentChunk += sentence;
+            }
+        }
+        if (currentChunk) chunks.push(currentChunk.trim());
+        return chunks.filter(c => c.length > 0);
+    };
+
+    const stopPlayback = () => {
+        if (currentAudioRef.current) {
+            currentAudioRef.current.pause();
+            currentAudioRef.current.src = "";
+            currentAudioRef.current = null;
+        }
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        setIsPlayingAudio(false);
+        setIsLoadingAudio(false);
+        setActiveAudioMessageId(null);
+    };
+
+    const playQueue = async (chunks: string[], index: number, messageId: string, retryCount = 0) => {
+        if (index >= chunks.length) {
+            setIsPlayingAudio(false);
+            setActiveAudioMessageId(null);
+            return;
+        }
+
+        try {
+            const chunk = chunks[index];
+            const controller = new AbortController();
+            abortControllerRef.current = controller;
+
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+            const response = await fetch("/api/tts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: chunk }),
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            if (!response.ok) throw new Error("Failed to fetch audio");
+
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const newAudio = new Audio(url);
+            currentAudioRef.current = newAudio;
+
+            newAudio.onended = () => {
+                playQueue(chunks, index + 1, messageId);
+            };
+
+            newAudio.onerror = () => {
+                playQueue(chunks, index + 1, messageId);
+            };
+
+            await newAudio.play();
+            setIsLoadingAudio(false);
+
+        } catch (error: any) {
+            console.error("Queue playback error:", error);
+            if ((error.name === 'AbortError' || error.message.includes('Timeout')) && retryCount < 2) {
+                playQueue(chunks, index, messageId, retryCount + 1);
+                return;
+            }
+            if (index === 0) {
+                stopPlayback();
+            } else {
+                playQueue(chunks, index + 1, messageId);
+            }
+        }
+    };
+
+    const handleSpeak = async (text: string, messageId: string) => {
+        if (activeAudioMessageId === messageId && isPlayingAudio) {
+            stopPlayback();
+            return;
+        }
+
+        stopPlayback();
+        setIsLoadingAudio(true);
+        setIsPlayingAudio(true);
+        setActiveAudioMessageId(messageId);
+
+        const cleaned = cleanText(text);
+        let chunks = splitText(cleaned);
+
+        if (cleaned.length > 50) {
+            const randomIntro = gojoIntros[Math.floor(Math.random() * gojoIntros.length)];
+            chunks = [randomIntro, ...chunks];
+        }
+
+        playQueue(chunks, 0, messageId);
+    };
+
+    // Cleanup on unmount or close
+    useEffect(() => {
+        if (!isOpen) stopPlayback();
+        return () => stopPlayback();
+    }, [isOpen]);
 
     useEffect(() => {
         if (user && isOpen && !chatId) {
@@ -217,9 +356,28 @@ export default function ChatBubble() {
                                             }`}
                                     >
                                         <p className="text-sm whitespace-pre-line leading-relaxed">{msg.text}</p>
-                                        <p className={`text-[9px] mt-2 font-bold uppercase tracking-widest ${msg.sender === "user" ? "text-black/50" : "text-gray-500"}`}>
-                                            {msg.timestamp.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
-                                        </p>
+                                        <div className="flex items-center justify-between mt-2">
+                                            <p className={`text-[9px] font-bold uppercase tracking-widest ${msg.sender === "user" ? "text-black/50" : "text-gray-500"}`}>
+                                                {msg.timestamp.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                                            </p>
+                                            {msg.sender === "ai" && (
+                                                <button
+                                                    onClick={() => handleSpeak(msg.text, msg.id)}
+                                                    className={`p-1.5 rounded-lg transition-all ${activeAudioMessageId === msg.id
+                                                        ? "bg-primary text-black"
+                                                        : "hover:bg-white/10 text-gray-500 hover:text-white"
+                                                        }`}
+                                                >
+                                                    {isLoadingAudio && activeAudioMessageId === msg.id ? (
+                                                        <RefreshCw size={12} className="animate-spin" />
+                                                    ) : activeAudioMessageId === msg.id && isPlayingAudio ? (
+                                                        <VolumeX size={12} />
+                                                    ) : (
+                                                        <Volume2 size={12} />
+                                                    )}
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
                                 </motion.div>
                             ))}

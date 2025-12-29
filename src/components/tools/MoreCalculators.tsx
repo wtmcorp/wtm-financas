@@ -2,24 +2,55 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Copy } from "lucide-react";
+import { Copy, Sparkles, TrendingUp, Calculator, Calendar, Clock, DollarSign, Percent, Scale, Check } from "lucide-react";
 
 interface Props {
     type: string;
 }
 
 const Input = ({ label, value, onChange, placeholder, type = "text", inputMode = "text" }: any) => (
-    <div className="space-y-1">
-        <label className="text-xs text-gray-400 uppercase font-bold">{label}</label>
+    <div className="space-y-2">
+        <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">{label}</label>
         <input
             type={type}
             inputMode={inputMode}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
-            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary/50 outline-none transition-colors"
+            className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all placeholder:text-gray-700"
         />
     </div>
+);
+
+const ResultCard = ({ label, value, prefix = "R$", color = "primary" }: { label: string, value: string | number, prefix?: string, color?: string }) => (
+    <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className={`p-6 rounded-2xl border text-center relative overflow-hidden group/res ${color === "primary" ? "bg-primary/10 border-primary/20" :
+            color === "emerald" ? "bg-emerald-500/10 border-emerald-500/20" :
+                "bg-red-500/10 border-red-500/20"
+            }`}
+    >
+        <div className={`absolute inset-0 opacity-0 group-hover/res:opacity-100 transition-opacity ${color === "primary" ? "bg-primary/5" :
+            color === "emerald" ? "bg-emerald-500/5" :
+                "bg-red-500/5"
+            }`} />
+        <p className={`text-[10px] font-black uppercase tracking-[0.2em] mb-1 ${color === "primary" ? "text-primary/60" :
+            color === "emerald" ? "text-emerald-400/60" :
+                "text-red-400/60"
+            }`}>{label}</p>
+        <p className="text-3xl font-black text-white flex items-center justify-center gap-2">
+            <span className={`text-sm font-bold ${color === "primary" ? "text-primary" :
+                color === "emerald" ? "text-emerald-400" :
+                    "text-red-400"
+                }`}>{prefix}</span>
+            {value}
+        </p>
+        <Sparkles className={`absolute top-2 right-2 opacity-20 ${color === "primary" ? "text-primary" :
+            color === "emerald" ? "text-emerald-400" :
+                "text-red-400"
+            }`} size={12} />
+    </motion.div>
 );
 
 export default function MoreCalculators({ type }: Props) {
@@ -37,6 +68,39 @@ export default function MoreCalculators({ type }: Props) {
     }, [type]);
 
     switch (type) {
+        case "compound-interest":
+            const calcCompound = () => {
+                const p = Number(val1);
+                const m = Number(val2);
+                const r = Number(val3) / 100;
+                const total = p * Math.pow(1 + r, m);
+                setRes({ total, interest: total - p });
+            };
+            return (
+                <div className="space-y-6">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <TrendingUp className="text-primary" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Juros Compostos</h2>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Aporte Inicial (R$)" value={val1} onChange={setVal1} placeholder="1000" type="number" />
+                        <Input label="Taxa Mensal (%)" value={val3} onChange={setVal3} placeholder="1" type="number" />
+                    </div>
+                    <Input label="Prazo (Meses)" value={val2} onChange={setVal2} placeholder="12" type="number" />
+                    <button onClick={calcCompound} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Simular Crescimento</button>
+                    {res && (
+                        <div className="space-y-4">
+                            <ResultCard label="Total Acumulado" value={res.total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} />
+                            <div className="p-4 bg-white/5 rounded-xl border border-white/10 text-center">
+                                <p className="text-xs text-gray-500 font-bold">Total em Juros: <span className="text-emerald-400">R$ {res.interest.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+
         case "amortization":
             const calcAmort = () => {
                 const p = Number(val1);
@@ -58,30 +122,33 @@ export default function MoreCalculators({ type }: Props) {
             };
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">SAC vs PRICE</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input label="Valor (R$)" value={val1} onChange={setVal1} placeholder="Ex: 200000" />
-                        <Input label="Taxa Mensal (%)" value={val2} onChange={setVal2} placeholder="Ex: 1" />
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <Calculator className="text-primary" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">SAC vs PRICE</h2>
                     </div>
-                    <Input label="Prazo (Meses)" value={val3} onChange={setVal3} placeholder="Ex: 360" />
-                    <button onClick={calcAmort} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Comparar Sistemas</button>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Valor do Bem (R$)" value={val1} onChange={setVal1} placeholder="200000" type="number" />
+                        <Input label="Taxa Mensal (%)" value={val2} onChange={setVal2} placeholder="1" type="number" />
+                    </div>
+                    <Input label="Prazo (Meses)" value={val3} onChange={setVal3} placeholder="360" type="number" />
+                    <button onClick={calcAmort} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Comparar Sistemas</button>
                     {res && (
                         <div className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                    <p className="text-[10px] text-primary font-black uppercase mb-2">Tabela PRICE</p>
-                                    <p className="text-sm text-gray-400">Parcela: <span className="text-white font-bold">R$ {res.pmtPrice.toFixed(2)}</span></p>
+                                <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                                    <p className="text-[10px] text-primary font-black uppercase mb-1">Tabela PRICE</p>
+                                    <p className="text-sm text-gray-400">Parcela Fixa: <span className="text-white font-bold">R$ {res.pmtPrice.toFixed(2)}</span></p>
                                     <p className="text-sm text-gray-400">Total Juros: <span className="text-red-400 font-bold">R$ {res.interestPrice.toFixed(2)}</span></p>
                                 </div>
-                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                    <p className="text-[10px] text-primary font-black uppercase mb-2">Tabela SAC</p>
+                                <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                                    <p className="text-[10px] text-primary font-black uppercase mb-1">Tabela SAC</p>
                                     <p className="text-sm text-gray-400">1ª Parcela: <span className="text-white font-bold">R$ {res.pmtSacFirst.toFixed(2)}</span></p>
                                     <p className="text-sm text-gray-400">Total Juros: <span className="text-emerald-400 font-bold">R$ {res.interestSac.toFixed(2)}</span></p>
                                 </div>
                             </div>
-                            <div className="bg-primary/10 p-4 rounded-xl text-center border border-primary/20">
-                                <p className="text-sm text-white">Economia com SAC: <span className="font-black text-primary">R$ {(res.interestPrice - res.interestSac).toFixed(2)}</span></p>
-                            </div>
+                            <ResultCard label="Economia Real com SAC" value={(res.interestPrice - res.interestSac).toLocaleString('pt-BR', { minimumFractionDigits: 2 })} color="emerald" />
                         </div>
                     )}
                 </div>
@@ -110,22 +177,24 @@ export default function MoreCalculators({ type }: Props) {
             };
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">Efeito Bola de Neve</h2>
-                    <p className="text-xs text-gray-400">Veja o perigo de pagar apenas o mínimo do cartão.</p>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input label="Dívida (R$)" value={val1} onChange={setVal1} />
-                        <Input label="Juros Mensais (%)" value={val2} onChange={setVal2} placeholder="Ex: 14" />
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-red-500/20 rounded-lg">
+                            <Percent className="text-red-400" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Efeito Bola de Neve</h2>
                     </div>
-                    <button onClick={calcCard} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Simular Impacto</button>
+                    <p className="text-xs text-gray-500 font-bold">Veja o perigo real de pagar apenas o mínimo da fatura do cartão.</p>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Dívida Atual (R$)" value={val1} onChange={setVal1} placeholder="5000" type="number" />
+                        <Input label="Juros Mensais (%)" value={val2} onChange={setVal2} placeholder="14" type="number" />
+                    </div>
+                    <button onClick={calcCard} className="w-full py-4 bg-red-500 text-white font-black rounded-2xl hover:bg-white hover:text-black transition-all shadow-xl uppercase tracking-widest text-xs">Simular Impacto</button>
                     {res && (
                         <div className="space-y-4">
-                            <div className="bg-red-500/10 p-6 rounded-2xl border border-red-500/20 text-center">
-                                <p className="text-xs text-red-400 font-black uppercase tracking-widest mb-1">Custo Total da Dívida</p>
-                                <p className="text-3xl font-black text-white">R$ {res.totalPaid.toFixed(2)}</p>
-                                <p className="text-sm text-red-400 mt-2">Você pagará <span className="font-bold">R$ {res.interest.toFixed(2)}</span> só de juros</p>
-                            </div>
+                            <ResultCard label="Custo Total da Dívida" value={res.totalPaid.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} color="red" />
                             <div className="bg-white/5 p-4 rounded-xl border border-white/10 text-center">
                                 <p className="text-sm text-gray-400">Tempo para quitar: <span className="text-white font-bold">{res.months === 999 ? "Infinita (Juros > Pagamento)" : `${res.months} meses`}</span></p>
+                                <p className="text-xs text-red-400 mt-1">Juros pagos: R$ {res.interest.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
                             </div>
                         </div>
                     )}
@@ -187,25 +256,29 @@ export default function MoreCalculators({ type }: Props) {
             const calcSavings = () => {
                 const p = Number(val1);
                 const m = Number(val2);
-                const r = 0.005; // 0.5% per month
+                const r = 0.005; // 0.5% fixo + TR (simplificado)
                 const total = p * Math.pow(1 + r, m);
                 setRes({ total, interest: total - p });
             };
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">Rendimento Poupança</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input label="Valor Inicial (R$)" value={val1} onChange={setVal1} />
-                        <Input label="Meses" value={val2} onChange={setVal2} />
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-emerald-500/20 rounded-lg">
+                            <TrendingUp className="text-emerald-400" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Rendimento Poupança</h2>
                     </div>
-                    <button onClick={calcSavings} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular Rendimento</button>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Valor Inicial (R$)" value={val1} onChange={setVal1} placeholder="1000" type="number" />
+                        <Input label="Meses" value={val2} onChange={setVal2} placeholder="12" type="number" />
+                    </div>
+                    <button onClick={calcSavings} className="w-full py-4 bg-emerald-500 text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Calcular Rendimento</button>
                     {res && (
                         <div className="space-y-4">
-                            <div className="bg-emerald-500/10 p-6 rounded-2xl border border-emerald-500/20 text-center">
-                                <p className="text-xs text-emerald-400 font-black uppercase tracking-widest mb-1">Total Acumulado</p>
-                                <p className="text-3xl font-black text-white">R$ {res.total.toFixed(2)}</p>
+                            <ResultCard label="Total Acumulado" value={res.total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} color="emerald" />
+                            <div className="p-4 bg-white/5 rounded-xl border border-white/10 text-center">
+                                <p className="text-xs text-gray-500 font-bold">Lucro Estimado: <span className="text-emerald-400">R$ {res.interest.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></p>
                             </div>
-                            <p className="text-center text-sm text-gray-400">Lucro de <span className="text-emerald-400 font-bold">R$ {res.interest.toFixed(2)}</span> no período</p>
                         </div>
                     )}
                 </div>
@@ -216,32 +289,35 @@ export default function MoreCalculators({ type }: Props) {
                 const p = Number(val1);
                 const m = Number(val2);
                 const sav = p * Math.pow(1.005, m);
-                const cdi = p * Math.pow(1.008, m);
+                const cdi = p * Math.pow(1.0085, m); // 100% CDI aprox
                 setRes({ sav, cdi, diff: cdi - sav });
             };
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">CDI vs Poupança</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input label="Valor (R$)" value={val1} onChange={setVal1} />
-                        <Input label="Meses" value={val2} onChange={setVal2} />
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <Scale className="text-primary" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">CDI vs Poupança</h2>
                     </div>
-                    <button onClick={calcCompCDI} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Comparar Ganhos</button>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Valor (R$)" value={val1} onChange={setVal1} placeholder="1000" type="number" />
+                        <Input label="Meses" value={val2} onChange={setVal2} placeholder="12" type="number" />
+                    </div>
+                    <button onClick={calcCompCDI} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Comparar Ganhos</button>
                     {res && (
                         <div className="space-y-4">
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Poupança</p>
-                                    <p className="text-lg font-bold text-white">R$ {res.sav.toFixed(2)}</p>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-white/5 p-4 rounded-2xl border border-white/10 text-center">
+                                    <p className="text-[10px] text-gray-500 font-black uppercase mb-1">Poupança</p>
+                                    <p className="text-lg font-black text-white">R$ {res.sav.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
                                 </div>
-                                <div className="bg-primary/10 p-4 rounded-xl border border-primary/20">
-                                    <p className="text-[10px] text-primary uppercase font-bold">100% CDI</p>
-                                    <p className="text-lg font-bold text-white">R$ {res.cdi.toFixed(2)}</p>
+                                <div className="bg-primary/10 p-4 rounded-2xl border border-primary/20 text-center">
+                                    <p className="text-[10px] text-primary font-black uppercase mb-1">100% CDI</p>
+                                    <p className="text-lg font-black text-white">R$ {res.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
                                 </div>
                             </div>
-                            <div className="bg-emerald-500/10 p-4 rounded-xl text-center border border-emerald-500/20">
-                                <p className="text-sm text-white">O CDI rende <span className="font-black text-emerald-400">R$ {res.diff.toFixed(2)}</span> a mais</p>
-                            </div>
+                            <ResultCard label="Diferença a Favor do CDI" value={res.diff.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} color="emerald" />
                         </div>
                     )}
                 </div>
@@ -256,18 +332,19 @@ export default function MoreCalculators({ type }: Props) {
             };
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">Calculadora de ROI</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input label="Ganho Total (R$)" value={val1} onChange={setVal1} />
-                        <Input label="Custo Total (R$)" value={val2} onChange={setVal2} />
-                    </div>
-                    <button onClick={calcRoi} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular Retorno</button>
-                    {res !== null && (
-                        <div className="bg-white/5 p-6 rounded-2xl border border-white/10 text-center">
-                            <p className="text-xs text-gray-400 uppercase font-black tracking-widest mb-1">Retorno sobre Investimento</p>
-                            <p className={`text-4xl font-black ${res >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>{res.toFixed(2)}%</p>
-                            <p className="text-sm text-gray-500 mt-2">Para cada R$ 1,00 investido, você {res >= 0 ? 'ganhou' : 'perdeu'} R$ {Math.abs(res / 100).toFixed(2)}</p>
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <Percent className="text-primary" size={20} />
                         </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Calculadora de ROI</h2>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Ganho Total (R$)" value={val1} onChange={setVal1} placeholder="1500" type="number" />
+                        <Input label="Custo Total (R$)" value={val2} onChange={setVal2} placeholder="1000" type="number" />
+                    </div>
+                    <button onClick={calcRoi} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Calcular Retorno</button>
+                    {res !== null && (
+                        <ResultCard label="Retorno sobre Investimento" value={res.toFixed(2)} prefix="%" color={res >= 0 ? "emerald" : "red"} />
                     )}
                 </div>
             );
@@ -282,26 +359,28 @@ export default function MoreCalculators({ type }: Props) {
             };
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">Margem de Lucro</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input label="Custo (R$)" value={val1} onChange={setVal1} />
-                        <Input label="Venda (R$)" value={val2} onChange={setVal2} />
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-emerald-500/20 rounded-lg">
+                            <DollarSign className="text-emerald-400" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Margem de Lucro</h2>
                     </div>
-                    <button onClick={calcMargin} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Analisar Lucratividade</button>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Custo (R$)" value={val1} onChange={setVal1} placeholder="100" type="number" />
+                        <Input label="Venda (R$)" value={val2} onChange={setVal2} placeholder="150" type="number" />
+                    </div>
+                    <button onClick={calcMargin} className="w-full py-4 bg-emerald-500 text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Analisar Lucratividade</button>
                     {res && (
                         <div className="space-y-4">
-                            <div className="bg-emerald-500/10 p-6 rounded-2xl border border-emerald-500/20 text-center">
-                                <p className="text-xs text-emerald-400 font-black uppercase tracking-widest mb-1">Lucro por Unidade</p>
-                                <p className="text-3xl font-black text-white">R$ {res.profit.toFixed(2)}</p>
-                            </div>
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Margem (Venda)</p>
-                                    <p className="text-lg font-bold text-emerald-400">{res.margin.toFixed(2)}%</p>
+                            <ResultCard label="Lucro por Unidade" value={res.profit.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} color="emerald" />
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-white/5 p-4 rounded-2xl border border-white/10 text-center">
+                                    <p className="text-[10px] text-gray-500 font-black uppercase mb-1">Margem (Venda)</p>
+                                    <p className="text-lg font-black text-emerald-400">{res.margin.toFixed(2)}%</p>
                                 </div>
-                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Markup (Custo)</p>
-                                    <p className="text-lg font-bold text-white">{res.markup.toFixed(2)}%</p>
+                                <div className="bg-white/5 p-4 rounded-2xl border border-white/10 text-center">
+                                    <p className="text-[10px] text-gray-500 font-black uppercase mb-1">Markup (Custo)</p>
+                                    <p className="text-lg font-black text-white">{res.markup.toFixed(2)}%</p>
                                 </div>
                             </div>
                         </div>
@@ -320,22 +399,23 @@ export default function MoreCalculators({ type }: Props) {
             };
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">Ponto de Equilíbrio</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input label="Custos Fixos (R$)" value={val1} onChange={setVal1} />
-                        <Input label="Preço Venda (R$)" value={val2} onChange={setVal2} />
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <TrendingUp className="text-primary" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Ponto de Equilíbrio</h2>
                     </div>
-                    <Input label="Custo Variável/Unid (R$)" value={val3} onChange={setVal3} />
-                    <button onClick={calcBE} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular Equilíbrio</button>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Custos Fixos (R$)" value={val1} onChange={setVal1} placeholder="5000" type="number" />
+                        <Input label="Preço Venda (R$)" value={val2} onChange={setVal2} placeholder="100" type="number" />
+                    </div>
+                    <Input label="Custo Variável/Unid (R$)" value={val3} onChange={setVal3} placeholder="40" type="number" />
+                    <button onClick={calcBE} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Calcular Equilíbrio</button>
                     {res && (
                         <div className="space-y-4">
-                            <div className="bg-white/5 p-6 rounded-2xl border border-white/10 text-center">
-                                <p className="text-xs text-gray-400 uppercase font-black tracking-widest mb-1">Meta de Vendas</p>
-                                <p className="text-3xl font-black text-white">{Math.ceil(res.units)} <span className="text-sm font-normal text-gray-500">unidades</span></p>
-                            </div>
-                            <div className="bg-white/5 p-4 rounded-xl border border-white/10 text-center">
-                                <p className="text-[10px] text-gray-500 uppercase font-bold mb-1">Faturamento Mínimo</p>
-                                <p className="text-lg font-bold text-primary">R$ {res.revenue.toFixed(2)}</p>
+                            <ResultCard label="Meta de Vendas (Unidades)" value={Math.ceil(res.units)} prefix="" />
+                            <div className="p-4 bg-white/5 rounded-xl border border-white/10 text-center">
+                                <p className="text-xs text-gray-500 font-bold">Faturamento Mínimo: <span className="text-primary">R$ {res.revenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></p>
                             </div>
                         </div>
                     )}
@@ -351,21 +431,22 @@ export default function MoreCalculators({ type }: Props) {
             };
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">Calculadora de Desconto</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input label="Preço (R$)" value={val1} onChange={setVal1} />
-                        <Input label="Desconto (%)" value={val2} onChange={setVal2} />
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-emerald-500/20 rounded-lg">
+                            <Percent className="text-emerald-400" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Calculadora de Desconto</h2>
                     </div>
-                    <button onClick={calcDisc} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Aplicar Desconto</button>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Preço Original (R$)" value={val1} onChange={setVal1} placeholder="100" type="number" />
+                        <Input label="Desconto (%)" value={val2} onChange={setVal2} placeholder="10" type="number" />
+                    </div>
+                    <button onClick={calcDisc} className="w-full py-4 bg-emerald-500 text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Aplicar Desconto</button>
                     {res && (
-                        <div className="grid grid-cols-2 gap-3">
-                            <div className="bg-emerald-500/10 p-4 rounded-xl border border-emerald-500/20">
-                                <p className="text-[10px] text-emerald-400 uppercase font-bold">Preço Final</p>
-                                <p className="text-lg font-bold text-white">R$ {res.final.toFixed(2)}</p>
-                            </div>
-                            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                <p className="text-[10px] text-gray-500 uppercase font-bold">Você Economiza</p>
-                                <p className="text-lg font-bold text-emerald-400">R$ {res.saved.toFixed(2)}</p>
+                        <div className="space-y-4">
+                            <ResultCard label="Preço com Desconto" value={res.final.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} color="emerald" />
+                            <div className="p-4 bg-white/5 rounded-xl border border-white/10 text-center">
+                                <p className="text-xs text-gray-500 font-bold">Você economiza: <span className="text-emerald-400">R$ {res.saved.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></p>
                             </div>
                         </div>
                     )}
@@ -381,21 +462,22 @@ export default function MoreCalculators({ type }: Props) {
             };
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">Calculadora de Aumento</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Input label="Salário (R$)" value={val1} onChange={setVal1} />
-                        <Input label="Aumento (%)" value={val2} onChange={setVal2} />
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <TrendingUp className="text-primary" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Calculadora de Aumento</h2>
                     </div>
-                    <button onClick={calcRaise} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular Novo Valor</button>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Salário Atual (R$)" value={val1} onChange={setVal1} placeholder="3000" type="number" />
+                        <Input label="Aumento (%)" value={val2} onChange={setVal2} placeholder="10" type="number" />
+                    </div>
+                    <button onClick={calcRaise} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Calcular Novo Valor</button>
                     {res && (
-                        <div className="grid grid-cols-2 gap-3">
-                            <div className="bg-primary/10 p-4 rounded-xl border border-primary/20">
-                                <p className="text-[10px] text-primary uppercase font-bold">Novo Salário</p>
-                                <p className="text-lg font-bold text-white">R$ {res.next.toFixed(2)}</p>
-                            </div>
-                            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                <p className="text-[10px] text-gray-500 uppercase font-bold">Aumento Real</p>
-                                <p className="text-lg font-bold text-emerald-400">R$ {res.diff.toFixed(2)}</p>
+                        <div className="space-y-4">
+                            <ResultCard label="Novo Salário" value={res.next.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} />
+                            <div className="p-4 bg-white/5 rounded-xl border border-white/10 text-center">
+                                <p className="text-xs text-gray-500 font-bold">Aumento Real: <span className="text-emerald-400">R$ {res.diff.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></p>
                             </div>
                         </div>
                     )}
@@ -405,18 +487,23 @@ export default function MoreCalculators({ type }: Props) {
         case "price-per-unit":
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">Qual compensa mais?</h2>
-                    <p className="text-xs text-gray-400">Compare o preço por unidade, litro ou quilo.</p>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-3">
-                            <p className="text-[10px] text-primary font-black uppercase text-center">Opção A</p>
-                            <Input label="Preço (R$)" value={val1} onChange={setVal1} />
-                            <Input label="Qtd (un/ml/g)" value={val2} onChange={setVal2} />
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <Scale className="text-primary" size={20} />
                         </div>
-                        <div className="space-y-3">
-                            <p className="text-[10px] text-primary font-black uppercase text-center">Opção B</p>
-                            <Input label="Preço (R$)" value={val3} onChange={setVal3} />
-                            <Input label="Qtd (un/ml/g)" value={res?.qB || ""} onChange={(v: string) => setRes({ ...res, qB: v })} />
+                        <h2 className="text-2xl font-black text-white tracking-tight">Qual compensa mais?</h2>
+                    </div>
+                    <p className="text-xs text-gray-500 font-bold">Compare o preço por unidade, litro ou quilo para economizar no mercado.</p>
+                    <div className="grid grid-cols-2 gap-6">
+                        <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/5">
+                            <p className="text-[10px] text-primary font-black uppercase text-center tracking-widest">Opção A</p>
+                            <Input label="Preço (R$)" value={val1} onChange={setVal1} placeholder="10.00" type="number" />
+                            <Input label="Qtd (un/ml/g)" value={val2} onChange={setVal2} placeholder="1000" type="number" />
+                        </div>
+                        <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/5">
+                            <p className="text-[10px] text-primary font-black uppercase text-center tracking-widest">Opção B</p>
+                            <Input label="Preço (R$)" value={val3} onChange={setVal3} placeholder="8.50" type="number" />
+                            <Input label="Qtd (un/ml/g)" value={res?.qB || ""} onChange={(v: string) => setRes({ ...res, qB: v })} placeholder="800" type="number" />
                         </div>
                     </div>
                     <button onClick={() => {
@@ -425,23 +512,12 @@ export default function MoreCalculators({ type }: Props) {
                         const pB = Number(val3) / qB;
                         const savings = Math.abs(pA - pB) / Math.max(pA, pB) * 100;
                         setRes({ ...res, pA, pB, savings, winner: pA < pB ? "Opção A" : "Opção B", calculated: true });
-                    }} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Comparar Preços</button>
+                    }} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Comparar Preços</button>
                     {res?.calculated && (
                         <div className="space-y-4">
-                            <div className="bg-primary/20 p-6 rounded-2xl text-center border border-primary/30">
-                                <p className="text-xs text-primary font-black uppercase tracking-widest mb-1">Melhor Custo-Benefício</p>
-                                <p className="text-2xl font-black text-white">{res.winner}</p>
-                                <p className="text-sm text-primary/80 mt-2">Economia de <span className="font-bold">{res.savings.toFixed(1)}%</span> por unidade</p>
-                            </div>
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Preço/Unid A</p>
-                                    <p className="text-lg font-bold text-white">R$ {res.pA.toFixed(4)}</p>
-                                </div>
-                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                    <p className="text-[10px] text-gray-500 uppercase font-bold">Preço/Unid B</p>
-                                    <p className="text-lg font-bold text-white">R$ {res.pB.toFixed(4)}</p>
-                                </div>
+                            <ResultCard label="Melhor Custo-Benefício" value={res.winner} prefix="" />
+                            <div className="p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20 text-center">
+                                <p className="text-sm text-emerald-400 font-bold">Economia de <span className="text-white font-black">{res.savings.toFixed(1)}%</span> por unidade</p>
                             </div>
                         </div>
                     )}
@@ -457,25 +533,32 @@ export default function MoreCalculators({ type }: Props) {
             };
             return (
                 <div className="space-y-8">
-                    <h2 className="text-2xl font-bold text-white">Regra de Três Simples</h2>
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <Calculator className="text-primary" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Regra de Três</h2>
+                    </div>
                     <div className="space-y-6">
                         <div className="flex items-center gap-4">
-                            <div className="flex-1"><Input value={val1} onChange={setVal1} placeholder="Valor A" /></div>
-                            <div className="text-primary font-black">→</div>
-                            <div className="flex-1"><Input value={val2} onChange={setVal2} placeholder="Valor B" /></div>
+                            <div className="flex-1"><Input label="Se" value={val1} onChange={setVal1} placeholder="Valor A" type="number" /></div>
+                            <div className="text-primary font-black mt-6">→</div>
+                            <div className="flex-1"><Input label="Vale" value={val2} onChange={setVal2} placeholder="Valor B" type="number" /></div>
                         </div>
                         <div className="flex items-center gap-4">
-                            <div className="flex-1"><Input value={val3} onChange={setVal3} placeholder="Valor C" /></div>
-                            <div className="text-primary font-black">→</div>
+                            <div className="flex-1"><Input label="Então" value={val3} onChange={setVal3} placeholder="Valor C" type="number" /></div>
+                            <div className="text-primary font-black mt-6">→</div>
                             <div className="flex-1">
-                                <div className="w-full bg-primary/10 border border-primary/30 rounded-xl px-4 py-3 text-primary font-black text-center text-xl shadow-[0_0_15px_rgba(167,139,250,0.2)]">
-                                    {res ? res.toFixed(2) : "X"}
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-primary uppercase tracking-widest ml-1">Resultado (X)</label>
+                                    <div className="w-full bg-primary/10 border border-primary/30 rounded-xl px-4 py-3 text-primary font-black text-center text-xl shadow-[0_0_15px_rgba(167,139,250,0.1)]">
+                                        {res ? res.toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : "?"}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button onClick={calcRule} className="btn-primary w-full py-4 rounded-xl font-bold bg-primary text-black hover:scale-[1.02] transition-transform">Descobrir Valor de X</button>
-                    <p className="text-[10px] text-gray-500 text-center uppercase font-bold tracking-widest">A está para B, assim como C está para X</p>
+                    <button onClick={calcRule} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Descobrir Valor de X</button>
                 </div>
             );
 
@@ -493,12 +576,21 @@ export default function MoreCalculators({ type }: Props) {
                 setRes(count);
             };
             return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Dias Úteis</h2>
-                    <Input label="Data Inicial" type="date" value={val1} onChange={setVal1} />
-                    <Input label="Data Final" type="date" value={val2} onChange={setVal2} />
-                    <button onClick={calcBusinessDays} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Calcular</button>
-                    {res !== null && <div className="text-center text-xl font-bold text-white">{res} dias úteis</div>}
+                <div className="space-y-6">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <Calendar className="text-primary" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Dias Úteis</h2>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input label="Data Inicial" type="date" value={val1} onChange={setVal1} />
+                        <Input label="Data Final" type="date" value={val2} onChange={setVal2} />
+                    </div>
+                    <button onClick={calcBusinessDays} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Calcular Período</button>
+                    {res !== null && (
+                        <ResultCard label="Total de Dias Úteis" value={res} prefix="" />
+                    )}
                 </div>
             );
 
@@ -515,20 +607,22 @@ export default function MoreCalculators({ type }: Props) {
             };
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">Calculadora de Horas</h2>
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <Clock className="text-primary" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Calculadora de Horas</h2>
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
                         <Input label="Tempo 1 (HH:MM)" placeholder="02:30" value={val1} onChange={setVal1} />
                         <Input label="Tempo 2 (HH:MM)" placeholder="01:45" value={val2} onChange={setVal2} />
                     </div>
-                    <div className="flex gap-3">
-                        <button onClick={() => calcHours('sum')} className="flex-1 py-3 bg-primary text-black font-bold rounded-xl">Somar</button>
-                        <button onClick={() => calcHours('sub')} className="flex-1 py-3 bg-white/5 text-white border border-white/10 font-bold rounded-xl">Subtrair</button>
+                    <div className="flex gap-4">
+                        <button onClick={() => calcHours('sum')} className="flex-1 py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Somar</button>
+                        <button onClick={() => calcHours('sub')} className="flex-1 py-4 bg-white/5 text-white border border-white/10 font-black rounded-2xl hover:bg-white/10 transition-all uppercase tracking-widest text-xs">Subtrair</button>
                     </div>
                     {res && (
-                        <div className="bg-white/5 p-6 rounded-2xl border border-white/10 text-center">
-                            <p className="text-[10px] text-gray-500 uppercase font-bold mb-1">Resultado</p>
-                            <p className="text-4xl font-black text-white">{res}</p>
-                        </div>
+                        <ResultCard label="Resultado do Cálculo" value={res} prefix="" />
                     )}
                 </div>
             );
@@ -540,23 +634,32 @@ export default function MoreCalculators({ type }: Props) {
             };
             return (
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold text-white">Gerador de Recibo</h2>
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <DollarSign className="text-primary" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Gerador de Recibo</h2>
+                    </div>
                     <div className="space-y-4">
                         <Input label="Pagador" type="text" value={val1} onChange={setVal1} placeholder="Nome completo" />
                         <Input label="Valor (R$)" value={val2} onChange={setVal2} placeholder="0,00" />
                         <Input label="Referente a" type="text" value={val3} onChange={setVal3} placeholder="Descrição do serviço" />
                     </div>
-                    <button onClick={generateReceipt} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Gerar Recibo</button>
+                    <button onClick={generateReceipt} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Gerar Recibo Profissional</button>
                     {res && (
-                        <div className="bg-white p-6 rounded-xl space-y-4 border border-white/10 shadow-2xl">
-                            <pre className="text-[10px] text-black whitespace-pre-wrap font-mono leading-relaxed">{res}</pre>
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-white p-8 rounded-2xl space-y-6 border border-white/10 shadow-2xl relative overflow-hidden"
+                        >
+                            <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
+                            <pre className="text-xs text-black whitespace-pre-wrap font-mono leading-relaxed">{res}</pre>
                             <button onClick={() => {
                                 navigator.clipboard.writeText(res);
-                                alert("Recibo copiado!");
-                            }} className="w-full py-2 bg-black text-white rounded-lg text-xs flex items-center justify-center gap-2 font-bold">
-                                <Copy size={14} /> Copiar Texto
+                            }} className="w-full py-3 bg-black text-white rounded-xl text-xs flex items-center justify-center gap-2 font-black uppercase tracking-widest hover:bg-gray-900 transition-all">
+                                <Copy size={16} /> Copiar Recibo
                             </button>
-                        </div>
+                        </motion.div>
                     )}
                 </div>
             );
@@ -595,11 +698,18 @@ export default function MoreCalculators({ type }: Props) {
                 setRes("CPF Válido");
             };
             return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Validador de CPF</h2>
+                <div className="space-y-6">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <Check className="text-primary" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Validador de CPF</h2>
+                    </div>
                     <Input label="CPF" type="text" inputMode="numeric" value={val1} onChange={handleCPFChange} placeholder="000.000.000-00" />
-                    <button onClick={validateCPF} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Validar</button>
-                    {res && <div className={`text-center font-bold ${res.includes("Válido") ? "text-green-400" : "text-red-400"}`}>{res}</div>}
+                    <button onClick={validateCPF} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Validar Documento</button>
+                    {res && (
+                        <ResultCard label="Status da Validação" value={res} prefix="" color={res.includes("Válido") ? "emerald" : "red"} />
+                    )}
                 </div>
             );
 
@@ -649,11 +759,18 @@ export default function MoreCalculators({ type }: Props) {
                 setRes("CNPJ Válido");
             };
             return (
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-white">Validador de CNPJ</h2>
+                <div className="space-y-6">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                            <Check className="text-primary" size={20} />
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-tight">Validador de CNPJ</h2>
+                    </div>
                     <Input label="CNPJ" type="text" inputMode="numeric" value={val1} onChange={handleCNPJChange} placeholder="00.000.000/0000-00" />
-                    <button onClick={validateCNPJ} className="btn-primary w-full py-3 rounded-xl font-bold bg-primary text-black">Validar</button>
-                    {res && <div className={`text-center font-bold ${res.includes("Válido") ? "text-green-400" : "text-red-400"}`}>{res}</div>}
+                    <button onClick={validateCNPJ} className="w-full py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all shadow-xl uppercase tracking-widest text-xs">Validar Empresa</button>
+                    {res && (
+                        <ResultCard label="Status da Validação" value={res} prefix="" color={res.includes("Válido") ? "emerald" : "red"} />
+                    )}
                 </div>
             );
 
@@ -677,7 +794,7 @@ function PomodoroTimer() {
             }, 1000);
         } else if (timeLeft === 0) {
             setIsActive(false);
-            alert("Tempo esgotado!");
+            alert("Tempo esgotado! Hora de uma pausa.");
         }
         return () => clearInterval(interval);
     }, [isActive, timeLeft]);
@@ -689,30 +806,46 @@ function PomodoroTimer() {
     };
 
     return (
-        <div className="space-y-8 text-center py-4">
-            <h2 className="text-2xl font-bold text-white">Foco Financeiro</h2>
-            <div className="relative inline-block">
-                <svg className="w-48 h-48 -rotate-90">
-                    <circle cx="96" cy="96" r="88" className="stroke-white/5 fill-none" strokeWidth="8" />
+        <div className="space-y-10 text-center py-6">
+            <div className="flex items-center justify-center gap-3 mb-2">
+                <div className="p-2 bg-primary/20 rounded-lg">
+                    <Clock className="text-primary" size={20} />
+                </div>
+                <h2 className="text-2xl font-black text-white tracking-tight">Foco Financeiro</h2>
+            </div>
+
+            <div className="relative inline-block group">
+                <div className="absolute inset-0 bg-primary/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                <svg className="w-64 h-64 -rotate-90 relative z-10">
+                    <circle cx="128" cy="128" r="120" className="stroke-white/5 fill-none" strokeWidth="4" />
                     <motion.circle
-                        cx="96" cy="96" r="88"
+                        cx="128" cy="128" r="120"
                         className="stroke-primary fill-none"
                         strokeWidth="8"
-                        strokeDasharray="553"
-                        animate={{ strokeDashoffset: 553 - (553 * timeLeft) / (25 * 60) }}
+                        strokeLinecap="round"
+                        strokeDasharray="754"
+                        animate={{ strokeDashoffset: 754 - (754 * timeLeft) / (25 * 60) }}
+                        transition={{ duration: 1, ease: "linear" }}
                     />
                 </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-5xl font-black text-white tabular-nums">{format(timeLeft)}</span>
-                    <span className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mt-1">Minutos</span>
+                <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+                    <span className="text-6xl font-black text-white tabular-nums tracking-tighter">{format(timeLeft)}</span>
+                    <span className="text-[10px] text-primary font-black uppercase tracking-[0.3em] mt-2">Sessão de Foco</span>
                 </div>
             </div>
 
-            <div className="flex gap-4 justify-center">
-                <button onClick={() => setIsActive(!isActive)} className="flex-1 py-3 bg-primary text-black font-bold rounded-xl hover:scale-105 transition-transform">
+            <div className="flex gap-4 justify-center max-w-sm mx-auto">
+                <button
+                    onClick={() => setIsActive(!isActive)}
+                    className={`flex-1 py-4 font-black rounded-2xl transition-all shadow-xl uppercase tracking-widest text-xs ${isActive ? "bg-white text-black" : "bg-primary text-black hover:scale-105"
+                        }`}
+                >
                     {isActive ? "Pausar" : "Iniciar"}
                 </button>
-                <button onClick={() => { setTimeLeft(25 * 60); setIsActive(false); }} className="px-8 py-3 bg-white/5 text-white font-bold rounded-xl border border-white/10">
+                <button
+                    onClick={() => { setTimeLeft(25 * 60); setIsActive(false); }}
+                    className="px-8 py-4 bg-white/5 text-white font-black rounded-2xl border border-white/10 hover:bg-white/10 transition-all uppercase tracking-widest text-xs"
+                >
                     Resetar
                 </button>
             </div>
