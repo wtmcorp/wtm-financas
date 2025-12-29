@@ -9,22 +9,9 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Text is required" }, { status: 400 });
         }
 
-        // Gojo-style intros (randomly selected for fun)
-        const gojoIntros = [
-            "E aí, aluno? Presta atenção que o pai tá on. ",
-            "Vamos lá, foco na aula. Não vai ser chato, prometo. ",
-            "Ei, acorda! Hora de aprender algo novo com o melhor. ",
-            "Relaxa, eu vou explicar isso de um jeito fácil. ",
-            "" // Sometimes no intro
-        ];
-        const randomIntro = gojoIntros[Math.floor(Math.random() * gojoIntros.length)];
-
-        // Only add intro if text is long enough to be a lesson (e.g., > 50 chars)
-        const finalText = text.length > 50 ? randomIntro + text : text;
-
         // Split text into chunks to avoid Vercel timeouts (approx 200 chars per chunk)
         // Simple regex to split by sentences but keep delimiters
-        const sentences = finalText.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [finalText];
+        const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
         const chunks: string[] = [];
         let currentChunk = "";
 

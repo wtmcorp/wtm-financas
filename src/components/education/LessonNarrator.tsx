@@ -15,6 +15,15 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
     const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
     const [progress, setProgress] = useState(0);
     const abortControllerRef = useRef<AbortController | null>(null);
+    const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+
+    // Gojo intros
+    const gojoIntros = [
+        "E aí, aluno? Presta atenção que o pai tá on. ",
+        "Vamos lá, foco na aula. Não vai ser chato, prometo. ",
+        "Ei, acorda! Hora de aprender algo novo com o melhor. ",
+        "Relaxa, eu vou explicar isso de um jeito fácil. ",
+    ];
 
     // Clean text for speech
     const cleanText = (md: string) => {
@@ -24,113 +33,133 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             .replace(/\n/g, ". ");
     };
 
-    // Reset and cleanup when text changes
-    useEffect(() => {
-        // Stop any current audio
-        if (audio) {
-            audio.pause();
-            audio.src = "";
-        }
+    // Split text into smaller chunks for the API
+    const splitText = (text: string): string[] => {
+        // Split by punctuation to respect sentences, aiming for ~200 chars
+        const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+        const chunks: string[] = [];
+        let currentChunk = "";
 
-        // Abort any pending fetch
+        for (const sentence of sentences) {
+            if ((currentChunk + sentence).length > 200) {
+                chunks.push(currentChunk.trim());
+                currentChunk = sentence;
+            } else {
+                currentChunk += sentence;
+            }
+        }
+        if (currentChunk) chunks.push(currentChunk.trim());
+        return chunks.filter(c => c.length > 0);
+    };
+
+    const stopPlayback = () => {
+        if (currentAudioRef.current) {
+            currentAudioRef.current.pause();
+            currentAudioRef.current.src = "";
+            currentAudioRef.current = null;
+        }
         if (abortControllerRef.current) {
             abortControllerRef.current.abort();
+            abortControllerRef.current = null;
         }
-
-        // Reset state
         setAudio(null);
         setIsPlaying(false);
         setIsLoading(false);
         setProgress(0);
+    };
+
+    // Reset and cleanup when text changes
+    useEffect(() => {
+        stopPlayback();
     }, [text]);
 
     // Cleanup on unmount
     useEffect(() => {
         return () => {
-            if (abortControllerRef.current) {
-                abortControllerRef.current.abort();
-            }
-            if (audio) {
-                audio.pause();
-                audio.src = "";
-            }
+            stopPlayback();
         };
-    }, [audio]);
+    }, []);
 
-    const handlePlay = async () => {
-        if (audio) {
-            audio.play();
-            setIsPlaying(true);
+    const playQueue = async (chunks: string[], index: number) => {
+        if (index >= chunks.length) {
+            setIsPlaying(false);
+            setProgress(100);
             return;
         }
 
         try {
-            setIsLoading(true);
-
-            // Abort previous request if any
-            if (abortControllerRef.current) {
-                abortControllerRef.current.abort();
-            }
-
+            const chunk = chunks[index];
             const controller = new AbortController();
             abortControllerRef.current = controller;
-
-            // Add a timeout to the fetch request
-            const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
 
             const response = await fetch("/api/tts", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    text: cleanText(text),
-                }),
+                body: JSON.stringify({ text: chunk }),
                 signal: controller.signal
             });
 
-            clearTimeout(timeoutId);
-
-            if (!response.ok) throw new Error("Failed to generate audio");
+            if (!response.ok) throw new Error("Failed to fetch audio chunk");
 
             const blob = await response.blob();
             const url = URL.createObjectURL(blob);
             const newAudio = new Audio(url);
+            currentAudioRef.current = newAudio;
+            setAudio(newAudio);
 
             newAudio.onended = () => {
-                setIsPlaying(false);
-                setProgress(100);
+                playQueue(chunks, index + 1);
             };
 
             newAudio.ontimeupdate = () => {
                 if (newAudio.duration) {
-                    setProgress((newAudio.currentTime / newAudio.duration) * 100);
+                    // Calculate overall progress based on chunk index
+                    const chunkProgress = (newAudio.currentTime / newAudio.duration);
+                    const totalProgress = ((index + chunkProgress) / chunks.length) * 100;
+                    setProgress(totalProgress);
                 }
             };
 
             newAudio.onerror = () => {
                 console.error("Audio playback error");
-                setIsPlaying(false);
-                setIsLoading(false);
+                playQueue(chunks, index + 1); // Skip to next chunk on error
             };
 
-            // Wait for audio to be ready
-            newAudio.oncanplaythrough = () => {
-                setAudio(newAudio);
-                newAudio.play().catch(e => console.error("Play error:", e));
-                setIsPlaying(true);
-                setIsLoading(false);
-            };
-
-            // Fallback if canplaythrough doesn't fire immediately
-            newAudio.load();
+            await newAudio.play();
+            setIsLoading(false); // Loading done once first chunk starts
 
         } catch (error: any) {
-            if (error.name === 'AbortError') {
-                console.log("TTS request aborted");
-            } else {
-                console.error("Narrator error:", error);
+            if (error.name !== 'AbortError') {
+                console.error("Queue playback error:", error);
+                setIsPlaying(false);
+                setIsLoading(false);
             }
-            setIsLoading(false);
         }
+    };
+
+    const handlePlay = async () => {
+        if (isPlaying) {
+            // If already playing, just pause (handled by handlePause)
+            return;
+        }
+
+        setIsLoading(true);
+        setIsPlaying(true);
+
+        // Prepare text
+        const cleaned = cleanText(text);
+        let chunks = splitText(cleaned);
+
+        // Add intro if text is long enough
+        if (cleaned.length > 50) {
+            const randomIntro = gojoIntros[Math.floor(Math.random() * gojoIntros.length)];
+            if (randomIntro) {
+                chunks = [randomIntro, ...chunks];
+            }
+        }
+
+        // Start playing queue
+        playQueue(chunks, 0);
     };
 
     const handlePause = () => {
@@ -141,12 +170,7 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
     };
 
     const handleStop = () => {
-        if (audio) {
-            audio.pause();
-            audio.currentTime = 0;
-            setIsPlaying(false);
-            setProgress(0);
-        }
+        stopPlayback();
     };
 
     return (
