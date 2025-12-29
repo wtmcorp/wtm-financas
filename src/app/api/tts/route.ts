@@ -1,46 +1,55 @@
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
+import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
 
 export const dynamic = 'force-dynamic';
 
-const openai = new OpenAI({
-    apiKey: (process.env.OPENAI_API_KEY || "").trim(),
-});
-
 export async function POST(req: Request) {
     try {
-        const apiKey = process.env.OPENAI_API_KEY;
-        if (!apiKey) {
-            console.error("OpenAI API Key is missing");
-            return NextResponse.json({
-                error: "Configuration Error",
-                details: "OpenAI API Key is not configured in the server environment."
-            }, { status: 500 });
-        }
-
-        const { text } = await req.json();
+        const { text, voice = "pt-BR-AntonioNeural", pitch = "-2Hz", rate = "+5%" } = await req.json();
 
         if (!text) {
             return NextResponse.json({ error: "Text is required" }, { status: 400 });
         }
 
-        const mp3 = await openai.audio.speech.create({
-            model: "tts-1",
-            voice: "onyx", // Deep, authoritative voice
-            input: text,
-        });
+        const tts = new MsEdgeTTS();
+        await tts.setMetadata(voice, OUTPUT_FORMAT.WEBM_24KHZ_16BIT_MONO_OPUS);
 
-        const buffer = Buffer.from(await mp3.arrayBuffer());
+        const ssml = `
+            <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="pt-BR">
+                <voice name="${voice}">
+                    <prosody pitch="${pitch}" rate="${rate}">
+                        ${text}
+                    </prosody>
+                </voice>
+            </speak>
+        `;
 
-        return new NextResponse(buffer, {
+        // Add timeout to TTS generation (10 seconds)
+        const timeoutPromise = new Promise<any>((_, reject) =>
+            setTimeout(() => reject(new Error("TTS Generation Timeout")), 10000)
+        );
+
+        const readable = await Promise.race([
+            tts.toStream(ssml),
+            timeoutPromise
+        ]) as any;
+
+        const chunkBuffers: any[] = [];
+        for await (const data of readable) {
+            chunkBuffers.push(data);
+        }
+
+        const finalAudio = Buffer.concat(chunkBuffers);
+
+        return new NextResponse(finalAudio, {
             headers: {
-                "Content-Type": "audio/mpeg",
-                "Content-Length": buffer.length.toString(),
+                "Content-Type": "audio/webm",
+                "Content-Length": finalAudio.length.toString(),
             },
         });
 
     } catch (error: any) {
-        console.error("OpenAI TTS Error:", error);
+        console.error("TTS Error:", error);
         return NextResponse.json({
             error: "Failed to generate speech",
             details: error.message
