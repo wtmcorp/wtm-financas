@@ -1,6 +1,9 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers/Providers";
+import MouseTracker from "@/components/ui/MouseTracker";
+import PremiumNotifications from "@/components/ui/PremiumNotifications";
+import BottomNav from "@/components/layout/BottomNav";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -16,12 +19,14 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="pt-BR">
-            <body className={`${inter.variable} font-sans antialiased bg-background text-foreground flex flex-col min-h-screen`}>
+            <body className={`${inter.className} bg-black text-white antialiased overflow-x-hidden`}>
                 <Providers>
+                    <MouseTracker />
+                    <PremiumNotifications />
                     {children}
+                    <BottomNav />
                 </Providers>
             </body>
         </html>
     );
 }
-

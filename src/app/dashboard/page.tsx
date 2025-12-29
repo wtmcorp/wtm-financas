@@ -7,6 +7,8 @@ import { User, Wallet, TrendingUp, Calendar, Info } from "lucide-react";
 import { Tooltip } from "@/components/ui/Tooltip";
 import NewsSection from "@/components/dashboard/NewsSection";
 import GoalsWidget from "@/components/dashboard/GoalsWidget";
+import HealthScore from "@/components/dashboard/HealthScore";
+import AiInsights from "@/components/dashboard/AiInsights";
 import { motion } from "framer-motion";
 
 export default function DashboardPage() {
@@ -135,13 +137,20 @@ export default function DashboardPage() {
 
             {/* New Widgets Section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-                <motion.div variants={itemVariants} className="lg:col-span-2">
-                    <GoalsWidget />
+                <motion.div variants={itemVariants}>
+                    <HealthScore />
                 </motion.div>
                 <motion.div variants={itemVariants}>
-                    <NewsSection />
+                    <AiInsights />
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                    <GoalsWidget />
                 </motion.div>
             </div>
+
+            <motion.div variants={itemVariants} className="mt-6">
+                <NewsSection />
+            </motion.div>
         </motion.div>
     );
 }

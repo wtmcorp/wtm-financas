@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, CreditCard, TrendingUp, AlertTriangle, Wrench, User, Heart } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function BottomNav() {
     const pathname = usePathname();
@@ -24,13 +25,16 @@ export default function BottomNav() {
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={`relative flex flex-col items-center justify-center flex-1 h-full transition-all duration-500 ${isActive ? "text-primary" : "text-gray-500 hover:text-white"
+                            className={`relative flex flex-col items-center justify-center flex-1 h-full transition-all duration-500 active:scale-90 ${isActive ? "text-primary" : "text-gray-500 hover:text-white"
                                 }`}
                         >
                             {isActive && (
                                 <>
-                                    <div className="absolute inset-0 bg-primary/5 blur-xl rounded-full animate-pulse" />
-                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-1 bg-primary rounded-full shadow-[0_0_10px_rgba(167,139,250,0.5)]" />
+                                    <div className="absolute inset-0 bg-primary/10 blur-2xl rounded-full animate-pulse" />
+                                    <motion.div
+                                        layoutId="activeTab"
+                                        className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-primary rounded-full shadow-[0_0_15px_rgba(167,139,250,0.8)]"
+                                    />
                                 </>
                             )}
                             <div className={`transition-transform duration-300 ${isActive ? "scale-110 -translate-y-1" : ""}`}>

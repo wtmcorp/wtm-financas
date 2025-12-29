@@ -4,10 +4,26 @@ import { User, Mail, Phone, Calendar, LogOut, Shield, Award, Star, Zap, Crown, T
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 export default function ProfilePage() {
     const { user, logout, isAuthenticated, loading } = useAuth();
     const router = useRouter();
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, cubicBezier: [0.23, 1, 0.32, 1] } }
+    };
 
     useEffect(() => {
         if (!loading && !isAuthenticated) {
@@ -36,11 +52,16 @@ export default function ProfilePage() {
     ];
 
     return (
-        <div className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32">
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32"
+        >
             <div className="max-w-4xl mx-auto space-y-8">
 
                 {/* Identity Header */}
-                <div className="reveal relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e] border border-white/10 p-8 shadow-2xl">
+                <motion.div variants={itemVariants} className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e] border border-white/10 p-8 shadow-2xl">
                     <div className="absolute top-0 right-0 p-8 opacity-5">
                         <User size={200} className="text-white" />
                     </div>
@@ -73,11 +94,11 @@ export default function ProfilePage() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Gamification Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 reveal" style={{ animationDelay: '0.1s' }}>
-                    <div className="md:col-span-2 card-premium p-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <motion.div variants={itemVariants} className="md:col-span-2 card-premium p-6">
                         <div className="flex justify-between items-end mb-4">
                             <div>
                                 <h3 className="text-lg font-bold text-white">Progresso do Nível</h3>
@@ -86,19 +107,24 @@ export default function ProfilePage() {
                             <span className="text-2xl font-black text-white">{xp} <span className="text-sm text-gray-500 font-medium">/ {nextLevelXp} XP</span></span>
                         </div>
                         <div className="h-4 bg-white/5 rounded-full overflow-hidden">
-                            <div className="h-full bg-gradient-to-r from-primary to-purple-500 transition-all duration-1000" style={{ width: `${progress}%` }} />
+                            <motion.div
+                                initial={{ width: 0 }}
+                                animate={{ width: `${progress}%` }}
+                                transition={{ duration: 1.5, ease: "easeOut" }}
+                                className="h-full bg-gradient-to-r from-primary to-purple-500"
+                            />
                         </div>
-                    </div>
+                    </motion.div>
 
-                    <div className="card-premium p-6 flex flex-col justify-center items-center text-center">
+                    <motion.div variants={itemVariants} className="card-premium p-6 flex flex-col justify-center items-center text-center">
                         <Shield className="text-green-500 mb-2" size={32} />
                         <h3 className="text-lg font-bold text-white">Conta Segura</h3>
                         <p className="text-xs text-green-400 font-bold mt-1">Verificada & Protegida</p>
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Badges */}
-                <div className="card-premium p-8 reveal" style={{ animationDelay: '0.2s' }}>
+                <motion.div variants={itemVariants} className="card-premium p-8">
                     <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                         <Award className="text-yellow-500" />
                         Conquistas Desbloqueadas
@@ -114,10 +140,10 @@ export default function ProfilePage() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Account Details */}
-                <div className="card-premium p-8 reveal" style={{ animationDelay: '0.3s' }}>
+                <motion.div variants={itemVariants} className="card-premium p-8">
                     <h3 className="text-xl font-bold text-white mb-6">Dados da Conta</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-1">
@@ -153,14 +179,14 @@ export default function ProfilePage() {
                     <div className="mt-8 pt-8 border-t border-white/5 flex justify-center">
                         <button
                             onClick={logout}
-                            className="flex items-center gap-2 px-8 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-xl transition-all font-bold border border-red-500/20 hover:border-red-500/40"
+                            className="flex items-center gap-2 px-8 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-xl transition-all font-bold border border-red-500/20 hover:border-red-500/40 active:scale-95"
                         >
                             <LogOut size={18} />
                             Sair do Sistema
                         </button>
                     </div>
-                </div>
+                </motion.div>
             </div>
-        </div>
+        </motion.div>
     );
 }
