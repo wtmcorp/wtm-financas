@@ -88,7 +88,7 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
         };
     }, []);
 
-    const prefetchPromisesRef = useRef<{ [key: number]: Promise<string | null> }>({});
+
 
     const fetchChunk = async (chunk: string, index: number): Promise<string | null> => {
         // If we already have the URL, return it
