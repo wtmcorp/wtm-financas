@@ -184,7 +184,7 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             <div className="flex items-center gap-3">
                 <div className={`w-2 h-2 rounded-full ${isPlaying ? "bg-purple-500 animate-pulse" : "bg-gray-500"}`} />
                 <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest hidden md:block">
-                    {isLoading ? "Gerando Voz..." : isPlaying ? "Gojo Narrador" : "Gojo Narrador"}
+                    {isLoading ? "Gerando Voz..." : isPlaying ? "Narrador WTM" : "Narrador WTM"}
                 </span>
             </div>
 
