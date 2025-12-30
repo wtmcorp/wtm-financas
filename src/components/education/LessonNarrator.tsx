@@ -95,7 +95,7 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
         if (audioQueueRef.current[index]) return audioQueueRef.current[index];
 
         // If a fetch is already in progress, return that promise
-        if (prefetchPromisesRef.current[index]) return prefetchPromisesRef.current[index];
+        if (index in prefetchPromisesRef.current) return prefetchPromisesRef.current[index];
 
         // Create a new fetch promise
         const fetchPromise = (async () => {
