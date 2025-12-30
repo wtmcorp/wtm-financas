@@ -19,10 +19,11 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
 
     // Gojo intros
     const gojoIntros = [
-        "E aí, aluno? Presta atenção que o pai tá on. ",
-        "Vamos lá, foco na aula. Não vai ser chato, prometo. ",
-        "Ei, acorda! Hora de aprender algo novo com o melhor. ",
-        "Relaxa, eu vou explicar isso de um jeito fácil. ",
+        "E aí, visão? O pai tá on e hoje o papo é reto. ",
+        "Bora focar aqui que o conhecimento é o verdadeiro poder, tá ligado? ",
+        "Acorda pra vida! Vou te passar a visão de um jeito que até o Sukuna entenderia. ",
+        "Relaxa o coração, vou te explicar isso aqui sem enrolação e com aquela malandragem de quem sabe. ",
+        "Se liga no que eu vou te falar, porque essa aula aqui vale ouro. ",
     ];
 
     // Clean text for speech
