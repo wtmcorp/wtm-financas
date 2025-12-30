@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export const dynamic = 'force-dynamic';
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY || "sk_259c1a64b5f7c59c5d6f4b7f27a28a30f8545c35d149ab1e";
-const VOICE_ID = "pNix78D08n6qyS5nv37p"; // Gigi (High quality, neutral/cool)
+const VOICE_ID = "jBpfuIE2acCO8z3wKNLl"; // Gigi (Verified ID)
 
 export async function POST(req: Request) {
     try {
