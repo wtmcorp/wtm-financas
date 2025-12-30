@@ -83,44 +83,6 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
 
 
 
-    const fetchChunk = async (chunk: string, index: number): Promise<string | null> => {
-        // If we already have the URL, return it
-        if (audioQueueRef.current[index]) return audioQueueRef.current[index];
-
-        // If a fetch is already in progress, return that promise
-        if (index in prefetchPromisesRef.current) return prefetchPromisesRef.current[index];
-
-        // Create a new fetch promise
-        const fetchPromise = (async () => {
-            try {
-                console.log(`Fetching chunk ${index}...`);
-                const response = await fetch("/api/tts", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ text: chunk }),
-                });
-
-                if (!response.ok) throw new Error(`Failed to fetch chunk ${index}`);
-
-                const blob = await response.blob();
-                if (blob.size === 0) throw new Error(`Empty blob for chunk ${index}`);
-
-                const url = URL.createObjectURL(blob);
-                audioQueueRef.current[index] = url;
-                return url;
-            } catch (error) {
-                console.error(`Error fetching chunk ${index}:`, error);
-                return null;
-            } finally {
-                // Clean up the promise ref once done
-                delete prefetchPromisesRef.current[index];
-            }
-        })();
-
-        prefetchPromisesRef.current[index] = fetchPromise;
-        return fetchPromise;
-    };
-
     const playQueue = async (chunks: string[], index: number) => {
         if (index >= chunks.length) {
             setIsPlaying(false);
@@ -130,24 +92,30 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
         }
 
         try {
-            // Start pre-fetching next chunk immediately
-            if (index + 1 < chunks.length) {
-                fetchChunk(chunks[index + 1], index + 1);
+            setIsLoading(true);
+            const chunk = chunks[index];
+
+            const response = await fetch("/api/tts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: chunk }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.details || `Erro na API (${response.status})`);
             }
 
-            // Get current chunk URL
-            let url = audioQueueRef.current[index];
-            if (!url) {
-                setIsLoading(true);
-                url = await fetchChunk(chunks[index], index) as string;
-                if (!url) throw new Error(`Could not get audio URL for chunk ${index}`);
-            }
+            const blob = await response.blob();
+            if (blob.size === 0) throw new Error("Áudio vazio recebido");
 
+            const url = URL.createObjectURL(blob);
             const newAudio = new Audio(url);
             currentAudioRef.current = newAudio;
             setAudio(newAudio);
 
             newAudio.onended = () => {
+                URL.revokeObjectURL(url);
                 playQueue(chunks, index + 1);
             };
 
@@ -159,8 +127,8 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
                 }
             };
 
-            newAudio.onerror = (e) => {
-                console.error(`Audio playback error on chunk ${index}:`, e);
+            newAudio.onerror = () => {
+                URL.revokeObjectURL(url);
                 playQueue(chunks, index + 1);
             };
 
@@ -168,11 +136,11 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             setIsLoading(false);
 
         } catch (error: any) {
-            console.error("Queue playback error:", error);
+            console.error("Erro no Narrador:", error);
             if (index === 0) {
                 setIsPlaying(false);
                 setIsLoading(false);
-                alert("Erro ao iniciar o narrador. Tente novamente.");
+                alert(`Erro no Narrador: ${error.message}. Verifique sua chave API ou conexão.`);
             } else {
                 playQueue(chunks, index + 1);
             }
@@ -180,19 +148,14 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
     };
 
     const handlePlay = async () => {
-        if (isPlaying) {
-            // If already playing, just pause (handled by handlePause)
-            return;
-        }
+        if (isPlaying) return;
 
         setIsLoading(true);
         setIsPlaying(true);
 
-        // Prepare text
         const cleaned = cleanText(text);
         let chunks = splitText(cleaned);
 
-        // Add intro if text is long enough
         if (cleaned.length > 50) {
             const randomIntro = gojoIntros[Math.floor(Math.random() * gojoIntros.length)];
             if (randomIntro) {
@@ -200,7 +163,6 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             }
         }
 
-        // Start playing queue
         playQueue(chunks, 0);
     };
 
