@@ -8,11 +8,13 @@ const VOICE_ID = "pNix78D08n6qyS5nv37p"; // Gigi (High quality, neutral/cool)
 export async function POST(req: Request) {
     try {
         const { text } = await req.json();
+        console.log("TTS Request received for text:", text.substring(0, 50) + "...");
 
         if (!text) {
             return NextResponse.json({ error: "Text is required" }, { status: 400 });
         }
 
+        console.log("Calling ElevenLabs API...");
         const response = await fetch(
             `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
             {
@@ -32,12 +34,16 @@ export async function POST(req: Request) {
             }
         );
 
+        console.log("ElevenLabs Response Status:", response.status);
+
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(error.detail?.message || "ElevenLabs API error");
+            console.error("ElevenLabs API Error Detail:", error);
+            throw new Error(error.detail?.message || JSON.stringify(error) || "ElevenLabs API error");
         }
 
         const audioBuffer = await response.arrayBuffer();
+        console.log("Audio Buffer size:", audioBuffer.byteLength);
 
         return new NextResponse(audioBuffer, {
             headers: {
@@ -47,7 +53,7 @@ export async function POST(req: Request) {
         });
 
     } catch (error: any) {
-        console.error("TTS Error:", error);
+        console.error("TTS Route Error:", error);
         return NextResponse.json({
             error: "Failed to generate speech",
             details: error.message

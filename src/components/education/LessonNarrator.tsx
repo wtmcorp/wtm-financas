@@ -113,9 +113,11 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             }
 
             const blob = await response.blob();
+            console.log(`Received blob for chunk ${index}:`, blob.size, blob.type);
             if (blob.size === 0) throw new Error("Received empty audio blob");
 
             const url = URL.createObjectURL(blob);
+            console.log(`Created audio URL for chunk ${index}:`, url);
             const newAudio = new Audio(url);
             currentAudioRef.current = newAudio;
             setAudio(newAudio);
