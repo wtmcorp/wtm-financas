@@ -41,7 +41,7 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
         let currentChunk = "";
 
         for (const sentence of sentences) {
-            if ((currentChunk + sentence).length > 200) {
+            if ((currentChunk + sentence).length > 400) {
                 chunks.push(currentChunk.trim());
                 currentChunk = sentence;
             } else {

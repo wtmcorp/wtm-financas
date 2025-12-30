@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export const dynamic = 'force-dynamic';
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY || "sk_259c1a64b5f7c59c5d6f4b7f27a28a30f8545c35d149ab1e";
-const PRIMARY_VOICE_ID = "N2lVS1w4EtoT3dr4eOWO"; // Callum (Husky Trickster - perfect for Gojo)
+const PRIMARY_VOICE_ID = "iP95p4xoKVk53GoZ742B"; // Chris (Charming, Down-to-Earth)
 const FALLBACK_VOICE_ID = "pNInz6obpgDQGcFmaJgB"; // Adam (Dominant, Firm)
 
 export async function POST(req: Request) {
@@ -29,8 +29,8 @@ export async function POST(req: Request) {
                         text,
                         model_id: "eleven_multilingual_v2",
                         voice_settings: {
-                            stability: 0.45,
-                            similarity_boost: 0.8,
+                            stability: 0.5,
+                            similarity_boost: 0.75,
                             style: 0.0,
                             use_speaker_boost: true
                         },
