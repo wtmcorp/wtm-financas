@@ -16,8 +16,6 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
     const [progress, setProgress] = useState(0);
     const abortControllerRef = useRef<AbortController | null>(null);
     const currentAudioRef = useRef<HTMLAudioElement | null>(null);
-    const audioQueueRef = useRef<{ [key: number]: string }>({});
-    const prefetchPromisesRef = useRef<{ [key: number]: Promise<string | null> }>({});
 
     // Gojo intros
     const gojoIntros = [
@@ -64,11 +62,6 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             abortControllerRef.current.abort();
             abortControllerRef.current = null;
         }
-
-        // Revoke all URLs in the queue
-        Object.values(audioQueueRef.current).forEach(url => URL.revokeObjectURL(url));
-        audioQueueRef.current = {};
-        prefetchPromisesRef.current = {};
 
         setAudio(null);
         setIsPlaying(false);
