@@ -17,7 +17,7 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
     const abortControllerRef = useRef<AbortController | null>(null);
     const currentAudioRef = useRef<HTMLAudioElement | null>(null);
     const audioQueueRef = useRef<{ [key: number]: string }>({});
-    const prefetchInProgressRef = useRef<{ [key: number]: boolean }>({});
+    const prefetchPromisesRef = useRef<{ [key: number]: Promise<string | null> }>({});
 
     // Gojo intros
     const gojoIntros = [
@@ -68,7 +68,7 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
         // Revoke all URLs in the queue
         Object.values(audioQueueRef.current).forEach(url => URL.revokeObjectURL(url));
         audioQueueRef.current = {};
-        prefetchInProgressRef.current = {};
+        prefetchPromisesRef.current = {};
 
         setAudio(null);
         setIsPlaying(false);
@@ -88,30 +88,44 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
         };
     }, []);
 
+    const prefetchPromisesRef = useRef<{ [key: number]: Promise<string | null> }>({});
+
     const fetchChunk = async (chunk: string, index: number): Promise<string | null> => {
+        // If we already have the URL, return it
         if (audioQueueRef.current[index]) return audioQueueRef.current[index];
-        if (prefetchInProgressRef.current[index]) return null;
 
-        prefetchInProgressRef.current[index] = true;
-        try {
-            const response = await fetch("/api/tts", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ text: chunk }),
-            });
+        // If a fetch is already in progress, return that promise
+        if (prefetchPromisesRef.current[index]) return prefetchPromisesRef.current[index];
 
-            if (!response.ok) throw new Error("Failed to fetch chunk");
+        // Create a new fetch promise
+        const fetchPromise = (async () => {
+            try {
+                console.log(`Fetching chunk ${index}...`);
+                const response = await fetch("/api/tts", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text: chunk }),
+                });
 
-            const blob = await response.blob();
-            const url = URL.createObjectURL(blob);
-            audioQueueRef.current[index] = url;
-            return url;
-        } catch (error) {
-            console.error(`Error fetching chunk ${index}:`, error);
-            return null;
-        } finally {
-            prefetchInProgressRef.current[index] = false;
-        }
+                if (!response.ok) throw new Error(`Failed to fetch chunk ${index}`);
+
+                const blob = await response.blob();
+                if (blob.size === 0) throw new Error(`Empty blob for chunk ${index}`);
+
+                const url = URL.createObjectURL(blob);
+                audioQueueRef.current[index] = url;
+                return url;
+            } catch (error) {
+                console.error(`Error fetching chunk ${index}:`, error);
+                return null;
+            } finally {
+                // Clean up the promise ref once done
+                delete prefetchPromisesRef.current[index];
+            }
+        })();
+
+        prefetchPromisesRef.current[index] = fetchPromise;
+        return fetchPromise;
     };
 
     const playQueue = async (chunks: string[], index: number) => {
@@ -128,12 +142,12 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
                 fetchChunk(chunks[index + 1], index + 1);
             }
 
-            // Get current chunk URL (either from queue or fetch now)
+            // Get current chunk URL
             let url = audioQueueRef.current[index];
             if (!url) {
                 setIsLoading(true);
                 url = await fetchChunk(chunks[index], index) as string;
-                if (!url) throw new Error("Could not get audio URL");
+                if (!url) throw new Error(`Could not get audio URL for chunk ${index}`);
             }
 
             const newAudio = new Audio(url);
@@ -152,7 +166,8 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
                 }
             };
 
-            newAudio.onerror = () => {
+            newAudio.onerror = (e) => {
+                console.error(`Audio playback error on chunk ${index}:`, e);
                 playQueue(chunks, index + 1);
             };
 
@@ -164,6 +179,7 @@ export default function LessonNarrator({ text, autoPlay = false }: LessonNarrato
             if (index === 0) {
                 setIsPlaying(false);
                 setIsLoading(false);
+                alert("Erro ao iniciar o narrador. Tente novamente.");
             } else {
                 playQueue(chunks, index + 1);
             }
