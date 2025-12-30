@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 export const dynamic = 'force-dynamic';
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY || "sk_259c1a64b5f7c59c5d6f4b7f27a28a30f8545c35d149ab1e";
-const PRIMARY_VOICE_ID = "pNInz6obpgmqEHC3f716"; // Josh (Deep, charismatic, good for humor)
-const FALLBACK_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"; // Rachel (Standard fallback)
+const PRIMARY_VOICE_ID = "N2lVS1w4EtoT3dr4eOWO"; // Callum (Husky Trickster - perfect for Gojo)
+const FALLBACK_VOICE_ID = "pNInz6obpgDQGcFmaJgB"; // Adam (Dominant, Firm)
 
 export async function POST(req: Request) {
     try {
@@ -29,8 +29,10 @@ export async function POST(req: Request) {
                         text,
                         model_id: "eleven_multilingual_v2",
                         voice_settings: {
-                            stability: 0.4,
+                            stability: 0.45,
                             similarity_boost: 0.8,
+                            style: 0.0,
+                            use_speaker_boost: true
                         },
                     }),
                 }
