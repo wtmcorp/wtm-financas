@@ -121,6 +121,15 @@ async function fetchGoogleNewsRSS() {
                 "text-pink-400 border-pink-500/20 bg-pink-500/10"
             ];
 
+            const unsplashIds = [
+                "1611974765270-ca12586343bb",
+                "1518186285589-2f7649de83e0",
+                "1556740738-b6a63e27c4df",
+                "1518546305927-5a555bb7020d",
+                "1586528116311-ad8dd3c8310d",
+                "1460925895917-afdab827c52f"
+            ];
+
             return {
                 source: item.source,
                 title: item.title,
@@ -128,7 +137,7 @@ async function fetchGoogleNewsRSS() {
                 color: colors[index % colors.length],
                 time: item.pubDate,
                 url: item.link,
-                image: `https://images.unsplash.com/photo-${1611974765270 + index}?q=80&w=800&auto=format&fit=crop`
+                image: `https://images.unsplash.com/photo-${unsplashIds[index % unsplashIds.length]}?q=80&w=800&auto=format&fit=crop`
             };
         });
 

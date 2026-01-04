@@ -116,13 +116,21 @@ export default function NewsFeed() {
                             whileHover={{ y: -8 }}
                             className="group relative bg-[#0f0f13]/60 backdrop-blur-xl border border-white/10 rounded-[2.5rem] overflow-hidden hover:border-primary/50 transition-all duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex flex-col"
                         >
-                            <div className="aspect-[16/9] w-full overflow-hidden relative">
+                            <div className="aspect-[16/9] w-full overflow-hidden relative bg-white/5">
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f13] via-transparent to-transparent z-10 opacity-90" />
                                 <img
                                     src={item.image}
-                                    alt={item.title}
+                                    alt="" // Empty alt to prevent messy text on failure
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                    onError={(e) => {
+                                        (e.target as HTMLImageElement).style.display = 'none';
+                                    }}
                                 />
+                                {/* Placeholder if image fails */}
+                                <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity">
+                                    <Newspaper size={48} className="text-gray-500" />
+                                </div>
+
                                 <div className="absolute top-6 left-6 z-20">
                                     <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border backdrop-blur-xl ${item.color}`}>
                                         {item.tag}
@@ -139,7 +147,7 @@ export default function NewsFeed() {
                                     <span className="text-gray-600">{item.source}</span>
                                 </div>
 
-                                <h3 className="text-lg md:text-xl font-black text-white leading-[1.3] group-hover:text-primary transition-colors line-clamp-2">
+                                <h3 className="text-lg md:text-xl font-black text-white leading-[1.3] group-hover:text-primary transition-colors line-clamp-3">
                                     {item.title}
                                 </h3>
 
