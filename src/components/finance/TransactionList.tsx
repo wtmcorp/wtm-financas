@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useFinance } from '@/contexts/FinanceContext';
-import { Search, Trash2, Edit, TrendingUp, TrendingDown, List, Filter } from 'lucide-react';
+import { Search, Trash2, Edit, TrendingUp, TrendingDown, List, Filter, AlertTriangle, X } from 'lucide-react';
 import TransactionModal from './TransactionModal';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -15,6 +15,8 @@ const TransactionList = ({ limit }: TransactionListProps) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterType, setFilterType] = useState<'all' | 'income' | 'expense'>('all');
     const [editingTransaction, setEditingTransaction] = useState<any>(null);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
 
     const filteredTransactions = transactions
         .filter(t => {
@@ -38,6 +40,13 @@ const TransactionList = ({ limit }: TransactionListProps) => {
             month: 'short',
             year: 'numeric',
         });
+    };
+
+    const handleDelete = (id: string) => {
+        deleteTransaction(id);
+        setDeletingId(null);
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
     };
 
     const filterButtons = [
@@ -136,16 +145,14 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                                     <button
                                         onClick={() => setEditingTransaction(transaction)}
                                         className="p-2 hover:bg-white/10 rounded-lg text-gray-500 hover:text-white transition-colors"
+                                        aria-label="Editar transação"
                                     >
                                         <Edit size={14} />
                                     </button>
                                     <button
-                                        onClick={() => {
-                                            if (confirm('Deseja realmente excluir esta transação?')) {
-                                                deleteTransaction(transaction.id);
-                                            }
-                                        }}
+                                        onClick={() => setDeletingId(transaction.id)}
                                         className="p-2 hover:bg-red-500/10 rounded-lg text-gray-500 hover:text-red-400 transition-colors"
+                                        aria-label="Remover transação"
                                     >
                                         <Trash2 size={14} />
                                     </button>
@@ -156,6 +163,70 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                 </AnimatePresence>
             </div>
 
+            {/* Delete Confirmation Modal */}
+            <AnimatePresence>
+                {deletingId && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
+                        onClick={() => setDeletingId(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-gradient-to-br from-gray-900 to-black border border-red-500/20 rounded-3xl p-8 max-w-md w-full shadow-2xl"
+                        >
+                            <div className="flex items-center justify-center w-16 h-16 bg-red-500/10 rounded-full mx-auto mb-6 border-2 border-red-500/20">
+                                <AlertTriangle className="w-8 h-8 text-red-500" />
+                            </div>
+
+                            <h3 className="text-2xl font-black text-white text-center mb-3">
+                                Remover Transação?
+                            </h3>
+
+                            <p className="text-gray-400 text-center mb-8 text-sm">
+                                Esta ação não pode ser desfeita. A transação será permanentemente removida do seu histórico.
+                            </p>
+
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setDeletingId(null)}
+                                    className="flex-1 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold transition-all border border-white/10"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(deletingId)}
+                                    className="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold transition-all shadow-lg shadow-red-500/20 active:scale-95"
+                                >
+                                    Remover
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Success Toast */}
+            <AnimatePresence>
+                {showToast && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        className="fixed bottom-8 right-8 z-[101] bg-gradient-to-r from-emerald-600 to-emerald-500 text-white px-6 py-4 rounded-2xl shadow-2xl shadow-emerald-500/20 flex items-center gap-3"
+                    >
+                        <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                        <span className="font-bold text-sm">Transação removida com sucesso!</span>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Edit Modal */}
             {editingTransaction && (
                 <TransactionModal
                     isOpen={!!editingTransaction}
