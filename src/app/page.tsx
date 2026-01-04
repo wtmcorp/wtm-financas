@@ -70,9 +70,22 @@ export default function Home() {
                 <div className="absolute -top-24 -left-24 w-64 h-64 bg-violet-600/10 rounded-full blur-[100px] -z-10" />
 
                 <div className="space-y-3">
-                    <div className="flex items-center gap-3 mb-1">
-                        <div className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
-                        <span className="text-[10px] font-black text-violet-400 uppercase tracking-[0.3em]">Intelligence OS • Terminal</span>
+                    <div className="flex items-center gap-4 mb-1">
+                        <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
+                            <span className="text-[10px] font-black text-violet-400 uppercase tracking-[0.3em]">Intelligence OS • Terminal</span>
+                        </div>
+                        <div className="h-4 w-px bg-white/10" />
+                        <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-gray-500">
+                            <div className="flex items-center gap-1.5">
+                                <span className="text-white/40">USD</span>
+                                <span className="text-emerald-400">R$ 5,12</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <span className="text-white/40">BTC</span>
+                                <span className="text-emerald-400">R$ 482K</span>
+                            </div>
+                        </div>
                     </div>
                     <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">
                         {greeting}, <span className="gradient-text from-violet-400 to-indigo-400">{user?.name?.split(" ")[0]}</span>

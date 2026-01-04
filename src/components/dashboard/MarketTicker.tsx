@@ -47,18 +47,17 @@ export default function MarketTicker() {
 
     return (
         <div className="w-full bg-black border-t border-white/10 h-10 flex items-center relative overflow-hidden z-30">
-            {/* Label Pill */}
-            <div className="absolute left-0 z-20 bg-black pr-6 h-full flex items-center">
-                <div className="px-3 py-1 rounded-full border border-white/20 bg-white/[0.03] flex items-center gap-2 ml-4">
+            {/* Label Pill with Gradient Fade */}
+            <div className="absolute left-0 z-20 bg-gradient-to-r from-black via-black/95 to-transparent pr-20 h-full flex items-center">
+                <div className="px-3 py-1 rounded-full border border-white/20 bg-white/[0.03] backdrop-blur-md flex items-center gap-2 ml-4">
                     <div className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-                    <span className="text-[9px] font-bold text-violet-400 tracking-widest uppercase">
+                    <span className="text-[9px] font-black text-violet-400 tracking-widest uppercase">
                         Mercado em tempo real
                     </span>
                 </div>
             </div>
 
-            {/* Gradient Fade for Ticker */}
-            <div className="absolute left-[180px] z-20 w-24 h-full bg-gradient-to-r from-black to-transparent" />
+            {/* Right Gradient Fade */}
             <div className="absolute right-0 z-20 w-24 h-full bg-gradient-to-l from-black to-transparent" />
 
             {/* Scrolling Content */}

@@ -124,6 +124,27 @@ export default function ToolsPage() {
                     </div>
                 </motion.header>
 
+                {/* Featured Tools */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {tools.slice(0, 3).map((tool) => (
+                        <motion.button
+                            key={`featured-${tool.id}`}
+                            whileHover={{ y: -5 }}
+                            onClick={() => setSelectedTool(tool.id)}
+                            className="p-6 rounded-[2rem] bg-gradient-to-br from-violet-600/20 to-blue-600/20 border border-white/10 text-left relative overflow-hidden group"
+                        >
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                                <tool.icon size={60} />
+                            </div>
+                            <div className="relative z-10 space-y-2">
+                                <span className="text-[9px] font-black text-violet-400 uppercase tracking-widest">Destaque</span>
+                                <h3 className="text-xl font-black text-white">{tool.title}</h3>
+                                <p className="text-xs text-gray-400 font-medium">{tool.desc}</p>
+                            </div>
+                        </motion.button>
+                    ))}
+                </div>
+
                 {/* Categories Filter */}
                 <div className="flex gap-2 overflow-x-auto no-scrollbar pb-4">
                     {categories.map((cat) => (
