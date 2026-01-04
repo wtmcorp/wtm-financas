@@ -9,8 +9,7 @@ import {
     Wrench,
     User,
     Zap,
-    LogOut,
-    ChevronRight
+    Settings
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -28,52 +27,46 @@ export default function Sidebar() {
     ];
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-72 bg-black/40 backdrop-blur-xl border-r border-white/5 hidden lg:flex flex-col z-50">
+        <aside className="fixed left-6 top-6 bottom-6 w-72 glass-panel rounded-[2rem] hidden lg:flex flex-col z-50 overflow-hidden">
             {/* Logo Area */}
-            <div className="p-8">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-violet-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/20">
+            <div className="p-8 pb-4">
+                <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(124,58,237,0.4)]">
                         <Zap size={20} className="text-white fill-white" />
                     </div>
-                    <div>
-                        <h1 className="text-lg font-bold text-white tracking-tight leading-none">WTM CORPS</h1>
-                        <p className="text-[10px] text-gray-400 font-medium tracking-widest mt-0.5">INTELLIGENCE OS</p>
-                    </div>
+                    <span className="text-xl font-bold text-white tracking-tight">WTM</span>
                 </div>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 px-4 space-y-2 mt-4">
+            <nav className="flex-1 px-4 space-y-2 mt-8">
                 {menuItems.map((item) => {
                     const isActive = pathname === item.href;
                     return (
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={`group relative flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all duration-300 ${isActive
-                                    ? "bg-white/5 text-white shadow-inner shadow-white/5"
+                            className={`group relative flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 ${isActive
+                                    ? "text-white bg-white/5 border border-white/5 shadow-inner shadow-white/5"
                                     : "text-gray-500 hover:text-white hover:bg-white/[0.02]"
                                 }`}
                         >
                             {isActive && (
                                 <motion.div
                                     layoutId="activeSidebar"
-                                    className="absolute inset-0 bg-gradient-to-r from-violet-500/10 to-transparent rounded-xl border-l-2 border-violet-500"
+                                    className="absolute left-0 w-1 h-8 bg-violet-500 rounded-r-full shadow-[0_0_15px_rgba(124,58,237,0.8)]"
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ duration: 0.3 }}
                                 />
                             )}
                             <item.icon
-                                size={20}
-                                className={`relative z-10 transition-colors duration-300 ${isActive ? "text-violet-400" : "group-hover:text-white"}`}
+                                size={22}
+                                className={`transition-colors duration-300 ${isActive ? "text-violet-400 drop-shadow-[0_0_8px_rgba(167,139,250,0.5)]" : "group-hover:text-white"}`}
                             />
-                            <span className={`relative z-10 text-sm font-medium tracking-wide ${isActive ? "text-white" : ""}`}>
+                            <span className="text-sm font-medium tracking-wide">
                                 {item.label}
                             </span>
-                            {isActive && (
-                                <div className="absolute right-4 w-1.5 h-1.5 rounded-full bg-violet-500 shadow-[0_0_10px_rgba(124,58,237,0.5)]" />
-                            )}
                         </Link>
                     );
                 })}
@@ -81,17 +74,15 @@ export default function Sidebar() {
 
             {/* User Profile */}
             <div className="p-4 mt-auto">
-                <div className="p-4 rounded-2xl bg-gradient-to-b from-white/[0.03] to-transparent border border-white/5 hover:border-white/10 transition-colors group cursor-pointer">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-gray-800 to-gray-900 border border-white/10 flex items-center justify-center text-xs font-bold text-white">
-                            {user?.name?.charAt(0) || "W"}
-                        </div>
-                        <div className="flex-1 overflow-hidden">
-                            <p className="text-sm font-semibold text-white truncate">{user?.name || "Usuário"}</p>
-                            <p className="text-[10px] text-violet-400 font-medium tracking-wider uppercase">Membro Platinum</p>
-                        </div>
-                        <ChevronRight size={16} className="text-gray-600 group-hover:text-white transition-colors" />
+                <div className="flex items-center gap-4 px-4 py-3 rounded-2xl hover:bg-white/5 transition-colors cursor-pointer group border border-transparent hover:border-white/5">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center text-xs font-bold text-white shadow-lg shadow-violet-500/20 ring-2 ring-white/10">
+                        {user?.name?.charAt(0) || "W"}
                     </div>
+                    <div className="flex-1 overflow-hidden">
+                        <p className="text-sm font-bold text-white truncate">{user?.name || "Usuário"}</p>
+                        <p className="text-[10px] text-gray-400 group-hover:text-violet-400 transition-colors uppercase tracking-wider font-medium">Configurações</p>
+                    </div>
+                    <Settings size={18} className="text-gray-600 group-hover:text-white transition-colors" />
                 </div>
             </div>
         </aside>

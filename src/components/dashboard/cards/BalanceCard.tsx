@@ -29,34 +29,34 @@ const BalanceCard = () => {
     return (
         <motion.div
             whileHover={{ y: -4 }}
-            className="glass-card p-6 rounded-3xl relative overflow-hidden group"
+            className="glass-card p-8 rounded-[2rem] relative overflow-hidden group"
         >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-violet-500/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+            {/* Subtle internal glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-            <div className="flex justify-between items-start mb-8">
-                <div className="flex items-center gap-3">
-                    <div className="p-3 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
-                        <Wallet size={20} />
+            <div className="flex justify-between items-start mb-6 relative z-10">
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white shadow-inner shadow-white/5">
+                        <Wallet size={24} />
                     </div>
                     <div>
-                        <p className="text-sm font-medium text-gray-400">Patrimônio Total</p>
-                        <p className="text-xs text-gray-500">Atualizado agora</p>
+                        <p className="text-sm font-medium text-gray-400 tracking-wide">Patrimônio Total</p>
                     </div>
                 </div>
-                <button className="p-2 rounded-full hover:bg-white/5 transition-colors text-gray-500 hover:text-white">
-                    <ArrowUpRight size={18} />
+                <button className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-gray-400 hover:text-white">
+                    <ArrowUpRight size={20} />
                 </button>
             </div>
 
-            <div className="space-y-4">
-                <h3 className="text-4xl font-bold text-white tracking-tight">
+            <div className="space-y-2 relative z-10">
+                <h3 className="text-5xl font-bold text-white tracking-tighter">
                     {formatCurrency(balance)}
                 </h3>
 
-                <div className="flex items-center gap-3">
-                    <div className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold ${isPositive
-                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                        : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                <div className="flex items-center gap-3 pt-2">
+                    <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide ${isPositive
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                        : 'bg-red-500/20 text-red-300 border border-red-500/30'
                         }`}>
                         {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
                         {Math.abs(change).toFixed(1)}%
