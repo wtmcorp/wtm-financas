@@ -1,94 +1,95 @@
 "use client";
 
-import Link from "next/link";
+import { Search, Command, LogOut, LayoutDashboard, CreditCard, Wrench, Sparkles, Trophy, BookOpen } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { User, LogOut, LogIn, Heart, Search } from "lucide-react";
-import MobileMenu from "./MobileMenu";
-import Logo from "./Logo";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import MarketTicker from "../dashboard/MarketTicker";
-import CommandPalette from "../ui/CommandPalette";
 
 export default function Header() {
     const { user, logout } = useAuth();
+    const pathname = usePathname();
+
+    const navLinks = [
+        { label: "Dashboard", href: "/", icon: LayoutDashboard },
+        { label: "Cartões", href: "/cards", icon: CreditCard },
+        { label: "Ferramentas", href: "/tools", icon: Wrench },
+        { label: "I.As Úteis", href: "/ai-tools", icon: Sparkles },
+        { label: "Desafio", href: "/challenge", icon: Trophy },
+        { label: "Aprenda", href: "/learn", icon: BookOpen },
+    ];
 
     return (
-        <header className="fixed top-0 left-0 right-0 glass z-50 border-b border-white/5">
-            <div className="px-4 md:px-6 py-3 md:py-4">
-                <div className="flex justify-between items-center max-w-7xl mx-auto w-full gap-4">
-                    <div className="flex items-center gap-4 md:gap-8">
-                        <Link href="/">
-                            <Logo />
-                        </Link>
-
-                        {/* Desktop Navigation */}
-                        <nav className="hidden lg:flex items-center gap-1 bg-white/5 p-1 rounded-2xl border border-white/5">
-                            {[
-                                { name: "Dashboard", href: "/" },
-                                { name: "Cartões", href: "/cards" },
-                                { name: "Ferramentas", href: "/tools" },
-                                { name: "I.As Úteis", href: "/ai-tools" },
-                                { name: "Desafio", href: "/private" },
-                                { name: "Aprenda", href: "/learn" },
-                            ].map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all"
-                                >
-                                    {item.name}
-                                </Link>
-                            ))}
-                        </nav>
+        <header className="fixed top-0 left-0 right-0 z-50 flex flex-col">
+            {/* Top Bar */}
+            <div className="h-20 bg-black/80 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-8">
+                {/* Logo Section */}
+                <div className="flex items-center gap-3 w-64">
+                    <div className="w-9 h-9 bg-violet-600 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.6)]">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="white" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
                     </div>
+                    <span className="text-xl font-black text-white tracking-tighter">WtmCorps</span>
+                </div>
 
-                    <div className="flex items-center gap-2 md:gap-6">
-                        {/* Command Palette Trigger */}
-                        <CommandPalette />
+                {/* Navigation Links - Centered Pill */}
+                <nav className="hidden xl:flex items-center bg-white/[0.03] border border-white/10 rounded-full px-2 py-1.5">
+                    {navLinks.map((link) => {
+                        const isActive = pathname === link.href;
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 ${isActive
+                                        ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                                        : "text-gray-400 hover:text-white hover:bg-white/5"
+                                    }`}
+                            >
+                                {link.label}
+                            </Link>
+                        );
+                    })}
+                </nav>
 
-                        <div className="hidden md:flex items-center gap-6">
-                            {user ? (
-                                <div className="flex items-center gap-4">
-                                    <Link href="/private" className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-gray-400 hover:text-primary hover:bg-primary/10 transition-all border border-white/5" title="Desafio Privado">
-                                        <Heart size={20} />
-                                    </Link>
-                                    <div className="h-8 w-[1px] bg-white/10" />
-                                    <Link href="/profile" className="flex items-center gap-3 group">
-                                        <div className="text-right hidden sm:block">
-                                            <p className="text-xs font-black text-white leading-none">{user.name.split(" ")[0]}</p>
-                                            <p className="text-[9px] font-bold text-gray-500 uppercase tracking-tighter mt-1">Nível Platinum</p>
-                                        </div>
-                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/40 to-primary/10 flex items-center justify-center text-white font-black border border-primary/20 group-hover:scale-105 transition-transform shadow-lg shadow-primary/10">
-                                            {user.name[0]}
-                                        </div>
-                                    </Link>
-                                    <button
-                                        onClick={() => logout()}
-                                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-gray-400 hover:bg-red-500/10 hover:text-red-400 transition-all border border-white/5"
-                                        title="Sair"
-                                    >
-                                        <LogOut size={18} />
-                                    </button>
-                                </div>
-                            ) : (
-                                <Link
-                                    href="/login"
-                                    className="px-6 py-2.5 bg-white text-black rounded-xl text-sm font-black hover:bg-primary transition-all active:scale-95 shadow-lg shadow-white/10"
-                                >
-                                    ENTRAR
-                                </Link>
-                            )}
+                {/* Right Section - Search & Auth */}
+                <div className="flex items-center gap-4 w-64 justify-end">
+                    {/* Search Bar */}
+                    <div className="hidden md:flex items-center bg-white/[0.03] border border-white/10 rounded-xl px-3 py-2 w-48 group focus-within:border-violet-500/50 focus-within:bg-black transition-all">
+                        <Search className="text-gray-500 group-focus-within:text-violet-400 transition-colors" size={14} />
+                        <input
+                            type="text"
+                            placeholder="BUSCAR..."
+                            className="w-full bg-transparent border-none outline-none text-[10px] font-bold text-white placeholder:text-gray-600 ml-2 uppercase tracking-wider"
+                        />
+                        <div className="flex items-center gap-0.5 px-1.5 py-0.5 bg-white/5 rounded border border-white/5">
+                            <Command size={8} className="text-gray-500" />
+                            <span className="text-[8px] font-bold text-gray-500">K</span>
                         </div>
-                        <MobileMenu />
                     </div>
+
+                    {/* Auth Button */}
+                    {user ? (
+                        <button
+                            onClick={logout}
+                            className="h-10 px-6 rounded-xl bg-white text-black text-xs font-black uppercase tracking-wider hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center gap-2"
+                        >
+                            <span>Sair</span>
+                            <LogOut size={14} />
+                        </button>
+                    ) : (
+                        <Link
+                            href="/login"
+                            className="h-10 px-6 rounded-xl bg-white text-black text-xs font-black uppercase tracking-wider hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center justify-center"
+                        >
+                            Entrar
+                        </Link>
+                    )}
                 </div>
             </div>
 
-            {/* Real-time Market Ticker Bar - Slimmer & Cleaner */}
-            <div className="border-t border-white/5 bg-black/40 px-4 md:px-6 backdrop-blur-md">
-                <div className="max-w-7xl mx-auto">
-                    <MarketTicker />
-                </div>
-            </div>
+            {/* Market Ticker Bar */}
+            <MarketTicker />
         </header>
     );
 }

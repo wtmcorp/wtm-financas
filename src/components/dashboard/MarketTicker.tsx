@@ -1,94 +1,61 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { TrendingUp, TrendingDown, Loader2, Globe } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { TrendingUp, TrendingDown } from "lucide-react";
+
+const tickerItems = [
+    { label: "DÓLAR", value: "R$ 5,42", change: "-1.722078%", trend: "down" },
+    { label: "EURO", value: "R$ 6,41", change: "+0.894445%", trend: "up" },
+    { label: "BITCOIN", value: "R$ 497.025", change: "+0.98%", trend: "up" },
+    { label: "ETHEREUM", value: "R$ 17.106", change: "+0.746%", trend: "up" },
+    { label: "SOLANA", value: "R$ 730", change: "+1.094%", trend: "up" },
+];
 
 export default function MarketTicker() {
-    const [data, setData] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchMarket = async () => {
-            try {
-                const res = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL,ETH-BRL,SOL-BRL");
-                const json = await res.json();
-                if (json && !json.status) {
-                    setData(json);
-                }
-            } catch (error) {
-                console.error("Error fetching market data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchMarket();
-        const interval = setInterval(fetchMarket, 10000); // Updated to 10s for real-time feel
-        return () => clearInterval(interval);
-    }, []);
-
-    if (loading) return (
-        <div className="flex items-center gap-3 text-[10px] font-black text-primary/50 uppercase tracking-[0.2em] h-10">
-            <Loader2 size={12} className="animate-spin" />
-            Sincronizando Mercados...
-        </div>
-    );
-
-    if (!data) return null;
-
-    const items = [
-        { label: "Dólar", key: "USDBRL", icon: "🇺🇸" },
-        { label: "Euro", key: "EURBRL", icon: "🇪🇺" },
-        { label: "Bitcoin", key: "BTCBRL", icon: "₿" },
-        { label: "Ethereum", key: "ETHBRL", icon: "Ξ" },
-        { label: "Solana", key: "SOLBRL", icon: "S" },
-    ];
-
     return (
-        <div className="flex items-center gap-8 overflow-x-auto no-scrollbar py-2 h-10">
-            <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full border border-primary/20 shrink-0">
-                <div className="w-1.5 h-1.5 bg-primary rounded-full animate-ping" />
-                <span className="text-[9px] font-black text-primary uppercase tracking-widest">Mercado em Tempo Real</span>
+        <div className="w-full bg-black border-t border-white/10 h-10 flex items-center relative overflow-hidden z-30">
+            {/* Label Pill */}
+            <div className="absolute left-0 z-20 bg-black pr-6 h-full flex items-center">
+                <div className="px-3 py-1 rounded-full border border-white/20 bg-white/[0.03] flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
+                    <span className="text-[9px] font-bold text-violet-400 tracking-widest uppercase">
+                        Mercado em tempo real
+                    </span>
+                </div>
             </div>
 
-            <AnimatePresence mode="wait">
-                <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-8"
-                >
-                    {items.map((item) => {
-                        const market = data[item.key];
-                        if (!market) return null;
+            {/* Gradient Fade for Ticker */}
+            <div className="absolute left-[180px] z-20 w-24 h-full bg-gradient-to-r from-black to-transparent" />
+            <div className="absolute right-0 z-20 w-24 h-full bg-gradient-to-l from-black to-transparent" />
 
-                        const pct = parseFloat(market.pctChange || "0");
-                        const isUp = pct >= 0;
-
-                        return (
-                            <div key={item.key} className="flex items-center gap-3 whitespace-nowrap group cursor-default">
-                                <div className="flex flex-col">
-                                    <span className="text-[9px] font-black text-gray-500 uppercase tracking-tighter group-hover:text-gray-300 transition-colors">
-                                        {item.label}
-                                    </span>
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-sm font-black text-white tracking-tight">
-                                            R$ {parseFloat(market.bid || "0").toLocaleString('pt-BR', {
-                                                minimumFractionDigits: item.key.includes('BTC') || item.key.includes('ETH') || item.key.includes('SOL') ? 0 : 2,
-                                                maximumFractionDigits: item.key.includes('BTC') || item.key.includes('ETH') || item.key.includes('SOL') ? 0 : 2
-                                            })}
-                                        </span>
-                                        <span className={`flex items-center text-[10px] font-black px-1.5 py-0.5 rounded-md ${isUp ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"
-                                            }`}>
-                                            {isUp ? <TrendingUp size={10} className="mr-1" /> : <TrendingDown size={10} className="mr-1" />}
-                                            {isUp ? "+" : ""}{pct}%
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </motion.div>
-            </AnimatePresence>
+            {/* Scrolling Content */}
+            <motion.div
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{
+                    duration: 30,
+                    repeat: Infinity,
+                    ease: "linear"
+                }}
+                className="flex items-center gap-16 whitespace-nowrap pl-[220px]"
+            >
+                {[...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                        <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">
+                            {item.label}
+                        </span>
+                        <span className="text-xs font-black text-white tracking-tight">
+                            {item.value}
+                        </span>
+                        <div className={`px-1.5 py-0.5 rounded flex items-center gap-1 text-[9px] font-bold ${item.trend === 'up'
+                                ? 'bg-emerald-500/10 text-emerald-500'
+                                : 'bg-red-500/10 text-red-500'
+                            }`}>
+                            {item.trend === 'up' ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
+                            {item.change}
+                        </div>
+                    </div>
+                ))}
+            </motion.div>
         </div>
     );
 }
