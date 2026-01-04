@@ -66,23 +66,29 @@ export default function Home() {
             className="min-h-screen pb-32 px-6 lg:px-10 py-8 max-w-[1920px] mx-auto"
         >
             {/* Header Section */}
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-                <div className="space-y-2">
-                    <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-                        {greeting}, <span className="text-violet-400">{user?.name?.split(" ")[0]}</span>
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-16 relative">
+                <div className="absolute -top-24 -left-24 w-64 h-64 bg-violet-600/10 rounded-full blur-[100px] -z-10" />
+
+                <div className="space-y-3">
+                    <div className="flex items-center gap-3 mb-1">
+                        <div className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
+                        <span className="text-[10px] font-black text-violet-400 uppercase tracking-[0.3em]">Intelligence OS • Terminal</span>
+                    </div>
+                    <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">
+                        {greeting}, <span className="gradient-text from-violet-400 to-indigo-400">{user?.name?.split(" ")[0]}</span>
                     </h1>
-                    <p className="text-gray-400 text-sm md:text-base max-w-2xl">
-                        Sua saúde financeira está estável. Você tem <span className="text-white font-semibold">3 novas recomendações</span> da I.A.
+                    <p className="text-gray-400 text-sm md:text-lg max-w-2xl font-medium leading-relaxed">
+                        Sua saúde financeira está <span className="text-emerald-400 font-bold">estável</span>. Você tem <span className="text-white font-bold underline decoration-violet-500/50 underline-offset-4 cursor-pointer hover:text-violet-400 transition-colors">3 novas recomendações</span> da I.A.
                     </p>
                 </div>
 
-                <div className="flex items-center gap-3">
-                    <button className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-sm font-medium text-white transition-colors flex items-center gap-2">
-                        <Filter size={16} className="text-gray-400" />
-                        Filtrar
+                <div className="flex items-center gap-4">
+                    <button className="group px-6 py-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 text-[11px] font-black text-white uppercase tracking-widest transition-all flex items-center gap-3">
+                        <Filter size={14} className="text-gray-500 group-hover:text-white transition-colors" />
+                        Filtrar Dados
                     </button>
-                    <button className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-sm font-medium text-white transition-colors shadow-lg shadow-violet-500/20 flex items-center gap-2">
-                        <PlusCircle size={16} />
+                    <button className="group px-6 py-3 rounded-2xl bg-violet-600 hover:bg-violet-500 text-[11px] font-black text-white uppercase tracking-widest transition-all shadow-lg shadow-violet-500/20 flex items-center gap-3 active:scale-95">
+                        <PlusCircle size={14} />
                         Nova Transação
                     </button>
                 </div>

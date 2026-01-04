@@ -62,44 +62,47 @@ export default function MarketTicker() {
             <div className="absolute right-0 z-20 w-24 h-full bg-gradient-to-l from-black to-transparent" />
 
             {/* Scrolling Content */}
-            <motion.div
-                animate={{ x: ["0%", "-50%"] }}
-                transition={{
-                    duration: 60,
-                    repeat: Infinity,
-                    ease: "linear"
-                }}
-                className="flex items-center gap-16 whitespace-nowrap pl-[220px]"
-            >
-                {[...items, ...items, ...items, ...items].map((item, i) => {
-                    const market = data?.[item.key];
-                    if (!market) return null;
+            <div className="flex-1 overflow-hidden h-full flex items-center ml-[180px]">
+                <motion.div
+                    animate={{ x: ["0%", "-50%"] }}
+                    transition={{
+                        duration: 120, // Slower
+                        repeat: Infinity,
+                        ease: "linear"
+                    }}
+                    className="flex items-center gap-16 whitespace-nowrap"
+                >
+                    {/* Quadruple the items for seamless loop on any screen size */}
+                    {[...items, ...items, ...items, ...items].map((item, i) => {
+                        const market = data?.[item.key];
+                        if (!market) return null;
 
-                    const pct = parseFloat(market.pctChange || "0");
-                    const isUp = pct >= 0;
+                        const pct = parseFloat(market.pctChange || "0");
+                        const isUp = pct >= 0;
 
-                    return (
-                        <div key={i} className="flex items-center gap-3">
-                            <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">
-                                {item.symbol}
-                            </span>
-                            <span className="text-xs font-black text-white tracking-tight">
-                                R$ {parseFloat(market.bid || "0").toLocaleString('pt-BR', {
-                                    minimumFractionDigits: item.key.includes('BTC') || item.key.includes('ETH') || item.key.includes('SOL') ? 0 : 2,
-                                    maximumFractionDigits: item.key.includes('BTC') || item.key.includes('ETH') || item.key.includes('SOL') ? 0 : 2
-                                })}
-                            </span>
-                            <div className={`px-1.5 py-0.5 rounded flex items-center gap-1 text-[9px] font-bold ${isUp
-                                ? 'bg-emerald-500/10 text-emerald-500'
-                                : 'bg-red-500/10 text-red-500'
-                                }`}>
-                                {isUp ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
-                                {isUp ? "+" : ""}{pct}%
+                        return (
+                            <div key={i} className="flex items-center gap-3">
+                                <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">
+                                    {item.symbol}
+                                </span>
+                                <span className="text-xs font-black text-white tracking-tight">
+                                    R$ {parseFloat(market.bid || "0").toLocaleString('pt-BR', {
+                                        minimumFractionDigits: item.key.includes('BTC') || item.key.includes('ETH') || item.key.includes('SOL') ? 0 : 2,
+                                        maximumFractionDigits: item.key.includes('BTC') || item.key.includes('ETH') || item.key.includes('SOL') ? 0 : 2
+                                    })}
+                                </span>
+                                <div className={`px-1.5 py-0.5 rounded flex items-center gap-1 text-[9px] font-bold ${isUp
+                                    ? 'bg-emerald-500/10 text-emerald-500'
+                                    : 'bg-red-500/10 text-red-500'
+                                    }`}>
+                                    {isUp ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
+                                    {isUp ? "+" : ""}{pct}%
+                                </div>
                             </div>
-                        </div>
-                    );
-                })}
-            </motion.div>
+                        );
+                    })}
+                </motion.div>
+            </div>
         </div>
     );
 }

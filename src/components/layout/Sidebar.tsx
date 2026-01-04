@@ -28,12 +28,16 @@ export default function Sidebar() {
     return (
         <aside className="fixed left-6 top-6 bottom-6 w-72 glass-panel rounded-[2rem] hidden lg:flex flex-col z-50 overflow-hidden">
             {/* Logo Area */}
-            <div className="p-8 pb-4">
+            <div className="p-10 pb-6">
                 <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(124,58,237,0.4)]">
-                        <TrendingUp size={20} className="text-white" />
+                    <div className="w-12 h-12 bg-violet-600 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(124,58,237,0.4)] relative group/logo">
+                        <div className="absolute inset-0 bg-white/20 rounded-2xl opacity-0 group-hover/logo:opacity-100 transition-opacity" />
+                        <TrendingUp size={24} className="text-white relative z-10" />
                     </div>
-                    <span className="text-xl font-bold text-white tracking-tight">WTM</span>
+                    <div>
+                        <span className="text-2xl font-black text-white tracking-tighter block leading-none">WTM</span>
+                        <span className="text-[10px] font-black text-violet-500 uppercase tracking-[0.2em]">Corps OS</span>
+                    </div>
                 </div>
             </div>
 

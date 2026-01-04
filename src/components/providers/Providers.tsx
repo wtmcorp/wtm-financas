@@ -25,20 +25,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 }} />
 
                 <WelcomeModal />
-                <MouseTracker />
-                <Header />
-
-                <main className="pb-20 pt-20 md:pt-32 flex-1">
-                    {children}
-                </main>
-
-                <Footer />
-
-                <ChatBubble />
-                <WhatsAppButton />
-                <BugReportButton />
-
-                <BottomNav />
+                {children}
             </FinanceProvider>
         </AuthProvider>
     );
