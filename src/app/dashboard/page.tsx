@@ -3,7 +3,7 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { User, Wallet, TrendingUp, Calendar, Info } from "lucide-react";
+import { User, Wallet, TrendingUp, Calendar, Info, Home, Zap } from "lucide-react";
 import { Tooltip } from "@/components/ui/Tooltip";
 import NewsSection from "@/components/dashboard/NewsSection";
 import GoalsWidget from "@/components/dashboard/GoalsWidget";

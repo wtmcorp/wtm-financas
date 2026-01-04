@@ -10,7 +10,7 @@ import NetWorthChart from "@/components/dashboard/charts/NetWorthChart";
 import QuickActions from "@/components/dashboard/QuickActions";
 import NewsSection from "@/components/dashboard/NewsSection";
 import TransactionList from "@/components/finance/TransactionList";
-import { TrendingUp, Sparkles, Sun, Moon, Cloud, Zap, Crown, ArrowUpRight } from "lucide-react";
+import { TrendingUp, Sparkles, Sun, Moon, Cloud, Zap, Crown, ArrowUpRight, PieChart } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 

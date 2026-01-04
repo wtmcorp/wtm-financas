@@ -5,3 +5,10 @@ setup.*
 .DS_Store
 node_modules
 .env.local
+
+# ffmpeg and frames
+ffmpeg_temp/
+frame_*.jpg
+ffmpeg.zip
+background_music.mp3
+wtm-financas-deploy.zip
