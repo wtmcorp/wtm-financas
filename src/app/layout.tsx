@@ -5,6 +5,8 @@ import MouseTracker from "@/components/ui/MouseTracker";
 import PremiumNotifications from "@/components/ui/PremiumNotifications";
 import BottomNav from "@/components/layout/BottomNav";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import AuthGuard from "@/components/auth/AuthGuard";
+import Sidebar from "@/components/layout/Sidebar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -22,11 +24,16 @@ export default function RootLayout({
         <html lang="pt-BR">
             <body className={`${inter.className} bg-black text-white antialiased overflow-x-hidden`}>
                 <Providers>
-                    <MouseTracker />
-                    <PremiumNotifications />
-                    {children}
-                    <BottomNav />
-                    <ScrollToTop />
+                    <AuthGuard>
+                        <Sidebar />
+                        <div className="lg:pl-80 min-h-screen transition-all duration-500">
+                            <MouseTracker />
+                            <PremiumNotifications />
+                            {children}
+                            <BottomNav />
+                            <ScrollToTop />
+                        </div>
+                    </AuthGuard>
                 </Providers>
             </body>
         </html>

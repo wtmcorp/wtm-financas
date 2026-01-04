@@ -82,6 +82,21 @@ export default function HealthScore() {
                     {status.description}
                 </p>
 
+                <div className="pt-6 border-t border-white/5 space-y-4">
+                    <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-500">
+                        <span>Liberdade Financeira</span>
+                        <span className="text-primary">42%</span>
+                    </div>
+                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                        <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: "42%" }}
+                            transition={{ duration: 2, delay: 1 }}
+                            className="h-full bg-gradient-to-r from-primary to-purple-500"
+                        />
+                    </div>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 bg-white/[0.02] rounded-2xl border border-white/5 group-hover:border-white/10 transition-all">
                         <p className="text-[9px] text-gray-600 uppercase font-black tracking-widest mb-2">Reserva</p>
