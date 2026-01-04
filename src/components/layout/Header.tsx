@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MarketTicker from "../dashboard/MarketTicker";
-import InteractiveLogo from "@/components/ui/InteractiveLogo";
+import Logo from "@/components/ui/Logo";
 
 export default function Header() {
     const { user, logout } = useAuth();
@@ -27,9 +27,8 @@ export default function Header() {
 
 
                 {/* Logo Section */}
-                <div className="flex items-center gap-3 w-64">
-                    <InteractiveLogo />
-                    <span className="text-xl font-black text-white tracking-tighter">WtmCorps</span>
+                <div className="flex items-center w-64">
+                    <Logo size="sm" />
                 </div>
 
                 {/* Navigation Links - Centered Pill */}

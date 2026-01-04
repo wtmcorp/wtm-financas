@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Mail, Lock, User, Phone, Sparkles, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, Lock, User, Phone, ArrowRight, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+import Logo from "@/components/ui/Logo";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -70,12 +71,9 @@ export default function RegisterPage() {
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ delay: 0.2, duration: 0.5 }}
-                        className="flex items-center justify-center gap-3 mb-6"
+                        className="flex justify-center mb-6"
                     >
-                        <div className="w-12 h-12 bg-violet-600 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(124,58,237,0.4)]">
-                            <Sparkles className="text-white" size={24} />
-                        </div>
-                        <h1 className="text-3xl font-black text-white tracking-tighter uppercase">Wtm Corps</h1>
+                        <Logo size="lg" />
                     </motion.div>
                     <h2 className="text-4xl font-black text-white mb-3 tracking-tight">Criar nova conta</h2>
                     <p className="text-gray-400 font-medium">Inicie sua jornada na elite financeira</p>
