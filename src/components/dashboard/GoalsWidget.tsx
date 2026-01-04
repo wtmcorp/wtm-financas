@@ -51,8 +51,8 @@ export default function GoalsWidget() {
                         <Target size={24} />
                     </div>
                     <div>
-                        <h3 className="text-xl font-black text-white tracking-tight">Financial Goals</h3>
-                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Strategic Planning</p>
+                        <h3 className="text-xl font-black text-white tracking-tight">Metas Financeiras</h3>
+                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Planejamento Estratégico</p>
                     </div>
                 </div>
                 <button
@@ -182,7 +182,7 @@ export default function GoalsWidget() {
             <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between relative z-10">
                 <div className="flex items-center gap-2">
                     <TrendingUp size={14} className="text-green-500" />
-                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">On Track</span>
+                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">No Caminho</span>
                 </div>
                 <button className="text-[10px] font-black text-primary uppercase tracking-widest hover:text-white transition-colors">
                     Ver Todas as Metas

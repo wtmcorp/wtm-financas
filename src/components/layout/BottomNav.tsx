@@ -2,16 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, CreditCard, TrendingUp, AlertTriangle, Wrench, User, Heart } from "lucide-react";
+import { Home, CreditCard, TrendingUp, AlertTriangle, Wrench, User, Heart, BookOpen, LayoutDashboard } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function BottomNav() {
     const pathname = usePathname();
 
     const navItems = [
-        { href: "/", icon: Home, label: "Home" },
+        { href: "/", icon: LayoutDashboard, label: "Painel" },
         { href: "/invest", icon: TrendingUp, label: "Investir" },
-        { href: "/learn", icon: Heart, label: "Aprender" },
+        { href: "/learn", icon: BookOpen, label: "Aprender" },
         { href: "/tools", icon: Wrench, label: "Ferramentas" },
         { href: "/profile", icon: User, label: "Perfil" },
     ];

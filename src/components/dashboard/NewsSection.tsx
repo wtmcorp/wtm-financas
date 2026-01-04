@@ -69,8 +69,8 @@ const NewsSection = () => {
                         <Globe size={28} />
                     </div>
                     <div>
-                        <h3 className="text-xl font-black text-white tracking-tight">Market Pulse</h3>
-                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Global Financial News</p>
+                        <h3 className="text-xl font-black text-white tracking-tight">Pulso do Mercado</h3>
+                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Notícias Financeiras Globais</p>
                     </div>
                 </div>
                 <div className="flex flex-col items-end">

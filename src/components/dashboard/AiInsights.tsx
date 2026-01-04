@@ -48,8 +48,8 @@ export default function AiInsights() {
                         <Sparkles size={28} />
                     </div>
                     <div>
-                        <h3 className="text-xl font-black text-white tracking-tight">AI Insights</h3>
-                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Cognitive Financial Analysis</p>
+                        <h3 className="text-xl font-black text-white tracking-tight">Insights de IA</h3>
+                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Análise Financeira Cognitiva</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">

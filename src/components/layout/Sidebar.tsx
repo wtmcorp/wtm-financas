@@ -8,13 +8,12 @@ import {
     Heart,
     Wrench,
     User,
-    Settings,
     LogOut,
     Zap,
-    Crown,
-    LayoutGrid,
-    PieChart,
-    ShieldCheck
+    ShieldCheck,
+    LayoutDashboard,
+    BookOpen,
+    Settings
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -24,19 +23,19 @@ export default function Sidebar() {
     const { logout, user } = useAuth();
 
     const menuItems = [
-        { href: "/", icon: Home, label: "Dashboard", desc: "Command Center" },
-        { href: "/invest", icon: TrendingUp, label: "Investimentos", desc: "Wealth Engine" },
-        { href: "/learn", icon: Heart, label: "Academy", desc: "Knowledge Hub" },
-        { href: "/tools", icon: Wrench, label: "Ferramentas", desc: "Utility Suite" },
-        { href: "/profile", icon: User, label: "Perfil", desc: "Identity" },
+        { href: "/", icon: LayoutDashboard, label: "Dashboard", desc: "Centro de Comando" },
+        { href: "/invest", icon: TrendingUp, label: "Investimentos", desc: "Motor de Riqueza" },
+        { href: "/learn", icon: BookOpen, label: "Academy", desc: "Portal de Conhecimento" },
+        { href: "/tools", icon: Wrench, label: "Ferramentas", desc: "Suíte de Utilidades" },
+        { href: "/profile", icon: User, label: "Perfil", desc: "Identidade" },
     ];
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-80 bg-[#0a0a0c] border-r border-white/5 hidden lg:flex flex-col p-8 z-50">
+        <aside className="fixed left-0 top-0 h-screen w-80 bg-[#08080a] border-r border-white/5 hidden lg:flex flex-col p-8 z-50">
             {/* Logo Area */}
             <div className="flex items-center gap-4 mb-16 px-4">
-                <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(167,139,250,0.3)]">
-                    <Zap size={24} className="text-black fill-black" />
+                <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(167,139,250,0.3)] group cursor-pointer">
+                    <Zap size={24} className="text-black fill-black group-hover:scale-110 transition-transform" />
                 </div>
                 <div>
                     <h1 className="text-xl font-black text-white tracking-tighter">WTM CORPS</h1>
@@ -45,7 +44,7 @@ export default function Sidebar() {
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 space-y-2">
+            <nav className="flex-1 space-y-3">
                 {menuItems.map((item) => {
                     const isActive = pathname === item.href;
                     return (
@@ -53,8 +52,8 @@ export default function Sidebar() {
                             key={item.href}
                             href={item.href}
                             className={`group relative flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-500 ${isActive
-                                    ? "bg-primary/10 text-primary border border-primary/20"
-                                    : "text-gray-500 hover:text-white hover:bg-white/5 border border-transparent"
+                                ? "bg-primary/10 text-primary border border-primary/20"
+                                : "text-gray-500 hover:text-white hover:bg-white/5 border border-transparent"
                                 }`}
                         >
                             {isActive && (
@@ -77,7 +76,7 @@ export default function Sidebar() {
 
             {/* User Profile Mini Card */}
             <div className="mt-auto pt-8 border-t border-white/5">
-                <div className="p-6 bg-white/[0.02] rounded-[2rem] border border-white/5 mb-6 group hover:border-primary/30 transition-all">
+                <div className="p-6 bg-white/[0.02] rounded-[2rem] border border-white/5 mb-6 group hover:border-primary/30 transition-all cursor-pointer" onClick={() => window.location.href = '/profile'}>
                     <div className="flex items-center gap-4 mb-4">
                         <div className="w-10 h-10 bg-gradient-to-br from-primary to-purple-600 rounded-xl flex items-center justify-center text-white font-black text-sm">
                             {user?.name?.charAt(0)}
@@ -86,7 +85,7 @@ export default function Sidebar() {
                             <span className="text-xs font-black text-white truncate">{user?.name}</span>
                             <div className="flex items-center gap-1">
                                 <ShieldCheck size={10} className="text-primary" />
-                                <span className="text-[8px] font-black text-primary uppercase tracking-widest">Platinum</span>
+                                <span className="text-[8px] font-black text-primary uppercase tracking-widest">Membro Platinum</span>
                             </div>
                         </div>
                     </div>
@@ -98,7 +97,7 @@ export default function Sidebar() {
                         />
                     </div>
                     <div className="flex justify-between mt-2">
-                        <span className="text-[8px] font-black text-gray-600 uppercase">Level 5</span>
+                        <span className="text-[8px] font-black text-gray-600 uppercase">Nível 5</span>
                         <span className="text-[8px] font-black text-gray-600 uppercase">85% XP</span>
                     </div>
                 </div>

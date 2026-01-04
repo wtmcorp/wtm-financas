@@ -43,7 +43,7 @@ export default function DailyTip() {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="card-premium p-8 relative overflow-hidden group"
+            className="card-premium p-8 relative overflow-hidden group h-full flex flex-col justify-between"
         >
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Lightbulb size={100} className="text-primary" />
@@ -68,11 +68,11 @@ export default function DailyTip() {
                         {tip.content}
                     </p>
                 </div>
-
-                <button className="flex items-center gap-2 text-[10px] font-black text-primary hover:text-white uppercase tracking-widest transition-all group/btn">
-                    Saber mais <ArrowRight size={12} className="group-hover/btn:translate-x-1 transition-transform" />
-                </button>
             </div>
+
+            <button className="relative z-10 flex items-center gap-2 text-[10px] font-black text-primary hover:text-white uppercase tracking-widest transition-all group/btn mt-6">
+                Saber mais <ArrowRight size={12} className="group-hover/btn:translate-x-1 transition-transform" />
+            </button>
         </motion.div>
     );
 }

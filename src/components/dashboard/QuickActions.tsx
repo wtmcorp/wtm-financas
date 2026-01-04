@@ -72,7 +72,7 @@ const QuickActions = () => {
                 whileHover={{ y: -5 }}
                 className="relative group h-full"
             >
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-[2.5rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-[2.5rem] blur-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-1000"></div>
 
                 <div className="relative card-premium p-10 h-full flex flex-col border border-white/5 group-hover:border-primary/20 transition-all duration-500 overflow-hidden">
                     {/* Background Glow */}
@@ -84,13 +84,13 @@ const QuickActions = () => {
                                 <Zap size={28} />
                             </div>
                             <div>
-                                <h3 className="text-xl font-black text-white tracking-tight">Quick Actions</h3>
-                                <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Operational Control</p>
+                                <h3 className="text-xl font-black text-white tracking-tight">Ações Rápidas</h3>
+                                <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Controle Operacional</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
                             <LayoutGrid size={12} className="text-gray-500" />
-                            <span className="text-[9px] font-black text-white uppercase tracking-widest">Grid</span>
+                            <span className="text-[9px] font-black text-white uppercase tracking-widest">Painel</span>
                         </div>
                     </div>
 

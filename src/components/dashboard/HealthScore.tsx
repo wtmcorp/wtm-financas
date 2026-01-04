@@ -27,9 +27,9 @@ export default function HealthScore() {
                 <div>
                     <h3 className="text-xl font-black text-white tracking-tight flex items-center gap-2">
                         <Shield className="text-primary" size={20} />
-                        Financial Health
+                        Saúde Financeira
                     </h3>
-                    <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Real-time Diagnostic</p>
+                    <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Diagnóstico em Tempo Real</p>
                 </div>
                 <div className={`px-4 py-1.5 rounded-full ${status.bg} ${status.color} text-[9px] font-black uppercase tracking-[0.2em] border border-current/20 backdrop-blur-md`}>
                     {status.label}

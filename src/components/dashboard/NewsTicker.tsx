@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TrendingUp, TrendingDown, Zap } from "lucide-react";
+import { TrendingUp, TrendingDown, Zap, Activity } from "lucide-react";
 
 const tickerItems = [
     { label: "IBOV", value: "128.450", change: "+1.2%", trend: "up" },
@@ -16,39 +16,49 @@ const tickerItems = [
 
 export default function NewsTicker() {
     return (
-        <div className="w-full bg-[#0a0a0c]/80 backdrop-blur-md border-y border-white/5 py-3 overflow-hidden relative">
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#0a0a0c] to-transparent z-10" />
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#0a0a0c] to-transparent z-10" />
+        <div className="w-full bg-[#050505] border-b border-white/5 py-3 overflow-hidden relative flex items-center">
+            <div className="flex items-center gap-3 px-6 border-r border-white/10 bg-[#050505] z-20 relative">
+                <div className="flex items-center gap-2 px-2 py-1 bg-red-500/10 rounded-md border border-red-500/20">
+                    <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                    <span className="text-[9px] font-black text-red-500 uppercase tracking-widest">Ao Vivo</span>
+                </div>
+                <span className="text-[9px] font-black text-gray-500 uppercase tracking-[0.2em] whitespace-nowrap">Mercado Financeiro</span>
+            </div>
 
-            <motion.div
-                animate={{ x: [0, -1000] }}
-                transition={{
-                    duration: 30,
-                    repeat: Infinity,
-                    ease: "linear"
-                }}
-                className="flex items-center gap-12 whitespace-nowrap px-12"
-            >
-                {[...tickerItems, ...tickerItems].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 group cursor-default">
-                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest group-hover:text-white transition-colors">
-                            {item.label}
-                        </span>
-                        <span className="text-sm font-black text-white tracking-tighter">
-                            {item.value}
-                        </span>
-                        <div className={`flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-black ${item.trend === 'up' ? 'bg-green-500/10 text-green-400' :
+            <div className="flex-1 overflow-hidden relative">
+                <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#050505] to-transparent z-10" />
+                <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#050505] to-transparent z-10" />
+
+                <motion.div
+                    animate={{ x: [0, -1000] }}
+                    transition={{
+                        duration: 30,
+                        repeat: Infinity,
+                        ease: "linear"
+                    }}
+                    className="flex items-center gap-12 whitespace-nowrap px-12"
+                >
+                    {[...tickerItems, ...tickerItems].map((item, i) => (
+                        <div key={i} className="flex items-center gap-3 group cursor-default">
+                            <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest group-hover:text-white transition-colors">
+                                {item.label}
+                            </span>
+                            <span className="text-sm font-black text-white tracking-tighter">
+                                {item.value}
+                            </span>
+                            <div className={`flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-black ${item.trend === 'up' ? 'bg-green-500/10 text-green-400' :
                                 item.trend === 'down' ? 'bg-red-500/10 text-red-400' :
                                     'bg-white/5 text-gray-500'
-                            }`}>
-                            {item.trend === 'up' ? <TrendingUp size={10} /> :
-                                item.trend === 'down' ? <TrendingDown size={10} /> :
-                                    <Zap size={10} />}
-                            {item.change}
+                                }`}>
+                                {item.trend === 'up' ? <TrendingUp size={10} /> :
+                                    item.trend === 'down' ? <TrendingDown size={10} /> :
+                                        <Zap size={10} />}
+                                {item.change}
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </motion.div>
+                    ))}
+                </motion.div>
+            </div>
         </div>
     );
 }
