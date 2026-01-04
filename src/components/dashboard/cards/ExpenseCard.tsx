@@ -21,46 +21,42 @@ const ExpenseCard = () => {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="card-premium p-8 group relative overflow-hidden border border-white/5 hover:border-red-500/20 transition-all duration-500"
+            className="card-premium p-10 group relative overflow-hidden border border-white/5 hover:border-red-500/30 transition-all duration-500"
         >
-            {/* Animated Background Elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:bg-red-500/20 transition-all duration-700" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:bg-red-500/10 transition-all duration-700" />
 
-            <div className="flex justify-between items-start mb-10 relative z-10">
-                <div className="space-y-4">
+            <div className="flex justify-between items-start mb-12 relative z-10">
+                <div className="space-y-6">
                     <div className="flex items-center gap-3">
-                        <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${isOverBudget ? 'bg-red-500' : 'bg-orange-500'}`} />
-                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Gastos do Mês</p>
+                        <div className={`w-2 h-2 rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,1)] ${isOverBudget ? 'bg-red-500' : 'bg-orange-500'}`} />
+                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em]">GASTOS DO MÊS</p>
                     </div>
-                    <div className="space-y-1">
-                        <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter">
+                    <div className="space-y-2">
+                        <h3 className="text-5xl font-black text-white tracking-tighter leading-none">
                             {formatCurrency(expenses)}
                         </h3>
-                        <div className="flex items-center gap-2">
-                            <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-md border ${isOverBudget
+                        <div className="flex items-center gap-3">
+                            <span className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-lg border ${isOverBudget
                                 ? 'text-red-400 bg-red-500/10 border-red-500/20'
-                                : 'text-gray-400 bg-white/5 border-white/10'}`}>
-                                {percentage.toFixed(0)}% do orçamento
+                                : 'text-gray-500 bg-white/5 border-white/10'}`}>
+                                {percentage.toFixed(0)}% DO ORÇAMENTO
                             </span>
                         </div>
                     </div>
                 </div>
-                <div className="relative">
-                    <div className={`absolute inset-0 blur-xl rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${isOverBudget ? 'bg-red-500/20' : 'bg-orange-500/20'}`} />
-                    <div className={`relative w-14 h-14 bg-white/[0.03] backdrop-blur-md rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl ${isOverBudget
-                        ? 'border-red-500/20 text-red-400 group-hover:bg-red-500/10 group-hover:border-red-500/40'
-                        : 'border-orange-500/20 text-orange-400 group-hover:bg-orange-500/10 group-hover:border-orange-500/40'}`}>
-                        <CreditCard className="w-7 h-7 group-hover:scale-110 transition-transform duration-500" />
-                    </div>
+                <div className={`w-16 h-16 bg-white/[0.03] backdrop-blur-xl rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl ${isOverBudget
+                    ? 'border-red-500/20 text-red-400 group-hover:bg-red-500/10 group-hover:border-red-500/40'
+                    : 'border-orange-500/20 text-orange-400 group-hover:bg-orange-500/10 group-hover:border-orange-500/40'}`}>
+                    <CreditCard className="w-8 h-8 group-hover:scale-110 transition-transform duration-500" />
                 </div>
             </div>
 
-            <div className="space-y-4 relative z-10">
+            <div className="space-y-6 relative z-10">
                 <div className="h-2 bg-white/5 rounded-full overflow-hidden border border-white/5">
                     <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${Math.min(percentage, 100)}%` }}
-                        transition={{ duration: 1, ease: "easeOut" }}
+                        transition={{ duration: 1.5, ease: [0.23, 1, 0.32, 1] }}
                         className={`h-full relative ${isOverBudget
                             ? 'bg-gradient-to-r from-red-600 to-red-400'
                             : percentage > 80
@@ -72,11 +68,11 @@ const ExpenseCard = () => {
                     </motion.div>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest flex items-center gap-2">
-                        {isOverBudget && <AlertCircle size={12} className="text-red-500" />}
-                        {isOverBudget ? 'Limite Excedido' : `${formatCurrency(budget - expenses)} restantes`}
+                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest flex items-center gap-2">
+                        {isOverBudget && <AlertCircle size={14} className="text-red-500" />}
+                        {isOverBudget ? 'LIMITE EXCEDIDO' : `${formatCurrency(budget - expenses)} RESTANTES`}
                     </span>
-                    <ArrowUpRight size={16} className="text-gray-700 group-hover:text-red-500 transition-colors" />
+                    <ArrowUpRight size={20} className="text-gray-800 group-hover:text-red-500 transition-all" />
                 </div>
             </div>
         </motion.div>
