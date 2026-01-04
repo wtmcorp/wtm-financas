@@ -105,7 +105,7 @@ export default function ModuleCard({
                                         Módulo Concluído
                                     </span>
                                 ) : (
-                                    <span className="group-hover:text-white transition-colors flex items-center gap-2">
+                                    <span className="text-primary md:text-gray-500 md:group-hover:text-white transition-colors flex items-center gap-2">
                                         <PlayCircle size={14} className="text-primary" />
                                         {progress > 0 ? "Continuar Jornada" : "Iniciar Módulo"}
                                     </span>
@@ -114,7 +114,9 @@ export default function ModuleCard({
                         )}
                     </div>
                     {!isLocked && (
-                        <ArrowRight size={18} className="text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center md:opacity-0 md:group-hover:opacity-100 md:group-hover:translate-x-1 transition-all">
+                            <ArrowRight size={16} className="text-primary" />
+                        </div>
                     )}
                 </div>
             </div>

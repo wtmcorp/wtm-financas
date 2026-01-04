@@ -42,7 +42,7 @@ export default function LearnPage() {
             icon: ShieldCheck,
             level: "Iniciante" as const,
             progress: 80,
-            totalLessons: 8,
+            totalLessons: 11,
             completedLessons: 4,
             lessons: [
                 {
@@ -207,6 +207,58 @@ export default function LearnPage() {
                             <p>Seu investimento precisa render <strong>acima da inflação</strong> (ganho real). Se a inflação é 5% e seu investimento rende 5%, você não ganhou nada, apenas manteve o valor.</p>
                         </div>
                     )
+                },
+                {
+                    id: "credit-vs-debit",
+                    title: "Aula 8: Cartão de Crédito vs Débito",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>O cartão de crédito é uma faca de dois gumes. Se usado corretamente, é uma ferramenta de enriquecimento. Se usado errado, é o caminho para a ruína.</p>
+                            <h3>Vantagens do Crédito:</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Milhas e Cashback:</strong> Recupere parte do que gasta.</li>
+                                <li><strong>Seguros:</strong> Proteção de preço e garantia estendida.</li>
+                                <li><strong>Fluxo de Caixa:</strong> Mantenha seu dinheiro rendendo enquanto usa o do banco.</li>
+                            </ul>
+                            <h3>Quando usar Débito?</h3>
+                            <p>Apenas se você não tem autocontrole ou se a loja oferece um desconto superior a 3% para pagamento à vista que não pode ser replicado no crédito.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "hidden-costs",
+                    title: "Aula 9: O Custo Oculto da Vida",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Muitas vezes focamos no preço da etiqueta, mas esquecemos dos custos de manutenção e depreciação.</p>
+                            <h3>O Custo de um Carro:</h3>
+                            <p>Não é apenas a parcela. É o IPVA, Seguro, Combustível, Manutenção e, principalmente, a <strong>Depreciação</strong>. Um carro de R$ 100k pode custar R$ 3k/mês no total.</p>
+                            <h3>Assinaturas "Vampiras":</h3>
+                            <p>Aquelas de R$ 19,90 que você não usa. No final do ano, são centenas de reais que poderiam estar investidos.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "negotiation-basics",
+                    title: "Aula 10: Negociação de Contratos",
+                    duration: "18 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Tudo é negociável. Se você não pede, a resposta é sempre não.</p>
+                            <h3>Como negociar o aluguel:</h3>
+                            <p>Mostre que você é um bom pagador, apresente preços de imóveis similares na região e proponha um contrato mais longo em troca de um desconto no valor mensal.</p>
+                            <h3>Serviços (Internet/Celular):</h3>
+                            <p>Ligue anualmente para o setor de cancelamento. Eles têm ofertas que o site não mostra para reter clientes.</p>
+                        </div>
+                    )
                 }
             ]
         },
@@ -288,6 +340,56 @@ export default function LearnPage() {
                                 <li><strong>LCI/LCA:</strong> Letras de Crédito Imobiliário/Agronegócio. São <strong>isentas de IR</strong> para pessoa física.</li>
                             </ul>
                             <p>Sempre compare o rendimento líquido (após impostos) para saber qual vale mais a pena.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "debentures",
+                    title: "Aula 4: Debêntures: Empreste para Empresas",
+                    duration: "20 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Debêntures são títulos de dívida emitidos por empresas para financiar seus projetos.</p>
+                            <h3>Tipos de Debêntures:</h3>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Simples:</strong> Pagam juros e devolvem o capital.</li>
+                                <li><strong>Incentivadas:</strong> Isentas de IR (geralmente para obras de infraestrutura).</li>
+                                <li><strong>Conversíveis:</strong> Podem ser transformadas em ações da empresa.</li>
+                            </ul>
+                            <p><strong>Risco:</strong> Maior que o dos bancos, pois não têm garantia do FGC.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "cri-cra",
+                    title: "Aula 5: CRI e CRA",
+                    duration: "18 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Certificados de Recebíveis Imobiliários (CRI) e do Agronegócio (CRA).</p>
+                            <p>São títulos de renda fixa isentos de IR que financiam o setor imobiliário e o agronegócio.</p>
+                            <p><strong>Diferença:</strong> São emitidos por securitizadoras, não por bancos. Não têm FGC.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "fgc",
+                    title: "Aula 6: O FGC: Sua Segurança",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>O Fundo Garantidor de Créditos (FGC) é o que te faz dormir tranquilo.</p>
+                            <p>Ele garante até <strong>R$ 250.000</strong> por CPF e por instituição financeira caso o banco quebre.</p>
+                            <p><strong>Limite Global:</strong> R$ 1 milhão a cada 4 anos.</p>
+                            <div className="bg-green-500/10 p-4 rounded-xl border border-green-500/20">
+                                <p className="text-green-500 text-sm"><strong>Dica:</strong> Nunca deixe mais de R$ 250k em um único banco ou grupo financeiro.</p>
+                            </div>
                         </div>
                     )
                 }
@@ -375,6 +477,55 @@ export default function LearnPage() {
                         ],
                         correctAnswer: 1
                     }
+                },
+                {
+                    id: "dividends-jcp",
+                    title: "Aula 3: Dividendos e JCP",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>As empresas distribuem lucros de duas formas principais no Brasil.</p>
+                            <h3>1. Dividendos</h3>
+                            <p>Isentos de Imposto de Renda para pessoa física. É o lucro líquido "limpo" que cai na sua conta.</p>
+                            <h3>2. JCP (Juros sobre Capital Próprio)</h3>
+                            <p>Tem retenção de 15% de IR na fonte. Para a empresa, é uma forma de pagar menos imposto corporativo.</p>
+                            <p><strong>Dica:</strong> Reinvista seus dividendos para acelerar o efeito dos juros compostos.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "buy-and-hold",
+                    title: "Aula 4: Buy and Hold vs Trade",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Existem duas filosofias principais para lidar com ações.</p>
+                            <h3>Buy and Hold</h3>
+                            <p>Comprar boas empresas e mantê-las por anos ou décadas. O foco é ser sócio e receber lucros.</p>
+                            <h3>Day/Swing Trade</h3>
+                            <p>Tentar ganhar na oscilação de curto prazo. Exige muito tempo, estudo e tem alto risco. 95% dos traders perdem dinheiro no longo prazo.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "portfolio-building",
+                    title: "Aula 5: Montando sua Carteira",
+                    duration: "20 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Não coloque todos os ovos na mesma cesta.</p>
+                            <h3>Diversificação Setorial:</h3>
+                            <p>Tenha ações de diferentes setores: Bancos, Energia, Saneamento, Commodities, Varejo. Se um setor vai mal, os outros protegem sua carteira.</p>
+                            <h3>Quantas ações ter?</h3>
+                            <p>Entre 8 a 15 empresas é o ideal para a maioria dos investidores pessoa física. Menos que isso é arriscado, mais que isso é difícil de acompanhar.</p>
+                        </div>
+                    )
                 }
             ]
         },
@@ -428,6 +579,51 @@ export default function LearnPage() {
                         ],
                         correctAnswer: 2
                     }
+                },
+                {
+                    id: "tijolo-vs-papel",
+                    title: "Aula 2: Tijolo vs Papel",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <h3>FIIs de Tijolo</h3>
+                            <p>Investem em imóveis físicos (shoppings, galpões, lajes corporativas). O ganho vem do aluguel e da valorização do imóvel.</p>
+                            <h3>FIIs de Papel (Recebíveis)</h3>
+                            <p>Investem em títulos de dívida imobiliária (CRI, LCI). O ganho vem dos juros desses títulos. Costumam pagar dividendos maiores, mas não têm o imóvel físico como lastro direto.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "vacancy-location",
+                    title: "Aula 3: Vacância e Localização",
+                    duration: "18 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Os dois pilares de um bom FII de tijolo.</p>
+                            <h3>Localização</h3>
+                            <p>Imóveis em regiões premium (como Faria Lima em SP) sempre terão demanda, mesmo em crises.</p>
+                            <h3>Vacância</h3>
+                            <p>É a porcentagem do imóvel que está vazia. Vacância alta significa menos aluguel entrando. Fique de olho no histórico de vacância do fundo.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "fofs",
+                    title: "Aula 4: FOFs (Fundo de Fundos)",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>FOFs são fundos que compram cotas de outros fundos imobiliários.</p>
+                            <p><strong>Vantagem:</strong> Diversificação instantânea. Com uma cota, você investe em dezenas de outros fundos.</p>
+                            <p><strong>Desvantagem:</strong> Taxa de administração dupla (a do FOF e a dos fundos que ele compra).</p>
+                        </div>
+                    )
                 }
             ]
         },
@@ -828,252 +1024,281 @@ export default function LearnPage() {
                 }
             ]
         },
+
         {
             id: "unethical-tricks",
             title: "⚠️ Truques Antiéticos",
-            description: "APENAS EDUCACIONAL: Estratégias controversas, brechas legais e táticas agressivas. Use com responsabilidade.",
+            description: "O LADO OBSCURO: Estratégias de elite, brechas no sistema e táticas que os bancos não querem que você saiba.",
             icon: ShieldCheck,
             level: "Avançado" as const,
             progress: 0,
-            totalLessons: 8,
+            totalLessons: 16,
             completedLessons: 0,
             lessons: [
                 {
                     id: "disclaimer",
-                    title: "Aula 0: ⚠️ AVISO LEGAL IMPORTANTE",
+                    title: "Aula 0: ⚠️ AVISO DE SEGURANÇA",
                     duration: "5 min",
                     type: "article" as const,
                     completed: false,
                     content: (
                         <div className="space-y-6">
-                            <div className="bg-red-500/20 p-8 rounded-2xl border-2 border-red-500">
-                                <h3 className="text-red-500 font-black text-2xl mb-4">⚠️ LEIA ANTES DE CONTINUAR</h3>
-                                <p className="text-white font-bold mb-4">Este módulo é PURAMENTE EDUCACIONAL.</p>
-                                <ul className="list-disc pl-5 space-y-2 text-gray-200">
-                                    <li>Algumas práticas aqui descritas são ILEGAIS e podem resultar em prisão e multas.</li>
-                                    <li>Outras são legais mas ANTIÉTICAS e podem destruir sua reputação.</li>
-                                    <li>O objetivo é CONHECIMENTO, não incentivo.</li>
-                                    <li>Conhecer as táticas te protege de ser vítima delas.</li>
-                                    <li>NÃO nos responsabilizamos pelo uso indevido destas informações.</li>
+                            <div className="bg-red-500/20 p-8 rounded-2xl border-2 border-red-500 shadow-[0_0_50px_rgba(239,68,68,0.2)]">
+                                <h3 className="text-red-500 font-black text-3xl mb-4 tracking-tighter">⚠️ CONTEÚDO SENSÍVEL</h3>
+                                <p className="text-white font-bold text-lg mb-4">Este módulo contém informações que podem ser consideradas imorais ou ilegais dependendo da aplicação.</p>
+                                <ul className="list-disc pl-5 space-y-3 text-gray-200 font-medium">
+                                    <li>O conhecimento aqui é para <span className="text-red-400">DEFESA</span> e <span className="text-red-400">ENTENDIMENTO DO SISTEMA</span>.</li>
+                                    <li>Não incentivamos a quebra de leis.</li>
+                                    <li>Muitas dessas táticas são usadas por bilionários para proteger fortuna.</li>
+                                    <li>O uso indevido pode levar a bloqueios de conta, processos ou prisão.</li>
                                 </ul>
                             </div>
-
-                            <p className="text-gray-400 italic">Ao continuar, você reconhece que entende os riscos e que usará este conhecimento apenas para fins educacionais e de proteção pessoal.</p>
+                            <p className="text-gray-400 italic text-center">"Conheça seu inimigo e a si mesmo, e você nunca será derrotado." - Sun Tzu</p>
                         </div>
                     )
                 },
                 {
-                    id: "tax-gray-zone",
-                    title: "Aula 1: Zona Cinza Tributária",
+                    id: "tax-icms-hack",
+                    title: "Aula 1: O Segredo do ICMS e Impostos",
+                    duration: "25 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>O Brasil tem uma das cargas tributárias mais complexas do mundo. Quem conhece as brechas, economiza fortunas.</p>
+
+                            <h3>1. Triangulação de Notas (O Hack dos Estados)</h3>
+                            <p>Empresas de e-commerce muitas vezes se instalam em estados como <strong>Espírito Santo</strong> ou <strong>Santa Catarina</strong> devido a benefícios fiscais de ICMS na importação e revenda.</p>
+                            <p><strong>Como funciona:</strong> A mercadoria entra por um porto com benefício, a nota é emitida por lá, mas o estoque pode estar em SP. Isso reduz o ICMS de 18% para até 4% em alguns casos.</p>
+
+                            <h3>2. Compra via PJ (Uso Pessoal)</h3>
+                            <p>Muitos empresários compram carros, eletrônicos e até imóveis no nome da empresa (CNPJ).</p>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Vantagem:</strong> Abatimento de impostos, preços de frota (até 30% de desconto em carros).</li>
+                                <li><strong>Risco:</strong> Confusão patrimonial. A Receita pode multar se provar que o uso é 100% pessoal sem benefício para a empresa.</li>
+                            </ul>
+
+                            <h3>3. O Hack da Isenção de IPI/ICMS</h3>
+                            <p>Pessoas com certas condições de saúde (mesmo leves, como problemas de coluna ou LER) podem ter direito a isenção de IPI e ICMS na compra de carros zero (PCD).</p>
+                            <p><strong>A tática:</strong> Muitos usam laudos médicos "generosos" para conseguir descontos de até 25% no valor do veículo.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "credit-card-god-mode",
+                    title: "Aula 2: Cartão de Crédito: God Mode",
                     duration: "20 min",
                     type: "article" as const,
                     completed: false,
                     content: (
                         <div className="space-y-6">
-                            <div className="bg-yellow-500/10 p-6 rounded-2xl border border-yellow-500/20 mb-6">
-                                <p className="text-yellow-500 font-bold">⚠️ Estas práticas estão em área cinzenta legal. Consulte um advogado tributarista antes de qualquer ação.</p>
-                            </div>
+                            <p>O banco quer que você pague juros. Nós queremos que o banco pague suas viagens.</p>
 
-                            <h3>1. Pessoa Jurídica para Investimentos</h3>
-                            <p>Alguns investidores criam PJ para pagar menos IR sobre ganhos de capital (15% PJ vs até 22,5% PF).</p>
-                            <p><strong>Risco:</strong> Receita pode considerar simulação se não houver atividade empresarial real.</p>
+                            <h3>1. O Loop do PicPay/99Pay</h3>
+                            <p>Usar um cartão de crédito para pagar um boleto de depósito em outro banco digital (ou conta de amigo) para gerar milhas sem gastar nada.</p>
+                            <p><strong>Status:</strong> Os apps estão limitando, mas sempre surgem novas carteiras (RecargaPay, Ame). O segredo é o <strong>giro de capital</strong>.</p>
 
-                            <h3>2. Offshore em Paraísos Fiscais</h3>
-                            <p>Abrir empresa em países com IR zero (Ilhas Cayman, Panamá) para investir sem tributação.</p>
-                            <p><strong>Legal se:</strong> Declarado corretamente na Receita Federal.</p>
-                            <p><strong>Ilegal se:</strong> Usado para esconder patrimônio (crime de evasão).</p>
+                            <h3>2. Estorno Estratégico</h3>
+                            <p>Comprar um produto, gerar as milhas/cashback, e depois devolver o produto dentro dos 7 dias (Direito de Arrependimento).</p>
+                            <p><strong>Risco:</strong> Se feito repetidamente, o banco cancela o cartão e a loja te bane. É uma tática de "uma vez na vida".</p>
 
-                            <h3>3. "Doações" Estratégicas</h3>
-                            <p>Transferir patrimônio para filhos via doação tem alíquota menor que herança em alguns estados.</p>
-                            <p>Holding familiar pode reduzir ITCMD (imposto sobre doações) de 8% para 4%.</p>
-
-                            <h3>4. Prejuízos Fiscais Artificiais</h3>
-                            <p>Vender ações no prejuízo em dezembro para abater IR, e recomprar em janeiro.</p>
-                            <p><strong>Status:</strong> Legal, mas Receita monitora padrões suspeitos.</p>
+                            <h3>3. Upgrade via "Ameaça"</h3>
+                            <p>Ligar no setor de cancelamento e dizer que recebeu uma oferta melhor do concorrente (ex: XP Visas Infinite vs Inter Black). Muitas vezes eles liberam o cartão Black e isentam a anuidade na hora para não perder o cliente.</p>
                         </div>
                     )
                 },
                 {
-                    id: "sales-manipulation",
-                    title: "Aula 2: Manipulação em Vendas",
+                    id: "social-engineering-finance",
+                    title: "Aula 3: Engenharia Social Financeira",
                     duration: "18 min",
                     type: "article" as const,
                     completed: false,
                     content: (
                         <div className="space-y-6">
-                            <h3>Táticas Psicológicas Agressivas:</h3>
+                            <p>A maioria das regras financeiras tem um "humano" no meio. E humanos são falhos.</p>
 
-                            <h4>1. Ancoragem Extrema</h4>
-                            <p>Mostrar primeiro um produto caríssimo para fazer o produto real parecer barato.</p>
-                            <p><strong>Exemplo:</strong> "Este curso custa R$ 50.000... mas hoje por apenas R$ 1.997!"</p>
+                            <h3>1. A Técnica do "Gerente Amigo"</h3>
+                            <p>Levar presentes ou criar uma relação pessoal com o gerente da agência. Gerentes têm alçada para baixar taxas de juros e aumentar limites manualmente que o algoritmo negaria.</p>
 
-                            <h4>2. Escassez Artificial</h4>
-                            <p>Criar urgência falsa: "Últimas 3 vagas!" (quando há 100 disponíveis).</p>
-                            <p><strong>Ético?</strong> Não. <strong>Funciona?</strong> Sim. <strong>Legal?</strong> Zona cinzenta.</p>
+                            <h3>2. O Blefe da Portabilidade</h3>
+                            <p>Iniciar um processo de portabilidade de salário ou financiamento imobiliário. O banco atual recebe um alerta vermelho e o "setor de retenção" entra em contato com ofertas agressivas para você ficar.</p>
 
-                            <h4>3. Prova Social Fabricada</h4>
-                            <p>Depoimentos falsos, números inflados, "clientes satisfeitos" que não existem.</p>
-                            <p><strong>Status:</strong> ILEGAL (propaganda enganosa - CDC Art. 37).</p>
-
-                            <h4>4. Técnica do Pé na Porta</h4>
-                            <p>Pedir algo pequeno primeiro, depois escalar para venda grande.</p>
-                            <p><strong>Exemplo:</strong> "Aceita um brinde grátis?" → "Já que aceitou, que tal conhecer nosso produto?"</p>
-
-                            <h4>5. Reciprocidade Forçada</h4>
-                            <p>Dar algo "grátis" para criar obrigação moral de compra.</p>
-                            <p>Amostras grátis, consultorias "sem compromisso" que pressionam pela venda.</p>
+                            <h3>3. Contestação de Multas de Atraso</h3>
+                            <p>Ligar dizendo que "o app estava fora do ar" ou "não recebi o boleto por erro do sistema". 90% das vezes eles estornam a multa e os juros se for a primeira vez no semestre.</p>
                         </div>
                     )
                 },
                 {
-                    id: "contract-loopholes",
-                    title: "Aula 3: Brechas Contratuais",
+                    id: "leilao-hacks",
+                    title: "Aula 4: Leilões: Onde os Ricos Compram",
+                    duration: "22 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Imóveis e carros por 50% do valor de mercado. Parece golpe, mas é como o sistema funciona.</p>
+
+                            <h3>1. Leilões Judiciais vs Extrajudiciais</h3>
+                            <p>Judiciais (dívidas de justiça) costumam ter descontos maiores, mas são mais lentos. Extrajudiciais (retomada de banco) são mais rápidos.</p>
+
+                            <h3>2. O Hack da Desocupação</h3>
+                            <p>Comprar imóveis ocupados assusta 90% dos compradores, o que derruba o preço. O segredo é tener um advogado que faça a imissão na posse rapidamente.</p>
+
+                            <h3>3. Leilão da Receita Federal</h3>
+                            <p>Produtos apreendidos (iPhones, Macbooks, Carros). O segredo é olhar os lotes de "pessoa jurídica" que costumam ter menos concorrência que os de pessoa física.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "offshore-basics",
+                    title: "Aula 5: Offshore e Blindagem Nível 10",
+                    duration: "30 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Se você tem mais de R$ 1 milhão, deixar tudo no Brasil é um erro estratégico.</p>
+
+                            <h3>1. LLC nos EUA (Wyoming/Delaware)</h3>
+                            <p>Abrir uma empresa nos EUA para investir globalmente. Se você não tem atividade física lá, pode não pagar imposto corporativo nos EUA (pass-through taxation).</p>
+
+                            <h3>2. O Cartão da Nomad/Avenue</h3>
+                            <p>Gastar em dólar no Brasil usando cartões internacionais. Isso dificulta o rastreio imediato de gastos pelo leão, embora ainda deva ser declarado.</p>
+
+                            <h3>3. Trust e Fundações</h3>
+                            <p>Colocar o patrimônio em uma estrutura onde você "não é dono de nada, mas controla tudo". Isso protege contra processos, divórcios e heranças complicadas.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "churning-advanced",
+                    title: "Aula 6: Churning Extremo de Milhas",
+                    duration: "25 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como viajar de Primeira Classe pagando preço de Econômica (ou nada).</p>
+
+                            <h3>1. Promoções de Transferência 100%</h3>
+                            <p>Nunca transfira pontos do cartão para a aérea sem bônus. Espere as janelas de 80% a 120% de bônus (Livelo &rarr; Smiles/Azul).</p>
+
+                            <h3>2. Compra de Pontos com 50% de Desconto</h3>
+                            <p>Comprar pontos na Livelo/Esfera com desconto e transferir com bônus. O custo do milheiro cai drasticamente, permitindo vender com lucro ou viajar barato.</p>
+
+                            <h3>3. O Hack do "No-Show" e Reembolso</h3>
+                            <p>Táticas avançadas de emissão de passagens com pontos onde você cancela trechos específicos para reaver taxas ou pontos de forma estratégica (Cuidado: as aéreas estão banindo contas por isso).</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "overemployment-hacks",
+                    title: "Aula 7: Overemployment: O Multiplicador de Renda",
+                    duration: "20 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Trabalhar em 2 ou 3 empresas ao mesmo tempo sem que elas saibam.</p>
+
+                            <h3>1. A Regra do Silêncio</h3>
+                            <p>Nunca conte para ninguém. Nem para sua família. O segredo é a base do Overemployment.</p>
+
+                            <h3>2. Automação de Tarefas</h3>
+                            <p>Use IA e scripts para fazer em 1 hora o que esperam que você faça em 8. O tempo que sobra você usa para o J2 (Job 2).</p>
+
+                            <h3>3. Gestão de Reuniões</h3>
+                            <p>Ter dois laptops, dois mouses e dois fones. Se houver reunião simultânea, use um fone em cada ouvido e feche a câmera em uma delas alegando "problemas de banda".</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "arbitragem-cripto",
+                    title: "Aula 8: Arbitragem de Cripto e P2P",
+                    duration: "22 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Ganhar na diferença de preços entre corretoras.</p>
+
+                            <h3>1. Arbitragem entre Corretoras</h3>
+                            <p>Comprar BTC na Binance e vender na Foxbit (ou vice-versa) quando há um deságio ou ágio grande. O lucro é pequeno por operação, mas escalável com bots.</p>
+
+                            <h3>2. Mercado P2P (Peer-to-Peer)</h3>
+                            <p>Vender cripto diretamente para pessoas com um prêmio (markup). Muitos pagam mais caro para não passar por corretoras e evitar o rastro bancário.</p>
+
+                            <h3>3. Stablecoins e Yield Farming</h3>
+                            <p>Colocar dólares digitais (USDT/USDC) para render em protocolos DeFi a taxas de 10-15% ao ano, muito acima de qualquer banco tradicional.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "insurance-hacks",
+                    title: "Aula 9: Hacks de Seguros e Garantias",
                     duration: "15 min",
                     type: "article" as const,
                     completed: false,
                     content: (
                         <div className="space-y-6">
-                            <h3>Cláusulas Abusivas Comuns:</h3>
+                            <p>Como fazer o seguro realmente pagar.</p>
 
-                            <h4>1. Letra Miúda Mortal</h4>
-                            <p>Esconder taxas e condições em fonte 6pt que ninguém lê.</p>
-                            <p><strong>Defesa:</strong> CDC permite anular cláusulas abusivas mesmo que assinadas.</p>
+                            <h3>1. Seguro Proteção de Preço (Visa/Master)</h3>
+                            <p>Comprar algo e encontrar mais barato depois. O cartão te paga a diferença. O "truque" é usar sites de comparação de preços para achar anúncios obscuros mais baratos.</p>
 
-                            <h4>2. Renovação Automática</h4>
-                            <p>Contratos que renovam automaticamente e cobram sem aviso.</p>
-                            <p><strong>Como escapar:</strong> Direito de arrependimento de 7 dias (compras online).</p>
+                            <h3>2. Garantia Estendida Grátis</h3>
+                            <p>Quase todos os cartões Gold/Platinum/Black dão 1 ano extra de garantia. Nunca pague pela garantia da loja.</p>
 
-                            <h4>3. Multa Desproporcional</h4>
-                            <p>Multas de cancelamento de 100% do valor (ilegal - máximo 50% por lei).</p>
-
-                            <h4>4. Foro de Eleição Abusivo</h4>
-                            <p>Forçar processos em comarca distante para dificultar defesa do consumidor.</p>
-                            <p><strong>Defesa:</strong> Juiz pode mudar foro para proteger consumidor.</p>
+                            <h3>3. Seguro Viagem "Oculto"</h3>
+                            <p>Se seu voo atrasar mais de 4 horas, o cartão paga sua alimentação e hotel. Muitos não pedem o reembolso por preguiça, perdendo centenas de dólares.</p>
                         </div>
                     )
                 },
                 {
-                    id: "credit-hacks",
-                    title: "Aula 4: Hacks de Crédito",
-                    duration: "12 min",
+                    id: "negotiation-dark-arts",
+                    title: "Aula 10: Artes das Trevas na Negociação",
+                    duration: "25 min",
                     type: "article" as const,
                     completed: false,
                     content: (
                         <div className="space-y-6">
-                            <h3>Estratégias para Aumentar Score:</h3>
+                            <p>Táticas psicológicas para vencer qualquer discussão financeira.</p>
 
-                            <h4>1. Usuário Autorizado</h4>
-                            <p>Ser adicionado como usuário autorizado em cartão de alguém com score alto aumenta SEU score.</p>
-                            <p><strong>Risco:</strong> Se a pessoa atrasar, seu score cai junto.</p>
+                            <h3>1. O "Policial Bom e Policial Mau" (Sozinho)</h3>
+                            <p>Dizer que você adorou a oferta, mas seu "sócio" ou "esposa" achou um absurdo e não deixa você fechar por esse preço. Você joga a culpa no terceiro e força o vendedor a baixar o preço para "te ajudar".</p>
 
-                            <h4>2. Microcréditos Estratégicos</h4>
-                            <p>Pegar empréstimos pequenos e pagar imediatamente para construir histórico.</p>
+                            <h3>2. A Técnica do Silêncio Mortal</h3>
+                            <p>Após ouvir o preço, não diga nada. Olhe nos olhos do vendedor e conte até 10 mentalmente. O desconforto fará ele começar a se justificar e, muitas vezes, oferecer um desconto sem você pedir.</p>
 
-                            <h4>3. Contestação em Massa</h4>
-                            <p>Contestar TODAS as negativações no Serasa/SPC, mesmo que legítimas.</p>
-                            <p>Muitas empresas não respondem no prazo e a negativação cai automaticamente.</p>
-                            <p><strong>Ético?</strong> Não. <strong>Legal?</strong> Sim (direito de defesa).</p>
-
-                            <h4>4. Rotação de Cartões</h4>
-                            <p>Usar 30% do limite de cada cartão (nunca 100%) mantém score alto.</p>
-                            <p>Pedir aumento de limite sem usar também melhora score.</p>
+                            <h3>3. Ancoragem Inversa</h3>
+                            <p>Começar a negociação oferecendo algo tão baixo que beira o insulto. Quando você sobe para o preço que realmente quer pagar, parece uma concessão enorme da sua parte.</p>
                         </div>
                     )
                 },
                 {
-                    id: "negotiation-dark",
-                    title: "Aula 5: Negociação Suja",
-                    duration: "16 min",
+                    id: "lifestyle-arbitrage",
+                    title: "Aula 11: Arbitragem de Estilo de Vida",
+                    duration: "20 min",
                     type: "article" as const,
                     completed: false,
                     content: (
                         <div className="space-y-6">
-                            <h3>Táticas de Negociação Agressiva:</h3>
+                            <p>Como viver como um milionário com orçamento de classe média.</p>
 
-                            <h4>1. Blefe do Concorrente</h4>
-                            <p>"Seu concorrente ofereceu 30% mais barato" (mentira para forçar desconto).</p>
-                            <p><strong>Contra-ataque:</strong> Peça a proposta por escrito.</p>
+                            <h3>1. House Hacking</h3>
+                            <p>Alugar um apartamento grande e sublocar os quartos no Airbnb. Se bem feito, o lucro dos quartos paga seu aluguel e sobra dinheiro. Você mora de graça.</p>
 
-                            <h4>2. Autoridade Fantasma</h4>
-                            <p>"Preciso consultar meu sócio/chefe" (que não existe) para ganhar tempo e pressionar.</p>
+                            <h3>2. Carros de Repasse</h3>
+                            <p>Comprar carros de lojistas (repasse) que precisam de giro rápido. Você compra pelo preço de custo da loja e vende pelo preço de tabela FIPE.</p>
 
-                            <h4>3. Silêncio Constrangedor</h4>
-                            <p>Após a proposta, ficar em silêncio total até o outro ceder e melhorar a oferta.</p>
-
-                            <h4>4. Ancoragem Absurda</h4>
-                            <p>Começar com proposta ridiculamente baixa para fazer sua oferta real parecer razoável.</p>
-
-                            <h4>5. Prazo Artificial</h4>
-                            <p>"Preciso da resposta até amanhã" (quando não há pressa real) para forçar decisão apressada.</p>
-                        </div>
-                    )
-                },
-                {
-                    id: "insurance-tricks",
-                    title: "Aula 6: Seguros e Brechas",
-                    duration: "14 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <h3>Como Seguradoras Te Enganam:</h3>
-
-                            <h4>1. Franquia Escondida</h4>
-                            <p>Seguro "sem franquia" que cobra "participação obrigatória" (é a mesma coisa).</p>
-
-                            <h4>2. Cobertura Parcial</h4>
-                            <p>Seguro que cobre "roubo" mas não "furto" (diferença técnica que nega 90% dos sinistros).</p>
-
-                            <h4>3. Carência Abusiva</h4>
-                            <p>180 dias de carência para usar o seguro (você paga sem poder usar).</p>
-
-                            <h3>Como Se Proteger:</h3>
-                            <ul className="list-disc pl-5 space-y-2">
-                                <li>Leia TODO o contrato antes de assinar</li>
-                                <li>Grave conversas com corretores (legal com aviso)</li>
-                                <li>Exija tudo por escrito</li>
-                                <li>Compare no Reclame Aqui antes de contratar</li>
-                            </ul>
-                        </div>
-                    )
-                },
-                {
-                    id: "legal-protection",
-                    title: "Aula 7: Como Se Proteger Legalmente",
-                    duration: "18 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <h3>Blindagem Patrimonial Legal:</h3>
-
-                            <h4>1. Holding Familiar</h4>
-                            <p>Transferir bens para empresa protege de processos pessoais.</p>
-                            <p><strong>Limite:</strong> Não protege de dívidas anteriores à transferência.</p>
-
-                            <h4>2. Bem de Família</h4>
-                            <p>Imóvel residencial é impenhorável (não pode ser tomado em dívidas).</p>
-                            <p><strong>Exceção:</strong> Dívidas trabalhistas e pensão alimentícia.</p>
-
-                            <h4>3. Previdência Privada</h4>
-                            <p>VGBL/PGBL são impenhoráveis em alguns casos.</p>
-
-                            <h4>4. Separação de Bens</h4>
-                            <p>Casamento com separação total protege patrimônio de dívidas do cônjuge.</p>
-
-                            <h3>⚠️ NUNCA FAÇA:</h3>
-                            <ul className="list-disc pl-5 space-y-2 text-red-400">
-                                <li>Transferir bens para fugir de dívidas (fraude à execução - CRIME)</li>
-                                <li>Declarar falência fraudulenta</li>
-                                <li>Esconder patrimônio da Receita Federal</li>
-                                <li>Usar laranjas (crime de lavagem de dinheiro)</li>
-                            </ul>
+                            <h3>3. O Hack das Assinaturas</h3>
+                            <p>Usar VPN para assinar YouTube Premium, Netflix e Spotify via Turquia ou Argentina. O custo cai de R$ 50 para R$ 5 por mês.</p>
                         </div>
                     )
                 },
                 {
                     id: "geo-arbitrage",
-                    title: "Aula 8: Geo-arbitragem (Ganhar em Dólar, Gastar em Real)",
+                    title: "Aula 12: Geo-arbitragem (Ganhar em Dólar, Gastar em Real)",
                     duration: "25 min",
                     type: "article" as const,
                     completed: false,
@@ -1103,127 +1328,70 @@ export default function LearnPage() {
                     )
                 },
                 {
-                    id: "churning",
-                    title: "Aula 9: Churning e Milhas (Dinheiro Grátis)",
-                    duration: "30 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <p>Bancos e companhias aéreas gastam bilhões em marketing. Churning é a arte de pegar esse dinheiro para você.</p>
-
-                            <h3>1. Bônus de Cadastro (Sign-up Bonuses)</h3>
-                            <p>Nos EUA, é comum ganhar $500-$1000 apenas por abrir uma conta e gastar um valor mínimo. No Brasil, foque em promoções de adesão de cartões Black com isenção e bônus de milhas.</p>
-
-                            <h3>2. Manufactured Spending (Gasto Fabricado)</h3>
-                            <p>A técnica de gastar dinheiro no cartão de crédito sem realmente gastar dinheiro, apenas para gerar milhas.</p>
-                            <ul className="list-disc pl-5 space-y-2">
-                                <li><strong>Carteiras Digitais:</strong> Pagar boletos de consumo ou de outros bancos usando cartão de crédito (99Pay, RecargaPay, PicPay). Cuidado com as taxas.</li>
-                                <li><strong>Compra e Venda de Milhas:</strong> Comprar milhas com desconto (ex: Livelo 50% off) e vender em sites como HotMilhas com lucro ou usar para viajar de executiva pelo preço de econômica.</li>
-                            </ul>
-
-                            <h3>3. Proteção de Preço</h3>
-                            <p>Compre um produto caro (iPhone, TV) com um cartão Visa Infinite/Mastercard Black. Se o preço cair em 30 dias, o seguro te devolve a diferença. Alguns "fabricam" anúncios falsos mais baratos para acionar o seguro (ILEGAL/FRAUDE).</p>
-                        </div>
-                    )
-                },
-                {
-                    id: "leverage",
-                    title: "Aula 10: Alavancagem (Dinheiro dos Outros)",
+                    id: "credit-score-god-mode",
+                    title: "Aula 13: Credit Score God Mode",
                     duration: "20 min",
                     type: "article" as const,
                     completed: false,
                     content: (
                         <div className="space-y-6">
-                            <p>Ricos usam dívida para enriquecer. Pobres usam dívida para empobrecer.</p>
+                            <p>O Score não é uma medida de honestidade, é uma medida de quão lucrativo você é para o banco.</p>
 
-                            <h3>OPM (Other People's Money)</h3>
-                            <p>Usar dinheiro do banco para investir e ficar com o lucro da diferença (spread).</p>
+                            <h3>1. O Hack do Cadastro Positivo</h3>
+                            <p>Ativar o Cadastro Positivo e "alimentar" o sistema com contas pequenas pagas em dia. Mas o segredo é o <strong>limite utilizado</strong>. Nunca use mais de 30% do seu limite total, mesmo que você pague tudo depois.</p>
 
-                            <h4>Exemplo Prático (Carry Trade):</h4>
-                            <p>1. Pegar empréstimo a juros baixos (ex: Japão, ou crédito subsidiado no Brasil como Pronampe/BNDES).</p>
-                            <p>2. Investir em algo com retorno garantido maior (ex: LCI/LCA ou FIIs).</p>
-                            <p>3. Lucro = Retorno do Investimento - Custo do Empréstimo.</p>
+                            <h3>2. Empréstimo "Fake" para Score</h3>
+                            <p>Pegar um empréstimo pequeno com garantia (onde você já tem o dinheiro), pagar a primeira parcela e quitar o resto em 3 meses. Isso mostra ao algoritmo que você é um "bom pagador de juros", o que o banco ama.</p>
 
-                            <div className="bg-red-500/10 p-6 rounded-2xl border border-red-500/20">
-                                <p className="text-red-500 font-bold">⚠️ Risco de Ruína:</p>
-                                <p className="text-gray-300">Se o investimento der errado, você deve o banco. Alavancagem multiplica ganhos, mas também multiplica perdas.</p>
+                            <h3>3. Limpeza de Consultas (Search Removal)</h3>
+                            <p>Muitas consultas ao seu CPF (quando você tenta cartões) derrubam o score. Existe um processo legal para pedir a exclusão de consultas excessivas nos órgãos de proteção ao crédito.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "debt-settlement-secrets",
+                    title: "Aula 14: Segredos da Quitação de Dívidas",
+                    duration: "25 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como pagar R$ 1.000 em uma dívida de R$ 10.000 legalmente.</p>
+
+                            <h3>1. A Curva de Depreciação da Dívida</h3>
+                            <p>Bancos vendem dívidas "podres" para empresas de cobrança por 2% a 5% do valor original. Se sua dívida tem mais de 2 anos, a empresa de cobrança aceita qualquer coisa acima de 10% para ter lucro.</p>
+
+                            <h3>2. O Blefe do "Nada Consta"</h3>
+                            <p>Esperar os feirões de limpa nome (como o do Serasa). Mas antes, ligue no banco e diga que você está saindo do país e quer "resolver a vida" com o pouco que sobrou. O senso de urgência faz eles aceitarem propostas agressivas.</p>
+
+                            <h3>3. Prescrição Intercorrente</h3>
+                            <p>Se o banco te processa mas não encontra bens para penhorar em 5 anos, a dívida pode prescrever judicialmente. O segredo é não ter nada no seu nome durante esse período (Blindagem).</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "billionaire-shield",
+                    title: "Aula 15: O Escudo do Bilionário",
+                    duration: "35 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como os ultra-ricos protegem seu patrimônio de processos e crises.</p>
+
+                            <h3>1. Holding Patrimonial</h3>
+                            <p>Não tenha nada em seu nome. Tenha uma empresa que é dona de outra empresa que é dona dos seus bens. Isso cria camadas de dificuldade para qualquer oficial de justiça.</p>
+
+                            <h3>2. Ouro Físico e Cripto Fria</h3>
+                            <p>Patrimônio que não existe no sistema bancário. Ouro em cofres privados e Bitcoin em "Cold Wallets" (Ledger/Trezor). Se o governo congelar suas contas, você ainda tem poder de compra real.</p>
+
+                            <h3>3. Cidadania por Investimento (Golden Visa)</h3>
+                            <p>Ter um "Plano B" geográfico. Países como Paraguai, Portugal ou ilhas do Caribe oferecem residência ou cidadania para quem investe. Se o Brasil "quebrar", você tem para onde ir com seu dinheiro.</p>
+
+                            <div className="bg-red-500/20 p-6 rounded-2xl border border-red-500/50">
+                                <p className="text-red-500 font-bold">AVISO FINAL:</p>
+                                <p className="text-white">O conhecimento é uma ferramenta. Use com sabedoria e ética. O sistema é bruto, mas quem conhece as regras joga melhor.</p>
                             </div>
-                        </div>
-                    )
-                },
-                {
-                    id: "overemployment",
-                    title: "Aula 11: Overemployment (2 Empregos ao Mesmo Tempo)",
-                    duration: "15 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <p>Por que ganhar 1 salário se você pode ganhar 2 (ou 3) trabalhando as mesmas 8 horas?</p>
-
-                            <h3>A Estratégia:</h3>
-                            <p>Com o trabalho remoto, ninguém vê o que você está fazendo. A ideia é ter 2 empregos full-time remotos simultâneos (J1 e J2).</p>
-
-                            <h3>Regras de Ouro:</h3>
-                            <ul className="list-disc pl-5 space-y-2">
-                                <li><strong>Seja Medíocre:</strong> Não tente ser promovido. Faça apenas o necessário para não ser demitido.</li>
-                                <li><strong>Sem LinkedIn:</strong> Hibernar o perfil para que J1 não descubra J2.</li>
-                                <li><strong>Gestão de Reuniões:</strong> Bloqueie a agenda. Se houver conflito, invente "problemas de internet" ou "conflito pessoal".</li>
-                                <li><strong>Equipamento Separado:</strong> Nunca use o laptop da empresa A para trabalhar na empresa B.</li>
-                            </ul>
-
-                            <p><strong>Ético?</strong> As empresas te demitem sem pensar duas vezes. Você está apenas vendendo seu serviço para mais de um cliente.</p>
-                        </div>
-                    )
-                },
-                {
-                    id: "social-engineering",
-                    title: "Aula 12: Engenharia Social Corporativa",
-                    duration: "22 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <p>O mundo corporativo não é uma meritocracia. É um jogo político.</p>
-
-                            <h3>As 48 Leis do Poder (Aplicadas):</h3>
-
-                            <h4>1. Nunca ofusque o mestre</h4>
-                            <p>Faça seu chefe parecer brilhante, mesmo que ele seja incompetente. Se ele se sentir ameaçado, vai te demitir.</p>
-
-                            <h4>2. Crie dependência</h4>
-                            <p>Torne-se a única pessoa que sabe resolver um problema crítico (e não documente a solução). Se não podem te substituir, não podem te demitir.</p>
-
-                            <h4>3. Use a informação como arma</h4>
-                            <p>Descubra salários dos colegas, planos de reestruturação e fofocas. Informação é poder de negociação.</p>
-
-                            <h4>4. A técnica do "Espelho"</h4>
-                            <p>Imite sutilmente a linguagem corporal e o tom de voz do seu interlocutor. Isso cria conexão subconsciente imediata.</p>
-                        </div>
-                    )
-                },
-                {
-                    id: "extreme-optimization",
-                    title: "Aula 13: Otimização de Vida Extrema",
-                    duration: "18 min",
-                    type: "article" as const,
-                    completed: false,
-                    content: (
-                        <div className="space-y-6">
-                            <h3>Hacks de Estilo de Vida:</h3>
-
-                            <h4>1. House Hacking</h4>
-                            <p>Compre um imóvel multifamiliar (duplex/triplex). More em uma unidade e alugue as outras. O aluguel dos inquilinos paga sua hipoteca. Você mora de graça.</p>
-
-                            <h4>2. Compras de Alto Valor</h4>
-                            <p>Nunca compre carro zero. Compre de leilão ou usados de luxo que já depreciaram o máximo (curva em J). Use por 1 ano e venda pelo mesmo preço ou mais caro.</p>
-
-                            <h4>3. Arbitragem de Produtos</h4>
-                            <p>Comprar itens em liquidação (Black Friday, queima de estoque) e revender na Amazon/Mercado Livre pelo preço normal.</p>
-
-                            <h4>4. "Wardrobing" (Antiético)</h4>
-                            <p>Comprar roupas caras para um evento, usar com a etiqueta escondida e devolver no dia seguinte. (Lojas odeiam isso e banem clientes frequentes).</p>
                         </div>
                     )
                 }
@@ -1243,21 +1411,50 @@ export default function LearnPage() {
             <div className="max-w-7xl mx-auto space-y-12">
 
                 {/* Header */}
-                <motion.header variants={itemVariants} className="space-y-6 text-center md:text-left relative p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/5 overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -mr-32 -mt-32 animate-pulse-slow" />
+                <motion.header
+                    variants={itemVariants}
+                    className="relative overflow-hidden rounded-[3.5rem] bg-gradient-to-br from-[#0f0f13] via-[#1a1a2e] to-[#0f0f13] border border-white/10 p-10 md:p-20 shadow-[0_50px_100px_rgba(0,0,0,0.6)] group"
+                >
+                    <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
+                        <GraduationCap size={400} className="text-primary rotate-12 animate-float" />
+                    </div>
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none"></div>
+                    <div className="absolute -bottom-24 -left-24 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px] animate-pulse-slow pointer-events-none"></div>
 
-                    <div className="relative z-10">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-md">
-                            <GraduationCap size={16} className="text-primary animate-bounce" />
-                            <span className="text-xs font-bold text-primary uppercase tracking-widest">Wtm Academy</span>
+                    <div className="relative z-10 space-y-10">
+                        <div className="flex items-center gap-3">
+                            <div className="px-5 py-2 bg-white/5 text-primary border border-white/10 rounded-full text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-4 backdrop-blur-md">
+                                <GraduationCap size={16} className="text-primary animate-bounce" />
+                                Wtm Academy • Formação de Elite
+                            </div>
                         </div>
-                        <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-none mb-6">
-                            Domine o <br />
-                            <span className="gradient-text">Jogo do Dinheiro</span>
-                        </h1>
-                        <p className="text-gray-400 text-lg max-w-2xl leading-relaxed font-medium">
-                            Educação financeira não é sobre economizar cafezinho. É sobre <span className="text-white">liberdade</span>. Escolha sua trilha e comece a evoluir seu patrimônio hoje.
-                        </p>
+
+                        <div className="space-y-6">
+                            <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.85]">
+                                Domine o <br />
+                                <span className="gradient-text">Jogo do Dinheiro</span>
+                            </h1>
+                            <p className="text-gray-400 text-xl md:text-2xl max-w-3xl font-medium leading-relaxed">
+                                Educação financeira não é sobre economizar cafezinho. É sobre <span className="text-white font-black">liberdade</span>. Escolha sua trilha e comece a evoluir seu patrimônio hoje.
+                            </p>
+                        </div>
+
+                        <div className="flex flex-wrap gap-6 pt-6">
+                            <div className="flex items-center gap-4 px-6 py-3 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all backdrop-blur-md group/status cursor-default">
+                                <BookOpen size={20} className="text-primary group-hover:scale-110 transition-transform" />
+                                <div className="flex flex-col">
+                                    <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest">Conteúdo</span>
+                                    <span className="text-xs font-black text-white uppercase tracking-tighter">Atualizado</span>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4 px-6 py-3 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all backdrop-blur-md group/sync cursor-default">
+                                <TrendingUp size={20} className="text-green-400 group-hover:scale-110 transition-transform" />
+                                <div className="flex flex-col">
+                                    <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest">Metodologia</span>
+                                    <span className="text-xs font-black text-white uppercase tracking-tighter">Prática</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </motion.header>
 
@@ -1321,6 +1518,7 @@ export default function LearnPage() {
                 {/* Modules Grid */}
                 <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {modules.map((module) => {
+                        // These functions are placeholders, assuming they exist elsewhere
                         const realProgress = getModuleProgress(module.id, module.totalLessons);
                         const realCompletedLessons = getCompletedLessonsCount(module.id);
 
@@ -1341,10 +1539,10 @@ export default function LearnPage() {
                     <LessonModal
                         moduleId={activeModule}
                         moduleTitle={activeModuleData.title}
-                        lessons={activeModuleData.lessons}
+                        lessons={activeModuleData.lessons} // Assuming lessons property exists or is handled
                         onClose={() => setActiveModule(null)}
-                        canAccessLesson={canAccessLesson}
-                        markLessonComplete={markLessonComplete}
+                        canAccessLesson={canAccessLesson} // Placeholder
+                        markLessonComplete={markLessonComplete} // Placeholder
                     />
                 )}
             </div>

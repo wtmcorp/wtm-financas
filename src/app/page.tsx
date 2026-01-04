@@ -55,54 +55,66 @@ export default function Home() {
             initial="hidden"
             animate="visible"
             variants={containerVariants}
-            className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32"
+            className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32 relative overflow-x-hidden"
         >
-            <div className="max-w-7xl mx-auto space-y-8 md:space-y-12">
+            {/* Dynamic Background Elements */}
+            <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px] animate-pulse-slow" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/5 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+            </div>
+
+            <div className="max-w-7xl mx-auto space-y-8 md:space-y-16">
 
                 {/* Command Center Header */}
                 <motion.header
                     variants={itemVariants}
-                    className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#0f0f13] via-[#1a1a2e] to-[#0f0f13] border border-white/10 p-8 md:p-16 shadow-[0_50px_100px_rgba(0,0,0,0.6)] group"
+                    className="relative overflow-hidden rounded-[3.5rem] bg-gradient-to-br from-[#0f0f13] via-[#1a1a2e] to-[#0f0f13] border border-white/10 p-8 md:p-20 shadow-[0_50px_100px_rgba(0,0,0,0.6)] group"
                 >
                     {/* Animated Background Elements */}
                     <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
-                        <Crown size={300} className="text-primary rotate-12 animate-float" />
+                        <Crown size={400} className="text-primary rotate-12 animate-float" />
                     </div>
                     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none"></div>
-                    <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-[120px] animate-pulse-slow pointer-events-none"></div>
+                    <div className="absolute -bottom-24 -left-24 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px] animate-pulse-slow pointer-events-none"></div>
 
-                    <div className="relative z-10 space-y-8">
+                    <div className="relative z-10 space-y-10">
                         <div className="flex items-center gap-3">
-                            <div className="px-4 py-1.5 bg-white/5 text-primary border border-white/10 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-3 backdrop-blur-md">
-                                <span className="relative flex h-2 w-2">
+                            <div className="px-5 py-2 bg-white/5 text-primary border border-white/10 rounded-full text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-4 backdrop-blur-md">
+                                <span className="relative flex h-2.5 w-2.5">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
                                 </span>
-                                Wtm Intelligence OS v2.0
+                                Wtm Intelligence OS v2.5 • Elite Access
                             </div>
                         </div>
 
-                        <div className="space-y-4">
-                            <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.9]">
+                        <div className="space-y-6">
+                            <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.85]">
                                 {greeting}, <br />
                                 <span className="gradient-text relative inline-block mt-2">
                                     {user?.name?.split(" ")[0] || "Comandante"}
                                 </span>
                             </h1>
-                            <p className="text-gray-400 text-lg md:text-xl max-w-2xl font-medium leading-relaxed flex items-center gap-3">
-                                <Sparkles size={20} className="text-primary animate-pulse" />
-                                <span className="italic opacity-80">"{quote}"</span>
+                            <p className="text-gray-400 text-xl md:text-2xl max-w-3xl font-medium leading-relaxed flex items-start gap-4">
+                                <Sparkles size={24} className="text-primary animate-pulse shrink-0 mt-1" />
+                                <span className="italic opacity-90">"{quote}"</span>
                             </p>
                         </div>
 
-                        <div className="flex flex-wrap gap-4 pt-4">
-                            <div className="flex items-center gap-3 px-5 py-2.5 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all backdrop-blur-md group/status">
-                                <Zap size={18} className="text-yellow-500 fill-yellow-500/20 group-hover/status:scale-110 transition-transform" />
-                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Status: <span className="text-green-400">Operacional</span></span>
+                        <div className="flex flex-wrap gap-6 pt-6">
+                            <div className="flex items-center gap-4 px-6 py-3 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all backdrop-blur-md group/status cursor-default">
+                                <Zap size={20} className="text-yellow-500 fill-yellow-500/20 group-hover/status:scale-110 transition-transform" />
+                                <div className="flex flex-col">
+                                    <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest">Sistemas</span>
+                                    <span className="text-xs font-black text-green-400 uppercase tracking-tighter">Operacional</span>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-3 px-5 py-2.5 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all backdrop-blur-md group/sync">
-                                <Cloud size={18} className="text-blue-400 fill-blue-400/20 group-hover/sync:scale-110 transition-transform" />
-                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Cloud: <span className="text-white">Sincronizado</span></span>
+                            <div className="flex items-center gap-4 px-6 py-3 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all backdrop-blur-md group/sync cursor-default">
+                                <Cloud size={20} className="text-blue-400 fill-blue-400/20 group-hover/sync:scale-110 transition-transform" />
+                                <div className="flex flex-col">
+                                    <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest">Nuvem</span>
+                                    <span className="text-xs font-black text-white uppercase tracking-tighter">Sincronizado</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -111,71 +123,87 @@ export default function Home() {
                 {/* Metric Cards Grid */}
                 <motion.section
                     variants={itemVariants}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-8"
+                    className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12"
                 >
                     <div className="group/card relative">
-                        <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 -z-10"></div>
+                        <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000 -z-10"></div>
                         <BalanceCard />
                     </div>
                     <div className="group/card relative">
-                        <div className="absolute inset-0 bg-red-500/10 blur-3xl rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 -z-10"></div>
+                        <div className="absolute inset-0 bg-red-500/10 blur-[100px] rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000 -z-10"></div>
                         <ExpenseCard />
                     </div>
                     <div className="group/card relative">
-                        <div className="absolute inset-0 bg-green-500/10 blur-3xl rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 -z-10"></div>
+                        <div className="absolute inset-0 bg-green-500/10 blur-[100px] rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000 -z-10"></div>
                         <SavingsCard />
                     </div>
                 </motion.section>
 
                 {/* Main Dashboard Area */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
 
                     {/* Left Column: Charts */}
-                    <motion.div variants={itemVariants} className="lg:col-span-2 space-y-12">
-                        <div className="card-premium p-10 border-t-4 border-t-primary relative group/chart">
-                            <div className="absolute top-6 right-6 p-3 bg-primary/10 rounded-xl text-primary opacity-0 group-hover/chart:opacity-100 transition-all translate-y-2 group-hover/chart:translate-y-0">
-                                <ArrowUpRight size={20} />
+                    <motion.div variants={itemVariants} className="lg:col-span-2 space-y-12 lg:space-y-16">
+                        <div className="card-premium p-8 md:p-12 border-t-4 border-t-primary relative group/chart overflow-hidden">
+                            <div className="absolute top-8 right-8 p-4 bg-primary/10 rounded-2xl text-primary opacity-0 group-hover/chart:opacity-100 transition-all translate-y-4 group-hover/chart:translate-y-0 cursor-pointer hover:bg-primary hover:text-black">
+                                <ArrowUpRight size={24} />
                             </div>
-                            <div className="flex items-center justify-between mb-10">
+                            <div className="flex items-center justify-between mb-12">
                                 <div>
-                                    <h3 className="text-2xl font-black text-white tracking-tighter flex items-center gap-3">
-                                        <TrendingUp className="text-primary" size={28} />
+                                    <h3 className="text-3xl font-black text-white tracking-tighter flex items-center gap-4">
+                                        <TrendingUp className="text-primary" size={32} />
                                         Fluxo de Caixa
                                     </h3>
-                                    <p className="text-[10px] text-gray-500 uppercase font-black tracking-[0.2em] mt-2">Análise de Entradas e Saídas</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-black tracking-[0.3em] mt-3">Análise Estratégica de Capital</p>
                                 </div>
-                                <div className="px-4 py-1.5 bg-white/5 rounded-full text-[9px] font-black text-gray-400 uppercase tracking-widest border border-white/10 backdrop-blur-md">Live Data</div>
+                                <div className="hidden sm:flex px-5 py-2 bg-white/5 rounded-full text-[10px] font-black text-gray-400 uppercase tracking-widest border border-white/10 backdrop-blur-md items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                                    Live Analysis
+                                </div>
                             </div>
-                            <CashFlowChart />
+                            <div className="h-[400px]">
+                                <CashFlowChart />
+                            </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                            <div className="card-premium p-10">
-                                <h3 className="text-xl font-black text-white mb-8 tracking-tight">Gastos por Categoria</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                            <div className="card-premium p-10 hover:border-primary/20 transition-colors">
+                                <h3 className="text-xl font-black text-white mb-10 tracking-tight flex items-center justify-between">
+                                    Gastos por Categoria
+                                    <PieChart size={20} className="text-gray-600" />
+                                </h3>
                                 <ExpenseChart />
                             </div>
-                            <div className="card-premium p-10">
-                                <h3 className="text-xl font-black text-white mb-8 tracking-tight">Evolução Patrimonial</h3>
+                            <div className="card-premium p-10 hover:border-primary/20 transition-colors">
+                                <h3 className="text-xl font-black text-white mb-10 tracking-tight flex items-center justify-between">
+                                    Evolução Patrimonial
+                                    <TrendingUp size={20} className="text-gray-600" />
+                                </h3>
                                 <NetWorthChart />
                             </div>
                         </div>
                     </motion.div>
 
                     {/* Right Column: Actions & Feed */}
-                    <motion.div variants={itemVariants} className="space-y-12">
+                    <motion.div variants={itemVariants} className="space-y-12 lg:space-y-16">
                         <QuickActions />
 
-                        <div className="h-[500px]">
+                        <div className="h-[550px]">
                             <NewsSection />
                         </div>
 
-                        <div className="card-premium p-8">
-                            <div className="flex items-center justify-between mb-8">
-                                <h3 className="text-xl font-black text-white tracking-tight">Transações Recentes</h3>
-                                <button className="text-[10px] font-black text-primary hover:text-white uppercase tracking-widest transition-colors">Ver Tudo</button>
+                        <div className="card-premium p-10 relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <Zap size={100} className="text-primary" />
                             </div>
-                            <div className="max-h-[400px] overflow-y-auto pr-4 scrollbar-thin">
-                                <TransactionList limit={6} />
+                            <div className="flex items-center justify-between mb-10">
+                                <h3 className="text-2xl font-black text-white tracking-tight">Transações</h3>
+                                <button className="text-[10px] font-black text-primary hover:text-white uppercase tracking-[0.2em] transition-all hover:gap-2 flex items-center gap-1">
+                                    Ver Tudo <ArrowUpRight size={12} />
+                                </button>
+                            </div>
+                            <div className="max-h-[450px] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                                <TransactionList limit={8} />
                             </div>
                         </div>
                     </motion.div>
