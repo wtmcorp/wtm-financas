@@ -128,7 +128,7 @@ export default function RevenueChart() {
                         />
                         <Tooltip
                             content={<CustomTooltip />}
-                            cursor={{ fill: 'rgba(255, 255, 255, 0.03)', radius: [8, 8, 0, 0] }}
+                            cursor={{ fill: 'rgba(255, 255, 255, 0.03)' }}
                         />
                         <Bar dataKey="receita" fill="#a78bfa" radius={[6, 6, 0, 0]} barSize={24}>
                             {visibleData.map((entry, index) => (

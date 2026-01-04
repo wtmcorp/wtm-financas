@@ -142,6 +142,8 @@ export default function AiToolsPage() {
     ];
 
     const activeToolData = tools.find(t => t.id === activeTool) || tools[0];
+    const ActiveIcon = activeToolData.icon;
+    const ActiveComponent = activeToolData.component;
 
     return (
         <div className="min-h-screen bg-mesh pt-28 pb-20 md:pb-8 px-4 md:px-8 lg:px-12 flex flex-col md:flex-row gap-8">
@@ -301,7 +303,7 @@ export default function AiToolsPage() {
                 <div className="p-8 md:p-10 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-gradient-to-b from-white/[0.02] to-transparent">
                     <div className="flex items-center gap-6">
                         <div className="w-16 h-16 rounded-[1.5rem] bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-2xl shadow-primary/5">
-                            <activeToolData.icon size={32} />
+                            {ActiveIcon && <ActiveIcon size={32} />}
                         </div>
                         <div>
                             <div className="flex items-center gap-3 mb-1">
@@ -344,8 +346,8 @@ export default function AiToolsPage() {
                             transition={{ duration: 0.4 }}
                             className="h-full relative z-10"
                         >
-                            {activeToolData.type === 'internal' && activeToolData.component ? (
-                                <activeToolData.component />
+                            {activeToolData.type === 'internal' && ActiveComponent ? (
+                                <ActiveComponent />
                             ) : (
                                 <ExternalToolFrame
                                     url={activeToolData.url || ""}
@@ -373,7 +375,7 @@ export default function AiToolsPage() {
                         WTM Intelligence Systems © 2024
                     </div>
                 </div>
-            </main>
+            </motion.main>
         </div>
     );
 }

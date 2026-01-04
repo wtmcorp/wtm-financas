@@ -19,7 +19,8 @@ import {
     PieChart,
     ArrowUpRight,
     AlertTriangle,
-    CheckCircle2
+    CheckCircle2,
+    BookOpen
 } from "lucide-react";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { motion, AnimatePresence } from "framer-motion";

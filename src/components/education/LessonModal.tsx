@@ -4,17 +4,17 @@ import { X, Play, FileText, CheckCircle2, ChevronRight, ChevronLeft, Menu, Lock 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface QuizQuestion {
+export interface QuizQuestion {
     question: string;
     options: string[];
     correctAnswer: number;
 }
 
-interface Lesson {
+export interface Lesson {
     id: string;
     title: string;
     duration: string;
-    type: "video" | "article";
+    type: "video" | "article" | "quiz";
     completed: boolean;
     content: React.ReactNode;
     quiz?: QuizQuestion;

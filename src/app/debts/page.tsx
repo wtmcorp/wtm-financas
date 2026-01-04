@@ -7,6 +7,8 @@ import DebtPayoffCalculator from "@/components/tools/DebtPayoffCalculator";
 import FinancialHacks from "@/components/finance/FinancialHacks";
 import { Tooltip } from "@/components/ui/Tooltip";
 
+import { useRouter } from "next/navigation";
+
 interface Debt {
     id: number;
     name: string;
@@ -26,6 +28,7 @@ const debtCategories = {
 };
 
 export default function DebtsPage() {
+    const router = useRouter();
     const [debts, setDebts] = useState<Debt[]>([]);
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");

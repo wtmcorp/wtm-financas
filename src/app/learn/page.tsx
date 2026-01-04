@@ -758,7 +758,7 @@ export default function LearnPage() {
                         >
                             <ModuleCard
                                 {...module}
-                                progress={getModuleProgress(module.id)}
+                                progress={getModuleProgress(module.id, module.totalLessons)}
                                 completedLessons={getCompletedLessonsCount(module.id)}
                             />
                         </motion.div>
@@ -799,7 +799,6 @@ export default function LearnPage() {
             {/* Lesson Modal */}
             {activeModuleData && (
                 <LessonModal
-                    isOpen={!!activeModule}
                     onClose={() => setActiveModule(null)}
                     moduleTitle={activeModuleData.title}
                     moduleId={activeModuleData.id}
