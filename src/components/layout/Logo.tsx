@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Link from "next/link";
 
 interface LogoProps {
     className?: string;
@@ -12,7 +12,7 @@ export default function Logo({
     size = 180,
 }: LogoProps) {
     return (
-        <div className={`flex items-center gap-3 group ${className}`}>
+        <Link href="/" className={`flex items-center gap-3 group cursor-pointer ${className}`}>
             {/* Premium Custom SVG Logo */}
             <div
                 className="relative flex items-center justify-center transition-all duration-700 group-hover:scale-110 group-hover:rotate-[360deg]"
@@ -62,6 +62,6 @@ export default function Logo({
             <span className="text-2xl font-black tracking-tighter text-white group-hover:text-primary transition-all duration-500 flex items-center">
                 Wtm<span className="text-primary/80 group-hover:translate-x-1 transition-transform">Corps</span>
             </span>
-        </div>
+        </Link>
     );
 }

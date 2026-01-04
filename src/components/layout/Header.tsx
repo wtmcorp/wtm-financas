@@ -5,7 +5,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MarketTicker from "../dashboard/MarketTicker";
-import Logo from "@/components/ui/Logo";
+import InteractiveLogo from "@/components/ui/InteractiveLogo";
+import MobileMenu from "./MobileMenu";
 
 export default function Header() {
     const { user, logout } = useAuth();
@@ -25,13 +26,27 @@ export default function Header() {
             {/* Top Bar */}
             <div className="h-20 bg-black/80 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-4 md:px-8">
 
+                {/* Left Section - Logo + Menu */}
+                <div className="flex items-center gap-4 w-64">
+                    <Link href="/" className="flex items-center gap-3">
+                        <InteractiveLogo size="sm" />
+                        <div className="hidden md:flex flex-col">
+                            <span className="text-lg font-black text-white tracking-tighter leading-none uppercase">
+                                Wtm<span className="text-violet-500">Corps</span>
+                            </span>
+                            <span className="text-[8px] font-black text-gray-500 uppercase tracking-[0.2em]">
+                                Intelligence OS
+                            </span>
+                        </div>
+                    </Link>
 
-                {/* Logo Section */}
-                <div className="flex items-center w-64">
-                    <Logo size="sm" />
+                    {/* Mobile Menu Button - Visible on screens < XL */}
+                    <div className="xl:hidden">
+                        <MobileMenu />
+                    </div>
                 </div>
 
-                {/* Navigation Links - Centered Pill */}
+                {/* Navigation Links - Centered Pill (XL+ only) */}
                 <nav className="hidden xl:flex items-center bg-white/[0.03] border border-white/10 rounded-full px-2 py-1.5">
                     {navLinks.map((link) => {
                         const isActive = pathname === link.href;
@@ -72,7 +87,7 @@ export default function Header() {
                             onClick={logout}
                             className="h-10 px-6 rounded-xl bg-white text-black text-xs font-black uppercase tracking-wider hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center gap-2"
                         >
-                            <span>Sair</span>
+                            <span className="hidden sm:inline">Sair</span>
                             <LogOut size={14} />
                         </button>
                     ) : (
