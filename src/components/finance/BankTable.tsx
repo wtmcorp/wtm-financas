@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpDown, ExternalLink, ShieldCheck, Zap, Globe } from "lucide-react";
+import { ArrowUpDown, ExternalLink, ShieldCheck, Activity, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type Bank = {
@@ -108,7 +108,7 @@ export default function BankTable() {
                                     </td>
                                     <td className="px-8 py-6">
                                         <div className="flex items-center gap-2 text-gray-400 font-medium">
-                                            <Zap size={14} className="text-primary" />
+                                            <Activity size={14} className="text-primary" />
                                             {bank.liquidity}
                                         </div>
                                     </td>

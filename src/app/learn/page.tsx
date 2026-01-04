@@ -3,7 +3,7 @@
 import { useState } from "react";
 import ModuleCard from "@/components/education/ModuleCard";
 import LessonModal from "@/components/education/LessonModal";
-import { GraduationCap, BookOpen, TrendingUp, ShieldCheck, Coins, Globe, BrainCircuit, Plane, Sparkles, ArrowUpRight, Target, Zap, ChevronRight } from "lucide-react";
+import { GraduationCap, BookOpen, TrendingUp, ShieldCheck, Coins, Globe, BrainCircuit, Plane, Sparkles, ArrowUpRight, Target, Award, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLearnProgress } from "@/hooks/useLearnProgress";
 
@@ -734,7 +734,7 @@ export default function LearnPage() {
                         <div className="flex flex-wrap gap-6 pt-4">
                             {[
                                 { label: "Aulas Concluídas", value: "12/48", icon: Target },
-                                { label: "Nível Atual", value: "Intermediário", icon: Zap },
+                                { label: "Nível Atual", value: "Intermediário", icon: Award },
                                 { label: "Tempo de Estudo", value: "14.5h", icon: BookOpen }
                             ].map((stat, i) => (
                                 <div key={i} className="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-xl">

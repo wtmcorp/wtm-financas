@@ -3,6 +3,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers/Providers";
 import MouseTracker from "@/components/ui/MouseTracker";
 import PremiumNotifications from "@/components/ui/PremiumNotifications";
+import StarfieldBackground from "@/components/ui/StarfieldBackground";
 import Header from "@/components/layout/Header";
 import BottomNav from "@/components/layout/BottomNav";
 import ScrollToTop from "@/components/ui/ScrollToTop";
@@ -22,14 +23,11 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="pt-BR">
-            <body className={`${inter.className} bg-black text-white antialiased overflow-x-hidden selection:bg-primary selection:text-black`}>
+            <body className={`${inter.className} text-white antialiased overflow-x-hidden selection:bg-primary selection:text-black`}>
                 <Providers>
                     <AuthGuard>
                         {/* Global Ambient Background */}
-                        <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
-                            <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-violet-600/10 rounded-full blur-[150px] mix-blend-screen animate-pulse-slow" />
-                            <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[150px] mix-blend-screen animate-pulse-slow delay-1000" />
-                        </div>
+                        <StarfieldBackground />
 
                         <div className="min-h-screen flex flex-col transition-all duration-500">
                             <Header />

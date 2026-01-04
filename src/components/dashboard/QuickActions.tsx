@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Plus, Download, Target, TrendingUp, Zap, Sparkles } from 'lucide-react';
+import { Plus, Download, Target, TrendingUp, MousePointer2, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import TransactionModal from '@/components/finance/TransactionModal';
 import { motion } from 'framer-motion';
@@ -77,7 +77,7 @@ const QuickActions = () => {
             >
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
-                        <Zap size={20} />
+                        <MousePointer2 size={20} />
                     </div>
                     <h3 className="text-lg font-bold text-white">Ações Rápidas</h3>
                 </div>
@@ -101,7 +101,10 @@ const QuickActions = () => {
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-white/5 text-center">
-                    <button className="text-xs font-medium text-gray-500 hover:text-violet-400 transition-colors flex items-center justify-center gap-2 w-full">
+                    <button
+                        onClick={() => router.push('/tools')}
+                        className="text-xs font-medium text-gray-500 hover:text-violet-400 transition-colors flex items-center justify-center gap-2 w-full"
+                    >
                         <Sparkles size={14} />
                         Ver todas as ferramentas
                     </button>

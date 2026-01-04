@@ -8,7 +8,6 @@ import {
     Search,
     Filter,
     ArrowUpDown,
-    Zap,
     Plane,
     DollarSign,
     Crown,

@@ -8,7 +8,6 @@ import {
     BookOpen,
     Wrench,
     User,
-    Zap,
     Settings
 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -32,7 +31,7 @@ export default function Sidebar() {
             <div className="p-8 pb-4">
                 <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(124,58,237,0.4)]">
-                        <Zap size={20} className="text-white fill-white" />
+                        <TrendingUp size={20} className="text-white" />
                     </div>
                     <span className="text-xl font-bold text-white tracking-tight">WTM</span>
                 </div>
@@ -47,8 +46,8 @@ export default function Sidebar() {
                             key={item.href}
                             href={item.href}
                             className={`group relative flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 ${isActive
-                                    ? "text-white bg-white/5 border border-white/5 shadow-inner shadow-white/5"
-                                    : "text-gray-500 hover:text-white hover:bg-white/[0.02]"
+                                ? "text-white bg-white/5 border border-white/5 shadow-inner shadow-white/5"
+                                : "text-gray-500 hover:text-white hover:bg-white/[0.02]"
                                 }`}
                         >
                             {isActive && (

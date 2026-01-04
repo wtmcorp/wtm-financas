@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/Card";
-import { Github, Shield, Bell, Eye, Smartphone, Lock, Database, Info, ChevronRight, Sparkles, Zap, ShieldCheck, Globe, Cpu, RefreshCw } from "lucide-react";
+import { Github, Shield, Bell, Eye, Smartphone, Lock, Database, Info, ChevronRight, Sparkles, BellRing, ShieldCheck, Globe, Cpu, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SettingsPage() {
@@ -37,7 +37,7 @@ export default function SettingsPage() {
             color: "text-yellow-400",
             bg: "bg-yellow-500/10",
             items: [
-                { label: "Alertas de Gastos", desc: "Receba avisos quando ultrapassar seus limites", status: "Ativado", icon: Zap },
+                { label: "Alertas de Gastos", desc: "Receba avisos quando ultrapassar seus limites", status: "Ativado", icon: BellRing },
                 { label: "Relatórios Semanais", desc: "Resumo do seu desempenho financeiro", status: "E-mail", icon: Info }
             ]
         },

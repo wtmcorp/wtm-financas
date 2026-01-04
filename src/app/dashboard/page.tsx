@@ -10,15 +10,17 @@ import {
     Calendar,
     Info,
     Home,
-    Zap,
+    BarChart3,
+    ChevronRight,
+    Search,
+    Heart,
+    Shield,
+    Lock,
     Sparkles,
     ArrowUpRight,
     ShieldCheck,
     LayoutGrid,
-    PieChart,
-    BarChart3,
-    ChevronRight,
-    Search
+    PieChart
 } from "lucide-react";
 import { Tooltip } from "@/components/ui/Tooltip";
 import NewsSection from "@/components/dashboard/NewsSection";
@@ -77,7 +79,7 @@ export default function DashboardPage() {
                 {/* Dashboard Header */}
                 <motion.header
                     variants={itemVariants}
-                    className="relative overflow-hidden rounded-[3.5rem] bg-gradient-to-br from-[#0f0f13] via-[#1a1a2e] to-[#0f0f13] border border-white/10 p-10 md:p-16 shadow-[0_50px_100px_rgba(0,0,0,0.6)] group"
+                    className="relative overflow-hidden rounded-[3.5rem] bg-black/20 backdrop-blur-3xl border border-white/10 p-10 md:p-16 shadow-[0_50px_100px_rgba(0,0,0,0.6)] group"
                 >
                     <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
                         <User size={400} className="text-primary rotate-12 animate-float" />
@@ -174,7 +176,7 @@ export default function DashboardPage() {
                                 <div className="space-y-6">
                                     {[
                                         { label: "Necessidades", value: budget.needs, color: "from-blue-500 to-cyan-600", percent: "50%", icon: Home, desc: "Essential living expenses" },
-                                        { label: "Desejos", value: budget.wants, color: "from-purple-500 to-pink-600", percent: "30%", icon: Zap, desc: "Lifestyle and leisure" },
+                                        { label: "Desejos", value: budget.wants, color: "from-purple-500 to-pink-600", percent: "30%", icon: Heart, desc: "Lifestyle and leisure" },
                                         { label: "Investimentos", value: budget.savings, color: "from-primary to-purple-600", percent: "20%", icon: TrendingUp, desc: "Future wealth building" }
                                     ].map((item, i) => (
                                         <div key={i} className="group/item">
@@ -257,7 +259,7 @@ export default function DashboardPage() {
                                     { label: "Member Since", value: new Date(user.createdAt).toLocaleDateString(), icon: Calendar },
                                     { label: "Account Status", value: "Verified Active", icon: ShieldCheck, color: "text-green-400" },
                                     { label: "Access Level", value: "Platinum Elite", icon: Sparkles, color: "text-primary" },
-                                    { label: "Security", value: "2FA Enabled", icon: Zap, color: "text-blue-400" }
+                                    { label: "Security", value: "2FA Enabled", icon: Shield, color: "text-blue-400" }
                                 ].map((item, i) => (
                                     <div key={i} className="flex justify-between items-center p-5 bg-white/[0.02] rounded-2xl border border-white/5 hover:border-white/10 transition-all group/item">
                                         <div className="flex items-center gap-4">
@@ -269,7 +271,10 @@ export default function DashboardPage() {
                                 ))}
                             </div>
 
-                            <button className="w-full mt-10 py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[10px] font-black text-gray-500 hover:text-white uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3">
+                            <button
+                                onClick={() => router.push('/profile')}
+                                className="w-full mt-10 py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[10px] font-black text-gray-500 hover:text-white uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3"
+                            >
                                 Manage Profile Settings <ArrowUpRight size={14} />
                             </button>
                         </motion.div>

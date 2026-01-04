@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, Plus, Trash2, CheckCircle, TrendingDown, Info, ShieldAlert, Target, ArrowUpRight, Sparkles, Zap, Calendar, DollarSign, ShieldX } from "lucide-react";
+import { AlertTriangle, Plus, Trash2, CheckCircle, TrendingDown, Info, ShieldAlert, Target, ArrowUpRight, Sparkles, Calendar, DollarSign, ShieldX } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import DebtPayoffCalculator from "@/components/tools/DebtPayoffCalculator";
@@ -209,7 +209,7 @@ export default function DebtsPage() {
                             </div>
 
                             <button onClick={addDebt} className="w-full py-5 bg-primary text-black font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl hover:bg-white transition-all active:scale-95 shadow-xl shadow-primary/10 flex items-center justify-center gap-3">
-                                <Zap size={16} /> Adicionar ao Plano de Ataque
+                                <Target size={16} /> Adicionar ao Plano de Ataque
                             </button>
                         </div>
                     </motion.div>

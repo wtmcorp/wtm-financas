@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp, TrendingDown, AlertCircle, ExternalLink, Globe, Clock, ArrowRight, Newspaper, Zap } from "lucide-react";
+import { TrendingUp, TrendingDown, AlertCircle, ExternalLink, Globe, Clock, ArrowRight, Newspaper } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -116,7 +116,7 @@ const NewsSection = () => {
                                         {item.source}
                                     </span>
                                     <span className="text-[9px] text-gray-600 font-black uppercase tracking-tighter flex items-center gap-1">
-                                        <Zap size={10} className="text-yellow-500" />
+                                        <Clock size={10} className="text-primary" />
                                         {formatTime(item.time)}
                                     </span>
                                 </div>

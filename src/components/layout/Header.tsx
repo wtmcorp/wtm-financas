@@ -5,6 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MarketTicker from "../dashboard/MarketTicker";
+import InteractiveLogo from "@/components/ui/InteractiveLogo";
 
 export default function Header() {
     const { user, logout } = useAuth();
@@ -23,13 +24,11 @@ export default function Header() {
         <header className="fixed top-0 left-0 right-0 z-50 flex flex-col">
             {/* Top Bar */}
             <div className="h-20 bg-black/80 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-8">
+
+
                 {/* Logo Section */}
                 <div className="flex items-center gap-3 w-64">
-                    <div className="w-9 h-9 bg-violet-600 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.6)]">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="white" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </div>
+                    <InteractiveLogo />
                     <span className="text-xl font-black text-white tracking-tighter">WtmCorps</span>
                 </div>
 
@@ -42,8 +41,8 @@ export default function Header() {
                                 key={link.href}
                                 href={link.href}
                                 className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 ${isActive
-                                        ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-                                        : "text-gray-400 hover:text-white hover:bg-white/5"
+                                    ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                                    : "text-gray-400 hover:text-white hover:bg-white/5"
                                     }`}
                             >
                                 {link.label}

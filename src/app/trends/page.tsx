@@ -3,7 +3,7 @@
 import MarketTicker from "@/components/trends/MarketTicker";
 import NewsFeed from "@/components/trends/NewsFeed";
 import MarketOverview from "@/components/trends/Heatmap";
-import { TrendingUp, CalendarDays, Globe2, Zap, AlertCircle, Info } from "lucide-react";
+import { TrendingUp, CalendarDays, Globe2, AlertTriangle, AlertCircle, Info } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function TrendsPage() {
@@ -102,10 +102,10 @@ export default function TrendsPage() {
                                         </div>
                                         <div className={`flex items-center gap-2`}>
                                             <div className={`w-2 h-2 rounded-full ${item.impact === 'high' ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)]' :
-                                                    item.impact === 'medium' ? 'bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.4)]' :
-                                                        'bg-green-500'
+                                                item.impact === 'medium' ? 'bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.4)]' :
+                                                    'bg-green-500'
                                                 }`} />
-                                            {item.impact === 'high' && <Zap size={12} className="text-red-500 animate-pulse" />}
+                                            {item.impact === 'high' && <AlertTriangle size={12} className="text-red-500 animate-pulse" />}
                                         </div>
                                     </motion.div>
                                 ))}

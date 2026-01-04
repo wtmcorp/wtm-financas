@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Minus, Wallet, Info, Target, TrendingUp, Sparkles, ChevronRight, ArrowUpRight, Trash2, Zap, Calendar, DollarSign } from "lucide-react";
+import { Plus, Minus, Wallet, Info, Target, TrendingUp, Sparkles, ChevronRight, ArrowUpRight, Trash2, Calendar, DollarSign } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface EnvelopeProps {
@@ -178,7 +178,7 @@ export default function GoalsPage() {
                     className="card-premium p-10 bg-gradient-to-br from-[#0f0f13] to-[#1a1a2e] relative overflow-hidden group"
                 >
                     <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <Zap size={150} />
+                        <Target size={150} />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
@@ -197,7 +197,7 @@ export default function GoalsPage() {
                             <div className="flex items-center justify-between">
                                 <label className="text-[10px] text-gray-500 uppercase font-black tracking-[0.3em]">Valor da Transação</label>
                                 <div className="text-primary text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                                    <Zap size={12} /> Instant Allocation
+                                    <Sparkles size={12} /> Instant Allocation
                                 </div>
                             </div>
                             <div className="relative group">

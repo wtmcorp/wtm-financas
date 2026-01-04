@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Bell, X, CheckCircle, AlertCircle, Info, Zap } from "lucide-react";
+import { Bell, X, CheckCircle, AlertCircle, Info, AlertTriangle } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface Notification {
@@ -52,7 +52,7 @@ export default function PremiumNotifications() {
         success: <CheckCircle className="text-green-400" size={20} />,
         error: <AlertCircle className="text-red-400" size={20} />,
         info: <Info className="text-blue-400" size={20} />,
-        warning: <Zap className="text-yellow-400" size={20} />,
+        warning: <AlertTriangle className="text-yellow-400" size={20} />,
     };
 
     return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Mail, Phone, Calendar, LogOut, Shield, Award, Star, Zap, Crown, Trophy, Sparkles, ArrowUpRight, Settings, ShieldCheck, Fingerprint } from "lucide-react";
+import { User, Mail, Phone, Calendar, LogOut, Shield, Award, Star, Target, Crown, Trophy, Sparkles, ArrowUpRight, Settings, ShieldCheck, Fingerprint, TrendingUp } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -47,7 +47,7 @@ export default function ProfilePage() {
     const badges = [
         { name: "Pioneiro", icon: Crown, color: "text-yellow-400", bg: "bg-yellow-500/10", desc: "Membro fundador" },
         { name: "Mãos de Diamante", icon: Star, color: "text-blue-400", bg: "bg-blue-500/10", desc: "Não vendeu na baixa" },
-        { name: "Exterminador", icon: Zap, color: "text-red-400", bg: "bg-red-500/10", desc: "Quitou uma dívida" },
+        { name: "Exterminador", icon: Target, color: "text-red-400", bg: "bg-red-500/10", desc: "Quitou uma dívida" },
         { name: "Sábio", icon: Award, color: "text-purple-400", bg: "bg-purple-500/10", desc: "Completou 5 aulas" },
     ];
 
@@ -129,7 +129,7 @@ export default function ProfilePage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <motion.div variants={itemVariants} className="lg:col-span-2 card-premium p-10 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <Zap size={150} />
+                            <TrendingUp size={150} />
                         </div>
                         <div className="flex justify-between items-end mb-8 relative z-10">
                             <div>

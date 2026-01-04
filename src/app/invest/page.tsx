@@ -8,7 +8,6 @@ import {
     Info,
     TrendingUp,
     Shield,
-    Zap,
     Award,
     Target,
     ArrowRight,
@@ -20,7 +19,8 @@ import {
     ArrowUpRight,
     AlertTriangle,
     CheckCircle2,
-    BookOpen
+    BookOpen,
+    Activity
 } from "lucide-react";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { motion, AnimatePresence } from "framer-motion";
@@ -97,7 +97,7 @@ export default function InvestPage() {
                                     Capital para Simulação
                                 </label>
                                 <div className="text-primary text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                                    <Zap size={12} /> Real-time Simulation
+                                    <Sparkles size={12} /> Real-time Simulation
                                 </div>
                             </div>
                             <div className="relative group">
@@ -142,7 +142,7 @@ export default function InvestPage() {
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-4">
                                     <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 shadow-2xl shadow-blue-500/10">
-                                        <Zap className="text-blue-400" size={28} />
+                                        <Activity className="text-blue-400" size={28} />
                                     </div>
                                     <div>
                                         <h2 className="text-3xl font-black text-white tracking-tight">Liquidez Diária</h2>

@@ -5,7 +5,7 @@ import { Lock, Heart, Coins, Key, ShieldCheck, Sparkles } from "lucide-react";
 import Challenge100k from "@/components/tools/Challenge100k";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function PrivatePage() {
+export default function ChallengePage() {
     const [password, setPassword] = useState("");
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [error, setError] = useState("");

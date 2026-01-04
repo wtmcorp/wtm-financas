@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TrendingUp, DollarSign, Calendar, Percent, Sparkles, ArrowRight, Zap } from "lucide-react";
+import { TrendingUp, DollarSign, Calendar, Percent, Sparkles, ArrowRight, PlusCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function CompoundInterestCalculator() {
@@ -82,7 +82,7 @@ export default function CompoundInterestCalculator() {
 
                         <div className="space-y-3">
                             <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1 flex items-center gap-2">
-                                <Zap size={12} className="text-primary" /> Aporte Mensal
+                                <PlusCircle size={12} className="text-primary" /> Aporte Mensal
                             </label>
                             <input
                                 type="number"

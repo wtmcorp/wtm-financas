@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle, X, Send, Sparkles, Loader2, Bot, Zap, Volume2, VolumeX, Play, Pause, RefreshCw } from "lucide-react";
+import { MessageCircle, X, Send, Sparkles, Loader2, Bot, Volume2, VolumeX, Play, Pause, RefreshCw } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -425,7 +425,7 @@ export default function ChatBubble() {
                                 </button>
                             </div>
                             <div className="flex items-center justify-center gap-2 mt-4 opacity-30">
-                                <Zap size={10} className="text-primary" />
+                                <Sparkles size={10} className="text-primary" />
                                 <p className="text-[8px] text-center text-gray-400 font-black uppercase tracking-[0.2em]">WTM Intelligence v2.0</p>
                             </div>
                         </form>

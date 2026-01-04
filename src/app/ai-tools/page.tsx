@@ -10,7 +10,7 @@ import {
     Mic,
     Code,
     Search,
-    Zap,
+    Activity,
     LayoutGrid,
     Menu,
     ChevronRight,
@@ -134,7 +134,7 @@ export default function AiToolsPage() {
             id: "notion",
             name: "Notion AI",
             description: "Seu segundo cérebro, agora com IA.",
-            icon: Zap,
+            icon: Sparkles,
             type: "external",
             url: "https://www.notion.so/product/ai",
             tag: "Productivity"
@@ -367,7 +367,7 @@ export default function AiToolsPage() {
                             <span className="text-[9px] font-black text-gray-600 uppercase tracking-widest">Neural Engine: Active</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Zap size={14} className="text-yellow-500" />
+                            <Activity size={14} className="text-yellow-500" />
                             <span className="text-[9px] font-black text-gray-600 uppercase tracking-widest">Latency: 24ms</span>
                         </div>
                     </div>

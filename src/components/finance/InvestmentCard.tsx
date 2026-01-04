@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, TrendingUp, Clock, ShieldCheck, Zap } from "lucide-react";
+import { ArrowRight, TrendingUp, Clock, ShieldCheck, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface InvestmentCardProps {
@@ -62,7 +62,7 @@ export default function InvestmentCard({ title, rate, period, type, profitabilit
                 <div className="bg-black/40 p-6 rounded-2xl border border-white/5 group-hover:border-primary/10 transition-all">
                     <div className="flex justify-between items-center mb-4">
                         <span className="text-[10px] font-black text-gray-600 uppercase tracking-widest">Resultado Estimado</span>
-                        <Zap size={14} className="text-primary animate-pulse" />
+                        <Sparkles size={14} className="text-primary animate-pulse" />
                     </div>
                     <div className="flex justify-between items-end">
                         <div>

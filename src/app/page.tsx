@@ -9,7 +9,7 @@ import CashFlowChart from "@/components/dashboard/charts/CashFlowChart";
 import NetWorthChart from "@/components/dashboard/charts/NetWorthChart";
 import QuickActions from "@/components/dashboard/QuickActions";
 import TransactionList from "@/components/finance/TransactionList";
-import { TrendingUp, Activity, Zap, ArrowUpRight, Filter } from "lucide-react";
+import { TrendingUp, Activity, PlusCircle, ArrowUpRight, Filter } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import HealthScore from "@/components/dashboard/HealthScore";
@@ -82,7 +82,7 @@ export default function Home() {
                         Filtrar
                     </button>
                     <button className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-sm font-medium text-white transition-colors shadow-lg shadow-violet-500/20 flex items-center gap-2">
-                        <Zap size={16} />
+                        <PlusCircle size={16} />
                         Nova Transação
                     </button>
                 </div>

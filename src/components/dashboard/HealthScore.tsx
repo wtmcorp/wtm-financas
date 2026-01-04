@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, TrendingUp, AlertCircle, CheckCircle2, Zap, Info, ArrowUpRight } from "lucide-react";
+import { Shield, TrendingUp, AlertCircle, CheckCircle2, Info, ArrowUpRight } from "lucide-react";
 
 export default function HealthScore() {
     const score = 85;
