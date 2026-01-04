@@ -1,9 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Sparkles, TrendingUp, AlertTriangle, Lightbulb, ArrowRight, BrainCircuit } from "lucide-react";
+import { Sparkles, TrendingUp, AlertTriangle, Lightbulb, ArrowRight, BrainCircuit, Loader2 } from "lucide-react";
 
 export default function AiInsights() {
+    const [isGenerating, setIsGenerating] = useState(false);
+
+    const handleGenerate = () => {
+        setIsGenerating(true);
+        setTimeout(() => {
+            setIsGenerating(false);
+        }, 2000);
+    };
     const insights = [
         {
             icon: TrendingUp,
@@ -93,9 +102,17 @@ export default function AiInsights() {
                 ))}
             </div>
 
-            <button className="w-full py-5 bg-primary text-black rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_20px_40px_rgba(167,139,250,0.2)] active:scale-95 flex items-center justify-center gap-3 group/btn">
-                <Sparkles size={16} className="group-hover/btn:animate-pulse" />
-                Gerar Nova Análise Preditiva
+            <button
+                onClick={handleGenerate}
+                disabled={isGenerating}
+                className="w-full py-5 bg-primary text-black rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_20px_40px_rgba(167,139,250,0.2)] active:scale-95 flex items-center justify-center gap-3 group/btn disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                {isGenerating ? (
+                    <Loader2 size={16} className="animate-spin" />
+                ) : (
+                    <Sparkles size={16} className="group-hover/btn:animate-pulse" />
+                )}
+                {isGenerating ? "Processando Dados..." : "Gerar Nova Análise Preditiva"}
             </button>
         </motion.div>
     );

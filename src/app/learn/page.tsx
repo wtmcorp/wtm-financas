@@ -692,6 +692,383 @@ export default function LearnPage() {
                     )
                 }
             ]
+        },
+        {
+            id: "unethical-hacks",
+            title: "Hacks Antiéticos",
+            description: "Exploração de brechas, táticas de guerrilha urbana e estratégias no limite da ética para acelerar resultados.",
+            icon: BrainCircuit,
+            level: "Avançado" as const,
+            progress: 0,
+            totalLessons: 30,
+            completedLessons: 0,
+            lessons: [
+                {
+                    id: "china-import",
+                    title: "Hack 1: Importação Sem Imposto",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como comprar da China (AliExpress, Shopee) e minimizar as chances de ser taxado pela Receita Federal.</p>
+                            <ul className="list-disc pl-5 space-y-2">
+                                <li><strong>Fracionamento:</strong> Divida compras grandes em vários pacotes pequenos.</li>
+                                <li><strong>Declaração:</strong> Peça ao vendedor para declarar valores abaixo de $50 (embora o limite tenha mudado, ainda ajuda no fluxo).</li>
+                                <li><strong>Fretes Alternativos:</strong> Use métodos de envio que entram por estados com menor fiscalização.</li>
+                            </ul>
+                        </div>
+                    )
+                },
+                {
+                    id: "student-discounts",
+                    title: "Hack 2: Descontos de Estudante Eternos",
+                    duration: "8 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como obter e-mails .edu para garantir descontos em Spotify, Apple, Adobe e softwares profissionais sem estar matriculado.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "vpn-subscriptions",
+                    title: "Hack 3: Assinaturas via VPN",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Pague o preço da Turquia, Argentina ou Índia em serviços como YouTube Premium, Netflix e Steam usando uma VPN e cartões globais.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "refund-loop",
+                    title: "Hack 4: O Loop do Reembolso",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Explorando políticas de satisfação garantida para testar produtos e cursos de alto ticket sem custo real.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "credit-churning",
+                    title: "Hack 5: Churning de Cartões",
+                    duration: "20 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como abrir e fechar contas estrategicamente para coletar bônus de adesão e milhas sem pagar anuidade.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "price-errors",
+                    title: "Hack 6: Monitoramento de Erros de Preço",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Uso de bots e grupos de alerta para comprar produtos com 90% de desconto devido a erros de sistema das lojas.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "debt-negotiation",
+                    title: "Hack 7: Liquidação de Dívidas por 1%",
+                    duration: "25 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>A tática do 'esquecimento': como deixar dívidas caducarem ou esperar feirões do Serasa para quitar valores altos por centavos.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "paywall-bypass",
+                    title: "Hack 8: Bypass de Paywalls",
+                    duration: "5 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Técnicas de 'Inspect Element' e sites de cache para ler notícias e artigos pagos gratuitamente.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "free-trials",
+                    title: "Hack 9: Testes Grátis Infinitos",
+                    duration: "7 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Uso de e-mails temporários e cartões virtuais descartáveis para nunca pagar por serviços de streaming ou SaaS.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "resale-arbitrage",
+                    title: "Hack 10: Arbitragem de Desapego",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como garimpar itens grátis ou subestimados em marketplaces locais e revender pelo valor de mercado.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "hotel-upgrades",
+                    title: "Hack 11: Upgrades de Hotel 'No Grito'",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Técnicas de engenharia social no check-in para conseguir suítes presidenciais pelo preço de quarto standard.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "cashback-stacking",
+                    title: "Hack 12: Stacking de Cashback",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como combinar cupons, sites de cashback e pontos do cartão para chegar a 30-40% de retorno em compras comuns.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "referral-gaming",
+                    title: "Hack 13: Gaming de Sistemas de Indicação",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Criação de redes de indicação próprias para ganhar créditos em apps de comida, transporte e bancos digitais.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "price-match-exploit",
+                    title: "Hack 14: Exploração de Price Match",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como forçar grandes varejistas a cobrirem preços de sites obscuros para garantir o menor valor possível.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "abandoned-carts",
+                    title: "Hack 15: O Desconto do Carrinho Abandonado",
+                    duration: "5 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Táticas para forçar o envio de cupons de 15-20% apenas deixando itens no carrinho por 24 horas.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "ghost-cards",
+                    title: "Hack 16: Cartões Fantasma",
+                    duration: "8 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Uso de geradores de cartão para validar contas de teste sem risco de cobrança real.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "last-minute-travel",
+                    title: "Hack 17: Viagens de Última Hora",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como aproveitar cancelamentos de última hora em cruzeiros e resorts por frações do preço original.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "software-alternatives",
+                    title: "Hack 18: Alternativas 'Open' de Luxo",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Onde encontrar versões comunitárias que superam softwares de R$ 5.000/ano.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "stealth-trading",
+                    title: "Hack 19: Trading em Modo Stealth",
+                    duration: "20 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como operar em mercados sem deixar rastros digitais ou vinculação direta de identidade.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "gift-card-arbitrage",
+                    title: "Hack 20: Arbitragem de Gift Cards",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Comprando cartões de presente com desconto de pessoas desesperadas por dinheiro vivo e usando pelo valor total.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "ai-work-automation",
+                    title: "Hack 21: Automação de Trabalho com IA",
+                    duration: "18 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como terceirizar 90% do seu emprego para IAs sem que seu chefe perceba, mantendo o salário integral.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "one-per-customer",
+                    title: "Hack 22: Bypassing de Limites de Compra",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Técnicas de mudança de IP e endereços virtuais para comprar itens limitados em massa.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "tax-avoidance-loopholes",
+                    title: "Hack 23: Brechas Legais de Imposto",
+                    duration: "25 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Diferença entre elisão e evasão: como usar holdings e offshores para proteger capital legalmente.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "social-engineering-discounts",
+                    title: "Hack 24: Descontos via Engenharia Social",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Scripts de conversação para convencer atendentes a liberar descontos 'exclusivos de gerente'.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "glitch-deals-hunting",
+                    title: "Hack 25: Caça a Glitches de Cupom",
+                    duration: "12 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como encontrar cupons que se acumulam indevidamente no checkout, gerando valores negativos ou zero.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "digital-asset-squatting",
+                    title: "Hack 26: Squatting de Ativos Digitais",
+                    duration: "20 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Identificando domínios e nomes de usuário de alto valor prestes a expirar para revenda posterior.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "insurance-optimization",
+                    title: "Hack 27: Otimização de Seguros",
+                    duration: "15 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como renegociar apólices anualmente usando cotações falsas de concorrentes para baixar o prêmio.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "membership-sharing",
+                    title: "Hack 28: Compartilhamento de Contas Master",
+                    duration: "10 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Criação de grupos de rateio para ferramentas caras (Ahrefs, Bloomberg Terminal, etc) via proxies.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "warranty-extension-hacks",
+                    title: "Hack 29: Extensão de Garantia 'Grátis'",
+                    duration: "8 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>Como usar benefícios ocultos de cartões de crédito para triplicar a garantia de eletrônicos.</p>
+                        </div>
+                    )
+                },
+                {
+                    id: "the-final-hack",
+                    title: "Hack 30: A Mentalidade do Sistema",
+                    duration: "30 min",
+                    type: "article" as const,
+                    completed: false,
+                    content: (
+                        <div className="space-y-6">
+                            <p>O hack definitivo: entender que as regras foram feitas para serem questionadas e que o sistema sempre tem uma porta dos fundos.</p>
+                        </div>
+                    )
+                }
+            ]
         }
     ];
 

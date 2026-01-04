@@ -13,7 +13,7 @@ import { TrendingUp, Activity, PlusCircle, ArrowUpRight, Filter } from "lucide-r
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import HealthScore from "@/components/dashboard/HealthScore";
-import AiInsights from "@/components/dashboard/AiInsights";
+import DashboardTabs from "@/components/dashboard/DashboardTabs";
 import DailyTip from "@/components/dashboard/DailyTip";
 import { useRouter } from "next/navigation";
 
@@ -151,7 +151,7 @@ export default function Home() {
                     </motion.div>
 
                     <motion.div variants={itemVariants}>
-                        <AiInsights />
+                        <DashboardTabs />
                     </motion.div>
 
                     <motion.div variants={itemVariants}>

@@ -32,7 +32,7 @@ export default function MarketTicker() {
             <motion.div
                 animate={{ x: ["0%", "-50%"] }}
                 transition={{
-                    duration: 30,
+                    duration: 60,
                     repeat: Infinity,
                     ease: "linear"
                 }}
@@ -47,8 +47,8 @@ export default function MarketTicker() {
                             {item.value}
                         </span>
                         <div className={`px-1.5 py-0.5 rounded flex items-center gap-1 text-[9px] font-bold ${item.trend === 'up'
-                                ? 'bg-emerald-500/10 text-emerald-500'
-                                : 'bg-red-500/10 text-red-500'
+                            ? 'bg-emerald-500/10 text-emerald-500'
+                            : 'bg-red-500/10 text-red-500'
                             }`}>
                             {item.trend === 'up' ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
                             {item.change}

@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import { Shield, TrendingUp, AlertCircle, CheckCircle2, Info, ArrowUpRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function HealthScore() {
+    const router = useRouter();
     const score = 85;
 
     const getStatus = (s: number) => {
@@ -114,7 +116,10 @@ export default function HealthScore() {
                 </div>
             </div>
 
-            <button className="w-full py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[10px] font-black text-gray-500 hover:text-white transition-all flex items-center justify-center gap-4 group uppercase tracking-[0.3em]">
+            <button
+                onClick={() => router.push('/trends')}
+                className="w-full py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[10px] font-black text-gray-500 hover:text-white transition-all flex items-center justify-center gap-4 group uppercase tracking-[0.3em]"
+            >
                 RELATÓRIO DE PERFORMANCE
                 <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </button>
