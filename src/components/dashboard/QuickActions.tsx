@@ -5,21 +5,22 @@ import { Plus, Download, Target, TrendingUp, MousePointer2, Sparkles } from 'luc
 import { useRouter } from 'next/navigation';
 import TransactionModal from '@/components/finance/TransactionModal';
 import { motion } from 'framer-motion';
+import { useFinance } from '@/contexts/FinanceContext';
 
 const QuickActions = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const router = useRouter();
+    const { transactions } = useFinance();
 
     const exportTransactions = () => {
-        const saved = localStorage.getItem("wtm_transactions");
-        if (!saved) {
+        if (!transactions || transactions.length === 0) {
             alert("Nenhuma transação para exportar.");
             return;
         }
-        const transactions = JSON.parse(saved);
+
         const csvContent = "data:text/csv;charset=utf-8,"
             + "Data,Descrição,Valor,Categoria,Tipo\n"
-            + transactions.map((t: any) => `${t.date},${t.description},${t.amount},${t.category},${t.type}`).join("\n");
+            + transactions.map((t: any) => `${new Date(t.date).toLocaleDateString('pt-BR')},${t.description},${t.amount},${t.category},${t.type === 'income' ? 'Receita' : 'Despesa'}`).join("\n");
 
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
