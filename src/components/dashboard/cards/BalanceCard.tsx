@@ -49,7 +49,7 @@ const BalanceCard = () => {
             </div>
 
             <div className="space-y-2 relative z-10">
-                <h3 className="text-5xl font-bold text-white tracking-tighter">
+                <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tighter">
                     {formatCurrency(balance)}
                 </h3>
 

@@ -82,20 +82,20 @@ const QuickActions = () => {
                     <h3 className="text-lg font-bold text-white">Ações Rápidas</h3>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-4">
                     {actions.map((action, index) => (
                         <motion.button
                             key={index}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={action.onClick}
-                            className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.05] hover:border-white/10 transition-all group/btn"
+                            className="flex flex-col items-center justify-center p-5 rounded-[2rem] bg-white/[0.02] border border-white/5 hover:bg-white/[0.08] hover:border-white/20 transition-all group/btn shadow-xl"
                         >
-                            <div className={`w-10 h-10 rounded-xl ${action.bg} ${action.border} border flex items-center justify-center ${action.color} mb-3 group-hover/btn:scale-110 transition-transform`}>
-                                <action.icon size={20} />
+                            <div className={`w-12 h-12 rounded-2xl ${action.bg} ${action.border} border flex items-center justify-center ${action.color} mb-3 group-hover/btn:scale-110 group-hover/btn:rotate-3 transition-all duration-500`}>
+                                <action.icon size={24} />
                             </div>
-                            <span className="text-xs font-semibold text-white">{action.label}</span>
-                            <span className="text-[10px] text-gray-500 mt-0.5">{action.desc}</span>
+                            <span className="text-[11px] font-black text-white uppercase tracking-wider">{action.label}</span>
+                            <span className="text-[9px] font-bold text-gray-500 mt-1 uppercase tracking-widest opacity-60">{action.desc}</span>
                         </motion.button>
                     ))}
                 </div>

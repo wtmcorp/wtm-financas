@@ -49,22 +49,25 @@ export default function DailyTip() {
                 <Lightbulb size={100} className="text-primary" />
             </div>
 
-            <div className="relative z-10 space-y-6">
+            <div className="relative z-10 space-y-8">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
-                            <Sparkles size={20} />
+                        <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-lg shadow-primary/5">
+                            <Sparkles size={24} />
                         </div>
-                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Insight do Dia</span>
+                        <div className="flex flex-col">
+                            <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Intelligence OS</span>
+                            <span className="text-xs font-black text-white uppercase tracking-widest">Insight do Dia</span>
+                        </div>
                     </div>
-                    <span className="px-3 py-1 bg-white/5 rounded-lg border border-white/10 text-[9px] font-black text-primary uppercase tracking-widest">
+                    <span className="px-4 py-1.5 bg-white/5 rounded-full border border-white/10 text-[10px] font-black text-primary uppercase tracking-widest backdrop-blur-xl">
                         {tip.category}
                     </span>
                 </div>
 
-                <div className="space-y-2">
-                    <h3 className="text-xl font-black text-white tracking-tight">{tip.title}</h3>
-                    <p className="text-sm text-gray-400 font-medium leading-relaxed">
+                <div className="space-y-4">
+                    <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter leading-tight">{tip.title}</h3>
+                    <p className="text-base text-gray-400 font-medium leading-relaxed max-w-md">
                         {tip.content}
                     </p>
                 </div>

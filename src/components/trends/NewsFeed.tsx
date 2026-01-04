@@ -105,7 +105,7 @@ export default function NewsFeed() {
                     </button>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
                     {news.map((item, i) => (
                         <motion.div
                             key={i}
@@ -114,9 +114,9 @@ export default function NewsFeed() {
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
                             whileHover={{ y: -8 }}
-                            className="group relative bg-[#0f0f13] border border-white/10 rounded-[2.5rem] overflow-hidden hover:border-primary/50 transition-all duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
+                            className="group relative bg-[#0f0f13]/60 backdrop-blur-xl border border-white/10 rounded-[2.5rem] overflow-hidden hover:border-primary/50 transition-all duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex flex-col"
                         >
-                            <div className="aspect-[16/10] w-full overflow-hidden relative">
+                            <div className="aspect-[16/9] w-full overflow-hidden relative">
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f13] via-transparent to-transparent z-10 opacity-90" />
                                 <img
                                     src={item.image}
@@ -130,7 +130,7 @@ export default function NewsFeed() {
                                 </div>
                             </div>
 
-                            <div className="p-8 space-y-5">
+                            <div className="p-6 md:p-8 space-y-5 flex-1 flex flex-col">
                                 <div className="flex items-center justify-between text-[10px] text-gray-500 font-black uppercase tracking-widest">
                                     <span className="flex items-center gap-1.5">
                                         <Clock size={12} className="text-primary" />
@@ -139,11 +139,11 @@ export default function NewsFeed() {
                                     <span className="text-gray-600">{item.source}</span>
                                 </div>
 
-                                <h3 className="text-xl font-black text-white leading-[1.3] group-hover:text-primary transition-colors line-clamp-2">
+                                <h3 className="text-lg md:text-xl font-black text-white leading-[1.3] group-hover:text-primary transition-colors line-clamp-2">
                                     {item.title}
                                 </h3>
 
-                                <div className="pt-6 border-t border-white/5 flex justify-end">
+                                <div className="pt-6 border-t border-white/5 mt-auto flex justify-end">
                                     {item.url ? (
                                         <a
                                             href={item.url}

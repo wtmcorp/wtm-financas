@@ -1,8 +1,8 @@
 "use client";
 
-import MarketTicker from "@/components/trends/MarketTicker";
 import NewsFeed from "@/components/trends/NewsFeed";
 import MarketOverview from "@/components/trends/Heatmap";
+import MarketStats from "@/components/trends/MarketStats";
 import { TrendingUp, CalendarDays, Globe2, AlertTriangle, AlertCircle, Info } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -30,25 +30,26 @@ export default function TrendsPage() {
             className="min-h-screen bg-mesh pb-32"
         >
             {/* Ticker is full width */}
-            <MarketTicker />
+
 
             <div className="p-4 md:p-8 lg:p-12 max-w-7xl mx-auto space-y-12">
 
                 {/* Header */}
-                <motion.header variants={itemVariants} className="space-y-8 text-center md:text-left relative p-10 md:p-16 rounded-[3rem] bg-white/[0.02] border border-white/5 overflow-hidden">
-                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] -mr-64 -mt-64 animate-pulse-slow" />
+                <motion.header variants={itemVariants} className="relative p-12 md:p-24 rounded-[4rem] bg-gradient-to-br from-blue-600/10 via-transparent to-purple-600/10 border border-white/10 overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[150px] -mr-64 -mt-64 group-hover:bg-blue-500/20 transition-all duration-1000" />
+                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[120px] -ml-32 -mb-32 group-hover:bg-purple-500/20 transition-all duration-1000" />
 
-                    <div className="relative z-10">
-                        <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-8 backdrop-blur-xl">
-                            <Globe2 size={18} className="text-blue-400 animate-spin-slow" />
-                            <span className="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em]">Mercados Globais em Tempo Real</span>
+                    <div className="relative z-10 text-center md:text-left space-y-8">
+                        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-2xl shadow-2xl">
+                            <Globe2 size={20} className="text-blue-400 animate-pulse" />
+                            <span className="text-[11px] font-black text-white uppercase tracking-[0.3em]">Intelligence Protocol: Radar de Tendências</span>
                         </div>
-                        <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-8">
-                            Radar de <br />
-                            <span className="gradient-text from-blue-400 to-cyan-400">Tendências</span>
+                        <h1 className="text-4xl sm:text-6xl md:text-9xl font-black text-white tracking-tighter leading-[0.85]">
+                            Visão de <br />
+                            <span className="gradient-text from-blue-400 via-cyan-400 to-purple-400">Mercado</span>
                         </h1>
-                        <p className="text-gray-400 text-xl max-w-2xl leading-relaxed font-medium">
-                            Antecipe movimentos, analise notícias e tome decisões <span className="text-white">estratégicas</span> com dados processados em tempo real.
+                        <p className="text-gray-400 text-lg md:text-2xl max-w-3xl leading-relaxed font-medium">
+                            Antecipe movimentos globais e tome decisões <span className="text-white font-bold">estratégicas</span> com processamento de dados em tempo real.
                         </p>
                     </div>
                 </motion.header>
@@ -58,6 +59,7 @@ export default function TrendsPage() {
                     {/* Main Content: News & Overview */}
                     <div className="lg:col-span-2 space-y-12">
                         <NewsFeed />
+                        <MarketStats />
                         <MarketOverview />
                     </div>
 
