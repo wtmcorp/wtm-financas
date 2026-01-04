@@ -3,12 +3,10 @@ import "./globals.css";
 import { Providers } from "@/components/providers/Providers";
 import MouseTracker from "@/components/ui/MouseTracker";
 import PremiumNotifications from "@/components/ui/PremiumNotifications";
+import Header from "@/components/layout/Header";
 import BottomNav from "@/components/layout/BottomNav";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import AuthGuard from "@/components/auth/AuthGuard";
-import Sidebar from "@/components/layout/Sidebar";
-import TopHeader from "@/components/layout/TopHeader";
-import NewsTicker from "@/components/dashboard/NewsTicker";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -33,12 +31,9 @@ export default function RootLayout({
                             <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[150px] mix-blend-screen animate-pulse-slow delay-1000" />
                         </div>
 
-                        {/* <Sidebar /> - Removed as per user request */}
-
                         <div className="min-h-screen flex flex-col transition-all duration-500">
-                            <TopHeader />
-                            <NewsTicker />
-                            <main className="flex-1 relative">
+                            <Header />
+                            <main className="flex-1 relative pt-32">
                                 <MouseTracker />
                                 <PremiumNotifications />
                                 {children}
