@@ -1,6 +1,6 @@
 "use client";
 
-import { Wallet, TrendingUp, TrendingDown, Sparkles, ArrowUpRight } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, ArrowUpRight } from 'lucide-react';
 import { useFinance } from '@/contexts/FinanceContext';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
@@ -28,44 +28,41 @@ const BalanceCard = () => {
 
     return (
         <motion.div
-            whileHover={{ y: -5 }}
-            className="card-premium p-10 group relative overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-500"
+            whileHover={{ y: -4 }}
+            className="glass-card p-6 rounded-3xl relative overflow-hidden group"
         >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:bg-primary/10 transition-all duration-700" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-violet-500/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
-            <div className="flex justify-between items-start mb-12 relative z-10">
-                <div className="space-y-6">
-                    <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-[0_0_10px_rgba(167,139,250,1)]" />
-                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em]">PATRIMÔNIO TOTAL</p>
+            <div className="flex justify-between items-start mb-8">
+                <div className="flex items-center gap-3">
+                    <div className="p-3 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
+                        <Wallet size={20} />
                     </div>
-                    <div className="space-y-2">
-                        <h3 className="text-5xl font-black text-white tracking-tighter leading-none">
-                            {formatCurrency(balance)}
-                        </h3>
-                        <div className="flex items-center gap-3">
-                            <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-black text-[10px] uppercase tracking-wider ${isPositive
-                                ? 'bg-green-500/10 text-green-400 border border-green-500/20'
-                                : 'bg-red-500/10 text-red-400 border border-red-500/20'
-                                }`}>
-                                {isPositive ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-                                {Math.abs(change).toFixed(1)}%
-                            </div>
-                            <span className="text-gray-600 text-[10px] font-black uppercase tracking-widest">MÊS ANTERIOR</span>
-                        </div>
+                    <div>
+                        <p className="text-sm font-medium text-gray-400">Patrimônio Total</p>
+                        <p className="text-xs text-gray-500">Atualizado agora</p>
                     </div>
                 </div>
-                <div className="w-16 h-16 bg-white/[0.03] backdrop-blur-xl rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-primary/40 group-hover:bg-primary/10 transition-all duration-500 shadow-2xl">
-                    <Wallet className="w-8 h-8 text-primary group-hover:scale-110 transition-transform duration-500" />
-                </div>
+                <button className="p-2 rounded-full hover:bg-white/5 transition-colors text-gray-500 hover:text-white">
+                    <ArrowUpRight size={18} />
+                </button>
             </div>
 
-            <div className="pt-8 border-t border-white/5 flex items-center justify-between relative z-10">
-                <div className="flex items-center gap-3 text-[10px] font-black text-gray-500 uppercase tracking-widest">
-                    <Sparkles size={16} className="text-yellow-500" />
-                    <span>INTELIGÊNCIA ATIVA</span>
+            <div className="space-y-4">
+                <h3 className="text-4xl font-bold text-white tracking-tight">
+                    {formatCurrency(balance)}
+                </h3>
+
+                <div className="flex items-center gap-3">
+                    <div className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold ${isPositive
+                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                        : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                        }`}>
+                        {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                        {Math.abs(change).toFixed(1)}%
+                    </div>
+                    <span className="text-xs text-gray-500 font-medium">vs. mês anterior</span>
                 </div>
-                <ArrowUpRight size={20} className="text-gray-800 group-hover:text-primary transition-all" />
             </div>
         </motion.div>
     );

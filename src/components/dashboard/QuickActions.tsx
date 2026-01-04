@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Plus, Download, Target, TrendingUp, Zap, ArrowUpRight, Sparkles, LayoutGrid, FileText } from 'lucide-react';
+import { Plus, Download, Target, TrendingUp, Zap, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import TransactionModal from '@/components/finance/TransactionModal';
-import { Tooltip } from '@/components/ui/Tooltip';
 import { motion } from 'framer-motion';
 
 const QuickActions = () => {
@@ -34,87 +33,77 @@ const QuickActions = () => {
     const actions = [
         {
             icon: Plus,
-            label: 'ADICIONAR',
-            desc: 'NOVA TRANSAÇÃO',
-            color: 'text-primary',
-            bg: 'bg-primary/10',
+            label: 'Nova Transação',
+            desc: 'Adicionar',
+            color: 'text-violet-400',
+            bg: 'bg-violet-500/10',
+            border: 'border-violet-500/20',
             onClick: () => setIsModalOpen(true),
-            tooltip: 'Adicione uma nova transação rapidamente.'
         },
         {
             icon: Target,
-            label: 'METAS',
-            desc: 'PLANEJAMENTO',
+            label: 'Metas',
+            desc: 'Planejar',
             color: 'text-blue-400',
-            bg: 'bg-blue-400/10',
+            bg: 'bg-blue-500/10',
+            border: 'border-blue-500/20',
             onClick: () => router.push('/goals'),
-            tooltip: 'Gerencie suas metas financeiras.'
         },
         {
             icon: TrendingUp,
-            label: 'RELATÓRIOS',
-            desc: 'PERFORMANCE',
-            color: 'text-green-400',
-            bg: 'bg-green-400/10',
+            label: 'Relatórios',
+            desc: 'Analisar',
+            color: 'text-emerald-400',
+            bg: 'bg-emerald-500/10',
+            border: 'border-emerald-500/20',
             onClick: () => router.push('/trends'),
-            tooltip: 'Acesse relatórios detalhados.'
         },
         {
             icon: Download,
-            label: 'EXPORTAR',
-            desc: 'DADOS CSV',
+            label: 'Exportar',
+            desc: 'CSV',
             color: 'text-orange-400',
-            bg: 'bg-orange-400/10',
+            bg: 'bg-orange-500/10',
+            border: 'border-orange-500/20',
             onClick: exportTransactions,
-            tooltip: 'Baixe suas transações em CSV.'
         },
     ];
 
     return (
         <>
             <motion.div
-                whileHover={{ y: -5 }}
-                className="card-premium p-10 h-full flex flex-col relative overflow-hidden group"
+                whileHover={{ y: -4 }}
+                className="glass-card p-6 rounded-3xl relative overflow-hidden group"
             >
-                <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/10 transition-all duration-700" />
-
-                <div className="flex items-center justify-between mb-12 relative z-10">
-                    <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-2xl shadow-primary/10 group-hover:scale-110 transition-all duration-500">
-                            <Zap size={28} />
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-black text-white tracking-tight uppercase">Ações Rápidas</h3>
-                            <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">CONTROLE OPERACIONAL</p>
-                        </div>
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
+                        <Zap size={20} />
                     </div>
+                    <h3 className="text-lg font-bold text-white">Ações Rápidas</h3>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 flex-1 relative z-10">
+                <div className="grid grid-cols-2 gap-3">
                     {actions.map((action, index) => (
-                        <Tooltip key={index} text={action.tooltip}>
-                            <motion.button
-                                whileHover={{ scale: 1.02, y: -2 }}
-                                whileTap={{ scale: 0.98 }}
-                                onClick={action.onClick}
-                                className="w-full group/btn relative overflow-hidden rounded-2xl p-6 bg-white/[0.02] border border-white/5 hover:border-white/20 transition-all duration-500 flex flex-col items-center justify-center gap-4"
-                            >
-                                <div className={`w-12 h-12 rounded-xl ${action.bg} ${action.color} flex items-center justify-center border border-current/10 group-hover/btn:scale-110 transition-transform duration-500`}>
-                                    <action.icon size={24} />
-                                </div>
-                                <div className="text-center">
-                                    <span className="text-[10px] font-black text-white uppercase tracking-widest block">{action.label}</span>
-                                    <span className="text-[8px] font-bold text-gray-600 uppercase tracking-widest block mt-1">{action.desc}</span>
-                                </div>
-                            </motion.button>
-                        </Tooltip>
+                        <motion.button
+                            key={index}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={action.onClick}
+                            className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.05] hover:border-white/10 transition-all group/btn"
+                        >
+                            <div className={`w-10 h-10 rounded-xl ${action.bg} ${action.border} border flex items-center justify-center ${action.color} mb-3 group-hover/btn:scale-110 transition-transform`}>
+                                <action.icon size={20} />
+                            </div>
+                            <span className="text-xs font-semibold text-white">{action.label}</span>
+                            <span className="text-[10px] text-gray-500 mt-0.5">{action.desc}</span>
+                        </motion.button>
                     ))}
                 </div>
 
-                <div className="mt-10 pt-8 border-t border-white/5 flex items-center justify-center relative z-10">
-                    <button className="flex items-center gap-3 text-[10px] font-black text-gray-500 hover:text-primary transition-colors uppercase tracking-[0.2em] group/all">
-                        <Sparkles size={14} className="group-hover/all:animate-pulse" />
-                        TODAS AS FERRAMENTAS
+                <div className="mt-6 pt-4 border-t border-white/5 text-center">
+                    <button className="text-xs font-medium text-gray-500 hover:text-violet-400 transition-colors flex items-center justify-center gap-2 w-full">
+                        <Sparkles size={14} />
+                        Ver todas as ferramentas
                     </button>
                 </div>
             </motion.div>

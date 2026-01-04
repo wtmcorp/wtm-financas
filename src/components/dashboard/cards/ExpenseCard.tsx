@@ -1,6 +1,6 @@
 "use client";
 
-import { CreditCard, AlertCircle, TrendingDown, ArrowUpRight } from 'lucide-react';
+import { CreditCard, AlertCircle, ArrowUpRight } from 'lucide-react';
 import { useFinance } from '@/contexts/FinanceContext';
 import { motion } from 'framer-motion';
 
@@ -20,59 +20,48 @@ const ExpenseCard = () => {
 
     return (
         <motion.div
-            whileHover={{ y: -5 }}
-            className="card-premium p-10 group relative overflow-hidden border border-white/5 hover:border-red-500/30 transition-all duration-500"
+            whileHover={{ y: -4 }}
+            className="glass-card p-6 rounded-3xl relative overflow-hidden group"
         >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:bg-red-500/10 transition-all duration-700" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
-            <div className="flex justify-between items-start mb-12 relative z-10">
-                <div className="space-y-6">
-                    <div className="flex items-center gap-3">
-                        <div className={`w-2 h-2 rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,1)] ${isOverBudget ? 'bg-red-500' : 'bg-orange-500'}`} />
-                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em]">GASTOS DO MÊS</p>
+            <div className="flex justify-between items-start mb-8">
+                <div className="flex items-center gap-3">
+                    <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400">
+                        <CreditCard size={20} />
                     </div>
-                    <div className="space-y-2">
-                        <h3 className="text-5xl font-black text-white tracking-tighter leading-none">
-                            {formatCurrency(expenses)}
-                        </h3>
-                        <div className="flex items-center gap-3">
-                            <span className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-lg border ${isOverBudget
-                                ? 'text-red-400 bg-red-500/10 border-red-500/20'
-                                : 'text-gray-500 bg-white/5 border-white/10'}`}>
-                                {percentage.toFixed(0)}% DO ORÇAMENTO
-                            </span>
-                        </div>
+                    <div>
+                        <p className="text-sm font-medium text-gray-400">Gastos Mensais</p>
+                        <p className="text-xs text-gray-500">Limite: {formatCurrency(budget)}</p>
                     </div>
                 </div>
-                <div className={`w-16 h-16 bg-white/[0.03] backdrop-blur-xl rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl ${isOverBudget
-                    ? 'border-red-500/20 text-red-400 group-hover:bg-red-500/10 group-hover:border-red-500/40'
-                    : 'border-orange-500/20 text-orange-400 group-hover:bg-orange-500/10 group-hover:border-orange-500/40'}`}>
-                    <CreditCard className="w-8 h-8 group-hover:scale-110 transition-transform duration-500" />
-                </div>
+                <button className="p-2 rounded-full hover:bg-white/5 transition-colors text-gray-500 hover:text-white">
+                    <ArrowUpRight size={18} />
+                </button>
             </div>
 
-            <div className="space-y-6 relative z-10">
-                <div className="h-2 bg-white/5 rounded-full overflow-hidden border border-white/5">
-                    <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${Math.min(percentage, 100)}%` }}
-                        transition={{ duration: 1.5, ease: [0.23, 1, 0.32, 1] }}
-                        className={`h-full relative ${isOverBudget
-                            ? 'bg-gradient-to-r from-red-600 to-red-400'
-                            : percentage > 80
-                                ? 'bg-gradient-to-r from-orange-600 to-orange-400'
-                                : 'bg-gradient-to-r from-green-600 to-green-400'
-                            }`}
-                    >
-                        <div className="absolute inset-0 bg-white/20 animate-pulse-slow" />
-                    </motion.div>
-                </div>
-                <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest flex items-center gap-2">
-                        {isOverBudget && <AlertCircle size={14} className="text-red-500" />}
-                        {isOverBudget ? 'LIMITE EXCEDIDO' : `${formatCurrency(budget - expenses)} RESTANTES`}
-                    </span>
-                    <ArrowUpRight size={20} className="text-gray-800 group-hover:text-red-500 transition-all" />
+            <div className="space-y-4">
+                <h3 className="text-4xl font-bold text-white tracking-tight">
+                    {formatCurrency(expenses)}
+                </h3>
+
+                <div className="space-y-2">
+                    <div className="flex justify-between text-xs font-medium">
+                        <span className={isOverBudget ? "text-red-400" : "text-gray-400"}>
+                            {percentage.toFixed(0)}% utilizado
+                        </span>
+                        <span className="text-gray-500">
+                            {formatCurrency(budget - expenses)} restantes
+                        </span>
+                    </div>
+                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                        <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${Math.min(percentage, 100)}%` }}
+                            transition={{ duration: 1, ease: "easeOut" }}
+                            className={`h-full rounded-full ${isOverBudget ? "bg-red-500" : "bg-gradient-to-r from-red-500 to-orange-500"}`}
+                        />
+                    </div>
                 </div>
             </div>
         </motion.div>

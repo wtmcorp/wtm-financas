@@ -27,7 +27,7 @@ export default function RootLayout({
                 <Providers>
                     <AuthGuard>
                         <Sidebar />
-                        <div className="lg:pl-80 min-h-screen flex flex-col transition-all duration-500">
+                        <div className="lg:pl-72 min-h-screen flex flex-col transition-all duration-500">
                             <TopHeader />
                             <main className="flex-1 relative">
                                 <MouseTracker />
