@@ -114,7 +114,7 @@ export default function DashboardPage() {
                             <div className="flex flex-col gap-4">
                                 <div className="card-premium p-8 bg-white/5 border-white/10 backdrop-blur-xl group/income hover:border-primary/30 transition-all">
                                     <div className="flex justify-between items-center mb-2">
-                                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Monthly Revenue</p>
+                                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Receita Mensal</p>
                                         <ArrowUpRight size={14} className="text-primary opacity-0 group-hover/income:opacity-100 transition-all" />
                                     </div>
                                     <p className="text-5xl font-black text-white tracking-tighter">
@@ -163,9 +163,9 @@ export default function DashboardPage() {
                                 <div>
                                     <h2 className="text-2xl font-black text-white tracking-tighter flex items-center gap-3">
                                         <LayoutGrid className="text-primary" size={28} />
-                                        Budget Strategy
+                                        Estratégia de Orçamento
                                     </h2>
-                                    <p className="text-[10px] text-gray-500 uppercase font-black tracking-[0.2em] mt-2">50/30/20 Framework</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-black tracking-[0.2em] mt-2">Framework 50/30/20</p>
                                 </div>
                                 <button className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-500 hover:text-white transition-all border border-white/10">
                                     <Info size={18} />
@@ -175,9 +175,9 @@ export default function DashboardPage() {
                             {budget ? (
                                 <div className="space-y-6">
                                     {[
-                                        { label: "Necessidades", value: budget.needs, color: "from-blue-500 to-cyan-600", percent: "50%", icon: Home, desc: "Essential living expenses" },
-                                        { label: "Desejos", value: budget.wants, color: "from-purple-500 to-pink-600", percent: "30%", icon: Heart, desc: "Lifestyle and leisure" },
-                                        { label: "Investimentos", value: budget.savings, color: "from-primary to-purple-600", percent: "20%", icon: TrendingUp, desc: "Future wealth building" }
+                                        { label: "Necessidades", value: budget.needs, color: "from-blue-500 to-cyan-600", percent: "50%", icon: Home, desc: "Gastos essenciais" },
+                                        { label: "Desejos", value: budget.wants, color: "from-purple-500 to-pink-600", percent: "30%", icon: Heart, desc: "Estilo de vida e lazer" },
+                                        { label: "Investimentos", value: budget.savings, color: "from-primary to-purple-600", percent: "20%", icon: TrendingUp, desc: "Construção de patrimônio" }
                                     ].map((item, i) => (
                                         <div key={i} className="group/item">
                                             <div className="flex justify-between items-end mb-3">
@@ -208,12 +208,12 @@ export default function DashboardPage() {
                                 </div>
                             ) : (
                                 <div className="text-center py-16 bg-white/[0.02] rounded-[2rem] border border-dashed border-white/10 group-hover:border-primary/30 transition-all">
-                                    <p className="text-gray-500 font-black text-xs uppercase tracking-widest mb-6">No budget strategy defined</p>
+                                    <p className="text-gray-500 font-black text-xs uppercase tracking-widest mb-6">Nenhuma estratégia definida</p>
                                     <button
                                         onClick={() => router.push("/tools")}
                                         className="px-10 py-5 bg-primary text-black font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl hover:bg-white transition-all shadow-xl shadow-primary/10 flex items-center gap-3 mx-auto"
                                     >
-                                        Initialize Framework <ChevronRight size={14} />
+                                        Inicializar Framework <ChevronRight size={14} />
                                     </button>
                                 </div>
                             )}
@@ -251,15 +251,15 @@ export default function DashboardPage() {
                                 <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10">
                                     <Info className="text-primary" size={24} />
                                 </div>
-                                Account Intel
+                                Informações da Conta
                             </h3>
 
                             <div className="space-y-6">
                                 {[
-                                    { label: "Member Since", value: new Date(user.createdAt).toLocaleDateString(), icon: Calendar },
-                                    { label: "Account Status", value: "Verified Active", icon: ShieldCheck, color: "text-green-400" },
-                                    { label: "Access Level", value: "Platinum Elite", icon: Sparkles, color: "text-primary" },
-                                    { label: "Security", value: "2FA Enabled", icon: Shield, color: "text-blue-400" }
+                                    { label: "Membro desde", value: new Date(user.createdAt).toLocaleDateString(), icon: Calendar },
+                                    { label: "Status da Conta", value: "Verificada e Ativa", icon: ShieldCheck, color: "text-green-400" },
+                                    { label: "Nível de Acesso", value: "Platinum Elite", icon: Sparkles, color: "text-primary" },
+                                    { label: "Segurança", value: "2FA Ativado", icon: Shield, color: "text-blue-400" }
                                 ].map((item, i) => (
                                     <div key={i} className="flex justify-between items-center p-5 bg-white/[0.02] rounded-2xl border border-white/5 hover:border-white/10 transition-all group/item">
                                         <div className="flex items-center gap-4">
@@ -275,7 +275,7 @@ export default function DashboardPage() {
                                 onClick={() => router.push('/profile')}
                                 className="w-full mt-10 py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[10px] font-black text-gray-500 hover:text-white uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3"
                             >
-                                Manage Profile Settings <ArrowUpRight size={14} />
+                                Gerenciar Perfil <ArrowUpRight size={14} />
                             </button>
                         </motion.div>
                     </div>
