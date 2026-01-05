@@ -155,48 +155,51 @@ export default function DashboardPage() {
                         </motion.div>
 
                         {/* Budget Strategy */}
-                        <motion.section variants={itemVariants} className="card-premium p-10 relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <motion.section
+                            variants={itemVariants}
+                            className="card-premium p-6 md:p-10 relative overflow-hidden group"
+                        >
+                            <div className="absolute top-0 right-0 p-8 md:p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
                                 <PieChart size={150} />
                             </div>
 
-                            <div className="flex items-center justify-between mb-10">
+                            <div className="flex items-center justify-between mb-8 md:mb-10 relative z-10">
                                 <div>
-                                    <h2 className="text-2xl font-black text-white tracking-tighter flex items-center gap-3">
-                                        <LayoutGrid className="text-primary" size={28} />
-                                        Estratégia de Orçamento
+                                    <h2 className="text-xl md:text-2xl font-black text-white tracking-tighter flex items-center gap-3 uppercase">
+                                        <LayoutGrid className="text-primary md:w-7 md:h-7" size={24} />
+                                        Estratégia
                                     </h2>
-                                    <p className="text-[10px] text-gray-500 uppercase font-black tracking-[0.2em] mt-2">Framework 50/30/20</p>
+                                    <p className="text-[9px] md:text-[10px] text-gray-500 uppercase font-black tracking-[0.2em] mt-2">Framework 50/30/20</p>
                                 </div>
-                                <button className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-500 hover:text-white transition-all border border-white/10">
+                                <button className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-500 hover:text-white transition-all border border-white/10">
                                     <Info size={18} />
                                 </button>
                             </div>
 
                             {budget ? (
-                                <div className="space-y-6">
+                                <div className="space-y-4 md:space-y-6 relative z-10">
                                     {[
-                                        { label: "Necessidades", value: budget.needs, color: "from-blue-500 to-cyan-600", percent: "50%", icon: Home, desc: "Gastos essenciais" },
-                                        { label: "Desejos", value: budget.wants, color: "from-purple-500 to-pink-600", percent: "30%", icon: Heart, desc: "Estilo de vida e lazer" },
-                                        { label: "Investimentos", value: budget.savings, color: "from-primary to-purple-600", percent: "20%", icon: TrendingUp, desc: "Construção de patrimônio" }
+                                        { label: "Necessidades", value: budget.needs, color: "from-blue-500 to-cyan-600", percent: "50%", icon: Home, desc: "Essenciais" },
+                                        { label: "Desejos", value: budget.wants, color: "from-purple-500 to-pink-600", percent: "30%", icon: Heart, desc: "Lazer" },
+                                        { label: "Investimentos", value: budget.savings, color: "from-primary to-purple-600", percent: "20%", icon: TrendingUp, desc: "Patrimônio" }
                                     ].map((item, i) => (
                                         <div key={i} className="group/item">
-                                            <div className="flex justify-between items-end mb-3">
-                                                <div className="flex items-center gap-4">
-                                                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white shadow-lg group-hover/item:scale-110 transition-transform`}>
-                                                        <item.icon size={18} />
+                                            <div className="flex justify-between items-end mb-2 md:mb-3">
+                                                <div className="flex items-center gap-3 md:gap-4">
+                                                    <div className={`w-9 h-9 md:w-10 md:h-10 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white shadow-lg group-hover/item:scale-110 transition-transform`}>
+                                                        <item.icon size={16} className="md:w-[18px] md:h-[18px]" />
                                                     </div>
                                                     <div>
-                                                        <h4 className="text-sm font-black text-white uppercase tracking-tight">{item.label}</h4>
-                                                        <p className="text-[9px] text-gray-600 font-bold uppercase tracking-widest">{item.desc}</p>
+                                                        <h4 className="text-[11px] md:text-sm font-black text-white uppercase tracking-tight">{item.label}</h4>
+                                                        <p className="text-[8px] md:text-[9px] text-gray-600 font-bold uppercase tracking-widest">{item.desc}</p>
                                                     </div>
                                                 </div>
                                                 <div className="text-right">
-                                                    <div className="text-lg font-black text-white">R$ {item.value?.toLocaleString()}</div>
-                                                    <div className="text-[10px] font-black text-primary uppercase">{item.percent}</div>
+                                                    <div className="text-sm md:text-lg font-black text-white">R$ {item.value?.toLocaleString()}</div>
+                                                    <div className="text-[9px] md:text-[10px] font-black text-primary uppercase">{item.percent}</div>
                                                 </div>
                                             </div>
-                                            <div className="h-2 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                                            <div className="h-1.5 md:h-2 bg-white/5 rounded-full overflow-hidden border border-white/5">
                                                 <motion.div
                                                     initial={{ width: 0 }}
                                                     animate={{ width: item.percent }}
@@ -208,11 +211,11 @@ export default function DashboardPage() {
                                     ))}
                                 </div>
                             ) : (
-                                <div className="text-center py-16 bg-white/[0.02] rounded-[2rem] border border-dashed border-white/10 group-hover:border-primary/30 transition-all">
-                                    <p className="text-gray-500 font-black text-xs uppercase tracking-widest mb-6">Nenhuma estratégia definida</p>
+                                <div className="text-center py-12 md:py-16 bg-white/[0.02] rounded-[2rem] border border-dashed border-white/10 group-hover:border-primary/30 transition-all relative z-10">
+                                    <p className="text-gray-500 font-black text-[10px] md:text-xs uppercase tracking-widest mb-6">Nenhuma estratégia definida</p>
                                     <button
                                         onClick={() => router.push("/tools")}
-                                        className="px-10 py-5 bg-primary text-black font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl hover:bg-white transition-all shadow-xl shadow-primary/10 flex items-center gap-3 mx-auto"
+                                        className="px-8 py-4 md:px-10 md:py-5 bg-primary text-black font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] rounded-2xl hover:bg-white transition-all shadow-xl shadow-primary/10 flex items-center gap-3 mx-auto"
                                     >
                                         Inicializar Framework <ChevronRight size={14} />
                                     </button>

@@ -45,21 +45,25 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onClose, tr
 
     if (!isOpen) return null;
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (transaction) {
-            updateTransaction(transaction.id, formData);
-        } else {
-            addTransaction(formData);
+        try {
+            if (transaction) {
+                await updateTransaction(transaction.id, formData);
+            } else {
+                await addTransaction(formData);
+            }
+            onClose();
+            setFormData({
+                type: 'expense',
+                amount: 0,
+                category: 'Outros',
+                description: '',
+                date: new Date().toISOString().split('T')[0],
+            });
+        } catch (error) {
+            console.error("Error submitting transaction:", error);
         }
-        onClose();
-        setFormData({
-            type: 'expense',
-            amount: 0,
-            category: 'Outros',
-            description: '',
-            date: new Date().toISOString().split('T')[0],
-        });
     };
 
     return (

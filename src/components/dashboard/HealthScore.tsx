@@ -45,48 +45,48 @@ export default function HealthScore() {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="card-premium p-10 space-y-10 relative overflow-hidden group"
+            className="card-premium p-6 md:p-10 space-y-8 md:space-y-10 relative overflow-hidden group h-full flex flex-col"
         >
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-all duration-700" />
 
             <div className="flex justify-between items-start relative z-10">
                 <div>
-                    <h3 className="text-xl font-black text-white tracking-tight flex items-center gap-3 uppercase">
-                        <Shield className="text-primary" size={24} />
+                    <h3 className="text-lg md:text-xl font-black text-white tracking-tight flex items-center gap-3 uppercase">
+                        <Shield className="text-primary" size={20} className="md:w-6 md:h-6" />
                         Saúde Financeira
                     </h3>
-                    <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.3em] mt-2">DIAGNÓSTICO EM TEMPO REAL</p>
+                    <p className="text-[9px] md:text-[10px] text-gray-500 font-black uppercase tracking-[0.3em] mt-2">DIAGNÓSTICO REAL</p>
                 </div>
-                <div className={`px-4 py-1.5 rounded-lg ${status.bg} ${status.color} text-[9px] font-black uppercase tracking-[0.2em] border border-current/20 backdrop-blur-md`}>
+                <div className={`px-3 py-1 md:px-4 md:py-1.5 rounded-lg ${status.bg} ${status.color} text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] border border-current/20 backdrop-blur-md`}>
                     {status.label}
                 </div>
             </div>
 
-            <div className="relative flex items-center justify-center py-8">
-                <svg className="w-56 h-56 transform -rotate-90">
+            <div className="relative flex items-center justify-center py-4 md:py-8">
+                <svg className="w-40 h-40 md:w-56 md:h-56 transform -rotate-90">
                     <circle
-                        cx="112"
-                        cy="112"
-                        r="100"
+                        cx="50%"
+                        cy="50%"
+                        r="45%"
                         stroke="currentColor"
-                        strokeWidth="14"
+                        strokeWidth="10"
                         fill="transparent"
                         className="text-white/5"
                     />
                     <motion.circle
-                        cx="112"
-                        cy="112"
-                        r="100"
+                        cx="50%"
+                        cy="50%"
+                        r="45%"
                         stroke="currentColor"
-                        strokeWidth="14"
+                        strokeWidth="10"
                         fill="transparent"
-                        strokeDasharray={628.3}
-                        initial={{ strokeDashoffset: 628.3 }}
-                        animate={{ strokeDashoffset: 628.3 - (628.3 * score) / 100 }}
+                        strokeDasharray="283"
+                        initial={{ strokeDashoffset: 283 }}
+                        animate={{ strokeDashoffset: 283 - (283 * score) / 100 }}
                         transition={{ duration: 3, ease: [0.23, 1, 0.32, 1] }}
                         className="text-primary"
                         strokeLinecap="round"
-                        style={{ filter: 'drop-shadow(0 0 15px rgba(167, 139, 250, 0.4))' }}
+                        style={{ filter: 'drop-shadow(0 0 10px rgba(167, 139, 250, 0.4))' }}
                     />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -94,26 +94,26 @@ export default function HealthScore() {
                         initial={{ scale: 0.5, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ delay: 0.5, type: "spring" }}
-                        className="text-7xl font-black text-white tracking-tighter"
+                        className="text-5xl md:text-7xl font-black text-white tracking-tighter"
                     >
                         {score}
                     </motion.span>
-                    <span className="text-[10px] text-gray-500 font-black uppercase tracking-[0.4em]">SCORE</span>
+                    <span className="text-[8px] md:text-[10px] text-gray-500 font-black uppercase tracking-[0.4em]">SCORE</span>
                 </div>
             </div>
 
-            <div className="space-y-6 relative z-10">
-                <p className="text-xs text-gray-400 font-black uppercase tracking-widest leading-relaxed text-center">
+            <div className="space-y-6 relative z-10 flex-1">
+                <p className="text-[10px] md:text-xs text-gray-400 font-black uppercase tracking-widest leading-relaxed text-center">
                     {status.description}
                 </p>
 
-                <div className="pt-8 border-t border-white/5 space-y-6">
+                <div className="pt-6 md:pt-8 border-t border-white/5 space-y-6">
                     <div className="space-y-3">
-                        <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
+                        <div className="flex justify-between items-center text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
                             <span>LIBERDADE FINANCEIRA</span>
                             <span className="text-primary">{score > 0 ? Math.round(score * 0.5) : 0}%</span>
                         </div>
-                        <div className="h-2 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                        <div className="h-1.5 md:h-2 bg-white/5 rounded-full overflow-hidden border border-white/5">
                             <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: `${score > 0 ? Math.round(score * 0.5) : 0}%` }}
@@ -123,19 +123,19 @@ export default function HealthScore() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="p-5 bg-white/[0.02] rounded-2xl border border-white/5 group-hover:border-white/10 transition-all">
-                            <p className="text-[9px] text-gray-600 uppercase font-black tracking-[0.2em] mb-3">RESERVA</p>
+                    <div className="grid grid-cols-2 gap-3 md:gap-4">
+                        <div className="p-4 md:p-5 bg-white/[0.02] rounded-2xl border border-white/5 group-hover:border-white/10 transition-all">
+                            <p className="text-[8px] md:text-[9px] text-gray-600 uppercase font-black tracking-[0.2em] mb-2 md:mb-3">RESERVA</p>
                             <div className="flex items-center justify-between">
-                                <span className="text-xs font-black text-white uppercase">{score > 70 ? "BLINDADA" : "EM CONSTRUÇÃO"}</span>
-                                <div className={`w-2 h-2 rounded-full ${score > 70 ? "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,1)]" : "bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,1)]"}`} />
+                                <span className="text-[10px] md:text-xs font-black text-white uppercase">{score > 70 ? "BLINDADA" : "EM CONSTRUÇÃO"}</span>
+                                <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${score > 70 ? "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,1)]" : "bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,1)]"}`} />
                             </div>
                         </div>
-                        <div className="p-5 bg-white/[0.02] rounded-2xl border border-white/5 group-hover:border-white/10 transition-all">
-                            <p className="text-[9px] text-gray-600 uppercase font-black tracking-[0.2em] mb-3">DÍVIDAS</p>
+                        <div className="p-4 md:p-5 bg-white/[0.02] rounded-2xl border border-white/5 group-hover:border-white/10 transition-all">
+                            <p className="text-[8px] md:text-[9px] text-gray-600 uppercase font-black tracking-[0.2em] mb-2 md:mb-3">DÍVIDAS</p>
                             <div className="flex items-center justify-between">
-                                <span className="text-xs font-black text-white uppercase">{score > 50 ? "CONTROLE" : "ALERTA"}</span>
-                                <div className={`w-2 h-2 rounded-full ${score > 50 ? "bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,1)]" : "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,1)]"}`} />
+                                <span className="text-[10px] md:text-xs font-black text-white uppercase">{score > 50 ? "CONTROLE" : "ALERTA"}</span>
+                                <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${score > 50 ? "bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,1)]" : "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,1)]"}`} />
                             </div>
                         </div>
                     </div>
@@ -144,10 +144,10 @@ export default function HealthScore() {
 
             <button
                 onClick={() => router.push('/trends')}
-                className="w-full py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[10px] font-black text-gray-500 hover:text-white transition-all flex items-center justify-center gap-4 group uppercase tracking-[0.3em]"
+                className="w-full mt-6 md:mt-8 py-4 md:py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[9px] md:text-[10px] font-black text-gray-500 hover:text-white transition-all flex items-center justify-center gap-3 md:gap-4 group uppercase tracking-[0.3em]"
             >
-                RELATÓRIO DE PERFORMANCE
-                <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                PERFORMANCE
+                <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform md:w-4 md:h-4" />
             </button>
         </motion.div>
     );

@@ -53,7 +53,7 @@ export default function AiInsights() {
         <>
             <motion.div
                 whileHover={{ y: -5 }}
-                className="card-premium p-8 space-y-8 overflow-hidden relative group"
+                className="card-premium p-6 md:p-8 space-y-6 md:space-y-8 overflow-hidden relative group h-full flex flex-col"
             >
                 {/* Background Effects */}
                 <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
@@ -62,13 +62,13 @@ export default function AiInsights() {
                 <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/10 transition-all duration-700" />
 
                 <div className="flex items-center justify-between relative z-10">
-                    <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-2xl shadow-primary/10 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                            <Sparkles size={28} />
+                    <div className="flex items-center gap-3 md:gap-4">
+                        <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-2xl shadow-primary/10 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                            <Sparkles size={24} className="md:w-7 md:h-7" />
                         </div>
                         <div>
-                            <h3 className="text-xl font-black text-white tracking-tight">Insights de IA</h3>
-                            <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Análise Financeira Cognitiva</p>
+                            <h3 className="text-lg md:text-xl font-black text-white tracking-tight uppercase">Insights de IA</h3>
+                            <p className="text-[9px] md:text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Análise Cognitiva</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
@@ -80,7 +80,7 @@ export default function AiInsights() {
                     </div>
                 </div>
 
-                <div className="space-y-4 relative z-10">
+                <div className="space-y-3 md:space-y-4 relative z-10 flex-1">
                     {insights.length > 0 ? (
                         insights.map((insight, index) => (
                             <motion.div
@@ -88,38 +88,38 @@ export default function AiInsights() {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: index * 0.1 }}
-                                className="p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/30 hover:bg-white/[0.05] transition-all group/item cursor-pointer relative overflow-hidden"
+                                className="p-4 md:p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/30 hover:bg-white/[0.05] transition-all group/item cursor-pointer relative overflow-hidden"
                             >
-                                <div className="flex gap-5 relative z-10">
-                                    <div className={`w-12 h-12 shrink-0 rounded-xl ${insight.bg} ${insight.color} flex items-center justify-center border border-current/10 group-hover/item:scale-110 transition-transform`}>
-                                        <insight.icon size={24} />
+                                <div className="flex gap-4 md:gap-5 relative z-10">
+                                    <div className={`w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-xl ${insight.bg} ${insight.color} flex items-center justify-center border border-current/10 group-hover/item:scale-110 transition-transform`}>
+                                        <insight.icon size={20} className="md:w-6 md:h-6" />
                                     </div>
                                     <div className="flex-1 space-y-1">
                                         <div className="flex items-center justify-between">
-                                            <h4 className="text-sm font-black text-white group-hover/item:text-primary transition-colors uppercase tracking-tight">
+                                            <h4 className="text-[11px] md:text-sm font-black text-white group-hover/item:text-primary transition-colors uppercase tracking-tight">
                                                 {insight.title}
                                             </h4>
-                                            <span className="text-[8px] font-black text-gray-600 uppercase tracking-[0.2em]">{insight.tag}</span>
+                                            <span className="text-[7px] md:text-[8px] font-black text-gray-600 uppercase tracking-[0.2em]">{insight.tag}</span>
                                         </div>
-                                        <p className="text-xs text-gray-500 leading-relaxed font-medium group-hover/item:text-gray-400 transition-colors">
+                                        <p className="text-[10px] md:text-xs text-gray-500 leading-relaxed font-medium group-hover/item:text-gray-400 transition-colors">
                                             {insight.description}
                                         </p>
                                     </div>
                                     <div className="self-center opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 transition-all">
-                                        <ArrowRight size={18} className="text-primary" />
+                                        <ArrowRight size={16} className="text-primary" />
                                     </div>
                                 </div>
                             </motion.div>
                         ))
                     ) : (
-                        <div className="py-12 text-center space-y-6 bg-white/[0.02] rounded-[2rem] border border-dashed border-white/10">
-                            <p className="text-gray-500 font-black text-[10px] uppercase tracking-[0.2em]">Aguardando dados para análise...</p>
+                        <div className="py-10 md:py-12 text-center space-y-6 bg-white/[0.02] rounded-[2rem] border border-dashed border-white/10">
+                            <p className="text-gray-500 font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em]">Aguardando dados para análise...</p>
                             <button
                                 onClick={() => setIsModalOpen(true)}
-                                className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[9px] font-black text-white uppercase tracking-widest transition-all flex items-center gap-3 mx-auto"
+                                className="px-6 py-3 md:px-8 md:py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[8px] md:text-[9px] font-black text-white uppercase tracking-widest transition-all flex items-center gap-3 mx-auto"
                             >
                                 <Plus size={14} />
-                                Adicionar Primeira Transação
+                                Adicionar Transação
                             </button>
                         </div>
                     )}
@@ -128,14 +128,14 @@ export default function AiInsights() {
                 <button
                     onClick={handleGenerate}
                     disabled={isGenerating || transactions.length === 0}
-                    className="w-full py-5 bg-primary text-black rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_20px_40px_rgba(167,139,250,0.2)] active:scale-95 flex items-center justify-center gap-3 group/btn disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-4 md:py-5 bg-primary text-black rounded-2xl text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white transition-all shadow-[0_20px_40px_rgba(167,139,250,0.2)] active:scale-95 flex items-center justify-center gap-3 group/btn disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isGenerating ? (
                         <Loader2 size={16} className="animate-spin" />
                     ) : (
                         <Sparkles size={16} className="group-hover/btn:animate-pulse" />
                     )}
-                    {isGenerating ? "Processando Dados..." : "Gerar Nova Análise Preditiva"}
+                    {isGenerating ? "Processando..." : "Gerar Análise Preditiva"}
                 </button>
             </motion.div>
 

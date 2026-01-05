@@ -20,10 +20,10 @@ export interface Budget {
 interface FinanceContextType {
     transactions: Transaction[];
     budgets: Budget[];
-    addTransaction: (transaction: Omit<Transaction, 'id'>) => void;
-    updateTransaction: (id: string, transaction: Partial<Transaction>) => void;
-    deleteTransaction: (id: string) => void;
-    setBudget: (category: string, limit: number) => void;
+    addTransaction: (transaction: Omit<Transaction, 'id'>) => Promise<void>;
+    updateTransaction: (id: string, transaction: Partial<Transaction>) => Promise<void>;
+    deleteTransaction: (id: string) => Promise<void>;
+    setBudget: (category: string, limit: number) => Promise<void>;
     getBalance: () => number;
     getMonthlyExpenses: () => number;
     getMonthlyIncome: () => number;
@@ -49,70 +49,108 @@ const CATEGORY_COLORS: { [key: string]: string } = {
     'Outros': '#94A3B8',
 };
 
+import { db } from '@/lib/firebase';
+import { useAuth } from './AuthContext';
+import {
+    collection,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+    onSnapshot,
+    query,
+    orderBy,
+    setDoc
+} from 'firebase/firestore';
+
 export const FinanceProvider = ({ children }: { children: ReactNode }) => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [budgets, setBudgets] = useState<Budget[]>([]);
+    const { user } = useAuth();
 
-    // Initial data for new users to showcase the premium dashboard
-    const INITIAL_DATA: Transaction[] = [];
-
-    // Load from localStorage on mount
+    // Load transactions from Firestore when user changes
     useEffect(() => {
-        const savedTransactions = localStorage.getItem('transactions');
-        const savedBudgets = localStorage.getItem('budgets');
-
-        if (savedTransactions) {
-            setTransactions(JSON.parse(savedTransactions));
-        } else {
-            // Seed with initial data if empty
-            setTransactions(INITIAL_DATA);
-            localStorage.setItem('transactions', JSON.stringify(INITIAL_DATA));
+        if (!user) {
+            setTransactions([]);
+            return;
         }
 
-        if (savedBudgets) {
-            setBudgets(JSON.parse(savedBudgets));
+        const q = query(
+            collection(db, 'users', user.id, 'transactions'),
+            orderBy('date', 'desc')
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const transData = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })) as Transaction[];
+            setTransactions(transData);
+        });
+
+        return () => unsubscribe();
+    }, [user]);
+
+    // Load budgets from Firestore
+    useEffect(() => {
+        if (!user) {
+            setBudgets([]);
+            return;
         }
-    }, []);
 
-    // Save to localStorage whenever data changes
-    useEffect(() => {
-        localStorage.setItem('transactions', JSON.stringify(transactions));
-    }, [transactions]);
+        const unsubscribe = onSnapshot(collection(db, 'users', user.id, 'budgets'), (snapshot) => {
+            const budgetData = snapshot.docs.map(doc => ({
+                category: doc.id,
+                ...doc.data()
+            })) as Budget[];
+            setBudgets(budgetData);
+        });
 
-    useEffect(() => {
-        localStorage.setItem('budgets', JSON.stringify(budgets));
-    }, [budgets]);
+        return () => unsubscribe();
+    }, [user]);
 
-    const addTransaction = (transaction: Omit<Transaction, 'id'>) => {
-        const newTransaction: Transaction = {
-            ...transaction,
-            id: Date.now().toString(),
-        };
-        setTransactions([newTransaction, ...transactions]);
+    const addTransaction = async (transaction: Omit<Transaction, 'id'>) => {
+        if (!user) return;
+        try {
+            await addDoc(collection(db, 'users', user.id, 'transactions'), transaction);
+        } catch (e) {
+            console.error("Error adding transaction: ", e);
+        }
     };
 
-    const updateTransaction = (id: string, updatedData: Partial<Transaction>) => {
-        setTransactions(transactions.map(t =>
-            t.id === id ? { ...t, ...updatedData } : t
-        ));
+    const updateTransaction = async (id: string, updatedData: Partial<Transaction>) => {
+        if (!user) return;
+        try {
+            const docRef = doc(db, 'users', user.id, 'transactions', id);
+            await updateDoc(docRef, updatedData);
+        } catch (e) {
+            console.error("Error updating transaction: ", e);
+        }
     };
 
-    const deleteTransaction = (id: string) => {
-        setTransactions(transactions.filter(t => t.id !== id));
+    const deleteTransaction = async (id: string) => {
+        if (!user) return;
+        try {
+            const docRef = doc(db, 'users', user.id, 'transactions', id);
+            await deleteDoc(docRef);
+        } catch (e) {
+            console.error("Error deleting transaction: ", e);
+        }
     };
 
-    const setBudget = (category: string, limit: number) => {
-        const spent = transactions
-            .filter(t => t.type === 'expense' && t.category === category)
-            .reduce((sum, t) => sum + t.amount, 0);
+    const setBudget = async (category: string, limit: number) => {
+        if (!user) return;
+        try {
+            const spent = transactions
+                .filter(t => t.type === 'expense' && t.category === category)
+                .reduce((sum, t) => sum + t.amount, 0);
 
-        const existingBudgetIndex = budgets.findIndex(b => b.category === category);
-        if (existingBudgetIndex >= 0) {
-            const newBudgets = [...budgets];
-            newBudgets[existingBudgetIndex] = { category, limit, spent };
-            setBudgets(newBudgets);
-        } else {
-            setBudgets([...budgets, { category, limit, spent }]);
+            await setDoc(doc(db, 'users', user.id, 'budgets', category), {
+                limit,
+                spent
+            });
+        } catch (e) {
+            console.error("Error setting budget: ", e);
         }
     };
 

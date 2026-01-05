@@ -64,23 +64,23 @@ export default function RevenueChart() {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="card-premium p-8 h-full flex flex-col relative overflow-hidden group"
+            className="card-premium p-6 md:p-8 h-full flex flex-col relative overflow-hidden group"
         >
             {/* Background Effects */}
             <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/10 transition-all duration-700" />
 
-            <div className="flex justify-between items-center mb-10 relative z-10">
-                <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-2xl shadow-primary/10">
-                        <BarChart3 size={24} />
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 md:mb-10 relative z-10">
+                <div className="flex items-center gap-3 md:gap-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-2xl shadow-primary/10">
+                        <BarChart3 size={20} className="md:w-6 md:h-6" />
                     </div>
                     <div>
-                        <h3 className="text-xl font-black text-white tracking-tight">Fluxo de Caixa</h3>
-                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Evolução Financeira</p>
+                        <h3 className="text-lg md:text-xl font-black text-white tracking-tight uppercase">Fluxo de Caixa</h3>
+                        <p className="text-[9px] md:text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Evolução Financeira</p>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4 bg-white/5 p-2 rounded-xl border border-white/10">
+                <div className="flex items-center gap-3 md:gap-4 bg-white/5 p-1.5 md:p-2 rounded-xl border border-white/10 w-full sm:w-auto justify-between sm:justify-start">
                     <button
                         onClick={handlePrev}
                         disabled={startIndex === 0}
@@ -88,9 +88,9 @@ export default function RevenueChart() {
                     >
                         <ChevronLeft size={18} />
                     </button>
-                    <div className="flex items-center gap-2 px-2">
+                    <div className="flex items-center gap-2 px-1 md:px-2">
                         <Calendar size={12} className="text-primary" />
-                        <span className="text-[10px] text-white font-black uppercase tracking-widest">
+                        <span className="text-[8px] md:text-[10px] text-white font-black uppercase tracking-widest whitespace-nowrap">
                             {visibleData.length > 0 ? `${visibleData[0].name} - ${visibleData[visibleData.length - 1].name}` : "Sem dados"}
                         </span>
                     </div>
@@ -104,14 +104,14 @@ export default function RevenueChart() {
                 </div>
             </div>
 
-            <div className="flex-1 w-full min-h-[250px] relative z-10">
+            <div className="flex-1 w-full min-h-[200px] md:min-h-[250px] relative z-10">
                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={visibleData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <BarChart data={visibleData} margin={{ top: 10, right: 0, left: -30, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.03)" />
                         <XAxis
                             dataKey="name"
                             stroke="#444"
-                            fontSize={10}
+                            fontSize={9}
                             fontWeight="900"
                             tickLine={false}
                             axisLine={false}
@@ -119,22 +119,22 @@ export default function RevenueChart() {
                         />
                         <YAxis
                             stroke="#444"
-                            fontSize={10}
+                            fontSize={9}
                             fontWeight="900"
                             tickLine={false}
                             axisLine={false}
-                            tickFormatter={(value) => `R$ ${value}`}
+                            tickFormatter={(value) => `R$ ${value >= 1000 ? (value / 1000).toFixed(0) + 'k' : value}`}
                         />
                         <Tooltip
                             content={<CustomTooltip />}
                             cursor={{ fill: 'rgba(255, 255, 255, 0.03)' }}
                         />
-                        <Bar dataKey="entrada" fill="#a78bfa" radius={[6, 6, 0, 0]} barSize={24}>
+                        <Bar dataKey="entrada" fill="#a78bfa" radius={[4, 4, 0, 0]} barSize={window.innerWidth < 768 ? 12 : 24}>
                             {visibleData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fillOpacity={0.8} />
                             ))}
                         </Bar>
-                        <Bar dataKey="saida" fill="#333" radius={[6, 6, 0, 0]} barSize={24}>
+                        <Bar dataKey="saida" fill="#333" radius={[4, 4, 0, 0]} barSize={window.innerWidth < 768 ? 12 : 24}>
                             {visibleData.map((entry, index) => (
                                 <Cell key={`cell-exp-${index}`} fillOpacity={0.5} />
                             ))}
@@ -143,20 +143,20 @@ export default function RevenueChart() {
                 </ResponsiveContainer>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
-                <div className="flex gap-6">
+            <div className="mt-6 md:mt-8 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
+                <div className="flex gap-4 md:gap-6">
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-primary" />
-                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Entrada</span>
+                        <span className="text-[9px] md:text-[10px] font-black text-gray-500 uppercase tracking-widest">Entrada</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-gray-800" />
-                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Saída</span>
+                        <span className="text-[9px] md:text-[10px] font-black text-gray-500 uppercase tracking-widest">Saída</span>
                     </div>
                 </div>
-                <div className="flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-widest bg-primary/5 px-3 py-1.5 rounded-lg border border-primary/10">
+                <div className="flex items-center gap-2 text-primary font-black text-[9px] md:text-[10px] uppercase tracking-widest bg-primary/5 px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg border border-primary/10">
                     <TrendingUp size={14} />
-                    Crescimento: {growth >= 0 ? '+' : ''}{growth.toFixed(1)}%
+                    {growth >= 0 ? '+' : ''}{growth.toFixed(1)}%
                 </div>
             </div>
         </motion.div>

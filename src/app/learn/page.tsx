@@ -1086,38 +1086,38 @@ export default function LearnPage() {
                 {/* Header Section */}
                 <motion.header
                     variants={itemVariants}
-                    className="relative overflow-hidden p-10 md:p-20 rounded-[3.5rem] bg-gradient-to-br from-[#0f0f13] via-[#1a1a2e] to-[#0f0f13] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
+                    className="relative overflow-hidden p-6 md:p-20 rounded-[2.5rem] md:rounded-[3.5rem] bg-gradient-to-br from-[#0f0f13] via-[#1a1a2e] to-[#0f0f13] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
                 >
                     <div className="absolute top-0 right-0 hidden md:block opacity-5 -mr-20 -mt-20">
                         <GraduationCap size={400} className="text-primary rotate-12" />
                     </div>
 
-                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px] animate-pulse-slow" />
+                    <div className="absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 bg-primary/10 rounded-full blur-[80px] md:blur-[120px] animate-pulse-slow" />
                     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none"></div>
 
-                    <div className="relative z-10 space-y-8">
-                        <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl">
-                            <BrainCircuit size={18} className="text-primary animate-pulse" />
-                            <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">WTM Academy: Intelligence Protocol</span>
+                    <div className="relative z-10 space-y-6 md:space-y-8">
+                        <div className="inline-flex items-center gap-2 md:gap-3 px-4 py-1.5 md:px-5 md:py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl">
+                            <BrainCircuit size={14} className="text-primary animate-pulse md:w-[18px] md:h-[18px]" />
+                            <span className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-[0.3em]">WTM Academy: Intelligence Protocol</span>
                         </div>
-                        <h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter leading-[0.85]">
+                        <h1 className="text-4xl md:text-9xl font-black text-white tracking-tighter leading-[0.9] md:leading-[0.85]">
                             Domine o <br />
                             <span className="gradient-text">Capital</span>
                         </h1>
-                        <p className="text-gray-400 text-xl md:text-2xl max-w-3xl leading-relaxed font-medium">
+                        <p className="text-gray-400 text-base md:text-2xl max-w-3xl leading-relaxed font-medium">
                             A educação financeira é a única arma capaz de romper as correntes da mediocridade. Transforme conhecimento em patrimônio.
                         </p>
 
-                        <div className="flex flex-wrap gap-6 pt-4">
+                        <div className="flex flex-wrap gap-3 md:gap-6 pt-2 md:pt-4">
                             {[
-                                { label: "Aulas Concluídas", value: "12/48", icon: Target },
-                                { label: "Nível Atual", value: "Intermediário", icon: Award },
-                                { label: "Tempo de Estudo", value: "14.5h", icon: BookOpen }
+                                { label: "Aulas", value: "12/48", icon: Target },
+                                { label: "Nível", value: "Intermediário", icon: Award },
+                                { label: "Tempo", value: "14.5h", icon: BookOpen }
                             ].map((stat, i) => (
-                                <div key={i} className="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-xl">
-                                    <stat.icon size={16} className="text-primary" />
-                                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">{stat.label}:</span>
-                                    <span className="text-sm font-black text-white">{stat.value}</span>
+                                <div key={i} className="flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-6 md:py-3 bg-white/5 rounded-xl md:rounded-2xl border border-white/10 backdrop-blur-xl">
+                                    <stat.icon size={14} className="text-primary md:w-4 md:h-4" />
+                                    <span className="text-[8px] md:text-[10px] font-black text-gray-500 uppercase tracking-widest">{stat.label}:</span>
+                                    <span className="text-xs md:text-sm font-black text-white">{stat.value}</span>
                                 </div>
                             ))}
                         </div>
@@ -1143,21 +1143,21 @@ export default function LearnPage() {
                 </div>
 
                 {/* Learning Path Progress */}
-                <motion.div variants={itemVariants} className="card-premium p-10 relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <Target size={150} />
+                <motion.div variants={itemVariants} className="card-premium p-6 md:p-10 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 p-4 md:p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <Target size={100} className="md:w-[150px] md:h-[150px]" />
                     </div>
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
-                        <div className="space-y-4 text-center md:text-left">
-                            <h3 className="text-3xl font-black text-white tracking-tight uppercase">Trilha de Maestria</h3>
-                            <p className="text-gray-500 font-medium max-w-md">Você está no caminho certo. Continue progredindo para desbloquear o módulo de <span className="text-primary font-bold">Estratégias Offshore</span>.</p>
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 relative z-10">
+                        <div className="space-y-3 md:space-y-4 text-center md:text-left">
+                            <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight uppercase">Trilha de Maestria</h3>
+                            <p className="text-gray-500 text-sm md:text-base font-medium max-w-md">Você está no caminho certo. Continue progredindo para desbloquear o módulo de <span className="text-primary font-bold">Estratégias Offshore</span>.</p>
                         </div>
-                        <div className="flex-1 w-full max-w-xl space-y-4">
+                        <div className="flex-1 w-full max-w-xl space-y-3 md:space-y-4">
                             <div className="flex justify-between items-end">
-                                <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Progresso Geral da Academia</span>
-                                <span className="text-2xl font-black text-primary tracking-tighter">25%</span>
+                                <span className="text-[8px] md:text-[10px] font-black text-gray-500 uppercase tracking-widest">Progresso Geral</span>
+                                <span className="text-xl md:text-2xl font-black text-primary tracking-tighter">25%</span>
                             </div>
-                            <div className="h-4 bg-white/5 rounded-full overflow-hidden border border-white/5 p-1">
+                            <div className="h-3 md:h-4 bg-white/5 rounded-full overflow-hidden border border-white/5 p-0.5 md:p-1">
                                 <motion.div
                                     initial={{ width: 0 }}
                                     animate={{ width: "25%" }}
@@ -1166,8 +1166,8 @@ export default function LearnPage() {
                                 />
                             </div>
                         </div>
-                        <button className="px-10 py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[10px] font-black text-white uppercase tracking-[0.2em] transition-all flex items-center gap-3 group">
-                            Continuar de onde parei <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        <button className="w-full md:w-auto px-8 py-4 md:px-10 md:py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl md:rounded-2xl text-[8px] md:text-[10px] font-black text-white uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 md:gap-3 group">
+                            Continuar de onde parei <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform md:w-4 md:h-4" />
                         </button>
                     </div>
                 </motion.div>

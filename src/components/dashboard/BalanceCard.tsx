@@ -43,58 +43,58 @@ export default function BalanceCard() {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="card-premium p-10 relative overflow-hidden group"
+            className="card-premium p-6 md:p-10 relative overflow-hidden group"
         >
             {/* Background Effects */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -mr-32 -mt-32 group-hover:bg-primary/10 transition-all duration-1000" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/5 rounded-full blur-[80px] -ml-24 -mb-24 group-hover:bg-blue-500/10 transition-all duration-1000" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/5 rounded-full blur-[80px] -ml-24 -mb-24 group-hover:bg-blue-500/10 transition-all duration-700" />
 
-            <div className="flex justify-between items-start mb-10 relative z-10">
-                <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 shadow-2xl shadow-primary/10 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                        <Wallet className="text-primary" size={28} />
+            <div className="flex justify-between items-start mb-6 md:mb-10 relative z-10">
+                <div className="flex items-center gap-3 md:gap-4">
+                    <div className="w-12 h-12 md:w-14 md:h-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 shadow-2xl shadow-primary/10 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                        <Wallet className="text-primary md:w-7 md:h-7" size={24} />
                     </div>
                     <div>
-                        <h3 className="text-xl font-black text-white tracking-tight">Seu Patrimônio</h3>
-                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Liquidez Total</p>
+                        <h3 className="text-lg md:text-xl font-black text-white tracking-tight uppercase">Seu Patrimônio</h3>
+                        <p className="text-[9px] md:text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Liquidez Total</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 md:gap-3">
                     <button
                         onClick={() => setVisible(!visible)}
-                        className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all"
+                        className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all"
                     >
-                        {visible ? <Eye size={20} /> : <EyeOff size={20} />}
+                        {visible ? <Eye size={18} /> : <EyeOff size={18} />}
                     </button>
                     {!isEditing ? (
                         <button
                             onClick={handleEdit}
-                            className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-primary hover:bg-primary/10 transition-all"
+                            className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-primary hover:bg-primary/10 transition-all"
                         >
-                            <Edit2 size={20} />
+                            <Edit2 size={18} />
                         </button>
                     ) : (
                         <div className="flex gap-2">
                             <button
                                 onClick={() => setIsEditing(false)}
-                                className="w-12 h-12 flex items-center justify-center rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition-all"
+                                className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition-all"
                             >
-                                <X size={20} />
+                                <X size={18} />
                             </button>
                             <button
                                 onClick={handleSave}
-                                className="w-12 h-12 flex items-center justify-center rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-500 hover:text-white transition-all"
+                                className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-500 hover:text-white transition-all"
                             >
-                                <Check size={20} />
+                                <Check size={18} />
                             </button>
                         </div>
                     )}
                 </div>
             </div>
 
-            <div className="relative z-10 mb-12">
-                <div className="flex items-baseline gap-3">
-                    <span className="text-primary text-4xl font-black tracking-tighter">R$</span>
+            <div className="relative z-10 mb-8 md:mb-12">
+                <div className="flex items-baseline gap-2 md:gap-3">
+                    <span className="text-primary text-2xl md:text-4xl font-black tracking-tighter">R$</span>
                     <AnimatePresence mode="wait">
                         {isEditing ? (
                             <motion.div
@@ -108,7 +108,7 @@ export default function BalanceCard() {
                                     value={tempBalance}
                                     onChange={(e) => setTempBalance(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleSave()}
-                                    className="bg-black/60 border-2 border-primary/50 rounded-[2rem] px-6 py-4 md:px-8 md:py-6 text-white text-3xl md:text-6xl font-black outline-none focus:border-primary w-full shadow-2xl backdrop-blur-xl"
+                                    className="bg-black/60 border-2 border-primary/50 rounded-[1.5rem] md:rounded-[2rem] px-6 py-4 md:px-8 md:py-6 text-white text-3xl md:text-6xl font-black outline-none focus:border-primary w-full shadow-2xl backdrop-blur-xl"
                                     autoFocus
                                 />
                             </motion.div>
@@ -125,41 +125,41 @@ export default function BalanceCard() {
                         )}
                     </AnimatePresence>
                 </div>
-                <div className="flex items-center gap-2 mt-4 text-green-400 text-sm font-black uppercase tracking-widest">
-                    <TrendingUp size={16} />
+                <div className="flex items-center gap-2 mt-4 text-green-400 text-[10px] md:text-sm font-black uppercase tracking-widest">
+                    <TrendingUp size={14} className="md:w-4 md:h-4" />
                     +0.0% <span className="text-gray-600 ml-1">vs mês anterior</span>
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-8 pt-10 border-t border-white/5 relative z-10">
-                <div className="space-y-3 group/item">
+            <div className="grid grid-cols-2 gap-4 md:gap-8 pt-8 md:pt-10 border-t border-white/5 relative z-10">
+                <div className="space-y-2 md:space-y-3 group/item">
                     <div className="flex items-center justify-between">
-                        <span className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em]">Entradas</span>
-                        <ArrowUpRight size={14} className="text-green-500 group-hover/item:translate-x-1 group-hover/item:-translate-y-1 transition-transform" />
+                        <span className="text-gray-500 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em]">Entradas</span>
+                        <ArrowUpRight size={12} className="text-green-500 md:w-3.5 md:h-3.5 group-hover/item:translate-x-1 group-hover/item:-translate-y-1 transition-transform" />
                     </div>
-                    <div className="flex items-center gap-3">
-                        <div className="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
-                        <span className="text-2xl font-black text-white tracking-tight">
+                    <div className="flex items-center gap-2 md:gap-3">
+                        <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                        <span className="text-lg md:text-2xl font-black text-white tracking-tight">
                             R$ {revenues.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </span>
                     </div>
                 </div>
-                <div className="space-y-3 group/item">
+                <div className="space-y-2 md:space-y-3 group/item">
                     <div className="flex items-center justify-between">
-                        <span className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em]">Saídas</span>
-                        <ArrowDownRight size={14} className="text-red-500 group-hover/item:translate-x-1 group-hover/item:translate-y-1 transition-transform" />
+                        <span className="text-gray-500 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em]">Saídas</span>
+                        <ArrowDownRight size={12} className="text-red-500 md:w-3.5 md:h-3.5 group-hover/item:translate-x-1 group-hover/item:translate-y-1 transition-transform" />
                     </div>
-                    <div className="flex items-center gap-3">
-                        <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
-                        <span className="text-2xl font-black text-white tracking-tight">
+                    <div className="flex items-center gap-2 md:gap-3">
+                        <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                        <span className="text-lg md:text-2xl font-black text-white tracking-tight">
                             R$ {expenses.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </span>
                     </div>
                 </div>
             </div>
 
-            <div className="absolute bottom-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                <Sparkles size={120} className="text-primary animate-pulse" />
+            <div className="absolute bottom-0 right-0 p-6 md:p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                <Sparkles size={80} className="md:w-[120px] md:h-[120px] text-primary animate-pulse" />
             </div>
         </motion.div>
     );
