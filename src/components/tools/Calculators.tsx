@@ -39,7 +39,7 @@ export default function Calculators({ type }: CalculatorsProps) {
         const deps = Number(dependents);
         const minWage = 1514;
 
-        // INSS 2025
+        // INSS 2026
         let inss = 0;
         if (gross <= 1514) inss = gross * 0.075;
         else if (gross <= 2859.27) inss = (gross * 0.09) - 22.71;
@@ -47,7 +47,7 @@ export default function Calculators({ type }: CalculatorsProps) {
         else if (gross <= 8346.61) inss = (gross * 0.14) - 194.27;
         else inss = 974.26;
 
-        // IRRF 2025
+        // IRRF 2026
         const baseIR = gross - inss - (deps * 189.59);
         let irrf = 0;
         if (baseIR <= 2259.20) irrf = 0;
@@ -101,7 +101,7 @@ export default function Calculators({ type }: CalculatorsProps) {
             case "net-salary":
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-bold text-white">Calculadora de Salário Líquido (2025)</h2>
+                        <h2 className="text-2xl font-bold text-white">Calculadora de Salário Líquido (2026)</h2>
                         <div className="grid gap-4">
                             <Input label="Salário Bruto (R$)" value={salary} onChange={setSalary} placeholder="Ex: 5000" />
                             <Input label="Número de Dependentes" value={dependents} onChange={setDependents} placeholder="Ex: 0" />

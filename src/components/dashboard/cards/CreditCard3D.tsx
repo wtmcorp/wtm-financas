@@ -73,8 +73,13 @@ export default function CreditCard3D({ card, onClick }: CreditCard3DProps) {
             {/* Content */}
             <div className="relative h-full flex flex-col justify-between z-10">
                 <div className="flex justify-between items-start">
-                    <div className="text-white/90 font-bold tracking-wider text-sm uppercase">
-                        {card.bank}
+                    <div className="flex items-center gap-2">
+                        <div className="text-white/90 font-bold tracking-wider text-sm uppercase">
+                            {card.bank}
+                        </div>
+                        <div className="px-1.5 py-0.5 bg-white/20 rounded text-[8px] font-black text-white backdrop-blur-sm border border-white/10">
+                            2026
+                        </div>
                     </div>
                     <div className="text-white/80">
                         {getBrandLogo()}
@@ -120,6 +125,7 @@ export default function CreditCard3D({ card, onClick }: CreditCard3DProps) {
                     <p>{card.annualFee === 0 ? "Anuidade Grátis" : `Anuidade: R$ ${card.annualFee}`}</p>
                     {card.miles && <p className="text-blue-400">{card.milesRate} pts/dólar</p>}
                     {card.cashback > 0 && <p className="text-green-400">{card.cashback}% Cashback</p>}
+                    {card.yield && <p className="text-yellow-400 font-bold">{card.yield}</p>}
                 </div>
                 <div className="px-4 py-2 bg-white text-black rounded-full text-xs font-bold uppercase tracking-widest transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                     Ver Detalhes

@@ -89,7 +89,7 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                 </div>
             </div>
 
-            <div className="space-y-3 md:space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="space-y-4 md:space-y-5 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar">
                 <AnimatePresence mode="popLayout">
                     {filteredTransactions.length === 0 ? (
                         <motion.div
@@ -100,7 +100,7 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                             <div className="w-16 h-16 md:w-20 md:h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <List className="w-8 h-8 md:w-10 md:h-10 text-gray-600" />
                             </div>
-                            <p className="text-gray-500 text-xs md:text-sm font-black uppercase tracking-[0.2em]">Nenhuma transação</p>
+                            <p className="text-gray-500 text-sm md:text-base font-black uppercase tracking-[0.2em]">Nenhuma transação</p>
                         </motion.div>
                     ) : (
                         filteredTransactions.map((transaction, idx) => (
@@ -110,34 +110,34 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
                                 transition={{ delay: idx * 0.05 }}
-                                className="group flex items-center justify-between p-4 md:p-5 bg-white/[0.02] hover:bg-white/[0.05] rounded-[1.5rem] border border-white/5 hover:border-primary/20 transition-all duration-300"
+                                className="group flex items-center justify-between p-5 md:p-6 bg-white/[0.02] hover:bg-white/[0.05] rounded-[1.5rem] border border-white/5 hover:border-primary/20 transition-all duration-300"
                             >
-                                <div className="flex items-center gap-4 md:gap-6 flex-1 min-w-0">
-                                    <div className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center border transition-all duration-300 shrink-0 ${transaction.type === 'income'
+                                <div className="flex items-center gap-5 md:gap-7 flex-1 min-w-0">
+                                    <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 shrink-0 ${transaction.type === 'income'
                                         ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500 group-hover:bg-emerald-500/20'
                                         : 'bg-red-500/10 border-red-500/20 text-red-500 group-hover:bg-red-500/20'
                                         }`}>
                                         {transaction.type === 'income' ? (
-                                            <TrendingUp size={20} className="md:w-6 md:h-6" />
+                                            <TrendingUp size={24} className="md:w-7 md:h-7" />
                                         ) : (
-                                            <TrendingDown size={20} className="md:w-6 md:h-6" />
+                                            <TrendingDown size={24} className="md:w-7 md:h-7" />
                                         )}
                                     </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-black text-white truncate text-xs md:text-base uppercase tracking-tight mb-1">
+                                    <div className="flex-1 min-w-0 space-y-1">
+                                        <p className="font-black text-white truncate text-sm md:text-lg uppercase tracking-tight">
                                             {transaction.description}
                                         </p>
                                         <div className="flex items-center gap-3">
-                                            <span className="text-[9px] md:text-[10px] px-2 py-1 bg-white/5 rounded-lg text-gray-400 font-black uppercase tracking-widest border border-white/5">
+                                            <span className="text-[10px] md:text-xs px-2.5 py-1 bg-white/5 rounded-lg text-gray-400 font-black uppercase tracking-widest border border-white/5">
                                                 {transaction.category}
                                             </span>
-                                            <span className="text-[9px] md:text-[10px] text-gray-500 font-bold">
+                                            <span className="text-[10px] md:text-xs text-gray-500 font-bold">
                                                 {formatDate(transaction.date)}
                                             </span>
                                         </div>
                                     </div>
-                                    <div className="text-right shrink-0 mr-2 md:mr-4">
-                                        <p className={`font-black text-xs md:text-lg ${transaction.type === 'income'
+                                    <div className="text-right shrink-0 mr-2 md:mr-6">
+                                        <p className={`font-black text-sm md:text-xl ${transaction.type === 'income'
                                             ? 'text-emerald-400'
                                             : 'text-red-400'
                                             }`}>
@@ -145,20 +145,20 @@ const TransactionList = ({ limit }: TransactionListProps) => {
                                         </p>
                                     </div>
                                 </div>
-                                <div className="flex gap-1 md:gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                <div className="flex gap-2 md:gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-300 pl-4 border-l border-white/5">
                                     <button
                                         onClick={() => setEditingTransaction(transaction)}
-                                        className="p-2 md:p-2.5 hover:bg-white/10 rounded-xl text-gray-500 hover:text-white transition-colors border border-transparent hover:border-white/10"
+                                        className="p-2.5 md:p-3 hover:bg-white/10 rounded-xl text-gray-500 hover:text-white transition-colors border border-transparent hover:border-white/10"
                                         aria-label="Editar"
                                     >
-                                        <Edit size={14} className="md:w-4 md:h-4" />
+                                        <Edit size={16} className="md:w-5 md:h-5" />
                                     </button>
                                     <button
                                         onClick={() => setDeletingId(transaction.id)}
-                                        className="p-2 md:p-2.5 hover:bg-red-500/10 rounded-xl text-gray-500 hover:text-red-400 transition-colors border border-transparent hover:border-red-500/10"
+                                        className="p-2.5 md:p-3 hover:bg-red-500/10 rounded-xl text-gray-500 hover:text-red-400 transition-colors border border-transparent hover:border-red-500/10"
                                         aria-label="Remover"
                                     >
-                                        <Trash2 size={14} className="md:w-4 md:h-4" />
+                                        <Trash2 size={16} className="md:w-5 md:h-5" />
                                     </button>
                                 </div>
                             </motion.div>

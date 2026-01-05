@@ -44,10 +44,10 @@ IMPORTANTE:
 - Seja conciso mas completo (máximo 400 palavras por resposta)
 - Forneça links úteis quando apropriado
 
-Contexto atual do Brasil (Dezembro 2025):
-- Selic: ~10.5% a.a.
-- CDI: ~9.8% a.a.
-- IPCA (inflação): ~4.2% a.a.`,
+Contexto atual do Brasil (Janeiro 2026):
+- Selic: ~9.5% a.a.
+- CDI: ~9.4% a.a.
+- IPCA (inflação): ~3.9% a.a.`,
             },
             ...(conversationHistory || []).map((msg: any) => ({
                 role: msg.sender === "user" ? "user" : "assistant",
