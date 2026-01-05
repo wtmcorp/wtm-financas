@@ -143,7 +143,7 @@ export default function RevenueChart() {
                 </ResponsiveContainer>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between relative z-10">
+            <div className="mt-8 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
                 <div className="flex gap-6">
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-primary" />
@@ -154,7 +154,7 @@ export default function RevenueChart() {
                         <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Saída</span>
                     </div>
                 </div>
-                <div className="flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-widest">
+                <div className="flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-widest bg-primary/5 px-3 py-1.5 rounded-lg border border-primary/10">
                     <TrendingUp size={14} />
                     Crescimento: {growth >= 0 ? '+' : ''}{growth.toFixed(1)}%
                 </div>

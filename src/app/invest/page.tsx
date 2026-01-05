@@ -71,7 +71,7 @@ export default function InvestPage() {
                             <Sparkles size={18} className="text-primary animate-pulse" />
                             <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Wealth Multiplier Engine</span>
                         </div>
-                        <h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter leading-[0.85]">
+                        <h1 className="text-4xl md:text-9xl font-black text-white tracking-tighter leading-[0.85]">
                             Central de <br />
                             <span className="gradient-text">Investimentos</span>
                         </h1>

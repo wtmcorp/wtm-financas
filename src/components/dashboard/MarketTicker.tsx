@@ -61,7 +61,7 @@ export default function MarketTicker() {
             <div className="absolute right-0 z-20 w-24 h-full bg-gradient-to-l from-black to-transparent" />
 
             {/* Scrolling Content */}
-            <div className="flex-1 overflow-hidden h-full flex items-center ml-[180px]">
+            <div className="flex-1 overflow-hidden h-full flex items-center ml-[140px] md:ml-[180px]">
                 <motion.div
                     animate={{ x: ["0%", "-50%"] }}
                     transition={{

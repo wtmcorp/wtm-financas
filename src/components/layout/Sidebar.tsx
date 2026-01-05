@@ -49,7 +49,7 @@ export default function Sidebar() {
                             {isActive && (
                                 <motion.div
                                     layoutId="activeSidebar"
-                                    className="absolute left-0 w-1 h-8 bg-violet-500 rounded-r-full shadow-[0_0_15px_rgba(124,58,237,0.8)]"
+                                    className="absolute left-0 w-1 h-8 bg-primary rounded-r-full shadow-[0_0_15px_rgba(124,58,237,0.8)]"
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ duration: 0.3 }}
@@ -70,7 +70,7 @@ export default function Sidebar() {
             {/* User Profile */}
             <div className="p-4 mt-auto">
                 <div className="flex items-center gap-4 px-4 py-3 rounded-2xl hover:bg-white/5 transition-colors cursor-pointer group border border-transparent hover:border-white/5">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center text-xs font-bold text-white shadow-lg shadow-violet-500/20 ring-2 ring-white/10">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-indigo-600 flex items-center justify-center text-xs font-bold text-white shadow-lg shadow-primary/20 ring-2 ring-white/10">
                         {user?.name?.charAt(0) || "W"}
                     </div>
                     <div className="flex-1 overflow-hidden">

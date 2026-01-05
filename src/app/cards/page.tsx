@@ -94,7 +94,7 @@ export default function CardsPage() {
                             <Crown size={18} className="text-yellow-500 animate-pulse" />
                             <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">The Elite Collection</span>
                         </div>
-                        <h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter leading-[0.85]">
+                        <h1 className="text-4xl md:text-9xl font-black text-white tracking-tighter leading-[0.85]">
                             Arsenal de <br />
                             <span className="gradient-text">Crédito</span>
                         </h1>

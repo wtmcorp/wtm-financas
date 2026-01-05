@@ -31,18 +31,22 @@ interface FinanceContextType {
     getExpensesByCategory: () => { name: string; value: number; color: string }[];
     getCashFlow: () => { name: string; entrada: number; saida: number }[];
     getNetWorth: () => { name: string; valor: number }[];
+    getTopExpenseCategory: () => { name: string; amount: number } | null;
+    getMonthlySavingsRate: () => number;
 }
 
 const FinanceContext = createContext<FinanceContextType | undefined>(undefined);
 
 const CATEGORY_COLORS: { [key: string]: string } = {
-    'Moradia': '#0088FE',
-    'Alimentação': '#00C49F',
-    'Transporte': '#FFBB28',
-    'Lazer': '#FF8042',
-    'Saúde': '#8884d8',
-    'Educação': '#82ca9d',
-    'Outros': '#ffc658',
+    'Salário': '#4ADE80',
+    'Investimentos': '#60A5FA',
+    'Moradia': '#A78BFA',
+    'Alimentação': '#FB923C',
+    'Transporte': '#22D3EE',
+    'Lazer': '#F472B6',
+    'Compras': '#FACC15',
+    'Contas': '#F87171',
+    'Outros': '#94A3B8',
 };
 
 export const FinanceProvider = ({ children }: { children: ReactNode }) => {
@@ -152,6 +156,36 @@ export const FinanceProvider = ({ children }: { children: ReactNode }) => {
         return getMonthlyIncome() - getMonthlyExpenses();
     };
 
+    const getMonthlySavingsRate = () => {
+        const income = getMonthlyIncome();
+        if (income === 0) return 0;
+        const savings = getSavings();
+        return (savings / income) * 100;
+    };
+
+    const getTopExpenseCategory = () => {
+        const now = new Date();
+        const currentMonth = now.getMonth();
+        const currentYear = now.getFullYear();
+
+        const categoryTotals: { [key: string]: number } = {};
+
+        transactions
+            .filter(t => {
+                const tDate = new Date(t.date);
+                return t.type === 'expense' &&
+                    tDate.getMonth() === currentMonth &&
+                    tDate.getFullYear() === currentYear;
+            })
+            .forEach(t => {
+                categoryTotals[t.category] = (categoryTotals[t.category] || 0) + t.amount;
+            });
+
+        const sorted = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1]);
+        if (sorted.length === 0) return null;
+        return { name: sorted[0][0], amount: sorted[0][1] };
+    };
+
     const getExpensesByCategory = () => {
         const categoryTotals: { [key: string]: number } = {};
 
@@ -164,7 +198,7 @@ export const FinanceProvider = ({ children }: { children: ReactNode }) => {
         return Object.entries(categoryTotals).map(([name, value]) => ({
             name,
             value,
-            color: CATEGORY_COLORS[name] || '#999999',
+            color: CATEGORY_COLORS[name] || '#94A3B8',
         }));
     };
 
@@ -254,6 +288,8 @@ export const FinanceProvider = ({ children }: { children: ReactNode }) => {
                 getExpensesByCategory,
                 getCashFlow,
                 getNetWorth,
+                getTopExpenseCategory,
+                getMonthlySavingsRate,
             }}
         >
             {children}

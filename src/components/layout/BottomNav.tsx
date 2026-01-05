@@ -17,7 +17,7 @@ export default function BottomNav() {
     ];
 
     return (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] md:hidden w-[90%] max-w-md">
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] lg:hidden w-[90%] max-w-md">
             <nav className="bg-black/40 backdrop-blur-2xl rounded-[2rem] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
                 <div className="flex justify-around items-center h-20 px-4">
                     {navItems.map((item) => {
@@ -32,7 +32,7 @@ export default function BottomNav() {
                                 {isActive && (
                                     <motion.div
                                         layoutId="activeTabMobile"
-                                        className="absolute inset-0 bg-violet-500/10 rounded-2xl"
+                                        className="absolute inset-0 bg-primary/10 rounded-2xl"
                                         initial={false}
                                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                                     />
@@ -43,7 +43,7 @@ export default function BottomNav() {
                                 {isActive && (
                                     <motion.div
                                         layoutId="activeIndicatorMobile"
-                                        className="absolute -bottom-1 w-1 h-1 rounded-full bg-violet-500 shadow-[0_0_10px_rgba(124,58,237,1)]"
+                                        className="absolute -bottom-1 w-1 h-1 rounded-full bg-primary shadow-[0_0_10px_rgba(124,58,237,1)]"
                                     />
                                 )}
                             </Link>

@@ -108,7 +108,7 @@ export default function BalanceCard() {
                                     value={tempBalance}
                                     onChange={(e) => setTempBalance(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleSave()}
-                                    className="bg-black/60 border-2 border-primary/50 rounded-[2rem] px-8 py-6 text-white text-6xl font-black outline-none focus:border-primary w-full shadow-2xl backdrop-blur-xl"
+                                    className="bg-black/60 border-2 border-primary/50 rounded-[2rem] px-6 py-4 md:px-8 md:py-6 text-white text-3xl md:text-6xl font-black outline-none focus:border-primary w-full shadow-2xl backdrop-blur-xl"
                                     autoFocus
                                 />
                             </motion.div>
@@ -118,7 +118,7 @@ export default function BalanceCard() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 onClick={handleEdit}
-                                className="text-7xl md:text-8xl font-black text-white tracking-tighter leading-none cursor-pointer hover:text-primary transition-colors"
+                                className="text-4xl md:text-8xl font-black text-white tracking-tighter leading-none cursor-pointer hover:text-primary transition-colors"
                             >
                                 {visible ? balance.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "••••••"}
                             </motion.span>

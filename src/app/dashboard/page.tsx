@@ -30,6 +30,7 @@ import AiInsights from "@/components/dashboard/AiInsights";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import QuickActions from "@/components/dashboard/QuickActions";
 import RevenueChart from "@/components/dashboard/RevenueChart";
+import MonthlyClosingCard from "@/components/dashboard/MonthlyClosingCard";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function DashboardPage() {
@@ -94,7 +95,7 @@ export default function DashboardPage() {
                                     <Sparkles size={18} className="text-primary animate-pulse" />
                                     <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Command Center v2.0</span>
                                 </div>
-                                <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.85]">
+                                <h1 className="text-4xl md:text-8xl font-black text-white tracking-tighter leading-[0.85]">
                                     Bem-vindo, <br />
                                     <span className="gradient-text">{user.name.split(" ")[0]}</span>
                                 </h1>
@@ -117,7 +118,7 @@ export default function DashboardPage() {
                                         <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Receita Mensal</p>
                                         <ArrowUpRight size={14} className="text-primary opacity-0 group-hover/income:opacity-100 transition-all" />
                                     </div>
-                                    <p className="text-5xl font-black text-white tracking-tighter">
+                                    <p className="text-4xl md:text-5xl font-black text-white tracking-tighter">
                                         R$ {user.income?.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) || "0,00"}
                                     </p>
                                     <div className="mt-4 h-1 w-full bg-white/5 rounded-full overflow-hidden">
@@ -241,42 +242,10 @@ export default function DashboardPage() {
                             <NewsSection />
                         </motion.div>
                     </div>
+
                     <div className="lg:col-span-4">
-                        <motion.div variants={itemVariants} className="card-premium p-10 h-full relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                                <Info size={150} />
-                            </div>
-
-                            <h3 className="text-2xl font-black text-white tracking-tight mb-10 flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10">
-                                    <Info className="text-primary" size={24} />
-                                </div>
-                                Informações da Conta
-                            </h3>
-
-                            <div className="space-y-6">
-                                {[
-                                    { label: "Membro desde", value: new Date(user.createdAt).toLocaleDateString(), icon: Calendar },
-                                    { label: "Status da Conta", value: "Verificada e Ativa", icon: ShieldCheck, color: "text-green-400" },
-                                    { label: "Nível de Acesso", value: "Platinum Elite", icon: Sparkles, color: "text-primary" },
-                                    { label: "Segurança", value: "2FA Ativado", icon: Shield, color: "text-blue-400" }
-                                ].map((item, i) => (
-                                    <div key={i} className="flex justify-between items-center p-5 bg-white/[0.02] rounded-2xl border border-white/5 hover:border-white/10 transition-all group/item">
-                                        <div className="flex items-center gap-4">
-                                            <item.icon size={18} className="text-gray-600 group-hover/item:text-primary transition-colors" />
-                                            <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">{item.label}</span>
-                                        </div>
-                                        <span className={`text-sm font-black ${item.color || 'text-white'} tracking-tight`}>{item.value}</span>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <button
-                                onClick={() => router.push('/profile')}
-                                className="w-full mt-10 py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[10px] font-black text-gray-500 hover:text-white uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3"
-                            >
-                                Gerenciar Perfil <ArrowUpRight size={14} />
-                            </button>
+                        <motion.div variants={itemVariants}>
+                            <MonthlyClosingCard />
                         </motion.div>
                     </div>
                 </div>

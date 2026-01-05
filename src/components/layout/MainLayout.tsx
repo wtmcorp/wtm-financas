@@ -30,7 +30,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     return (
         <div className="min-h-screen flex flex-col transition-all duration-500">
             <Header />
-            <main className="flex-1 relative pt-20 md:pt-32 pb-20">
+            <main className="flex-1 relative pt-32 md:pt-32 pb-32">
                 <MouseTracker />
                 <PremiumNotifications />
                 {children}

@@ -29,7 +29,7 @@ export default function BugReportButton() {
         existingReports.push(bugReport);
         localStorage.setItem("wtm_bug_reports", JSON.stringify(existingReports));
 
-        console.log("Bug Report Submitted:", bugReport);
+
 
         setSubmitted(true);
         setTimeout(() => {

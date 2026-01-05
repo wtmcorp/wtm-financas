@@ -27,8 +27,8 @@ export default function Header() {
             <div className="h-20 bg-black/80 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-4 md:px-8">
 
                 {/* Left Section - Logo + Menu */}
-                <div className="flex items-center gap-4 w-64">
-                    <Link href="/" className="flex items-center gap-3">
+                <div className="flex items-center gap-4 md:w-64">
+                    <Link href="/" className="flex items-center gap-3 shrink-0">
                         <InteractiveLogo size="sm" />
                         <div className="hidden md:flex flex-col">
                             <span className="text-lg font-black text-white tracking-tighter leading-none uppercase">
@@ -66,7 +66,7 @@ export default function Header() {
                 </nav>
 
                 {/* Right Section - Search & Auth */}
-                <div className="flex items-center gap-4 w-64 justify-end">
+                <div className="flex items-center gap-4 md:w-64 justify-end">
                     {/* Search Bar */}
                     <div className="hidden md:flex items-center bg-white/[0.03] border border-white/10 rounded-xl px-3 py-2 w-48 group focus-within:border-violet-500/50 focus-within:bg-black transition-all">
                         <Search className="text-gray-500 group-focus-within:text-violet-400 transition-colors" size={14} />
@@ -85,7 +85,7 @@ export default function Header() {
                     {user ? (
                         <button
                             onClick={logout}
-                            className="h-10 px-6 rounded-xl bg-white text-black text-xs font-black uppercase tracking-wider hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center gap-2"
+                            className="h-10 px-4 md:px-6 rounded-xl bg-white text-black text-xs font-black uppercase tracking-wider hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center gap-2"
                         >
                             <span className="hidden sm:inline">Sair</span>
                             <LogOut size={14} />
@@ -93,7 +93,7 @@ export default function Header() {
                     ) : (
                         <Link
                             href="/login"
-                            className="h-10 px-6 rounded-xl bg-white text-black text-xs font-black uppercase tracking-wider hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center justify-center"
+                            className="h-10 px-4 md:px-6 rounded-xl bg-white text-black text-xs font-black uppercase tracking-wider hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center justify-center"
                         >
                             Entrar
                         </Link>
