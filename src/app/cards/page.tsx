@@ -24,13 +24,18 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function CardsPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCard, setSelectedCard] = useState<CreditCard | null>(null);
-    const [activeCategory, setActiveCategory] = useState<"all" | "premium" | "intermediário" | "básico">("all");
+    const [activeCategory, setActiveCategory] = useState<"all" | "premium" | "intermediário" | "básico" | "rende mais">("all");
     const [showWizard, setShowWizard] = useState(false);
 
     // Filtering logic
     const filteredCards = creditCardsData.filter(card => {
         const matchesSearch = card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             card.bank.toLowerCase().includes(searchTerm.toLowerCase());
+
+        if (activeCategory === "rende mais") {
+            return matchesSearch && (card.yieldValue !== undefined && card.yieldValue > 100);
+        }
+
         const matchesCategory = activeCategory === "all" || card.category === activeCategory;
         return matchesSearch && matchesCategory;
     });
@@ -126,11 +131,12 @@ export default function CardsPage() {
                 </motion.header>
 
                 {/* Rankings Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                     {[
                         { title: "Top Cashback", icon: DollarSign, color: "text-green-400", bg: "bg-green-500/10", tag: "Cashback", data: creditCardsData.filter(c => c.cashback > 0).sort((a, b) => b.cashback - a.cashback) },
                         { title: "Top Milhas", icon: Plane, color: "text-blue-400", bg: "bg-blue-500/10", tag: "Milhas", data: creditCardsData.filter(c => c.miles).sort((a, b) => (b.milesRate || 0) - (a.milesRate || 0)) },
-                        { title: "Top VIP", icon: Crown, color: "text-purple-400", bg: "bg-purple-500/10", tag: "Salas VIP", data: creditCardsData.filter(c => c.loungeAccess !== 'none').sort((a, b) => (a.loungeAccess === 'unlimited' ? -1 : 1)) }
+                        { title: "Top VIP", icon: Crown, color: "text-purple-400", bg: "bg-purple-500/10", tag: "Salas VIP", data: creditCardsData.filter(c => c.loungeAccess !== 'none').sort((a, b) => (a.loungeAccess === 'unlimited' ? -1 : 1)) },
+                        { title: "Rende Mais", icon: Sparkles, color: "text-yellow-400", bg: "bg-yellow-500/10", tag: "CDI", data: creditCardsData.filter(c => c.yieldValue).sort((a, b) => (b.yieldValue || 0) - (a.yieldValue || 0)) }
                     ].map((rank, i) => (
                         <motion.div
                             key={i}
@@ -157,7 +163,12 @@ export default function CardsPage() {
                                     >
                                         <div className="flex items-center gap-3 md:gap-4">
                                             <span className="text-[10px] md:text-xs font-black text-gray-600 group-hover/item:text-primary">0{idx + 1}</span>
-                                            <span className="text-xs md:text-sm font-bold text-gray-400 group-hover/item:text-white transition-colors truncate max-w-[120px] md:max-w-none">{card.name}</span>
+                                            <div className="flex flex-col min-w-0">
+                                                <span className="text-xs md:text-sm font-bold text-gray-400 group-hover/item:text-white transition-colors truncate max-w-[120px] md:max-w-none">{card.name}</span>
+                                                {rank.title === "Rende Mais" && (
+                                                    <span className="text-[8px] md:text-[9px] text-yellow-500/70 font-black uppercase">{card.yield}</span>
+                                                )}
+                                            </div>
                                         </div>
                                         <ArrowUpRight size={14} className="text-gray-700 group-hover/item:text-primary transition-all md:w-4 md:h-4" />
                                     </div>
@@ -171,7 +182,7 @@ export default function CardsPage() {
                 <div className="space-y-8 md:space-y-10">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div className="flex gap-2 md:gap-3 overflow-x-auto no-scrollbar pb-2 md:pb-0">
-                            {(["all", "premium", "intermediário", "básico"] as const).map((cat) => (
+                            {(["all", "premium", "intermediário", "básico", "rende mais"] as const).map((cat) => (
                                 <button
                                     key={cat}
                                     onClick={() => setActiveCategory(cat)}

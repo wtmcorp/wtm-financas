@@ -19,6 +19,7 @@ export const creditCardsData: CreditCard[] = [
         color: "#8a05be",
         applyLink: "https://nubank.com.br/ultravioleta/",
         yield: "200% do CDI",
+        yieldValue: 200,
         annualFeeType: "waivable",
         insurance: ["Seguro Viagem", "Seguro Bagagem", "Proteção de Compra"],
         pointsExpiration: "Não expiram"
@@ -40,6 +41,8 @@ export const creditCardsData: CreditCard[] = [
         category: "premium",
         color: "#ff7a00",
         applyLink: "https://www.bancointer.com.br/pra-voce/cartoes/black/",
+        yield: "102% do CDI",
+        yieldValue: 102,
         annualFeeType: "free",
         insurance: ["Seguro Viagem", "Proteção de Compra"],
         pointsExpiration: "Não expiram"
@@ -63,6 +66,8 @@ export const creditCardsData: CreditCard[] = [
         category: "premium",
         color: "#ec0000",
         applyLink: "https://www.santander.com.br/cartoes/unlimited",
+        yield: "100% do CDI",
+        yieldValue: 100,
         annualFeeType: "waivable",
         insurance: ["Seguro Viagem", "Proteção de Compra", "Seguro Veículo Alugado"],
         pointsExpiration: "Não expiram"
@@ -81,11 +86,13 @@ export const creditCardsData: CreditCard[] = [
         loungeAccess: "unlimited",
         loungeType: ["DragonPass", "Bradesco Cartões Lounges"],
         benefits: ["Maior pontuação do Brasil", "Salas VIP ilimitadas", "Concierge exclusivo"],
-        exclusiveBenefits: ["Livelo", "Bradesco Prime", "Descontos em teatros"],
+        exclusiveBenefits: ["Livelo", "Bradesco Prime", "Descontos em locais parceiros"],
         minIncome: 50000,
         category: "premium",
         color: "#cc092f",
         applyLink: "https://banco.bradesco/html/classic/produtos-servicos/cartoes/eternu-visa-infinite.shtm",
+        yield: "100% do CDI",
+        yieldValue: 100,
         annualFeeType: "waivable",
         insurance: ["Seguro Viagem", "Proteção de Compra", "Seguro Veículo Alugado"],
         pointsExpiration: "Não expiram"
@@ -109,6 +116,8 @@ export const creditCardsData: CreditCard[] = [
         category: "premium",
         color: "#003399",
         applyLink: "https://www.itau.com.br/cartoes/escolher/itau-personnalite-the-one-mastercard-black",
+        yield: "100% do CDI",
+        yieldValue: 100,
         annualFeeType: "paid",
         insurance: ["Seguro Viagem", "Proteção de Compra", "Seguro Veículo Alugado"],
         pointsExpiration: "Não expiram"
@@ -130,7 +139,8 @@ export const creditCardsData: CreditCard[] = [
         category: "intermediário",
         color: "#000000",
         applyLink: "https://www.xpi.com.br/produtos/cartao-de-credito/",
-        yield: "Investback 1%",
+        yield: "Investback 1% em CDB",
+        yieldValue: 100,
         annualFeeType: "free",
         insurance: ["Seguro Viagem", "Proteção de Compra"],
         pointsExpiration: "Não expiram"
@@ -154,6 +164,8 @@ export const creditCardsData: CreditCard[] = [
         category: "premium",
         color: "#001a33",
         applyLink: "https://www.btgpactual.com/cartoes",
+        yield: "100% do CDI",
+        yieldValue: 100,
         annualFeeType: "waivable",
         insurance: ["Seguro Viagem", "Proteção de Compra"],
         pointsExpiration: "Não expiram"
@@ -177,6 +189,8 @@ export const creditCardsData: CreditCard[] = [
         category: "premium",
         color: "#222222",
         applyLink: "https://www.c6bank.com.br/cartao-c6-carbon-mastercard-black",
+        yield: "105% do CDI (CDB)",
+        yieldValue: 105,
         annualFeeType: "waivable",
         insurance: ["Seguro Viagem", "Proteção de Compra"],
         pointsExpiration: "Não expiram"
@@ -197,7 +211,8 @@ export const creditCardsData: CreditCard[] = [
         category: "básico",
         color: "#21c25e",
         applyLink: "https://www.picpay.com/card",
-        yield: "102% do CDI"
+        yield: "102% do CDI",
+        yieldValue: 102
     },
     {
         id: "will-bank",
@@ -214,7 +229,9 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 0,
         category: "básico",
         color: "#ffff00",
-        applyLink: "https://www.willbank.com.br/"
+        applyLink: "https://www.willbank.com.br/",
+        yield: "100% do CDI",
+        yieldValue: 100
     },
     {
         id: "itau-click",
@@ -231,14 +248,16 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 800,
         category: "básico",
         color: "#ff6600",
-        applyLink: "https://www.itau.com.br/cartoes/escolher/itau-click-mastercard"
+        applyLink: "https://www.itau.com.br/cartoes/escolher/itau-click-mastercard",
+        yield: "100% do CDI",
+        yieldValue: 100
     },
     {
         id: "santander-sx",
         name: "Santander SX",
         bank: "Santander",
         brand: "Visa",
-        annualFee: 0, // Isento com 100 reais em gastos ou CPF/Celular como chave Pix
+        annualFee: 0,
         interestRate: 14.50,
         cashback: 0,
         miles: false,
@@ -248,7 +267,9 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 1045,
         category: "básico",
         color: "#ec0000",
-        applyLink: "https://www.santander.com.br/cartoes/sx"
+        applyLink: "https://www.santander.com.br/cartoes/sx",
+        yield: "100% do CDI",
+        yieldValue: 100
     },
     {
         id: "nubank-gold",
@@ -266,7 +287,8 @@ export const creditCardsData: CreditCard[] = [
         category: "intermediário",
         color: "#8a05be",
         applyLink: "https://nubank.com.br/",
-        yield: "100% do CDI (Caixinhas)"
+        yield: "100% do CDI (Caixinhas)",
+        yieldValue: 100
     },
     {
         id: "neon-visa",
@@ -284,7 +306,8 @@ export const creditCardsData: CreditCard[] = [
         category: "básico",
         color: "#00e5ff",
         applyLink: "https://neon.com.br/cartao-de-credito",
-        yield: "100% a 113% do CDI"
+        yield: "113% do CDI",
+        yieldValue: 113
     },
     {
         id: "digio-gold",
@@ -302,7 +325,8 @@ export const creditCardsData: CreditCard[] = [
         category: "intermediário",
         color: "#2b0d61",
         applyLink: "https://www.digio.com.br/",
-        yield: "100% do CDI"
+        yield: "100% do CDI",
+        yieldValue: 100
     },
     {
         id: "pagbank-visa",
@@ -320,7 +344,8 @@ export const creditCardsData: CreditCard[] = [
         category: "básico",
         color: "#ffd700",
         applyLink: "https://pagseguro.uol.com.br/conta-digital/cartao-de-credito",
-        yield: "110% do CDI"
+        yield: "110% do CDI",
+        yieldValue: 110
     },
     {
         id: "mercado-pago-visa",
@@ -338,7 +363,8 @@ export const creditCardsData: CreditCard[] = [
         category: "básico",
         color: "#00bcff",
         applyLink: "https://www.mercadopago.com.br/cartao-de-credito",
-        yield: "105% do CDI"
+        yield: "105% do CDI",
+        yieldValue: 105
     },
     {
         id: "bb-ourocard-facil",
@@ -355,7 +381,9 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 800,
         category: "básico",
         color: "#f7e000",
-        applyLink: "https://www.bb.com.br/site/pra-voce/cartoes-de-credito/"
+        applyLink: "https://www.bb.com.br/site/pra-voce/cartoes-de-credito/",
+        yield: "100% do CDI",
+        yieldValue: 100
     },
     {
         id: "azul-visa-infinite",
@@ -375,7 +403,9 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 15000,
         category: "premium",
         color: "#0f265c",
-        applyLink: "https://www.itau.com.br/cartoes/escolher/azul-itau-visa-infinite"
+        applyLink: "https://www.itau.com.br/cartoes/escolher/azul-itau-visa-infinite",
+        yield: "100% do CDI",
+        yieldValue: 100
     },
     {
         id: "elo-nanquim",
@@ -395,6 +425,8 @@ export const creditCardsData: CreditCard[] = [
         minIncome: 20000,
         category: "premium",
         color: "#000000",
+        yield: "100% do CDI",
+        yieldValue: 100,
         applyLink: "https://www.elo.com.br/cartoes/nanquim"
     },
     {
@@ -416,6 +448,8 @@ export const creditCardsData: CreditCard[] = [
         category: "premium",
         color: "#cfcfcf",
         applyLink: "https://banco.bradesco/html/classic/produtos-servicos/cartoes/the-platinum-card.shtm",
+        yield: "100% do CDI",
+        yieldValue: 100,
         annualFeeType: "paid",
         insurance: ["Seguro Viagem", "Proteção de Compra", "Seguro Veículo Alugado"],
         pointsExpiration: "Não expiram"
@@ -437,6 +471,8 @@ export const creditCardsData: CreditCard[] = [
         category: "premium",
         color: "#000000",
         applyLink: "https://www.bancointer.com.br/pra-voce/investimentos/win/",
+        yield: "105% do CDI",
+        yieldValue: 105,
         annualFeeType: "free",
         insurance: ["Seguro Viagem Completo"],
         pointsExpiration: "Não expiram"

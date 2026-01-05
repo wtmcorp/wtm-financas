@@ -18,6 +18,7 @@ export interface CreditCard {
     color: string;
     applyLink: string;
     yield?: string; // Rendimento (ex: 100% do CDI)
+    yieldValue?: number; // Valor numérico para ordenação (ex: 100)
     insurance?: string[]; // Seguros inclusos
     pointsExpiration?: string; // Expiração de pontos
     annualFeeType?: "free" | "waivable" | "paid";

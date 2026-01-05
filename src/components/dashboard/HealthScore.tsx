@@ -52,7 +52,7 @@ export default function HealthScore() {
             <div className="flex justify-between items-start relative z-10">
                 <div>
                     <h3 className="text-lg md:text-xl font-black text-white tracking-tight flex items-center gap-3 uppercase">
-                        <Shield className="text-primary" size={20} className="md:w-6 md:h-6" />
+                        <Shield className="text-primary md:w-6 md:h-6" size={20} />
                         Saúde Financeira
                     </h3>
                     <p className="text-[9px] md:text-[10px] text-gray-500 font-black uppercase tracking-[0.3em] mt-2">DIAGNÓSTICO REAL</p>
