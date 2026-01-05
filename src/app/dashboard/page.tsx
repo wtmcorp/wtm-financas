@@ -143,7 +143,7 @@ export default function DashboardPage() {
                         <motion.div variants={itemVariants}>
                             <BalanceCard />
                         </motion.div>
-                        <motion.div variants={itemVariants} className="h-full">
+                        <motion.div variants={itemVariants}>
                             <QuickActions />
                         </motion.div>
                     </div>

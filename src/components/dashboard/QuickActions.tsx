@@ -116,7 +116,7 @@ const QuickActions = () => {
         <>
             <motion.div
                 whileHover={{ y: -4 }}
-                className="glass-card p-6 md:p-8 rounded-3xl relative overflow-hidden group h-full flex flex-col"
+                className="glass-card p-6 md:p-8 rounded-3xl relative overflow-hidden group flex flex-col"
             >
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
@@ -125,20 +125,21 @@ const QuickActions = () => {
                     <h3 className="text-lg font-bold text-white uppercase tracking-tight">Ações Rápidas</h3>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 md:gap-4 flex-1">
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
                     {actions.map((action, index) => (
                         <motion.button
                             key={index}
                             whileHover={{ scale: 1.02, y: -2 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={action.onClick}
-                            className="flex flex-col items-center justify-center p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] bg-white/[0.02] border border-white/5 hover:bg-white/[0.08] hover:border-white/20 transition-all group/btn shadow-xl"
+                            className="flex flex-col items-center justify-center p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] bg-white/[0.03] border border-white/5 hover:bg-white/[0.08] hover:border-white/20 transition-all group/btn shadow-xl relative overflow-hidden"
                         >
-                            <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl ${action.bg} ${action.border} border flex items-center justify-center ${action.color} mb-2 md:mb-3 group-hover/btn:scale-110 group-hover/btn:rotate-3 transition-all duration-500`}>
+                            <div className={`absolute inset-0 ${action.bg} opacity-0 group-hover/btn:opacity-20 transition-opacity duration-500`} />
+                            <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl ${action.bg} ${action.border} border flex items-center justify-center ${action.color} mb-3 md:mb-4 group-hover/btn:scale-110 group-hover/btn:rotate-3 transition-all duration-500 relative z-10`}>
                                 <action.icon size={20} className="md:w-6 md:h-6" />
                             </div>
-                            <span className="text-[10px] md:text-[11px] font-black text-white uppercase tracking-wider text-center">{action.label}</span>
-                            <span className="text-[8px] md:text-[9px] font-bold text-gray-500 mt-1 uppercase tracking-widest opacity-60">{action.desc}</span>
+                            <span className="text-xs md:text-sm font-black text-white uppercase tracking-wider text-center relative z-10">{action.label}</span>
+                            <span className="text-[10px] md:text-xs font-bold text-gray-500 mt-1 uppercase tracking-widest opacity-60 relative z-10">{action.desc}</span>
                         </motion.button>
                     ))}
                 </div>
@@ -146,9 +147,9 @@ const QuickActions = () => {
                 <div className="mt-6 pt-4 border-t border-white/5 text-center">
                     <button
                         onClick={() => router.push('/tools')}
-                        className="text-[10px] font-black text-gray-500 hover:text-violet-400 transition-colors flex items-center justify-center gap-2 w-full uppercase tracking-widest"
+                        className="text-xs font-black text-gray-500 hover:text-violet-400 transition-colors flex items-center justify-center gap-2 w-full uppercase tracking-widest py-2"
                     >
-                        <Sparkles size={12} />
+                        <Sparkles size={14} />
                         Ver todas as ferramentas
                     </button>
                 </div>

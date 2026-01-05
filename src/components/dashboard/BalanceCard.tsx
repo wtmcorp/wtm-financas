@@ -56,7 +56,7 @@ export default function BalanceCard() {
                     </div>
                     <div>
                         <h3 className="text-lg md:text-xl font-black text-white tracking-tight uppercase">Seu Patrimônio</h3>
-                        <p className="text-[9px] md:text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Liquidez Total</p>
+                        <p className="text-[10px] md:text-xs text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Liquidez Total</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2 md:gap-3">
@@ -125,7 +125,7 @@ export default function BalanceCard() {
                         )}
                     </AnimatePresence>
                 </div>
-                <div className="flex items-center gap-2 mt-4 text-green-400 text-[10px] md:text-sm font-black uppercase tracking-widest">
+                <div className="flex items-center gap-2 mt-4 text-green-400 text-xs md:text-sm font-black uppercase tracking-widest">
                     <TrendingUp size={14} className="md:w-4 md:h-4" />
                     +0.0% <span className="text-gray-600 ml-1">vs mês anterior</span>
                 </div>
@@ -134,7 +134,7 @@ export default function BalanceCard() {
             <div className="grid grid-cols-2 gap-4 md:gap-8 pt-8 md:pt-10 border-t border-white/5 relative z-10">
                 <div className="space-y-2 md:space-y-3 group/item">
                     <div className="flex items-center justify-between">
-                        <span className="text-gray-500 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em]">Entradas</span>
+                        <span className="text-gray-500 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Entradas</span>
                         <ArrowUpRight size={12} className="text-green-500 md:w-3.5 md:h-3.5 group-hover/item:translate-x-1 group-hover/item:-translate-y-1 transition-transform" />
                     </div>
                     <div className="flex items-center gap-2 md:gap-3">
@@ -146,7 +146,7 @@ export default function BalanceCard() {
                 </div>
                 <div className="space-y-2 md:space-y-3 group/item">
                     <div className="flex items-center justify-between">
-                        <span className="text-gray-500 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em]">Saídas</span>
+                        <span className="text-gray-500 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Saídas</span>
                         <ArrowDownRight size={12} className="text-red-500 md:w-3.5 md:h-3.5 group-hover/item:translate-x-1 group-hover/item:translate-y-1 transition-transform" />
                     </div>
                     <div className="flex items-center gap-2 md:gap-3">
