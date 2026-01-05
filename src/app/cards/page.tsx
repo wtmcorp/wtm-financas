@@ -17,7 +17,8 @@ import {
     CheckCircle2,
     ChevronRight,
     Trophy,
-    ArrowUpRight
+    ArrowUpRight,
+    TrendingUp
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -26,6 +27,7 @@ export default function CardsPage() {
     const [selectedCard, setSelectedCard] = useState<CreditCard | null>(null);
     const [activeCategory, setActiveCategory] = useState<"all" | "premium" | "intermediário" | "básico" | "rende mais">("all");
     const [showWizard, setShowWizard] = useState(false);
+    const [simulationAmount, setSimulationAmount] = useState(1000);
 
     // Filtering logic
     const filteredCards = creditCardsData.filter(card => {
@@ -199,6 +201,59 @@ export default function CardsPage() {
                             {filteredCards.length} cartões encontrados
                         </p>
                     </div>
+
+                    {/* Yield Simulator - Only visible for 'rende mais' */}
+                    <AnimatePresence>
+                        {activeCategory === "rende mais" && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="overflow-hidden"
+                            >
+                                <div className="card-premium p-6 md:p-8 mb-8 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border-yellow-500/20">
+                                    <div className="flex flex-col md:flex-row items-center gap-8">
+                                        <div className="flex-1 space-y-4 w-full">
+                                            <div className="flex items-center gap-3">
+                                                <div className="p-3 bg-yellow-500/20 rounded-xl text-yellow-500">
+                                                    <TrendingUp size={24} />
+                                                </div>
+                                                <div>
+                                                    <h3 className="text-xl font-black text-white uppercase tracking-tight">Simulador de Rendimento</h3>
+                                                    <p className="text-xs text-gray-400 font-medium">Veja quanto seu dinheiro rende em tempo real</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="relative group">
+                                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">R$</span>
+                                                <input
+                                                    type="number"
+                                                    value={simulationAmount}
+                                                    onChange={(e) => setSimulationAmount(Number(e.target.value))}
+                                                    className="w-full bg-black/40 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white font-black text-xl outline-none focus:border-yellow-500/50 transition-all"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="flex-1 w-full grid grid-cols-2 gap-4">
+                                            <div className="p-4 bg-black/40 rounded-2xl border border-white/5">
+                                                <p className="text-[10px] text-gray-500 uppercase tracking-widest font-black">Em 1 Mês (100% CDI)</p>
+                                                <p className="text-xl font-black text-green-400 mt-1">
+                                                    + R$ {(simulationAmount * 0.0095).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                                </p>
+                                            </div>
+                                            <div className="p-4 bg-black/40 rounded-2xl border border-white/5">
+                                                <p className="text-[10px] text-gray-500 uppercase tracking-widest font-black">Em 1 Ano (100% CDI)</p>
+                                                <p className="text-xl font-black text-green-400 mt-1">
+                                                    + R$ {(simulationAmount * 0.12).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
                     <motion.div
                         layout

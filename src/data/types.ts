@@ -14,7 +14,7 @@ export interface CreditCard {
     benefits: string[];
     exclusiveBenefits?: string[];
     minIncome: number;
-    category: "básico" | "intermediário" | "premium";
+    category: "básico" | "intermediário" | "premium" | "rende mais";
     color: string;
     applyLink: string;
     yield?: string; // Rendimento (ex: 100% do CDI)
