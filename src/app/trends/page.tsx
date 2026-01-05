@@ -35,22 +35,46 @@ export default function TrendsPage() {
             <div className="p-4 md:p-8 lg:p-12 max-w-7xl mx-auto space-y-12">
 
                 {/* Header */}
-                <motion.header variants={itemVariants} className="relative p-12 md:p-24 rounded-[4rem] bg-gradient-to-br from-blue-600/10 via-transparent to-purple-600/10 border border-white/10 overflow-hidden group">
-                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[150px] -mr-64 -mt-64 group-hover:bg-blue-500/20 transition-all duration-1000" />
-                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[120px] -ml-32 -mb-32 group-hover:bg-purple-500/20 transition-all duration-1000" />
+                {/* Header */}
+                <motion.header variants={itemVariants} className="relative p-8 md:p-12 rounded-[3rem] bg-gradient-to-br from-blue-900/20 via-black to-purple-900/20 border border-white/10 overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] -mr-32 -mt-32 group-hover:bg-blue-500/20 transition-all duration-1000" />
 
-                    <div className="relative z-10 text-center md:text-left space-y-8">
-                        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-2xl shadow-2xl">
-                            <Globe2 size={20} className="text-blue-400 animate-pulse" />
-                            <span className="text-[11px] font-black text-white uppercase tracking-[0.3em]">Intelligence Protocol: Radar de Tendências</span>
+                    <div className="relative z-10 flex flex-col lg:flex-row items-end justify-between gap-8">
+                        <div className="space-y-6 max-w-2xl">
+                            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                </span>
+                                <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Live Market Data</span>
+                            </div>
+                            <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.9]">
+                                Radar de <br />
+                                <span className="gradient-text from-blue-400 via-cyan-400 to-purple-400">Tendências</span>
+                            </h1>
+                            <p className="text-gray-400 text-sm md:text-lg max-w-xl leading-relaxed font-medium border-l-2 border-white/10 pl-4">
+                                Monitoramento em tempo real dos principais indicadores globais para decisões <span className="text-white font-bold">estratégicas</span>.
+                            </p>
                         </div>
-                        <h1 className="text-4xl sm:text-6xl md:text-9xl font-black text-white tracking-tighter leading-[0.85]">
-                            Visão de <br />
-                            <span className="gradient-text from-blue-400 via-cyan-400 to-purple-400">Mercado</span>
-                        </h1>
-                        <p className="text-gray-400 text-lg md:text-2xl max-w-3xl leading-relaxed font-medium">
-                            Antecipe movimentos globais e tome decisões <span className="text-white font-bold">estratégicas</span> com processamento de dados em tempo real.
-                        </p>
+
+                        {/* Mini Market Pulse in Header */}
+                        <div className="grid grid-cols-2 gap-3 w-full lg:w-auto">
+                            {[
+                                { label: "S&P 500", value: "4,783.45", change: "+0.45%", up: true },
+                                { label: "Bitcoin", value: "$43,250", change: "-1.20%", up: false },
+                                { label: "Dólar", value: "R$ 4.92", change: "-0.15%", up: false },
+                                { label: "CDI", value: "11.75%", change: "0.00%", up: true },
+                            ].map((stat, i) => (
+                                <div key={i} className="bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-sm hover:bg-white/10 transition-colors">
+                                    <p className="text-[9px] text-gray-500 font-black uppercase tracking-widest mb-1">{stat.label}</p>
+                                    <p className="text-lg font-black text-white tracking-tight">{stat.value}</p>
+                                    <p className={`text-[10px] font-bold ${stat.up ? 'text-green-400' : 'text-red-400'} flex items-center gap-1`}>
+                                        {stat.up ? <TrendingUp size={10} /> : <TrendingUp size={10} className="rotate-180" />}
+                                        {stat.change}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </motion.header>
 

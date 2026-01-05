@@ -102,25 +102,34 @@ export default function ToolsPage() {
                             </p>
                         </div>
 
-                        <div className="relative w-full md:w-[450px] group">
-                            <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity" />
+                        <motion.div
+                            initial={false}
+                            animate={{ scale: searchQuery ? 1.02 : 1 }}
+                            className="relative w-full md:w-[500px] group"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-r from-violet-600/20 to-blue-600/20 rounded-[2rem] blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
+                            <div className="absolute inset-0 bg-white/5 rounded-[2rem] border border-white/10 group-focus-within:border-primary/50 transition-colors duration-300" />
+
                             <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-primary transition-colors" size={24} />
                             <input
                                 type="text"
-                                placeholder="O que você precisa calcular?"
+                                placeholder="O que você precisa calcular hoje?"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="relative w-full bg-black/60 border border-white/10 rounded-[2rem] pl-16 pr-14 py-6 text-white text-lg focus:border-primary/50 outline-none transition-all placeholder:text-gray-600 backdrop-blur-xl"
+                                className="relative w-full bg-transparent border-none rounded-[2rem] pl-16 pr-14 py-6 text-white text-lg focus:ring-0 outline-none placeholder:text-gray-600 font-medium"
                             />
                             {searchQuery && (
-                                <button
+                                <motion.button
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.8 }}
                                     onClick={() => setSearchQuery("")}
-                                    className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors p-1.5 hover:bg-white/10 rounded-full"
+                                    className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
                                 >
                                     <X size={20} />
-                                </button>
+                                </motion.button>
                             )}
-                        </div>
+                        </motion.div>
                     </div>
                 </motion.header>
 
