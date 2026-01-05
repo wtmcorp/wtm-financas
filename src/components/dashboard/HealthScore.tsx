@@ -3,12 +3,38 @@
 import { motion } from "framer-motion";
 import { Shield, TrendingUp, AlertCircle, CheckCircle2, Info, ArrowUpRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useFinance } from "@/contexts/FinanceContext";
+import { useMemo } from "react";
 
 export default function HealthScore() {
     const router = useRouter();
-    const score = 85;
+    const { getBalance, transactions } = useFinance();
+
+    const score = useMemo(() => {
+        if (transactions.length === 0) return 0;
+
+        // Simple score calculation logic
+        const balance = getBalance();
+        const income = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+        const expenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+
+        if (income === 0) return 0;
+
+        let s = 50; // Base score
+
+        // Savings rate factor
+        const savingsRate = (income - expenses) / income;
+        s += savingsRate * 50;
+
+        // Balance factor
+        if (balance > income * 3) s += 10;
+        if (balance < 0) s -= 30;
+
+        return Math.min(Math.max(Math.round(s), 0), 100);
+    }, [getBalance, transactions]);
 
     const getStatus = (s: number) => {
+        if (transactions.length === 0) return { label: "INICIAL", color: "text-gray-400", bg: "bg-gray-500/10", description: "ADICIONE TRANSAÇÕES PARA GERAR SEU DIAGNÓSTICO." };
         if (s >= 80) return { label: "EXCELENTE", color: "text-green-400", bg: "bg-green-500/10", description: "SEU PATRIMÔNIO ESTÁ EM ZONA DE ALTA SEGURANÇA." };
         if (s >= 60) return { label: "BOM", color: "text-blue-400", bg: "bg-blue-500/10", description: "SUA SAÚDE FINANCEIRA ESTÁ ESTÁVEL, MAS HÁ ESPAÇO PARA OTIMIZAÇÃO." };
         return { label: "ATENÇÃO", color: "text-yellow-400", bg: "bg-yellow-500/10", description: "IDENTIFICAMOS PONTOS DE RISCO NA SUA GESTÃO DE CAPITAL." };
@@ -85,12 +111,12 @@ export default function HealthScore() {
                     <div className="space-y-3">
                         <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
                             <span>LIBERDADE FINANCEIRA</span>
-                            <span className="text-primary">42%</span>
+                            <span className="text-primary">{score > 0 ? Math.round(score * 0.5) : 0}%</span>
                         </div>
                         <div className="h-2 bg-white/5 rounded-full overflow-hidden border border-white/5">
                             <motion.div
                                 initial={{ width: 0 }}
-                                animate={{ width: "42%" }}
+                                animate={{ width: `${score > 0 ? Math.round(score * 0.5) : 0}%` }}
                                 transition={{ duration: 2, delay: 1 }}
                                 className="h-full bg-gradient-to-r from-primary to-purple-500"
                             />
@@ -101,15 +127,15 @@ export default function HealthScore() {
                         <div className="p-5 bg-white/[0.02] rounded-2xl border border-white/5 group-hover:border-white/10 transition-all">
                             <p className="text-[9px] text-gray-600 uppercase font-black tracking-[0.2em] mb-3">RESERVA</p>
                             <div className="flex items-center justify-between">
-                                <span className="text-xs font-black text-white uppercase">BLINDADA</span>
-                                <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,1)]" />
+                                <span className="text-xs font-black text-white uppercase">{score > 70 ? "BLINDADA" : "EM CONSTRUÇÃO"}</span>
+                                <div className={`w-2 h-2 rounded-full ${score > 70 ? "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,1)]" : "bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,1)]"}`} />
                             </div>
                         </div>
                         <div className="p-5 bg-white/[0.02] rounded-2xl border border-white/5 group-hover:border-white/10 transition-all">
                             <p className="text-[9px] text-gray-600 uppercase font-black tracking-[0.2em] mb-3">DÍVIDAS</p>
                             <div className="flex items-center justify-between">
-                                <span className="text-xs font-black text-white uppercase">CONTROLE</span>
-                                <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,1)]" />
+                                <span className="text-xs font-black text-white uppercase">{score > 50 ? "CONTROLE" : "ALERTA"}</span>
+                                <div className={`w-2 h-2 rounded-full ${score > 50 ? "bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,1)]" : "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,1)]"}`} />
                             </div>
                         </div>
                     </div>

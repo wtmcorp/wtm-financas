@@ -3,23 +3,9 @@
 import { Card } from "@/components/ui/Card";
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell, YAxis, CartesianGrid } from "recharts";
 import { ChevronLeft, ChevronRight, BarChart3, TrendingUp, Calendar } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const fullData = [
-    { name: "Ago", receita: 3500, despesa: 2100 },
-    { name: "Set", receita: 3800, despesa: 2200 },
-    { name: "Out", receita: 4200, despesa: 2500 },
-    { name: "Nov", receita: 4000, despesa: 2400 },
-    { name: "Dez", receita: 5500, despesa: 3000 },
-    { name: "Jan", receita: 4000, despesa: 2400 },
-    { name: "Fev", receita: 3000, despesa: 1398 },
-    { name: "Mar", receita: 2000, despesa: 1800 },
-    { name: "Abr", receita: 2780, despesa: 2100 },
-    { name: "Mai", receita: 1890, despesa: 1500 },
-    { name: "Jun", receita: 2390, despesa: 1900 },
-    { name: "Jul", receita: 3490, despesa: 2300 },
-];
+import { useFinance } from "@/contexts/FinanceContext";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -49,7 +35,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export default function RevenueChart() {
-    const [startIndex, setStartIndex] = useState(5); // Start showing from Jan (index 5)
+    const { getCashFlow } = useFinance();
+    const fullData = useMemo(() => getCashFlow(), [getCashFlow]);
+    const [startIndex, setStartIndex] = useState(0);
     const windowSize = 6;
 
     const handlePrev = () => {
@@ -60,7 +48,18 @@ export default function RevenueChart() {
         setStartIndex(prev => Math.min(fullData.length - windowSize, prev + 1));
     };
 
-    const visibleData = fullData.slice(startIndex, startIndex + windowSize);
+    const visibleData = useMemo(() => {
+        if (fullData.length <= windowSize) return fullData;
+        return fullData.slice(startIndex, startIndex + windowSize);
+    }, [fullData, startIndex]);
+
+    const growth = useMemo(() => {
+        if (fullData.length < 2) return 0;
+        const current = fullData[fullData.length - 1].entrada;
+        const prev = fullData[fullData.length - 2].entrada;
+        if (prev === 0) return 0;
+        return ((current - prev) / prev) * 100;
+    }, [fullData]);
 
     return (
         <motion.div
@@ -76,8 +75,8 @@ export default function RevenueChart() {
                         <BarChart3 size={24} />
                     </div>
                     <div>
-                        <h3 className="text-xl font-black text-white tracking-tight">Cash Flow</h3>
-                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Financial Evolution</p>
+                        <h3 className="text-xl font-black text-white tracking-tight">Fluxo de Caixa</h3>
+                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Evolução Financeira</p>
                     </div>
                 </div>
 
@@ -92,12 +91,12 @@ export default function RevenueChart() {
                     <div className="flex items-center gap-2 px-2">
                         <Calendar size={12} className="text-primary" />
                         <span className="text-[10px] text-white font-black uppercase tracking-widest">
-                            {visibleData[0].name} - {visibleData[visibleData.length - 1].name}
+                            {visibleData.length > 0 ? `${visibleData[0].name} - ${visibleData[visibleData.length - 1].name}` : "Sem dados"}
                         </span>
                     </div>
                     <button
                         onClick={handleNext}
-                        disabled={startIndex >= fullData.length - windowSize}
+                        disabled={fullData.length <= windowSize || startIndex >= fullData.length - windowSize}
                         className="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-lg disabled:opacity-20 transition-all text-white"
                     >
                         <ChevronRight size={18} />
@@ -130,12 +129,12 @@ export default function RevenueChart() {
                             content={<CustomTooltip />}
                             cursor={{ fill: 'rgba(255, 255, 255, 0.03)' }}
                         />
-                        <Bar dataKey="receita" fill="#a78bfa" radius={[6, 6, 0, 0]} barSize={24}>
+                        <Bar dataKey="entrada" fill="#a78bfa" radius={[6, 6, 0, 0]} barSize={24}>
                             {visibleData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fillOpacity={0.8} />
                             ))}
                         </Bar>
-                        <Bar dataKey="despesa" fill="#333" radius={[6, 6, 0, 0]} barSize={24}>
+                        <Bar dataKey="saida" fill="#333" radius={[6, 6, 0, 0]} barSize={24}>
                             {visibleData.map((entry, index) => (
                                 <Cell key={`cell-exp-${index}`} fillOpacity={0.5} />
                             ))}
@@ -148,16 +147,16 @@ export default function RevenueChart() {
                 <div className="flex gap-6">
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-primary" />
-                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Receita</span>
+                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Entrada</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-gray-800" />
-                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Despesa</span>
+                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Saída</span>
                     </div>
                 </div>
                 <div className="flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-widest">
                     <TrendingUp size={14} />
-                    Growth: +12.5%
+                    Crescimento: {growth >= 0 ? '+' : ''}{growth.toFixed(1)}%
                 </div>
             </div>
         </motion.div>

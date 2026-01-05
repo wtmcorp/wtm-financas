@@ -50,14 +50,7 @@ export const FinanceProvider = ({ children }: { children: ReactNode }) => {
     const [budgets, setBudgets] = useState<Budget[]>([]);
 
     // Initial data for new users to showcase the premium dashboard
-    const INITIAL_DATA: Transaction[] = [
-        { id: '1', type: 'income', amount: 15000, category: 'Salário', description: 'Recebimento Mensal', date: new Date().toISOString() },
-        { id: '2', type: 'expense', amount: 3500, category: 'Moradia', description: 'Aluguel Apartamento', date: new Date().toISOString() },
-        { id: '3', type: 'expense', amount: 1200, category: 'Alimentação', description: 'Supermercado e Restaurantes', date: new Date().toISOString() },
-        { id: '4', type: 'expense', amount: 800, category: 'Transporte', description: 'Uber e Combustível', date: new Date().toISOString() },
-        { id: '5', type: 'expense', amount: 2500, category: 'Lazer', description: 'Viagem Final de Semana', date: new Date().toISOString() },
-        { id: '6', type: 'income', amount: 3200, category: 'Investimentos', description: 'Dividendos FIIs', date: new Date().toISOString() },
-    ];
+    const INITIAL_DATA: Transaction[] = [];
 
     // Load from localStorage on mount
     useEffect(() => {
