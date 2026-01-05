@@ -13,10 +13,7 @@ interface Goal {
 }
 
 export default function GoalsWidget() {
-    const [goals, setGoals] = useState<Goal[]>([
-        { id: 1, name: "Reserva de Emergência", target: 15000, current: 5000, color: "from-green-500 to-emerald-600" },
-        { id: 2, name: "Viagem Europa", target: 20000, current: 2500, color: "from-blue-500 to-cyan-600" },
-    ]);
+    const [goals, setGoals] = useState<Goal[]>([]);
     const [showAdd, setShowAdd] = useState(false);
     const [newGoal, setNewGoal] = useState({ name: "", target: "", current: "" });
 
