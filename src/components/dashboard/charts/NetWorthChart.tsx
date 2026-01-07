@@ -68,8 +68,8 @@ export default function NetWorthChart() {
                             <TrendingUp className="w-6 h-6 text-primary" />
                             Evolução do Patrimônio
                         </h3>
-                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">
-                            {showProjection ? "Incluindo Projeção (6 Meses)" : "Histórico Real"}
+                        <p className="text-[10px] text-gray-400 font-medium mt-1">
+                            Acompanhe o crescimento real do seu dinheiro ao longo do tempo.
                         </p>
                     </div>
                     <div className="flex items-center gap-4">

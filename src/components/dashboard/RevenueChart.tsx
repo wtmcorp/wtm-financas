@@ -46,7 +46,7 @@ export default function RevenueChart() {
                     </div>
                     <div>
                         <h3 className="text-lg md:text-xl font-black text-white tracking-tight uppercase">Fluxo de Caixa</h3>
-                        <p className="text-[9px] md:text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Evolução Financeira</p>
+                        <p className="text-[10px] text-gray-400 font-medium mt-1">Compare seus ganhos e gastos dia a dia para manter o equilíbrio.</p>
                     </div>
                 </div>
 

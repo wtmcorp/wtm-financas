@@ -56,7 +56,7 @@ export default function BalanceCard() {
                     </div>
                     <div>
                         <h3 className="text-lg md:text-xl font-black text-white tracking-tight uppercase">Seu Patrimônio</h3>
-                        <p className="text-[10px] md:text-xs text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Liquidez Total</p>
+                        <p className="text-[10px] md:text-xs text-gray-400 font-medium mt-1">O valor total que você construiu até agora.</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2 md:gap-3">
@@ -127,14 +127,14 @@ export default function BalanceCard() {
                 </div>
                 <div className="flex items-center gap-2 mt-4 text-green-400 text-xs md:text-sm font-black uppercase tracking-widest">
                     <TrendingUp size={14} className="md:w-4 md:h-4" />
-                    +0.0% <span className="text-gray-600 ml-1">vs mês anterior</span>
+                    +0.0% <span className="text-gray-600 ml-1">em relação ao mês passado</span>
                 </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:gap-8 pt-8 md:pt-10 border-t border-white/5 relative z-10">
                 <div className="space-y-2 md:space-y-3 group/item">
                     <div className="flex items-center justify-between">
-                        <span className="text-gray-500 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Entradas</span>
+                        <span className="text-gray-500 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Ganhos</span>
                         <ArrowUpRight size={12} className="text-green-500 md:w-3.5 md:h-3.5 group-hover/item:translate-x-1 group-hover/item:-translate-y-1 transition-transform" />
                     </div>
                     <div className="flex items-center gap-2 md:gap-3">
@@ -143,10 +143,11 @@ export default function BalanceCard() {
                             R$ {revenues.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </span>
                     </div>
+                    <p className="text-[9px] text-gray-500 font-medium">Tudo o que entrou na conta.</p>
                 </div>
                 <div className="space-y-2 md:space-y-3 group/item">
                     <div className="flex items-center justify-between">
-                        <span className="text-gray-500 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Saídas</span>
+                        <span className="text-gray-500 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Gastos</span>
                         <ArrowDownRight size={12} className="text-red-500 md:w-3.5 md:h-3.5 group-hover/item:translate-x-1 group-hover/item:translate-y-1 transition-transform" />
                     </div>
                     <div className="flex items-center gap-2 md:gap-3">
@@ -155,6 +156,7 @@ export default function BalanceCard() {
                             R$ {expenses.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </span>
                     </div>
+                    <p className="text-[9px] text-gray-500 font-medium">O que saiu para pagar contas.</p>
                 </div>
             </div>
 

@@ -40,7 +40,8 @@ export default function QuickStatsWidget() {
             change: stats.monthlyGrowth,
             icon: Wallet,
             color: "from-blue-500 to-cyan-600",
-            trend: stats.monthlyGrowth >= 0
+            trend: stats.monthlyGrowth >= 0,
+            description: "A soma de tudo que você tem hoje."
         },
         {
             label: "Taxa de Poupança",
@@ -48,7 +49,8 @@ export default function QuickStatsWidget() {
             change: 5.2,
             icon: PiggyBank,
             color: "from-green-500 to-emerald-600",
-            trend: true
+            trend: true,
+            description: "Quanto do seu ganho você guardou."
         },
         {
             label: "Crescimento Mensal",
@@ -56,7 +58,8 @@ export default function QuickStatsWidget() {
             change: stats.monthlyGrowth,
             icon: TrendingUp,
             color: "from-purple-500 to-pink-600",
-            trend: stats.monthlyGrowth >= 0
+            trend: stats.monthlyGrowth >= 0,
+            description: "Evolução do seu dinheiro este mês."
         },
         {
             label: "ROI Investimentos",
@@ -64,7 +67,8 @@ export default function QuickStatsWidget() {
             change: 2.1,
             icon: Zap,
             color: "from-yellow-500 to-orange-600",
-            trend: true
+            trend: true,
+            description: "O retorno real das suas aplicações."
         }
     ];
 
@@ -93,9 +97,14 @@ export default function QuickStatsWidget() {
                     </div>
 
                     {/* Value */}
-                    <div className="text-xl md:text-2xl font-black text-white mb-2 tracking-tight truncate">
+                    <div className="text-xl md:text-2xl font-black text-white mb-1 tracking-tight truncate">
                         {stat.value}
                     </div>
+
+                    {/* Description */}
+                    <p className="text-[10px] text-gray-400 font-medium mb-3 leading-tight">
+                        {stat.description}
+                    </p>
 
                     {/* Change Indicator */}
                     <div className={`flex items-center gap-1 text-xs font-bold ${stat.trend ? 'text-green-400' : 'text-red-400'}`}>
