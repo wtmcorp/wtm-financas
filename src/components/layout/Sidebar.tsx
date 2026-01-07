@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
-import Logo from "@/components/ui/Logo";
+import InteractiveLogo from "@/components/ui/InteractiveLogo";
 
 export default function Sidebar() {
     const pathname = usePathname();
@@ -34,7 +34,17 @@ export default function Sidebar() {
         <aside className="fixed left-6 top-6 bottom-6 w-72 glass-panel rounded-[2rem] hidden lg:flex flex-col z-50 overflow-hidden">
             {/* Logo Area */}
             <div className="p-10 pb-6">
-                <Logo />
+                <div className="flex items-center gap-4">
+                    <InteractiveLogo size="md" />
+                    <div className="flex flex-col">
+                        <span className="text-xl font-black text-white tracking-tighter leading-none uppercase">
+                            Wtm<span className="text-violet-500">Corps</span>
+                        </span>
+                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] mt-1">
+                            Intelligence OS
+                        </span>
+                    </div>
+                </div>
             </div>
 
             {/* Navigation */}

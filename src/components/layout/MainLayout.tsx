@@ -10,6 +10,7 @@ import ChatBubble from "@/components/ai/ChatBubble";
 import WhatsAppButton from "@/components/contact/WhatsAppButton";
 import BugReportButton from "@/components/feedback/BugReportButton";
 import Footer from "./Footer";
+import Sidebar from "./Sidebar";
 
 const publicPaths = ["/", "/login", "/register"];
 
