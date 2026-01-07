@@ -7,6 +7,8 @@ import { GraduationCap, BookOpen, TrendingUp, ShieldCheck, Coins, Globe, BrainCi
 import { motion, AnimatePresence } from "framer-motion";
 import { useLearnProgress } from "@/hooks/useLearnProgress";
 
+import EducationStats from "@/components/education/EducationStats";
+
 export default function LearnPage() {
     const [activeModule, setActiveModule] = useState<string | null>(null);
     const {
@@ -1123,6 +1125,11 @@ export default function LearnPage() {
                         </div>
                     </div>
                 </motion.header>
+
+                <motion.div variants={itemVariants}>
+                    <EducationStats />
+                </motion.div>
+
 
                 {/* Modules Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

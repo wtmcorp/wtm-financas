@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { motion, AnimatePresence } from "framer-motion";
-import CompoundInterestCalculator from "@/components/tools/CompoundInterestCalculator";
+import AdvancedInvestmentSimulator from "@/components/tools/AdvancedInvestmentSimulator";
 
 export default function InvestPage() {
     const [simulationAmount, setSimulationAmount] = useState<string>("1000");
@@ -129,7 +129,7 @@ export default function InvestPage() {
                     </div>
                 </motion.div>
 
-                <CompoundInterestCalculator />
+                <AdvancedInvestmentSimulator />
 
                 {/* Main Content Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">

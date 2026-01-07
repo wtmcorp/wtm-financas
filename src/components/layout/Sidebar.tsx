@@ -8,7 +8,9 @@ import {
     BookOpen,
     Wrench,
     User,
-    Settings
+    Settings,
+    Sparkles,
+    Users
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -19,9 +21,11 @@ export default function Sidebar() {
     const { user } = useAuth();
 
     const menuItems = [
-        { href: "/", icon: LayoutDashboard, label: "Dashboard" },
+        { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
         { href: "/invest", icon: TrendingUp, label: "Investimentos" },
         { href: "/learn", icon: BookOpen, label: "Academy" },
+        { href: "/ai-tools", icon: Sparkles, label: "AI Studio" },
+        { href: "/family", icon: Users, label: "Família" },
         { href: "/tools", icon: Wrench, label: "Ferramentas" },
         { href: "/profile", icon: User, label: "Perfil" },
     ];

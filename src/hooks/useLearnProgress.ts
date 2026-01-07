@@ -138,6 +138,15 @@ export function useLearnProgress() {
         return moduleProgress?.completedLessons.length || 0;
     };
 
+    // Get total completed lessons count across all modules
+    const getTotalCompletedLessonsCount = (): number => {
+        if (!user) return 0;
+
+        return Object.values(progress).reduce((total, module) => {
+            return total + (module.completedLessons?.length || 0);
+        }, 0);
+    };
+
     return {
         progress,
         loading,
@@ -145,6 +154,7 @@ export function useLearnProgress() {
         canAccessLesson,
         getLessonStatus,
         getModuleProgress,
-        getCompletedLessonsCount
+        getCompletedLessonsCount,
+        getTotalCompletedLessonsCount
     };
 }

@@ -33,6 +33,9 @@ import RevenueChart from "@/components/dashboard/RevenueChart";
 import MonthlyClosingCard from "@/components/dashboard/MonthlyClosingCard";
 import TransactionList from "@/components/finance/TransactionList";
 import NetWorthChart from "@/components/dashboard/charts/NetWorthChart";
+import QuickStatsWidget from "@/components/dashboard/QuickStatsWidget";
+import AchievementsWidget from "@/components/dashboard/AchievementsWidget";
+import FinancialCalendar from "@/components/dashboard/FinancialCalendar";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function DashboardPage() {
@@ -136,6 +139,12 @@ export default function DashboardPage() {
                         </div>
                     </div>
                 </motion.header>
+
+                {/* Quick Stats Overview */}
+                <motion.div variants={itemVariants}>
+                    <QuickStatsWidget />
+                </motion.div>
+
 
                 {/* Main Dashboard Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -270,6 +279,12 @@ export default function DashboardPage() {
                     </div>
 
                     <div className="lg:col-span-4 space-y-12">
+                        <motion.div variants={itemVariants}>
+                            <AchievementsWidget />
+                        </motion.div>
+                        <motion.div variants={itemVariants}>
+                            <FinancialCalendar />
+                        </motion.div>
                         <motion.div variants={itemVariants}>
                             <MonthlyClosingCard />
                         </motion.div>

@@ -2,17 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, TrendingUp, BookOpen, Wrench, User } from "lucide-react";
+import { LayoutDashboard, TrendingUp, BookOpen, Sparkles, User } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function BottomNav() {
     const pathname = usePathname();
 
     const navItems = [
-        { href: "/", icon: LayoutDashboard, label: "Home" },
-        { href: "/trends", icon: TrendingUp, label: "Radar" },
+        { href: "/dashboard", icon: LayoutDashboard, label: "Home" },
+        { href: "/invest", icon: TrendingUp, label: "Invest" },
         { href: "/learn", icon: BookOpen, label: "Learn" },
-        { href: "/tools", icon: Wrench, label: "Tools" },
+        { href: "/ai-tools", icon: Sparkles, label: "AI" },
         { href: "/profile", icon: User, label: "Perfil" },
     ];
 
