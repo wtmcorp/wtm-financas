@@ -21,8 +21,8 @@ export default function RootLayout({
         <html lang="pt-BR">
             <body className={`${inter.className} text-white antialiased overflow-x-hidden selection:bg-primary selection:text-black`}>
                 <Providers>
+                    <StarfieldBackground />
                     <AuthGuard>
-                        <StarfieldBackground />
                         <MainLayout>
                             {children}
                         </MainLayout>
