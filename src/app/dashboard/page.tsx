@@ -29,10 +29,8 @@ import HealthScore from "@/components/dashboard/HealthScore";
 import AiInsights from "@/components/dashboard/AiInsights";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import QuickActions from "@/components/dashboard/QuickActions";
-import RevenueChart from "@/components/dashboard/RevenueChart";
 import MonthlyClosingCard from "@/components/dashboard/MonthlyClosingCard";
 import TransactionList from "@/components/finance/TransactionList";
-import NetWorthChart from "@/components/dashboard/charts/NetWorthChart";
 import QuickStatsWidget from "@/components/dashboard/QuickStatsWidget";
 import AchievementsWidget from "@/components/dashboard/AchievementsWidget";
 import FinancialCalendar from "@/components/dashboard/FinancialCalendar";
@@ -162,7 +160,7 @@ export default function DashboardPage() {
                     {/* Middle Section: Cash Flow & Budget (5 cols) */}
                     <div className="lg:col-span-5 space-y-12">
                         <motion.div variants={itemVariants}>
-                            {/* <RevenueChart /> */}
+
                         </motion.div>
 
                         {/* Budget Strategy */}
@@ -253,7 +251,7 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                     <div className="lg:col-span-8 space-y-12">
                         <motion.div variants={itemVariants}>
-                            {/* <NetWorthChart /> */}
+
                         </motion.div>
                         <motion.div variants={itemVariants} className="glass-panel p-8 md:p-12">
                             <div className="flex items-center justify-between mb-8">
