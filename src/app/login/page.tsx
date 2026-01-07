@@ -10,7 +10,7 @@ import Logo from "@/components/ui/Logo";
 
 export default function LoginPage() {
     const router = useRouter();
-    const { login } = useAuth();
+    const { login, resetPassword } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -91,7 +91,18 @@ export default function LoginPage() {
                                 </label>
                                 <button
                                     type="button"
-                                    onClick={() => alert("Funcionalidade em desenvolvimento. Entre em contato com o suporte.")}
+                                    onClick={async () => {
+                                        if (!email) {
+                                            setError("Digite seu email para recuperar a senha");
+                                            return;
+                                        }
+                                        try {
+                                            await resetPassword(email);
+                                            alert("Email de recuperação enviado! Verifique sua caixa de entrada.");
+                                        } catch (err: any) {
+                                            setError(err.message || "Erro ao enviar email de recuperação");
+                                        }
+                                    }}
                                     className="text-[10px] font-black text-violet-400 uppercase tracking-widest hover:text-violet-300 transition-colors"
                                 >
                                     Esqueceu?

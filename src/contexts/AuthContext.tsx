@@ -8,6 +8,7 @@ import {
     signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged,
+    sendPasswordResetEmail,
     User as FirebaseUser
 } from "firebase/auth";
 import {
@@ -31,6 +32,7 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<void>;
     register: (email: string, password: string, name: string, phone?: string) => Promise<void>;
     logout: () => Promise<void>;
+    resetPassword: (email: string) => Promise<void>;
     updateIncome: (income: number) => Promise<void>;
     updateUser: (updates: Partial<User>) => Promise<void>;
     isAuthenticated: boolean;
@@ -129,8 +131,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser({ ...user, ...updates });
     };
 
+    const resetPassword = async (email: string) => {
+        if (!email) throw new Error("Email é obrigatório");
+        await sendPasswordResetEmail(auth, email);
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, updateIncome, updateUser, isAuthenticated: !!user, loading }}>
+        <AuthContext.Provider value={{ user, login, register, logout, resetPassword, updateIncome, updateUser, isAuthenticated: !!user, loading }}>
             {children}
         </AuthContext.Provider>
     );
