@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
-import { doc, setDoc, onSnapshot, updateDoc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
+import { doc, setDoc, onSnapshot, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
 import {
     TrendingUp,
     User,
@@ -46,19 +46,6 @@ export default function Challenge100k() {
     useEffect(() => {
         const docRef = doc(db, "challenges", DOC_ID);
 
-        // Garantir que o documento existe
-        const initDoc = async () => {
-            try {
-                const docSnap = await getDoc(docRef);
-                if (!docSnap.exists()) {
-                    await setDoc(docRef, { checkedSlots1: [], checkedSlots2: [], history: [] });
-                }
-            } catch (err) {
-                console.error("Erro ao inicializar documento:", err);
-            }
-        };
-        initDoc();
-
         const unsub = onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
                 const fetchedData = docSnap.data() as ChallengeData;
@@ -68,6 +55,9 @@ export default function Challenge100k() {
                     history: Array.isArray(fetchedData.history) ? fetchedData.history : []
                 });
                 setSyncStatus('synced');
+            } else {
+                // Se não existe, tenta criar o inicial
+                setDoc(docRef, { checkedSlots1: [], checkedSlots2: [], history: [] }, { merge: true });
             }
             setLoading(false);
         }, (err) => {
@@ -79,8 +69,9 @@ export default function Challenge100k() {
     }, []);
 
     const toggleSlot = async (person: 1 | 2, index: number) => {
+        // Se não houver usuário, nem tenta salvar
         if (!user) {
-            alert("Você precisa estar logado no sistema para salvar as alterações.");
+            alert("Sessão expirada ou não identificado. Por favor, faça login novamente.");
             return;
         }
 
@@ -92,32 +83,32 @@ export default function Challenge100k() {
             : data.checkedSlots2.includes(index);
 
         try {
+            const updateData: any = {
+                [person === 1 ? 'checkedSlots1' : 'checkedSlots2']: isChecked ? arrayRemove(index) : arrayUnion(index)
+            };
+
             if (!isChecked) {
-                // Adicionar
-                const historyItem = {
+                updateData.history = arrayUnion({
                     date: new Date().toISOString(),
                     amount,
                     person,
                     slotIndex: index
-                };
-
-                await updateDoc(docRef, {
-                    [person === 1 ? 'checkedSlots1' : 'checkedSlots2']: arrayUnion(index),
-                    history: arrayUnion(historyItem)
-                });
-            } else {
-                // Remover
-                // Nota: Para remover do histórico é mais complexo pois o objeto deve ser idêntico.
-                // Vamos apenas remover o slot da lista de marcados.
-                await updateDoc(docRef, {
-                    [person === 1 ? 'checkedSlots1' : 'checkedSlots2']: arrayRemove(index)
                 });
             }
+
+            // setDoc com merge: true é mais robusto que updateDoc
+            await setDoc(docRef, updateData, { merge: true });
             setSyncStatus('synced');
-        } catch (err) {
+        } catch (err: any) {
             console.error("Save Error:", err);
             setSyncStatus('error');
-            alert("Erro ao salvar. Verifique sua conexão ou se você está logado.");
+
+            // Mensagem mais detalhada para ajudar no diagnóstico
+            if (err.code === 'permission-denied') {
+                alert("Erro de Permissão: Você está logado, mas o banco de dados não autorizou a gravação. Verifique as regras do Firebase.");
+            } else {
+                alert("Erro ao salvar: " + (err.message || "Verifique sua conexão."));
+            }
         }
     };
 
@@ -152,20 +143,20 @@ export default function Challenge100k() {
                     <div className="space-y-4 text-center md:text-left">
                         <div className="flex items-center justify-center md:justify-start gap-3">
                             <div className={`px-3 py-1 rounded-full border flex items-center gap-2 ${syncStatus === 'synced' ? 'bg-green-500/10 border-green-500/20 text-green-400' :
-                                syncStatus === 'syncing' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
-                                    'bg-red-500/10 border-red-500/20 text-red-400'
+                                    syncStatus === 'syncing' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
+                                        'bg-red-500/10 border-red-500/20 text-red-400'
                                 }`}>
                                 {syncStatus === 'synced' ? <CloudCheck size={12} /> :
                                     syncStatus === 'syncing' ? <Cloud size={12} className="animate-bounce" /> :
                                         <AlertCircle size={12} />}
                                 <span className="text-[9px] font-black uppercase tracking-widest">
                                     {syncStatus === 'synced' ? 'Sincronizado' :
-                                        syncStatus === 'syncing' ? 'Salvando...' : 'Erro de Conexão'}
+                                        syncStatus === 'syncing' ? 'Salvando...' : 'Erro de Acesso'}
                                 </span>
                             </div>
                             {!user && (
-                                <div className="px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-[9px] font-black uppercase tracking-widest">
-                                    Modo Visualização (Faça Login)
+                                <div className="px-3 py-1 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 text-[9px] font-black uppercase tracking-widest animate-pulse">
+                                    Sessão Offline - Faça Login
                                 </div>
                             )}
                         </div>
@@ -255,8 +246,8 @@ export default function Challenge100k() {
                                         key={idx}
                                         onClick={() => toggleSlot(activeTab, idx)}
                                         className={`aspect-square rounded-xl border-2 flex flex-col items-center justify-center transition-all group relative ${isChecked
-                                            ? activeTab === 1 ? 'bg-primary border-transparent text-black' : 'bg-pink-500 border-transparent text-white'
-                                            : 'bg-white/[0.02] border-white/5 text-gray-600 hover:border-white/20'
+                                                ? activeTab === 1 ? 'bg-primary border-transparent text-black' : 'bg-pink-500 border-transparent text-white'
+                                                : 'bg-white/[0.02] border-white/5 text-gray-600 hover:border-white/20'
                                             }`}
                                     >
                                         {isChecked ? (
@@ -302,7 +293,6 @@ export default function Challenge100k() {
     );
 }
 
-// Ícones auxiliares que faltavam no import anterior
 function CloudCheck({ size }: { size: number }) {
     return (
         <div className="flex items-center gap-1">
