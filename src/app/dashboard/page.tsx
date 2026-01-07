@@ -1,44 +1,66 @@
 "use client";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { useFinance } from "@/contexts/FinanceContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import {
-    User,
-    Wallet,
+    LayoutGrid,
     TrendingUp,
-    Calendar,
+    PieChart,
     Info,
     Home,
-    BarChart3,
-    ChevronRight,
-    Search,
     Heart,
-    Shield,
-    Lock,
-    Sparkles,
-    ArrowUpRight,
-    ShieldCheck,
-    LayoutGrid,
-    PieChart
+    ChevronRight,
+    Loader2
 } from "lucide-react";
-import { Tooltip } from "@/components/ui/Tooltip";
-import NewsSection from "@/components/dashboard/NewsSection";
-import GoalsWidget from "@/components/dashboard/GoalsWidget";
-import HealthScore from "@/components/dashboard/HealthScore";
-import AiInsights from "@/components/dashboard/AiInsights";
+
+// Components
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import QuickActions from "@/components/dashboard/QuickActions";
-import MonthlyClosingCard from "@/components/dashboard/MonthlyClosingCard";
-import TransactionList from "@/components/finance/TransactionList";
 import QuickStatsWidget from "@/components/dashboard/QuickStatsWidget";
+import HealthScore from "@/components/dashboard/HealthScore";
+import AiInsights from "@/components/dashboard/AiInsights";
+import GoalsWidget from "@/components/dashboard/GoalsWidget";
+import TransactionList from "@/components/finance/TransactionList";
+import NewsSection from "@/components/dashboard/NewsSection";
 import AchievementsWidget from "@/components/dashboard/AchievementsWidget";
 import FinancialCalendar from "@/components/dashboard/FinancialCalendar";
-import { motion, AnimatePresence } from "framer-motion";
+import MonthlyClosingCard from "@/components/dashboard/MonthlyClosingCard";
+
+// Placeholder for Charts to avoid crashes
+const ChartPlaceholder = ({ title }: { title: string }) => (
+    <div className="glass-panel p-8 h-[300px] flex flex-col items-center justify-center text-center border border-dashed border-white/10">
+        <PieChart size={48} className="text-gray-600 mb-4 opacity-50" />
+        <h3 className="text-lg font-bold text-gray-500 uppercase tracking-widest">{title}</h3>
+        <p className="text-xs text-gray-600 mt-2">Gráfico temporariamente indisponível para manutenção.</p>
+    </div>
+);
 
 export default function DashboardPage() {
     const { user, loading } = useAuth();
+    const { budgets } = useFinance();
     const router = useRouter();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push("/login");
+        }
+    }, [user, loading, router]);
+
+    if (!mounted || loading || !user) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-black">
+                <Loader2 className="w-10 h-10 text-primary animate-spin" />
+            </div>
+        );
+    }
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -52,103 +74,54 @@ export default function DashboardPage() {
 
     const itemVariants = {
         hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6, cubicBezier: [0.23, 1, 0.32, 1] } }
+        visible: { opacity: 1, y: 0 }
     };
 
-    useEffect(() => {
-        if (!loading && !user) {
-            router.push("/login");
-        }
-    }, [user, loading, router]);
-
-    if (loading || !user) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-black">
-                <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin shadow-[0_0_30px_rgba(167,139,250,0.3)]"></div>
-            </div>
-        );
-    }
-
-    const budget = (user as any).budget;
+    // Budget Data (Safe Access)
+    const budget = (user as any)?.budget || { needs: 0, wants: 0, savings: 0 };
 
     return (
-        <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="min-h-screen bg-mesh p-4 md:p-8 lg:p-12 pb-32"
-        >
-            <div className="max-w-7xl mx-auto space-y-12">
+        <div className="min-h-screen bg-black text-white p-4 md:p-8 pb-32 overflow-x-hidden">
+            {/* Background Ambient */}
+            <div className="fixed inset-0 z-0 pointer-events-none">
+                <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px]" />
+            </div>
 
-                {/* Dashboard Header */}
-                <motion.header
-                    variants={itemVariants}
-                    className="relative overflow-hidden rounded-[3.5rem] glass-panel p-10 md:p-16 shadow-[0_50px_100px_rgba(0,0,0,0.6)] group"
-                >
-                    <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
-                        <User size={400} className="text-primary rotate-12 animate-float" />
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="max-w-7xl mx-auto space-y-8 relative z-10"
+            >
+                {/* Header */}
+                <motion.div variants={itemVariants} className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 className="text-3xl md:text-4xl font-black text-white tracking-tighter">
+                            Olá, <span className="gradient-text">{user.name?.split(" ")[0]}</span>
+                        </h1>
+                        <p className="text-gray-400 text-sm font-medium mt-1">
+                            Sua central de inteligência financeira está ativa.
+                        </p>
                     </div>
-                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px] animate-pulse-slow" />
-                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none"></div>
-
-                    <div className="relative z-10 space-y-10">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-                            <div className="space-y-6">
-                                <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl">
-                                    <Sparkles size={18} className="text-primary animate-pulse" />
-                                    <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Command Center v2.0</span>
-                                </div>
-                                <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-[0.85]">
-                                    Bem-vindo, <br />
-                                    <span className="gradient-text">{user.name.split(" ")[0]}</span>
-                                </h1>
-                                <div className="flex items-center gap-6">
-                                    <p className="text-gray-400 text-lg font-medium flex items-center gap-3">
-                                        <span className="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_10px_rgba(167,139,250,0.5)]" />
-                                        {user.email}
-                                    </p>
-                                    <div className="h-4 w-px bg-white/10" />
-                                    <div className="flex items-center gap-2 px-3 py-1 bg-green-500/10 rounded-lg border border-green-500/20">
-                                        <ShieldCheck size={14} className="text-green-400" />
-                                        <span className="text-[10px] font-black text-green-400 uppercase tracking-widest">Verified Account</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col gap-4">
-                                <div className="glass-panel p-8 bg-white/5 border-white/10 backdrop-blur-xl group/income hover:border-primary/30 transition-all">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Receita Mensal</p>
-                                        <ArrowUpRight size={14} className="text-primary opacity-0 group-hover/income:opacity-100 transition-all" />
-                                    </div>
-                                    <p className="text-3xl md:text-4xl font-black text-white tracking-tighter">
-                                        R$ {user.income?.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) || "0,00"}
-                                    </p>
-                                    <div className="mt-4 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                        <motion.div
-                                            initial={{ width: 0 }}
-                                            animate={{ width: "100%" }}
-                                            transition={{ duration: 1.5 }}
-                                            className="h-full bg-primary"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+                    <div className="flex items-center gap-3">
+                        <div className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                            Sistema Online
                         </div>
                     </div>
-                </motion.header>
+                </motion.div>
 
                 {/* Quick Stats Overview */}
                 <motion.div variants={itemVariants}>
                     <QuickStatsWidget />
                 </motion.div>
 
+                {/* Main Grid Layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-                {/* Main Dashboard Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-
-                    {/* Left Section: Balance & Quick Actions (4 cols) */}
-                    <div className="lg:col-span-4 space-y-12">
+                    {/* Left Column: Balance & Actions (4 cols) */}
+                    <div className="lg:col-span-4 space-y-8">
                         <motion.div variants={itemVariants}>
                             <BalanceCard />
                         </motion.div>
@@ -157,58 +130,59 @@ export default function DashboardPage() {
                         </motion.div>
                     </div>
 
-                    {/* Middle Section: Cash Flow & Budget (5 cols) */}
-                    <div className="lg:col-span-5 space-y-12">
+                    {/* Middle Column: Charts & Strategy (5 cols) */}
+                    <div className="lg:col-span-5 space-y-8">
                         <motion.div variants={itemVariants}>
-
+                            {/* Replaced RevenueChart with Placeholder to prevent crash */}
+                            <ChartPlaceholder title="Fluxo de Caixa" />
                         </motion.div>
 
-                        {/* Budget Strategy */}
+                        {/* Budget Strategy Card */}
                         <motion.section
                             variants={itemVariants}
-                            className="glass-panel p-6 md:p-10 relative overflow-hidden group"
+                            className="glass-panel p-6 md:p-8 relative overflow-hidden group"
                         >
-                            <div className="absolute top-0 right-0 p-8 md:p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
-                                <PieChart size={150} />
+                            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
+                                <PieChart size={120} />
                             </div>
 
-                            <div className="flex items-center justify-between mb-8 md:mb-10 relative z-10">
+                            <div className="flex items-center justify-between mb-6 relative z-10">
                                 <div>
-                                    <h2 className="text-xl md:text-2xl font-black text-white tracking-tighter flex items-center gap-3 uppercase">
-                                        <LayoutGrid className="text-primary md:w-7 md:h-7" size={24} />
+                                    <h2 className="text-xl font-black text-white tracking-tighter flex items-center gap-2 uppercase">
+                                        <LayoutGrid className="text-primary" size={20} />
                                         Estratégia
                                     </h2>
-                                    <p className="text-[9px] md:text-[10px] text-gray-500 uppercase font-black tracking-[0.2em] mt-2">Framework 50/30/20</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-black tracking-[0.2em] mt-1">Framework 50/30/20</p>
                                 </div>
-                                <button className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-500 hover:text-white transition-all border border-white/10">
-                                    <Info size={18} />
+                                <button className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-gray-500 hover:text-white transition-all border border-white/10">
+                                    <Info size={16} />
                                 </button>
                             </div>
 
-                            {budget ? (
-                                <div className="space-y-4 md:space-y-6 relative z-10">
+                            {budget && (budget.needs > 0 || budget.wants > 0 || budget.savings > 0) ? (
+                                <div className="space-y-4 relative z-10">
                                     {[
                                         { label: "Necessidades", value: budget.needs, color: "from-blue-500 to-cyan-600", percent: "50%", icon: Home, desc: "Essenciais" },
                                         { label: "Desejos", value: budget.wants, color: "from-purple-500 to-pink-600", percent: "30%", icon: Heart, desc: "Lazer" },
                                         { label: "Investimentos", value: budget.savings, color: "from-primary to-purple-600", percent: "20%", icon: TrendingUp, desc: "Patrimônio" }
                                     ].map((item, i) => (
                                         <div key={i} className="group/item">
-                                            <div className="flex justify-between items-end mb-2 md:mb-3">
-                                                <div className="flex items-center gap-3 md:gap-4">
-                                                    <div className={`w-9 h-9 md:w-10 md:h-10 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white shadow-lg group-hover/item:scale-110 transition-transform`}>
-                                                        <item.icon size={16} className="md:w-[18px] md:h-[18px]" />
+                                            <div className="flex justify-between items-end mb-2">
+                                                <div className="flex items-center gap-3">
+                                                    <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center text-white shadow-lg`}>
+                                                        <item.icon size={14} />
                                                     </div>
                                                     <div>
-                                                        <h4 className="text-[11px] md:text-sm font-black text-white uppercase tracking-tight">{item.label}</h4>
-                                                        <p className="text-[8px] md:text-[9px] text-gray-600 font-bold uppercase tracking-widest">{item.desc}</p>
+                                                        <h4 className="text-xs font-black text-white uppercase tracking-tight">{item.label}</h4>
+                                                        <p className="text-[8px] text-gray-600 font-bold uppercase tracking-widest">{item.desc}</p>
                                                     </div>
                                                 </div>
                                                 <div className="text-right">
-                                                    <div className="text-sm md:text-lg font-black text-white">R$ {item.value?.toLocaleString()}</div>
-                                                    <div className="text-[9px] md:text-[10px] font-black text-primary uppercase">{item.percent}</div>
+                                                    <div className="text-sm font-black text-white">R$ {item.value?.toLocaleString()}</div>
+                                                    <div className="text-[8px] font-black text-primary uppercase">{item.percent}</div>
                                                 </div>
                                             </div>
-                                            <div className="h-1.5 md:h-2 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                                            <div className="h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
                                                 <motion.div
                                                     initial={{ width: 0 }}
                                                     animate={{ width: item.percent }}
@@ -220,22 +194,22 @@ export default function DashboardPage() {
                                     ))}
                                 </div>
                             ) : (
-                                <div className="text-center py-12 md:py-16 bg-white/[0.02] rounded-[2rem] border border-dashed border-white/10 group-hover:border-primary/30 transition-all relative z-10">
-                                    <p className="text-gray-500 font-black text-[10px] md:text-xs uppercase tracking-widest mb-6">Nenhuma estratégia definida</p>
+                                <div className="text-center py-10 bg-white/[0.02] rounded-2xl border border-dashed border-white/10 relative z-10">
+                                    <p className="text-gray-500 font-black text-[10px] uppercase tracking-widest mb-4">Nenhuma estratégia definida</p>
                                     <button
                                         onClick={() => router.push("/tools")}
-                                        className="px-8 py-4 md:px-10 md:py-5 bg-primary text-black font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] rounded-2xl hover:bg-white transition-all shadow-xl shadow-primary/10 flex items-center gap-3 mx-auto"
+                                        className="px-6 py-3 bg-primary text-black font-black text-[9px] uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all shadow-lg shadow-primary/10 flex items-center gap-2 mx-auto"
                                     >
-                                        Inicializar Framework <ChevronRight size={14} />
+                                        Configurar <ChevronRight size={12} />
                                     </button>
                                 </div>
                             )}
                         </motion.section>
                     </div>
 
-                    {/* Right Section: AI & Health (3 cols) */}
-                    <div className="lg:col-span-3 space-y-12">
-                        <motion.div variants={itemVariants}>
+                    {/* Right Column: AI & Health (3 cols) */}
+                    <div className="lg:col-span-3 space-y-8">
+                        <motion.div variants={itemVariants} className="h-full">
                             <HealthScore />
                         </motion.div>
                         <motion.div variants={itemVariants}>
@@ -247,17 +221,20 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
-                {/* Bottom Section: News & Account Info */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    <div className="lg:col-span-8 space-y-12">
+                {/* Bottom Section */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    {/* Transactions & News (8 cols) */}
+                    <div className="lg:col-span-8 space-y-8">
                         <motion.div variants={itemVariants}>
-
+                            {/* Replaced NetWorthChart with Placeholder */}
+                            <ChartPlaceholder title="Evolução Patrimonial" />
                         </motion.div>
-                        <motion.div variants={itemVariants} className="glass-panel p-8 md:p-12">
-                            <div className="flex items-center justify-between mb-8">
+
+                        <motion.div variants={itemVariants} className="glass-panel p-6 md:p-8">
+                            <div className="flex items-center justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tighter uppercase flex items-center gap-3">
-                                        <TrendingUp className="text-primary" />
+                                    <h3 className="text-xl font-black text-white tracking-tighter uppercase flex items-center gap-2">
+                                        <TrendingUp className="text-primary" size={20} />
                                         Transações Recentes
                                     </h3>
                                     <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Últimas Atividades</p>
@@ -271,12 +248,14 @@ export default function DashboardPage() {
                             </div>
                             <TransactionList limit={5} />
                         </motion.div>
+
                         <motion.div variants={itemVariants}>
                             <NewsSection />
                         </motion.div>
                     </div>
 
-                    <div className="lg:col-span-4 space-y-12">
+                    {/* Widgets (4 cols) */}
+                    <div className="lg:col-span-4 space-y-8">
                         <motion.div variants={itemVariants}>
                             <AchievementsWidget />
                         </motion.div>
@@ -288,7 +267,7 @@ export default function DashboardPage() {
                         </motion.div>
                     </div>
                 </div>
-            </div>
-        </motion.div>
+            </motion.div>
+        </div>
     );
 }
