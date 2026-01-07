@@ -162,7 +162,7 @@ export default function DashboardPage() {
                     {/* Middle Section: Cash Flow & Budget (5 cols) */}
                     <div className="lg:col-span-5 space-y-12">
                         <motion.div variants={itemVariants}>
-                            <RevenueChart />
+                            {/* <RevenueChart /> */}
                         </motion.div>
 
                         {/* Budget Strategy */}
@@ -253,7 +253,7 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                     <div className="lg:col-span-8 space-y-12">
                         <motion.div variants={itemVariants}>
-                            <NetWorthChart />
+                            {/* <NetWorthChart /> */}
                         </motion.div>
                         <motion.div variants={itemVariants} className="glass-panel p-8 md:p-12">
                             <div className="flex items-center justify-between mb-8">
