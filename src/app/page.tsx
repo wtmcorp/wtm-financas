@@ -35,12 +35,9 @@ export default function LandingPage() {
 
     useEffect(() => {
         setMounted(true);
-        if (!loading && user) {
-            router.push("/dashboard");
-        }
-    }, [user, loading, router]);
+    }, []);
 
-    if (loading || user) {
+    if (!mounted || loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin shadow-[0_0_30px_rgba(167,139,250,0.3)]"></div>

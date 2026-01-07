@@ -68,7 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 if (profile) {
                     setUser(profile);
                 } else {
-                    // Fallback if profile doesn't exist yet (shouldn't happen if register works)
+                    // Fallback if profile doesn't exist yet
                     setUser({
                         id: firebaseUser.uid,
                         name: firebaseUser.displayName || firebaseUser.email || "",
@@ -83,7 +83,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setLoading(false);
         });
 
-        return () => unsubscribe();
+        // Safety timeout: if Firebase doesn't respond in 6 seconds, stop loading
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 6000);
+
+        return () => {
+            unsubscribe();
+            clearTimeout(timer);
+        };
     }, []);
 
     const register = async (email: string, password: string, name: string, phone?: string) => {
