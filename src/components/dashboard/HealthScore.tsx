@@ -94,7 +94,7 @@ export default function HealthScore() {
                         initial={{ scale: 0.5, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ delay: 0.5, type: "spring" }}
-                        className="text-5xl md:text-7xl font-black text-white tracking-tighter"
+                        className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter"
                     >
                         {score}
                     </motion.span>

@@ -59,7 +59,7 @@ export default function MonthlyClosingCard() {
                 <div className="p-4 md:p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.05] transition-all">
                     <p className="text-[8px] md:text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2">Resultado Líquido</p>
                     <div className="flex items-center gap-1 md:gap-2">
-                        <span className={`text-lg md:text-xl font-black tracking-tighter ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                        <span className={`text-base md:text-lg lg:text-xl font-black tracking-tighter ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
                             R$ {savings.toLocaleString('pt-BR')}
                         </span>
                         {isPositive ? <TrendingUp size={14} className="text-green-400 md:w-4 md:h-4" /> : <TrendingDown size={14} className="text-red-400 md:w-4 md:h-4" />}

@@ -93,7 +93,7 @@ export default function QuickStatsWidget() {
                     </div>
 
                     {/* Value */}
-                    <div className="text-2xl md:text-3xl font-black text-white mb-2 tracking-tight">
+                    <div className="text-xl md:text-2xl font-black text-white mb-2 tracking-tight truncate">
                         {stat.value}
                     </div>
 
