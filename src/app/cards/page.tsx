@@ -102,11 +102,11 @@ export default function CardsPage() {
                             <span className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-[0.3em]">The Elite Collection</span>
                         </div>
                         <h1 className="text-4xl md:text-9xl font-black text-white tracking-tighter leading-[0.9] md:leading-[0.85]">
-                            Arsenal de <br />
-                            <span className="gradient-text">Crédito</span>
+                            Escolha seu <br />
+                            <span className="gradient-text">Arsenal</span>
                         </h1>
                         <p className="text-gray-400 text-base md:text-2xl max-w-3xl leading-relaxed font-medium">
-                            Não é apenas um cartão. É sua chave para benefícios exclusivos e poder de compra estratégico.
+                            Transforme seus gastos em experiências. Encontre o cartão que realmente trabalha para você, seja com milhas, cashback ou rendimento.
                         </p>
                     </div>
 

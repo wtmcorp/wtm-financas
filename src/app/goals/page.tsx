@@ -163,11 +163,11 @@ export default function GoalsPage() {
                             <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Strategic Capital Allocation</span>
                         </div>
                         <h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter leading-[0.85]">
-                            Gestão por <br />
-                            <span className="gradient-text">Envelopes</span>
+                            Seus Potes de <br />
+                            <span className="gradient-text">Liberdade</span>
                         </h1>
                         <p className="text-gray-400 text-xl md:text-2xl max-w-3xl leading-relaxed font-medium">
-                            Distribua seu capital com intenção. Cada real tem um destino definido para a construção da sua liberdade financeira.
+                            Dê um nome e um propósito para cada real. Organize seus objetivos e veja seu progresso em tempo real.
                         </p>
                     </div>
                 </motion.header>

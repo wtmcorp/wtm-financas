@@ -120,10 +120,10 @@ export default function ChallengePage() {
                                         <span className="text-sm font-medium text-pink-400">Projeto de Vida</span>
                                     </div>
                                     <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4">
-                                        O Desafio dos <span className="gradient-text">100k</span>
+                                        Nossa Jornada aos <span className="gradient-text">100k</span>
                                     </h1>
                                     <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
-                                        Cada depósito é um tijolo na construção da nossa liberdade. Vamos juntos nessa jornada! 🚀
+                                        Construindo nosso futuro, um passo de cada vez. Nossa liberdade começa aqui. 🚀
                                     </p>
                                 </div>
 

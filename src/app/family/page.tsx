@@ -64,11 +64,11 @@ export default function FamilyModePage() {
                             <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Family Hub v1.0</span>
                         </div>
                         <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.85]">
-                            Finanças em <br />
-                            <span className="gradient-text">Família</span>
+                            Seu Clã <br />
+                            <span className="gradient-text">Financeiro</span>
                         </h1>
                         <p className="text-gray-400 text-lg md:text-xl max-w-2xl leading-relaxed font-medium">
-                            Gerencie o patrimônio familiar, defina metas conjuntas e ensine educação financeira para seus dependentes.
+                            Construam um legado juntos. Gerencie o patrimônio da família, planeje sonhos em conjunto e prepare as próximas gerações.
                         </p>
                     </div>
                 </motion.header>

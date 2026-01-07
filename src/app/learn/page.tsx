@@ -1129,11 +1129,11 @@ export default function LearnPage() {
                             <span className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-[0.3em]">WTM Academy: Intelligence Protocol</span>
                         </div>
                         <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.9] md:leading-[0.85]">
-                            Domine o <br />
-                            <span className="gradient-text">Capital</span>
+                            Sua Faculdade <br />
+                            <span className="gradient-text">da Riqueza</span>
                         </h1>
                         <p className="text-gray-400 text-base md:text-2xl max-w-3xl leading-relaxed font-medium">
-                            A educação financeira é a única arma capaz de romper as correntes da mediocridade. Transforme conhecimento em patrimônio.
+                            Do zero ao milhão, sem enrolação. Domine as estratégias que realmente funcionam para construir sua liberdade financeira.
                         </p>
 
                         <div className="flex flex-wrap gap-3 md:gap-6 pt-2 md:pt-4">

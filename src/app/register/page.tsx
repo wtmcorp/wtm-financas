@@ -75,8 +75,8 @@ export default function RegisterPage() {
                     >
                         <Logo size="lg" />
                     </motion.div>
-                    <h2 className="text-4xl font-black text-white mb-3 tracking-tight">Criar nova conta</h2>
-                    <p className="text-gray-400 font-medium">Inicie sua jornada na elite financeira</p>
+                    <h2 className="text-4xl font-black text-white mb-3 tracking-tight">Comece sua jornada hoje.</h2>
+                    <p className="text-gray-400 font-medium">Junte-se a milhares de pessoas que decidiram mudar de vida.</p>
                 </div>
 
                 <motion.div

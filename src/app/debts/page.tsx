@@ -122,11 +122,11 @@ export default function DebtsPage() {
                             <span className="text-[10px] font-black text-red-400 uppercase tracking-[0.3em]">War Room: Debt Elimination</span>
                         </div>
                         <h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter leading-[0.85]">
-                            Plano de <br />
-                            <span className="gradient-text text-red-500">Ataque</span>
+                            Sua Rota de <br />
+                            <span className="gradient-text text-red-500">Fuga</span>
                         </h1>
                         <p className="text-gray-400 text-xl md:text-2xl max-w-3xl leading-relaxed font-medium">
-                            Não ignore o problema. Ataque-o. Organize, priorize e elimine suas dívidas com estratégia militar e precisão matemática.
+                            Retome o controle da sua vida. Organize suas dívidas, crie uma estratégia de quitação e respire aliviado novamente.
                         </p>
                     </div>
                 </motion.header>

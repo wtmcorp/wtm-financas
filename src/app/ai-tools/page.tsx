@@ -171,7 +171,7 @@ export default function AiToolsPage() {
                                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
                                     <Sparkles className="text-primary" size={20} />
                                 </div>
-                                AI Studio
+                                Laboratório de IA
                             </motion.h2>
                         )}
                     </AnimatePresence>
@@ -257,7 +257,7 @@ export default function AiToolsPage() {
                                 <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
                                     <Sparkles className="text-primary" size={24} />
                                 </div>
-                                <h2 className="text-3xl font-black text-white tracking-tighter uppercase">AI Studio</h2>
+                                <h2 className="text-3xl font-black text-white tracking-tighter uppercase">Laboratório de IA</h2>
                             </div>
                             <button
                                 onClick={() => setIsMobileMenuOpen(false)}
@@ -307,10 +307,10 @@ export default function AiToolsPage() {
                         </div>
                         <div>
                             <div className="flex items-center gap-3 mb-1">
-                                <h1 className="text-3xl font-black text-white tracking-tighter uppercase">{activeToolData.name}</h1>
+                                <h1 className="text-3xl font-black text-white tracking-tighter uppercase">Laboratório de IA</h1>
                                 <span className="px-3 py-1 bg-white/5 rounded-lg border border-white/10 text-[9px] font-black text-gray-400 uppercase tracking-widest">{activeToolData.tag}</span>
                             </div>
-                            <p className="text-gray-500 font-medium text-lg">{activeToolData.description}</p>
+                            <p className="text-gray-500 font-medium text-lg">A potência da IA de elite integrada em um só lugar. Crie, analise e automatize com os modelos mais avançados do mundo.</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">

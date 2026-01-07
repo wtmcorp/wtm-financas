@@ -94,11 +94,11 @@ export default function ToolsPage() {
                                 </div>
                             </div>
                             <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.85]">
-                                Central de <br />
-                                <span className="gradient-text">Utilidades</span>
+                                Seu Canivete <br />
+                                <span className="gradient-text">Suíço</span>
                             </h1>
                             <p className="text-gray-400 text-lg md:text-xl font-medium max-w-2xl leading-relaxed">
-                                <span className="text-white font-black">{tools.length}</span> ferramentas profissionais para automatizar sua vida financeira e produtividade.
+                                Tudo o que você precisa para tomar decisões inteligentes, do cafezinho ao financiamento da casa própria.
                             </p>
                         </div>
 

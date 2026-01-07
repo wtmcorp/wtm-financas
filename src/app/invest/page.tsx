@@ -72,11 +72,11 @@ export default function InvestPage() {
                             <span className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-[0.3em]">Wealth Multiplier</span>
                         </div>
                         <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.9] md:leading-[0.85]">
-                            Central de <br />
-                            <span className="gradient-text">Investimentos</span>
+                            Sua Máquina de <br />
+                            <span className="gradient-text">Multiplicar</span>
                         </h1>
                         <p className="text-gray-400 text-base md:text-2xl max-w-3xl leading-relaxed font-medium">
-                            Compare, simule e escolha onde seu dinheiro vai trabalhar mais por você.
+                            Não deixe seu dinheiro parado. Encontre as melhores taxas e veja seu patrimônio crescer com segurança e inteligência.
                         </p>
                     </div>
                 </motion.header>

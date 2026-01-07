@@ -80,11 +80,11 @@ export default function SettingsPage() {
                             <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">System Configuration v2.4</span>
                         </div>
                         <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.85]">
-                            Painel de <br />
-                            <span className="gradient-text">Controle</span>
+                            Suas <br />
+                            <span className="gradient-text">Preferências</span>
                         </h1>
                         <p className="text-gray-400 text-xl md:text-2xl max-w-3xl leading-relaxed font-medium">
-                            Personalize sua experiência operacional e gerencie a segurança dos seus dados financeiros com criptografia de ponta.
+                            Ajuste o sistema ao seu estilo. Gerencie sua segurança, notificações e a aparência da sua central financeira.
                         </p>
                     </div>
                 </motion.header>

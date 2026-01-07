@@ -49,11 +49,11 @@ export default function TrendsPage() {
                                 <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Live Market Data</span>
                             </div>
                             <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.9]">
-                                Radar de <br />
-                                <span className="gradient-text from-blue-400 via-cyan-400 to-purple-400">Tendências</span>
+                                Sua Janela para o <br />
+                                <span className="gradient-text from-blue-400 via-cyan-400 to-purple-400">Mercado</span>
                             </h1>
                             <p className="text-gray-400 text-sm md:text-lg max-w-xl leading-relaxed font-medium border-l-2 border-white/10 pl-4">
-                                Monitoramento em tempo real dos principais indicadores globais para decisões <span className="text-white font-bold">estratégicas</span>.
+                                Não seja pego de surpresa. Acompanhe o pulso da economia global e antecipe os movimentos que impactam seu bolso.
                             </p>
                         </div>
 

@@ -97,8 +97,8 @@ export default function ProfilePage() {
                                     <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Membro Verificado</span>
                                 </div>
                                 <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">
-                                    {user.name.split(" ")[0]} <br />
-                                    <span className="gradient-text">{user.name.split(" ").slice(1).join(" ")}</span>
+                                    Sua Identidade <br />
+                                    <span className="gradient-text">Financeira</span>
                                 </h1>
                             </div>
 

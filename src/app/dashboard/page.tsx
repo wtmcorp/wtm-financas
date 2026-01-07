@@ -178,16 +178,32 @@ export default function DashboardPage() {
                         <div className="h-px flex-1 bg-white/5" />
                     </div>
 
-                    <motion.div variants={itemVariants}>
+                    <motion.div
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.01 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                    >
                         <QuickStatsWidget />
                     </motion.div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                        <div className="lg:col-span-8">
+                        {/* Coluna Principal: Patrimônio e Evolução */}
+                        <div className="lg:col-span-8 space-y-8">
                             <motion.div variants={itemVariants}>
                                 <BalanceCard />
                             </motion.div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <motion.div variants={itemVariants} className="h-full">
+                                    <RevenueChart />
+                                </motion.div>
+                                <motion.div variants={itemVariants} className="h-full">
+                                    <NetWorthChart />
+                                </motion.div>
+                            </div>
                         </div>
+
+                        {/* Coluna Lateral: Ações e Saúde */}
                         <div className="lg:col-span-4 space-y-8">
                             <motion.div variants={itemVariants}>
                                 <QuickActions />
@@ -195,46 +211,27 @@ export default function DashboardPage() {
                             <motion.div variants={itemVariants}>
                                 <HealthScore />
                             </motion.div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* 3. NARRATIVA: EVOLUÇÃO FINANCEIRA (PARA ONDE ESTOU INDO) */}
-                <section className="space-y-8">
-                    <div className="flex items-center gap-4">
-                        <div className="h-px flex-1 bg-white/5" />
-                        <h2 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] whitespace-nowrap">Sua Evolução Financeira</h2>
-                        <div className="h-px flex-1 bg-white/5" />
-                    </div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                        <div className="lg:col-span-6">
-                            <motion.div variants={itemVariants} className="h-full">
-                                <RevenueChart />
-                            </motion.div>
-                        </div>
-                        <div className="lg:col-span-6">
-                            <motion.div variants={itemVariants} className="h-full">
-                                <NetWorthChart />
+                            <motion.div variants={itemVariants}>
+                                <AiInsights />
                             </motion.div>
                         </div>
                     </div>
                 </section>
 
-                {/* 4. NARRATIVA: DETALHAMENTO E ESTRATÉGIA (COMO CHEGAR LÁ) */}
+                {/* 3. NARRATIVA: ESTRATÉGIA E METAS (COMO CHEGAR LÁ) */}
                 <section className="space-y-8">
                     <div className="flex items-center gap-4">
                         <div className="h-px flex-1 bg-white/5" />
-                        <h2 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] whitespace-nowrap">Estratégia e Detalhes</h2>
+                        <h2 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] whitespace-nowrap">Estratégia e Metas</h2>
                         <div className="h-px flex-1 bg-white/5" />
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                        {/* Coluna Esquerda: Estratégia e Metas */}
-                        <div className="lg:col-span-4 space-y-8">
+                        {/* Estratégia */}
+                        <div className="lg:col-span-4">
                             <motion.section
                                 variants={itemVariants}
-                                className="glass-panel p-6 md:p-8 relative overflow-hidden group"
+                                className="glass-panel p-6 md:p-8 relative overflow-hidden group h-full"
                             >
                                 <SectionHeader
                                     title="Sua Estratégia"
@@ -289,25 +286,39 @@ export default function DashboardPage() {
                                     </div>
                                 )}
                             </motion.section>
-
-                            <motion.div variants={itemVariants}>
-                                <GoalsWidget />
-                            </motion.div>
                         </div>
 
-                        {/* Coluna Central: IA e Histórico */}
-                        <div className="lg:col-span-5 space-y-8">
-                            <motion.div variants={itemVariants}>
-                                <AiInsights />
+                        {/* Metas e Conquistas */}
+                        <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <motion.div variants={itemVariants} className="h-full">
+                                <GoalsWidget />
                             </motion.div>
-                            <motion.div variants={itemVariants} className="glass-panel p-6 md:p-8">
+                            <motion.div variants={itemVariants} className="h-full">
+                                <AchievementsWidget />
+                            </motion.div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* 4. NARRATIVA: DETALHAMENTO E HISTÓRICO (TRANSPARÊNCIA) */}
+                <section className="space-y-8">
+                    <div className="flex items-center gap-4">
+                        <div className="h-px flex-1 bg-white/5" />
+                        <h2 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] whitespace-nowrap">Histórico e Detalhes</h2>
+                        <div className="h-px flex-1 bg-white/5" />
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        {/* Histórico */}
+                        <div className="lg:col-span-8">
+                            <motion.div variants={itemVariants} className="glass-panel p-6 md:p-8 h-full">
                                 <SectionHeader
                                     title="Histórico"
                                     subtitle="Últimas movimentações"
                                     icon={Wallet}
                                     tooltip="Aqui você vê os últimos registros de dinheiro que entrou ou saiu da sua conta."
                                 />
-                                <TransactionList limit={5} />
+                                <TransactionList limit={8} />
                                 <button
                                     onClick={() => router.push('/trends')}
                                     className="w-full mt-6 py-4 bg-white/5 hover:bg-white/10 rounded-2xl text-[10px] font-black text-gray-400 uppercase tracking-widest transition-all border border-white/5"
@@ -317,16 +328,13 @@ export default function DashboardPage() {
                             </motion.div>
                         </div>
 
-                        {/* Coluna Direita: Extras */}
-                        <div className="lg:col-span-3 space-y-8">
+                        {/* Calendário e Notícias */}
+                        <div className="lg:col-span-4 space-y-8">
                             <motion.div variants={itemVariants}>
                                 <FinancialCalendar />
                             </motion.div>
                             <motion.div variants={itemVariants}>
                                 <MonthlyClosingCard />
-                            </motion.div>
-                            <motion.div variants={itemVariants}>
-                                <AchievementsWidget />
                             </motion.div>
                             <motion.div variants={itemVariants}>
                                 <NewsSection />
@@ -338,7 +346,8 @@ export default function DashboardPage() {
                 {/* 5. BLOCO DE CONVERSÃO: CONSULTORIA */}
                 <motion.div
                     variants={itemVariants}
-                    className="relative rounded-[3rem] overflow-hidden p-8 md:p-16 bg-gradient-to-br from-primary/20 via-background to-blue-600/20 border border-white/10"
+                    whileHover={{ y: -10 }}
+                    className="relative rounded-[3rem] overflow-hidden p-8 md:p-16 bg-gradient-to-br from-primary/20 via-background to-blue-600/20 border border-white/10 shadow-2xl"
                 >
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
                     <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
@@ -356,19 +365,31 @@ export default function DashboardPage() {
                                 Criamos um plano de ação sob medida para seus sonhos saírem do papel.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                                <button className="px-8 py-4 bg-primary text-black font-black text-xs uppercase tracking-widest rounded-2xl hover:scale-105 transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-3">
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-8 py-4 bg-primary text-black font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/20 flex items-center justify-center gap-3"
+                                >
                                     Agendar Consultoria Grátis <ArrowRight size={18} />
-                                </button>
-                                <button className="px-8 py-4 bg-white/5 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/10 transition-all border border-white/10 flex items-center justify-center gap-3">
+                                </motion.button>
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-8 py-4 bg-white/5 text-white font-black text-xs uppercase tracking-widest rounded-2xl border border-white/10 flex items-center justify-center gap-3"
+                                >
                                     Saber Mais
-                                </button>
+                                </motion.button>
                             </div>
                         </div>
                         <div className="hidden lg:block relative">
                             <div className="w-64 h-64 bg-primary/20 rounded-full blur-[100px] absolute inset-0 animate-pulse" />
-                            <div className="relative w-48 h-48 bg-white/5 backdrop-blur-3xl rounded-[2.5rem] border border-white/10 flex items-center justify-center rotate-12 hover:rotate-0 transition-all duration-700">
+                            <motion.div
+                                animate={{ rotate: [12, -12, 12] }}
+                                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                                className="relative w-48 h-48 bg-white/5 backdrop-blur-3xl rounded-[2.5rem] border border-white/10 flex items-center justify-center shadow-2xl"
+                            >
                                 <TrendingUp size={80} className="text-primary" />
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
                 </motion.div>

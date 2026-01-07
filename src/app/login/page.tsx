@@ -54,8 +54,8 @@ export default function LoginPage() {
                     >
                         <Logo size="lg" />
                     </motion.div>
-                    <h2 className="text-4xl font-black text-white mb-3 tracking-tight">Bem-vindo de volta</h2>
-                    <p className="text-gray-400 font-medium">Acesse sua central de inteligência financeira</p>
+                    <h2 className="text-4xl font-black text-white mb-3 tracking-tight">Que bom ver você de novo.</h2>
+                    <p className="text-gray-400 font-medium">Pronto para dar mais um passo rumo à sua liberdade?</p>
                 </div>
 
                 <motion.div
@@ -145,7 +145,7 @@ export default function LoginPage() {
                                 <Loader2 className="animate-spin" size={20} />
                             ) : (
                                 <>
-                                    <span>ENTRAR NO SISTEMA</span>
+                                    <span>ACESSAR MINHA CONTA</span>
                                     <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
                                 </>
                             )}
