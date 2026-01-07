@@ -25,7 +25,7 @@ function Envelope({ id, title, amount, target, color, icon: Icon, onAdd, onRemov
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
             }}
-            className="card-premium p-8 space-y-6 group hover:border-primary/30 transition-all duration-500 relative overflow-hidden"
+            className="glass-panel p-8 space-y-6 group hover:border-primary/30 transition-all duration-500 relative overflow-hidden"
         >
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-all duration-700" />
 
@@ -175,7 +175,7 @@ export default function GoalsPage() {
                 {/* Control Panel */}
                 <motion.div
                     variants={itemVariants}
-                    className="card-premium p-10 bg-gradient-to-br from-[#0f0f13] to-[#1a1a2e] relative overflow-hidden group"
+                    className="glass-panel p-10 bg-gradient-to-br from-[#0f0f13] to-[#1a1a2e] relative overflow-hidden group"
                 >
                     <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity">
                         <Target size={150} />
@@ -244,7 +244,7 @@ export default function GoalsPage() {
                         { label: "Meta Total", value: `R$ ${goals.reduce((acc, g) => acc + g.target, 0).toLocaleString()}`, icon: Target },
                         { label: "Próxima Revisão", value: "Em 12 dias", icon: Calendar }
                     ].map((stat, i) => (
-                        <div key={i} className="card-premium p-8 flex items-center gap-6 group hover:border-primary/30 transition-all">
+                        <div key={i} className="glass-panel p-8 flex items-center gap-6 group hover:border-primary/30 transition-all">
                             <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-primary border border-white/10 group-hover:scale-110 transition-transform">
                                 <stat.icon size={24} />
                             </div>

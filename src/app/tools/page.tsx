@@ -185,7 +185,7 @@ export default function ToolsPage() {
                                     exit={{ opacity: 0, scale: 0.9 }}
                                     whileHover={{ y: -8 }}
                                     onClick={() => setSelectedTool(tool.id)}
-                                    className="card-premium p-8 text-left group relative overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-500"
+                                    className="glass-panel p-8 text-left group relative overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-500"
                                 >
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/15 transition-all duration-700" />
 
@@ -239,7 +239,7 @@ export default function ToolsPage() {
                             initial={{ scale: 0.9, y: 20, opacity: 0 }}
                             animate={{ scale: 1, y: 0, opacity: 1 }}
                             exit={{ scale: 0.9, y: 20, opacity: 0 }}
-                            className="card-premium w-full max-w-4xl max-h-[90vh] overflow-y-auto p-8 md:p-12 relative shadow-[0_50px_100px_rgba(0,0,0,0.8)] border border-white/10"
+                            className="glass-panel w-full max-w-4xl max-h-[90vh] overflow-y-auto p-8 md:p-12 relative shadow-[0_50px_100px_rgba(0,0,0,0.8)] border border-white/10"
                         >
                             <button
                                 onClick={() => setSelectedTool(null)}

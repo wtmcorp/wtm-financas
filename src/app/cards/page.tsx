@@ -145,7 +145,7 @@ export default function CardsPage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.1 }}
-                            className="card-premium p-6 md:p-8 space-y-6 border border-white/5 hover:border-white/10 transition-all group"
+                            className="glass-panel p-6 md:p-8 space-y-6 border border-white/5 hover:border-white/10 transition-all group"
                         >
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
@@ -211,7 +211,7 @@ export default function CardsPage() {
                                 exit={{ opacity: 0, height: 0 }}
                                 className="overflow-hidden"
                             >
-                                <div className="card-premium p-6 md:p-8 mb-8 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border-yellow-500/20">
+                                <div className="glass-panel p-6 md:p-8 mb-8 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border-yellow-500/20">
                                     <div className="flex flex-col md:flex-row items-center gap-8">
                                         <div className="flex-1 space-y-4 w-full">
                                             <div className="flex items-center gap-3">

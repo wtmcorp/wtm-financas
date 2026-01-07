@@ -1143,7 +1143,7 @@ export default function LearnPage() {
                 </div>
 
                 {/* Learning Path Progress */}
-                <motion.div variants={itemVariants} className="card-premium p-6 md:p-10 relative overflow-hidden group">
+                <motion.div variants={itemVariants} className="glass-panel p-6 md:p-10 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 md:p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                         <Target size={100} className="md:w-[150px] md:h-[150px]" />
                     </div>

@@ -91,7 +91,7 @@ export default function TrendsPage() {
                     <div className="space-y-10">
 
                         {/* Economic Calendar */}
-                        <motion.div variants={itemVariants} className="card-premium p-8 bg-gradient-to-br from-[#0f0f13] to-[#1a1a2e] relative overflow-hidden group">
+                        <motion.div variants={itemVariants} className="glass-panel p-8 bg-gradient-to-br from-[#0f0f13] to-[#1a1a2e] relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-all duration-700" />
 
                             <div className="flex items-center justify-between mb-8">
@@ -139,7 +139,7 @@ export default function TrendsPage() {
                         </motion.div>
 
                         {/* Fear & Greed Index */}
-                        <motion.div variants={itemVariants} className="card-premium p-8 bg-gradient-to-b from-[#0f0f13] to-black relative overflow-hidden group">
+                        <motion.div variants={itemVariants} className="glass-panel p-8 bg-gradient-to-b from-[#0f0f13] to-black relative overflow-hidden group">
                             <div className="flex items-center justify-between mb-8">
                                 <h3 className="text-xl font-black text-white tracking-tight">Sentimento</h3>
                                 <Info size={16} className="text-gray-600 hover:text-white cursor-help transition-colors" />

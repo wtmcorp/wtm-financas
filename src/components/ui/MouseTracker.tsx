@@ -5,7 +5,7 @@ import { useEffect } from "react";
 export default function MouseTracker() {
     useEffect(() => {
         const updateMousePosition = (ev: MouseEvent) => {
-            const elements = document.querySelectorAll(".card-premium");
+            const elements = document.querySelectorAll(".glass-panel");
             elements.forEach((el) => {
                 const rect = (el as HTMLElement).getBoundingClientRect();
                 const x = ev.clientX - rect.left;

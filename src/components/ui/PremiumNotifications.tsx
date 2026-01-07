@@ -64,7 +64,7 @@ export default function PremiumNotifications() {
                         initial={{ opacity: 0, x: 100, scale: 0.9 }}
                         animate={{ opacity: 1, x: 0, scale: 1 }}
                         exit={{ opacity: 0, x: 100, scale: 0.9 }}
-                        className="pointer-events-auto relative overflow-hidden card-premium p-5 bg-black/60 backdrop-blur-xl border-white/10 shadow-2xl group"
+                        className="pointer-events-auto relative overflow-hidden glass-panel p-5 bg-black/60 backdrop-blur-xl border-white/10 shadow-2xl group"
                     >
                         <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
 

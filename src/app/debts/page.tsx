@@ -141,7 +141,7 @@ export default function DebtsPage() {
                         <motion.div
                             key={i}
                             variants={itemVariants}
-                            className={`card-premium p-8 border-${stat.color}-500/20 bg-gradient-to-br from-${stat.color}-500/5 to-transparent group hover:border-${stat.color}-500/40 transition-all`}
+                            className={`glass-panel p-8 border-${stat.color}-500/20 bg-gradient-to-br from-${stat.color}-500/5 to-transparent group hover:border-${stat.color}-500/40 transition-all`}
                         >
                             <div className="flex items-center justify-between mb-6">
                                 <div className={`p-4 bg-${stat.color}-500/10 rounded-2xl text-${stat.color}-400 border border-${stat.color}-500/20 group-hover:scale-110 transition-transform`}>
@@ -162,7 +162,7 @@ export default function DebtsPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
                     {/* Add Debt Form */}
-                    <motion.div variants={itemVariants} className="card-premium p-10 relative overflow-hidden group">
+                    <motion.div variants={itemVariants} className="glass-panel p-10 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                             <Plus size={150} />
                         </div>
@@ -218,7 +218,7 @@ export default function DebtsPage() {
                     <motion.div variants={itemVariants} className="space-y-8">
                         {debts.length > 0 ? (
                             <>
-                                <div className="card-premium p-8 border-red-500/20 relative overflow-hidden group">
+                                <div className="glass-panel p-8 border-red-500/20 relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                                         <TrendingDown size={100} />
                                     </div>
@@ -248,7 +248,7 @@ export default function DebtsPage() {
                                     </div>
                                 </div>
 
-                                <div className="card-premium p-8 border-green-500/20 relative overflow-hidden group">
+                                <div className="glass-panel p-8 border-green-500/20 relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                                         <CheckCircle size={100} />
                                     </div>
@@ -279,7 +279,7 @@ export default function DebtsPage() {
                                 </div>
                             </>
                         ) : (
-                            <div className="h-full card-premium flex flex-col items-center justify-center p-12 text-center space-y-6 relative overflow-hidden group">
+                            <div className="h-full glass-panel flex flex-col items-center justify-center p-12 text-center space-y-6 relative overflow-hidden group">
                                 <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                 <div className="w-24 h-24 bg-green-500/10 rounded-[2rem] flex items-center justify-center text-green-500 border border-green-500/20 shadow-2xl shadow-green-500/10 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                                     <CheckCircle size={48} />
@@ -301,7 +301,7 @@ export default function DebtsPage() {
 
                 {/* Debts List */}
                 {debts.length > 0 && (
-                    <motion.div variants={itemVariants} className="card-premium p-10">
+                    <motion.div variants={itemVariants} className="glass-panel p-10">
                         <div className="flex items-center justify-between mb-10">
                             <h3 className="text-2xl font-black text-white tracking-tight uppercase">Inventário de Passivos</h3>
                             <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-xl border border-white/10">

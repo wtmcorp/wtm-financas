@@ -18,12 +18,15 @@ const CashFlowChart = () => {
     return (
         <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="relative card-premium p-6 rounded-2xl h-[400px]">
-                <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 text-indigo-400" />
-                        Fluxo de Caixa
-                    </h3>
+            <div className="relative glass-panel p-8 rounded-[2.5rem] h-[450px]">
+                <div className="flex items-center justify-between mb-10">
+                    <div>
+                        <h3 className="text-xl font-black text-white tracking-tighter uppercase flex items-center gap-3">
+                            <BarChart3 className="w-6 h-6 text-primary" />
+                            Fluxo de Caixa
+                        </h3>
+                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Entradas vs Saídas</p>
+                    </div>
                 </div>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart

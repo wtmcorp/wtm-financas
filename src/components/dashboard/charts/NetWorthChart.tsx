@@ -18,12 +18,15 @@ const NetWorthChart = () => {
     return (
         <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="relative card-premium p-6 rounded-2xl h-[400px]">
-                <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                        <TrendingUp className="w-5 h-5 text-indigo-400" />
-                        Evolução do Patrimônio
-                    </h3>
+            <div className="relative glass-panel p-8 rounded-[2.5rem] h-[450px]">
+                <div className="flex items-center justify-between mb-10">
+                    <div>
+                        <h3 className="text-xl font-black text-white tracking-tighter uppercase flex items-center gap-3">
+                            <TrendingUp className="w-6 h-6 text-primary" />
+                            Evolução do Patrimônio
+                        </h3>
+                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Projeção de Crescimento</p>
+                    </div>
                 </div>
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
@@ -37,9 +40,9 @@ const NetWorthChart = () => {
                     >
                         <defs>
                             <linearGradient id="colorValor" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#6366f1" stopOpacity={0.6} />
-                                <stop offset="50%" stopColor="#6366f1" stopOpacity={0.2} />
-                                <stop offset="100%" stopColor="#6366f1" stopOpacity={0} />
+                                <stop offset="0%" stopColor="#a78bfa" stopOpacity={0.6} />
+                                <stop offset="50%" stopColor="#a78bfa" stopOpacity={0.2} />
+                                <stop offset="100%" stopColor="#a78bfa" stopOpacity={0} />
                             </linearGradient>
                             <filter id="glow-line" x="-20%" y="-20%" width="140%" height="140%">
                                 <feGaussianBlur stdDeviation="4" result="blur" />
@@ -66,7 +69,7 @@ const NetWorthChart = () => {
                                         <div className="glass p-4 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl animate-in zoom-in-95 duration-200">
                                             <div className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">{payload[0].payload.name}</div>
                                             <div className="flex items-center gap-3">
-                                                <div className="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+                                                <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(167,139,250,0.8)]" />
                                                 <div className="text-2xl font-black text-white">
                                                     {formatCurrency(payload[0].value as number)}
                                                 </div>
@@ -80,14 +83,14 @@ const NetWorthChart = () => {
                         <Area
                             type="monotone"
                             dataKey="valor"
-                            stroke="#6366f1"
+                            stroke="#a78bfa"
                             strokeWidth={4}
                             fillOpacity={1}
                             fill="url(#colorValor)"
                             animationDuration={2000}
                             style={{ filter: 'url(#glow-line)' }}
-                            dot={{ r: 4, fill: '#6366f1', strokeWidth: 2, stroke: '#13131a' }}
-                            activeDot={{ r: 6, fill: '#fff', stroke: '#6366f1', strokeWidth: 3 }}
+                            dot={{ r: 4, fill: '#a78bfa', strokeWidth: 2, stroke: '#13131a' }}
+                            activeDot={{ r: 6, fill: '#fff', stroke: '#a78bfa', strokeWidth: 3 }}
                         />
                     </AreaChart>
                 </ResponsiveContainer>

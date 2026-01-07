@@ -84,7 +84,7 @@ export default function InvestPage() {
                 {/* Simulation Control Panel */}
                 <motion.div
                     variants={itemVariants}
-                    className="card-premium p-6 md:p-12 bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e] relative overflow-hidden group"
+                    className="glass-panel p-6 md:p-12 bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e] relative overflow-hidden group"
                 >
                     <div className="absolute top-0 right-0 p-8 md:p-12 opacity-5 group-hover:opacity-10 transition-opacity">
                         <DollarSign size={100} className="md:w-[150px] md:h-[150px]" />
@@ -154,7 +154,7 @@ export default function InvestPage() {
                                 </div>
                             </div>
 
-                            <div className="card-premium overflow-hidden border-white/5">
+                            <div className="glass-panel overflow-hidden border-white/5">
                                 <BankTable />
                             </div>
                         </motion.section>
@@ -212,7 +212,7 @@ export default function InvestPage() {
                     <div className="space-y-8 md:space-y-12">
 
                         {/* Performance Ranking */}
-                        <motion.div variants={itemVariants} className="card-premium p-6 md:p-8 border-green-500/10 bg-gradient-to-b from-green-500/5 to-transparent relative overflow-hidden group">
+                        <motion.div variants={itemVariants} className="glass-panel p-6 md:p-8 border-green-500/10 bg-gradient-to-b from-green-500/5 to-transparent relative overflow-hidden group">
                             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                                 <TrendingUp size={80} className="md:w-[100px] md:h-[100px]" />
                             </div>
@@ -256,7 +256,7 @@ export default function InvestPage() {
                         </motion.div>
 
                         {/* Knowledge Hub */}
-                        <motion.div variants={itemVariants} className="card-premium p-6 md:p-8 space-y-6 md:space-y-8">
+                        <motion.div variants={itemVariants} className="glass-panel p-6 md:p-8 space-y-6 md:space-y-8">
                             <h3 className="text-lg md:text-xl font-black text-white flex items-center gap-3 uppercase tracking-tight">
                                 <BookOpen size={20} className="text-primary md:w-[22px] md:h-[22px]" />
                                 Dicionário

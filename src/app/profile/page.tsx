@@ -127,7 +127,7 @@ export default function ProfilePage() {
 
                 {/* Gamification Stats */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <motion.div variants={itemVariants} className="lg:col-span-2 card-premium p-10 relative overflow-hidden group">
+                    <motion.div variants={itemVariants} className="lg:col-span-2 glass-panel p-10 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                             <TrendingUp size={150} />
                         </div>
@@ -157,7 +157,7 @@ export default function ProfilePage() {
                         </div>
                     </motion.div>
 
-                    <motion.div variants={itemVariants} className="card-premium p-10 flex flex-col justify-center items-center text-center relative overflow-hidden group">
+                    <motion.div variants={itemVariants} className="glass-panel p-10 flex flex-col justify-center items-center text-center relative overflow-hidden group">
                         <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         <div className="w-20 h-20 bg-green-500/10 rounded-[2rem] flex items-center justify-center text-green-500 border border-green-500/20 shadow-2xl shadow-green-500/10 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 mb-6">
                             <Fingerprint size={40} />
@@ -168,7 +168,7 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Badges */}
-                <motion.div variants={itemVariants} className="card-premium p-10 relative overflow-hidden group">
+                <motion.div variants={itemVariants} className="glass-panel p-10 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                         <Award size={150} />
                     </div>
@@ -192,7 +192,7 @@ export default function ProfilePage() {
                 </motion.div>
 
                 {/* Account Details */}
-                <motion.div variants={itemVariants} className="card-premium p-10 relative overflow-hidden group">
+                <motion.div variants={itemVariants} className="glass-panel p-10 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                         <Shield size={150} />
                     </div>

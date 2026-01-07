@@ -31,6 +31,8 @@ import BalanceCard from "@/components/dashboard/BalanceCard";
 import QuickActions from "@/components/dashboard/QuickActions";
 import RevenueChart from "@/components/dashboard/RevenueChart";
 import MonthlyClosingCard from "@/components/dashboard/MonthlyClosingCard";
+import TransactionList from "@/components/finance/TransactionList";
+import NetWorthChart from "@/components/dashboard/charts/NetWorthChart";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function DashboardPage() {
@@ -113,7 +115,7 @@ export default function DashboardPage() {
                             </div>
 
                             <div className="flex flex-col gap-4">
-                                <div className="card-premium p-8 bg-white/5 border-white/10 backdrop-blur-xl group/income hover:border-primary/30 transition-all">
+                                <div className="glass-panel p-8 bg-white/5 border-white/10 backdrop-blur-xl group/income hover:border-primary/30 transition-all">
                                     <div className="flex justify-between items-center mb-2">
                                         <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Receita Mensal</p>
                                         <ArrowUpRight size={14} className="text-primary opacity-0 group-hover/income:opacity-100 transition-all" />
@@ -157,7 +159,7 @@ export default function DashboardPage() {
                         {/* Budget Strategy */}
                         <motion.section
                             variants={itemVariants}
-                            className="card-premium p-6 md:p-10 relative overflow-hidden group"
+                            className="glass-panel p-6 md:p-10 relative overflow-hidden group"
                         >
                             <div className="absolute top-0 right-0 p-8 md:p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
                                 <PieChart size={150} />
@@ -240,13 +242,34 @@ export default function DashboardPage() {
 
                 {/* Bottom Section: News & Account Info */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    <div className="lg:col-span-8">
+                    <div className="lg:col-span-8 space-y-12">
+                        <motion.div variants={itemVariants}>
+                            <NetWorthChart />
+                        </motion.div>
+                        <motion.div variants={itemVariants} className="glass-panel p-8 md:p-12">
+                            <div className="flex items-center justify-between mb-8">
+                                <div>
+                                    <h3 className="text-xl md:text-2xl font-black text-white tracking-tighter uppercase flex items-center gap-3">
+                                        <TrendingUp className="text-primary" />
+                                        Transações Recentes
+                                    </h3>
+                                    <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mt-1">Últimas Atividades</p>
+                                </div>
+                                <button
+                                    onClick={() => router.push('/trends')}
+                                    className="text-[10px] font-black text-primary hover:text-white uppercase tracking-widest transition-all"
+                                >
+                                    Ver Todas
+                                </button>
+                            </div>
+                            <TransactionList limit={5} />
+                        </motion.div>
                         <motion.div variants={itemVariants}>
                             <NewsSection />
                         </motion.div>
                     </div>
 
-                    <div className="lg:col-span-4">
+                    <div className="lg:col-span-4 space-y-12">
                         <motion.div variants={itemVariants}>
                             <MonthlyClosingCard />
                         </motion.div>

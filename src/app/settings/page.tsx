@@ -107,7 +107,7 @@ export default function SettingsPage() {
                                     <motion.div
                                         key={i}
                                         whileHover={{ x: 10 }}
-                                        className="card-premium p-8 flex items-center justify-between group cursor-pointer hover:border-primary/40 transition-all relative overflow-hidden"
+                                        className="glass-panel p-8 flex items-center justify-between group cursor-pointer hover:border-primary/40 transition-all relative overflow-hidden"
                                     >
                                         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                         <div className="flex items-center gap-6 relative z-10">
@@ -132,7 +132,7 @@ export default function SettingsPage() {
                     ))}
 
                     <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="card-premium p-10 space-y-6 relative overflow-hidden group">
+                        <div className="glass-panel p-10 space-y-6 relative overflow-hidden group">
                             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                                 <Github size={150} />
                             </div>
@@ -156,7 +156,7 @@ export default function SettingsPage() {
                             </a>
                         </div>
 
-                        <div className="card-premium p-10 space-y-6 relative overflow-hidden group">
+                        <div className="glass-panel p-10 space-y-6 relative overflow-hidden group">
                             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                                 <Database size={150} />
                             </div>
