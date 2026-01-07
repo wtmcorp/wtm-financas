@@ -28,6 +28,8 @@ import NewsSection from "@/components/dashboard/NewsSection";
 import AchievementsWidget from "@/components/dashboard/AchievementsWidget";
 import FinancialCalendar from "@/components/dashboard/FinancialCalendar";
 import MonthlyClosingCard from "@/components/dashboard/MonthlyClosingCard";
+import RevenueChart from "@/components/dashboard/RevenueChart";
+import NetWorthChart from "@/components/dashboard/charts/NetWorthChart";
 
 // Placeholder for Charts to avoid crashes
 const ChartPlaceholder = ({ title }: { title: string }) => (
@@ -132,9 +134,8 @@ export default function DashboardPage() {
 
                     {/* Middle Column: Charts & Strategy (5 cols) */}
                     <div className="lg:col-span-5 space-y-8">
-                        <motion.div variants={itemVariants}>
-                            {/* Replaced RevenueChart with Placeholder to prevent crash */}
-                            <ChartPlaceholder title="Fluxo de Caixa" />
+                        <motion.div variants={itemVariants} className="h-[400px]">
+                            <RevenueChart />
                         </motion.div>
 
                         {/* Budget Strategy Card */}
