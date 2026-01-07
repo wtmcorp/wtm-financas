@@ -17,13 +17,25 @@ export interface Budget {
     spent: number;
 }
 
+export interface Goal {
+    id: string;
+    name: string;
+    target: number;
+    current: number;
+    color: string;
+}
+
 interface FinanceContextType {
     transactions: Transaction[];
     budgets: Budget[];
+    goals: Goal[];
     addTransaction: (transaction: Omit<Transaction, 'id'>) => Promise<void>;
     updateTransaction: (id: string, transaction: Partial<Transaction>) => Promise<void>;
     deleteTransaction: (id: string) => Promise<void>;
     setBudget: (category: string, limit: number) => Promise<void>;
+    addGoal: (goal: Omit<Goal, 'id'>) => Promise<void>;
+    deleteGoal: (id: string) => Promise<void>;
+    updateGoal: (id: string, goal: Partial<Goal>) => Promise<void>;
     getBalance: () => number;
     getMonthlyExpenses: () => number;
     getMonthlyIncome: () => number;
@@ -66,6 +78,7 @@ import {
 export const FinanceProvider = ({ children }: { children: ReactNode }) => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [budgets, setBudgets] = useState<Budget[]>([]);
+    const [goals, setGoals] = useState<Goal[]>([]);
     const { user } = useAuth();
 
     // Load transactions from Firestore when user changes
@@ -104,6 +117,24 @@ export const FinanceProvider = ({ children }: { children: ReactNode }) => {
                 ...doc.data()
             })) as Budget[];
             setBudgets(budgetData);
+        });
+
+        return () => unsubscribe();
+    }, [user]);
+
+    // Load goals from Firestore
+    useEffect(() => {
+        if (!user) {
+            setGoals([]);
+            return;
+        }
+
+        const unsubscribe = onSnapshot(collection(db, 'users', user.id, 'goals'), (snapshot) => {
+            const goalsData = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })) as Goal[];
+            setGoals(goalsData);
         });
 
         return () => unsubscribe();
@@ -151,6 +182,35 @@ export const FinanceProvider = ({ children }: { children: ReactNode }) => {
             });
         } catch (e) {
             console.error("Error setting budget: ", e);
+        }
+    };
+
+    const addGoal = async (goal: Omit<Goal, 'id'>) => {
+        if (!user) return;
+        try {
+            await addDoc(collection(db, 'users', user.id, 'goals'), goal);
+        } catch (e) {
+            console.error("Error adding goal: ", e);
+        }
+    };
+
+    const deleteGoal = async (id: string) => {
+        if (!user) return;
+        try {
+            const docRef = doc(db, 'users', user.id, 'goals', id);
+            await deleteDoc(docRef);
+        } catch (e) {
+            console.error("Error deleting goal: ", e);
+        }
+    };
+
+    const updateGoal = async (id: string, goal: Partial<Goal>) => {
+        if (!user) return;
+        try {
+            const docRef = doc(db, 'users', user.id, 'goals', id);
+            await updateDoc(docRef, goal);
+        } catch (e) {
+            console.error("Error updating goal: ", e);
         }
     };
 
@@ -315,10 +375,14 @@ export const FinanceProvider = ({ children }: { children: ReactNode }) => {
             value={{
                 transactions,
                 budgets,
+                goals,
                 addTransaction,
                 updateTransaction,
                 deleteTransaction,
                 setBudget,
+                addGoal,
+                deleteGoal,
+                updateGoal,
                 getBalance,
                 getMonthlyExpenses,
                 getMonthlyIncome,

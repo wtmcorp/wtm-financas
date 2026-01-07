@@ -3,35 +3,27 @@
 import { useState } from "react";
 import { Plus, Target, Trash2, TrendingUp, ChevronRight, Sparkles, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-interface Goal {
-    id: number;
-    name: string;
-    target: number;
-    current: number;
-    color: string;
-}
+import { useFinance } from "@/contexts/FinanceContext";
 
 export default function GoalsWidget() {
-    const [goals, setGoals] = useState<Goal[]>([]);
+    const { goals, addGoal, deleteGoal } = useFinance();
     const [showAdd, setShowAdd] = useState(false);
     const [newGoal, setNewGoal] = useState({ name: "", target: "", current: "" });
 
-    const addGoal = () => {
+    const handleAddGoal = async () => {
         if (!newGoal.name || !newGoal.target) return;
-        setGoals([...goals, {
-            id: Date.now(),
+        await addGoal({
             name: newGoal.name,
             target: Number(newGoal.target),
             current: Number(newGoal.current) || 0,
             color: "from-primary to-purple-600"
-        }]);
+        });
         setNewGoal({ name: "", target: "", current: "" });
         setShowAdd(false);
     };
 
-    const deleteGoal = (id: number) => {
-        setGoals(goals.filter(g => g.id !== id));
+    const handleDeleteGoal = async (id: string) => {
+        await deleteGoal(id);
     };
 
     return (
@@ -101,7 +93,7 @@ export default function GoalsWidget() {
                                 </div>
                             </div>
                             <button
-                                onClick={addGoal}
+                                onClick={handleAddGoal}
                                 className="w-full py-3 md:py-4 bg-primary text-black font-black text-[9px] md:text-[10px] rounded-xl uppercase tracking-[0.2em] hover:bg-white transition-all shadow-lg shadow-primary/10 flex items-center justify-center gap-2"
                             >
                                 <Sparkles size={14} />
@@ -143,7 +135,7 @@ export default function GoalsWidget() {
                                             <span className="text-[10px] md:text-xs font-black text-primary block">{progress.toFixed(0)}%</span>
                                         </div>
                                         <button
-                                            onClick={() => deleteGoal(goal.id)}
+                                            onClick={() => handleDeleteGoal(goal.id)}
                                             className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-white/5 flex items-center justify-center text-gray-600 hover:bg-red-500/10 hover:text-red-400 transition-all opacity-0 group-hover/item:opacity-100"
                                         >
                                             <Trash2 size={12} className="md:w-3.5 md:h-3.5" />

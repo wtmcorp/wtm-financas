@@ -89,9 +89,13 @@ export default function LoginPage() {
                                 <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">
                                     Senha de Acesso
                                 </label>
-                                <Link href="#" title="Em breve" className="text-[10px] font-black text-violet-400 uppercase tracking-widest hover:text-violet-300 transition-colors">
+                                <button
+                                    type="button"
+                                    onClick={() => alert("Funcionalidade em desenvolvimento. Entre em contato com o suporte.")}
+                                    className="text-[10px] font-black text-violet-400 uppercase tracking-widest hover:text-violet-300 transition-colors"
+                                >
                                     Esqueceu?
-                                </Link>
+                                </button>
                             </div>
                             <div className="relative group/input">
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within/input:text-violet-400 transition-colors" size={18} />

@@ -2,52 +2,115 @@
 
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Sparkles, TrendingUp, AlertTriangle, Lightbulb, ArrowRight, BrainCircuit, Loader2, Plus } from "lucide-react";
+import { Sparkles, TrendingUp, AlertTriangle, Lightbulb, ArrowRight, BrainCircuit, Loader2, Plus, CheckCircle2 } from "lucide-react";
 import { useFinance } from "@/contexts/FinanceContext";
 import TransactionModal from "@/components/finance/TransactionModal";
 
 export default function AiInsights() {
     const [isGenerating, setIsGenerating] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { transactions } = useFinance();
+    const {
+        transactions,
+        getTopExpenseCategory,
+        getMonthlySavingsRate,
+        getMonthlyIncome,
+        getMonthlyExpenses
+    } = useFinance();
 
     const handleGenerate = () => {
         setIsGenerating(true);
+        // Simulate "thinking" time
         setTimeout(() => {
             setIsGenerating(false);
-        }, 2000);
+        }, 1500);
     };
 
     const insights = useMemo(() => {
         if (transactions.length === 0) return [];
 
-        return [
-            {
+        const generatedInsights = [];
+        const topExpense = getTopExpenseCategory();
+        const savingsRate = getMonthlySavingsRate();
+        const income = getMonthlyIncome();
+        const expenses = getMonthlyExpenses();
+
+        // Insight 1: Savings Rate
+        if (savingsRate > 20) {
+            generatedInsights.push({
                 icon: TrendingUp,
-                title: "Oportunidade de Investimento",
-                description: "Seu saldo em conta está 20% acima da sua reserva. Considere alocar em FIIs para renda passiva.",
+                title: "Alta Capacidade de Aporte",
+                description: `Sua taxa de poupança é de ${savingsRate.toFixed(1)}%. Excelente momento para diversificar em renda variável.`,
                 color: "text-green-400",
                 bg: "bg-green-500/10",
                 tag: "Patrimônio"
-            },
-            {
-                icon: AlertTriangle,
-                title: "Alerta de Gastos",
-                description: "Seus gastos com 'Lazer' este mês já atingiram 85% do orçamento planejado.",
-                color: "text-yellow-400",
-                bg: "bg-yellow-500/10",
-                tag: "Orçamento"
-            },
-            {
+            });
+        } else if (savingsRate > 0) {
+            generatedInsights.push({
                 icon: Lightbulb,
-                title: "Dica de Economia",
-                description: "Você pagou R$ 45 em taxas bancárias este mês. Mude para o pacote essencial e economize.",
+                title: "Potencial de Otimização",
+                description: `Você está poupando ${savingsRate.toFixed(1)}%. Tente reduzir gastos fixos para atingir 20%.`,
                 color: "text-blue-400",
                 bg: "bg-blue-500/10",
                 tag: "Eficiência"
+            });
+        } else {
+            generatedInsights.push({
+                icon: AlertTriangle,
+                title: "Atenção ao Orçamento",
+                description: "Suas despesas superaram suas receitas este mês. Revise seus gastos não essenciais.",
+                color: "text-red-400",
+                bg: "bg-red-500/10",
+                tag: "Alerta"
+            });
+        }
+
+        // Insight 2: Top Expense
+        if (topExpense) {
+            const expensePercent = income > 0 ? (topExpense.amount / income) * 100 : 0;
+            if (expensePercent > 30) {
+                generatedInsights.push({
+                    icon: AlertTriangle,
+                    title: `Gasto Elevado em ${topExpense.name}`,
+                    description: `${topExpense.name} consome ${expensePercent.toFixed(1)}% da sua renda. Considere definir um teto de gastos.`,
+                    color: "text-yellow-400",
+                    bg: "bg-yellow-500/10",
+                    tag: "Orçamento"
+                });
+            } else {
+                generatedInsights.push({
+                    icon: CheckCircle2, // Need to import CheckCircle2
+                    title: "Gastos Controlados",
+                    description: `Sua maior despesa (${topExpense.name}) está dentro de um patamar saudável (${expensePercent.toFixed(1)}%).`,
+                    color: "text-green-400",
+                    bg: "bg-green-500/10",
+                    tag: "Controle"
+                });
             }
-        ];
-    }, [transactions]);
+        }
+
+        // Insight 3: General Health or Tip
+        if (income > 0 && expenses < income * 0.5) {
+            generatedInsights.push({
+                icon: TrendingUp,
+                title: "Liberdade Financeira",
+                description: "Você vive com menos de 50% do que ganha. Você está no caminho rápido para a liberdade financeira.",
+                color: "text-purple-400",
+                bg: "bg-purple-500/10",
+                tag: "Liberdade"
+            });
+        } else {
+            generatedInsights.push({
+                icon: Lightbulb,
+                title: "Dica de Investimento",
+                description: "Considere criar uma reserva de oportunidade em CDBs de liquidez diária para aproveitar quedas do mercado.",
+                color: "text-blue-400",
+                bg: "bg-blue-500/10",
+                tag: "Estratégia"
+            });
+        }
+
+        return generatedInsights.slice(0, 3);
+    }, [transactions, getTopExpenseCategory, getMonthlySavingsRate, getMonthlyIncome, getMonthlyExpenses]);
 
     return (
         <>
@@ -135,7 +198,7 @@ export default function AiInsights() {
                     ) : (
                         <Sparkles size={16} className="group-hover/btn:animate-pulse" />
                     )}
-                    {isGenerating ? "Processando..." : "Gerar Análise Preditiva"}
+                    {isGenerating ? "Processando..." : "Atualizar Análise"}
                 </button>
             </motion.div>
 

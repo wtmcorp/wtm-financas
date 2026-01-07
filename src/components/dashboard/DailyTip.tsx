@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Lightbulb, Sparkles, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 const tips = [
     {
@@ -33,6 +34,7 @@ const tips = [
 ];
 
 export default function DailyTip() {
+    const router = useRouter();
     const [tip, setTip] = useState(tips[0]);
 
     useEffect(() => {
@@ -73,7 +75,10 @@ export default function DailyTip() {
                 </div>
             </div>
 
-            <button className="relative z-10 flex items-center gap-2 text-[10px] font-black text-primary hover:text-white uppercase tracking-widest transition-all group/btn mt-6">
+            <button
+                onClick={() => router.push('/learn')}
+                className="relative z-10 flex items-center gap-2 text-[10px] font-black text-primary hover:text-white uppercase tracking-widest transition-all group/btn mt-6"
+            >
                 Saber mais <ArrowRight size={12} className="group-hover/btn:translate-x-1 transition-transform" />
             </button>
         </motion.div>
