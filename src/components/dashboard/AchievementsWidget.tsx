@@ -4,11 +4,21 @@ import { motion } from "framer-motion";
 import { Trophy, Target, Zap, Award, Star, Crown, Medal, Flame } from "lucide-react";
 import { useState, useEffect } from "react";
 
+// Icon mapping to handle serialization
+const ICON_MAP: { [key: string]: any } = {
+    "Zap": Zap,
+    "Flame": Flame,
+    "Target": Target,
+    "Trophy": Trophy,
+    "Award": Award,
+    "Crown": Crown
+};
+
 interface Achievement {
     id: string;
     title: string;
     description: string;
-    icon: any;
+    iconName: string; // Changed from icon component to string name
     progress: number;
     total: number;
     unlocked: boolean;
@@ -32,81 +42,94 @@ export default function AchievementsWidget() {
         if (savedXP) setUserXP(parseInt(savedXP));
 
         if (savedAchievements) {
-            setAchievements(JSON.parse(savedAchievements));
-        } else {
-            // Initialize default achievements
-            const defaultAchievements: Achievement[] = [
-                {
-                    id: "first_transaction",
-                    title: "Primeiro Passo",
-                    description: "Registre sua primeira transação",
-                    icon: Zap,
-                    progress: 0,
-                    total: 1,
-                    unlocked: false,
-                    rarity: "common",
-                    xp: 10
-                },
-                {
-                    id: "week_streak",
-                    title: "Consistência",
-                    description: "Use o app por 7 dias seguidos",
-                    icon: Flame,
-                    progress: 0,
-                    total: 7,
-                    unlocked: false,
-                    rarity: "rare",
-                    xp: 50
-                },
-                {
-                    id: "first_goal",
-                    title: "Sonhador",
-                    description: "Crie sua primeira meta financeira",
-                    icon: Target,
-                    progress: 0,
-                    total: 1,
-                    unlocked: false,
-                    rarity: "common",
-                    xp: 15
-                },
-                {
-                    id: "save_1000",
-                    title: "Poupador",
-                    description: "Economize R$ 1.000",
-                    icon: Trophy,
-                    progress: 0,
-                    total: 1000,
-                    unlocked: false,
-                    rarity: "epic",
-                    xp: 100
-                },
-                {
-                    id: "complete_course",
-                    title: "Estudioso",
-                    description: "Complete um curso de educação financeira",
-                    icon: Award,
-                    progress: 0,
-                    total: 1,
-                    unlocked: false,
-                    rarity: "rare",
-                    xp: 75
-                },
-                {
-                    id: "master",
-                    title: "Mestre Financeiro",
-                    description: "Alcance nível 10",
-                    icon: Crown,
-                    progress: 0,
-                    total: 10,
-                    unlocked: false,
-                    rarity: "legendary",
-                    xp: 500
+            try {
+                const parsed = JSON.parse(savedAchievements);
+                // Validate if parsed data has iconName, if not (old version), reset to defaults
+                if (parsed.length > 0 && !parsed[0].iconName) {
+                    initializeDefaults();
+                } else {
+                    setAchievements(parsed);
                 }
-            ];
-            setAchievements(defaultAchievements);
-            localStorage.setItem("wtm_achievements", JSON.stringify(defaultAchievements));
+            } catch (e) {
+                initializeDefaults();
+            }
+        } else {
+            initializeDefaults();
         }
     }, []);
+
+    const initializeDefaults = () => {
+        const defaultAchievements: Achievement[] = [
+            {
+                id: "first_transaction",
+                title: "Primeiro Passo",
+                description: "Registre sua primeira transação",
+                iconName: "Zap",
+                progress: 0,
+                total: 1,
+                unlocked: false,
+                rarity: "common",
+                xp: 10
+            },
+            {
+                id: "week_streak",
+                title: "Consistência",
+                description: "Use o app por 7 dias seguidos",
+                iconName: "Flame",
+                progress: 0,
+                total: 7,
+                unlocked: false,
+                rarity: "rare",
+                xp: 50
+            },
+            {
+                id: "first_goal",
+                title: "Sonhador",
+                description: "Crie sua primeira meta financeira",
+                iconName: "Target",
+                progress: 0,
+                total: 1,
+                unlocked: false,
+                rarity: "common",
+                xp: 15
+            },
+            {
+                id: "save_1000",
+                title: "Poupador",
+                description: "Economize R$ 1.000",
+                iconName: "Trophy",
+                progress: 0,
+                total: 1000,
+                unlocked: false,
+                rarity: "epic",
+                xp: 100
+            },
+            {
+                id: "complete_course",
+                title: "Estudioso",
+                description: "Complete um curso de educação financeira",
+                iconName: "Award",
+                progress: 0,
+                total: 1,
+                unlocked: false,
+                rarity: "rare",
+                xp: 75
+            },
+            {
+                id: "master",
+                title: "Mestre Financeiro",
+                description: "Alcance nível 10",
+                iconName: "Crown",
+                progress: 0,
+                total: 10,
+                unlocked: false,
+                rarity: "legendary",
+                xp: 500
+            }
+        ];
+        setAchievements(defaultAchievements);
+        localStorage.setItem("wtm_achievements", JSON.stringify(defaultAchievements));
+    };
 
     const rarityColors = {
         common: "from-gray-500 to-gray-600",
@@ -170,62 +193,66 @@ export default function AchievementsWidget() {
 
             {/* Achievements List */}
             <div className="space-y-3 flex-1 overflow-y-auto custom-scrollbar relative z-10">
-                {achievements.map((achievement, i) => (
-                    <motion.div
-                        key={achievement.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.05 }}
-                        className={`
-                            p-4 rounded-xl border transition-all
-                            ${achievement.unlocked
-                                ? `bg-gradient-to-br ${rarityColors[achievement.rarity]} ${rarityBorders[achievement.rarity]} shadow-lg`
-                                : 'bg-white/5 border-white/10 grayscale opacity-60'
-                            }
-                            hover:scale-[1.02] cursor-pointer
-                        `}
-                    >
-                        <div className="flex items-start gap-3">
-                            <div className={`
-                                w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0
-                                ${achievement.unlocked ? 'bg-white/20' : 'bg-white/5'}
-                            `}>
-                                <achievement.icon size={20} className="text-white" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <div className="flex items-center justify-between gap-2 mb-1">
-                                    <h4 className="text-sm font-black text-white truncate">
-                                        {achievement.title}
-                                    </h4>
-                                    {achievement.unlocked && (
-                                        <Medal size={14} className="text-yellow-500 flex-shrink-0" />
+                {achievements.map((achievement, i) => {
+                    const IconComponent = ICON_MAP[achievement.iconName] || Trophy;
+
+                    return (
+                        <motion.div
+                            key={achievement.id}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: i * 0.05 }}
+                            className={`
+                                p-4 rounded-xl border transition-all
+                                ${achievement.unlocked
+                                    ? `bg-gradient-to-br ${rarityColors[achievement.rarity]} ${rarityBorders[achievement.rarity]} shadow-lg`
+                                    : 'bg-white/5 border-white/10 grayscale opacity-60'
+                                }
+                                hover:scale-[1.02] cursor-pointer
+                            `}
+                        >
+                            <div className="flex items-start gap-3">
+                                <div className={`
+                                    w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0
+                                    ${achievement.unlocked ? 'bg-white/20' : 'bg-white/5'}
+                                `}>
+                                    <IconComponent size={20} className="text-white" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center justify-between gap-2 mb-1">
+                                        <h4 className="text-sm font-black text-white truncate">
+                                            {achievement.title}
+                                        </h4>
+                                        {achievement.unlocked && (
+                                            <Medal size={14} className="text-yellow-500 flex-shrink-0" />
+                                        )}
+                                    </div>
+                                    <p className="text-xs text-gray-400 mb-2 line-clamp-1">
+                                        {achievement.description}
+                                    </p>
+                                    {!achievement.unlocked && (
+                                        <div className="space-y-1">
+                                            <div className="flex items-center justify-between text-xs">
+                                                <span className="text-gray-500 font-bold">
+                                                    {achievement.progress}/{achievement.total}
+                                                </span>
+                                                <span className="text-primary font-black">
+                                                    +{achievement.xp} XP
+                                                </span>
+                                            </div>
+                                            <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-primary rounded-full transition-all"
+                                                    style={{ width: `${(achievement.progress / achievement.total) * 100}%` }}
+                                                />
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
-                                <p className="text-xs text-gray-400 mb-2 line-clamp-1">
-                                    {achievement.description}
-                                </p>
-                                {!achievement.unlocked && (
-                                    <div className="space-y-1">
-                                        <div className="flex items-center justify-between text-xs">
-                                            <span className="text-gray-500 font-bold">
-                                                {achievement.progress}/{achievement.total}
-                                            </span>
-                                            <span className="text-primary font-black">
-                                                +{achievement.xp} XP
-                                            </span>
-                                        </div>
-                                        <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                                            <div
-                                                className="h-full bg-primary rounded-full transition-all"
-                                                style={{ width: `${(achievement.progress / achievement.total) * 100}%` }}
-                                            />
-                                        </div>
-                                    </div>
-                                )}
                             </div>
-                        </div>
-                    </motion.div>
-                ))}
+                        </motion.div>
+                    );
+                })}
             </div>
 
             {/* Footer Stats */}
