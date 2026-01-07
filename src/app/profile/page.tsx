@@ -94,7 +94,7 @@ export default function ProfilePage() {
                             <div className="space-y-2">
                                 <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl mb-2">
                                     <Crown size={14} className="text-yellow-500" />
-                                    <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Platinum Elite Member</span>
+                                    <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Membro Verificado</span>
                                 </div>
                                 <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">
                                     {user.name.split(" ")[0]} <br />
@@ -208,7 +208,7 @@ export default function ProfilePage() {
                             { label: "Email de Recuperação", value: user.email, icon: Mail },
                             { label: "Terminal de Acesso", value: user.phone || "Não vinculado", icon: Phone },
                             { label: "Registro no Sistema", value: new Date(user.createdAt).toLocaleDateString('pt-BR'), icon: Calendar },
-                            { label: "Nível de Assinatura", value: "Premium Vitalício", icon: Crown, color: "text-yellow-500" }
+                            { label: "Status da Conta", value: "Membro Ativo", icon: Crown, color: "text-yellow-500" }
                         ].map((item, i) => (
                             <div key={i} className="space-y-3 group/item">
                                 <label className="text-[10px] font-black text-gray-600 uppercase tracking-[0.3em] ml-1">{item.label}</label>

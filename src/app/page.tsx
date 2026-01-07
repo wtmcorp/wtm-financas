@@ -66,7 +66,7 @@ export default function LandingPage() {
         },
         {
             icon: GraduationCap,
-            title: "Educação Premium",
+            title: "Educação Financeira",
             description: "Aprenda finanças de forma interativa com cursos, quizzes e certificados",
             color: "from-yellow-500 to-orange-600"
         },
@@ -142,18 +142,6 @@ export default function LandingPage() {
                             <InteractiveLogo size="lg" />
                         </div>
 
-                        {/* Badge */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.2 }}
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl"
-                        >
-                            <Sparkles size={18} className="text-primary animate-pulse" />
-                            <span className="text-sm font-black text-white uppercase tracking-wider">
-                                Intelligence OS v2.0
-                            </span>
-                        </motion.div>
 
                         {/* Main Title */}
                         <motion.h1
@@ -176,7 +164,7 @@ export default function LandingPage() {
                         >
                             Controle total do seu dinheiro com{" "}
                             <span className="text-primary font-black">Inteligência Artificial</span>,
-                            análises avançadas e educação premium. Tudo em um só lugar.
+                            análises avançadas e educação. Tudo em um só lugar.
                         </motion.p>
 
                         {/* CTA Buttons */}
@@ -247,7 +235,7 @@ export default function LandingPage() {
                             Recursos <span className="gradient-text">Revolucionários</span>
                         </h2>
                         <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                            Tudo que você precisa para dominar suas finanças em uma plataforma premium
+                            Tudo que você precisa para dominar suas finanças em uma plataforma completa
                         </p>
                     </motion.div>
 
@@ -332,87 +320,6 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Pricing Section */}
-            <section className="py-24 md:py-32 relative overflow-hidden">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-20">
-                        <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-6">
-                            Planos para sua <span className="gradient-text">Evolução</span>
-                        </h2>
-                        <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-medium">
-                            Escolha o nível de inteligência que você deseja aplicar ao seu dinheiro.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {[
-                            {
-                                name: "Iniciante",
-                                price: "Grátis",
-                                desc: "Para quem está começando a organizar a vida.",
-                                features: ["Controle de Gastos", "Academy Básico", "Calculadoras Simples", "1 Conta"],
-                                color: "border-white/5",
-                                button: "Começar Agora"
-                            },
-                            {
-                                name: "Pro",
-                                price: "R$ 0",
-                                desc: "Para investidores que buscam alta performance.",
-                                features: ["IA Financial Advisor", "Academy Avançado", "Simulador de Investimentos", "Multi-contas", "Radar de Tendências"],
-                                color: "border-primary/50 bg-primary/5",
-                                button: "Seja Pro",
-                                popular: true
-                            },
-                            {
-                                name: "Family",
-                                price: "R$ 0",
-                                desc: "O ecossistema completo para toda a família.",
-                                features: ["Tudo do Pro", "Modo Família", "Metas Compartilhadas", "Educação para Filhos", "Suporte VIP"],
-                                color: "border-white/5",
-                                button: "Unir Família"
-                            }
-                        ].map((plan, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.1 }}
-                                className={`glass-panel p-10 flex flex-col border-2 ${plan.color} relative group`}
-                            >
-                                {plan.popular && (
-                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 bg-primary text-black text-[10px] font-black uppercase tracking-widest rounded-full">
-                                        Mais Popular
-                                    </div>
-                                )}
-                                <div className="mb-8">
-                                    <h3 className="text-2xl font-black text-white mb-2 uppercase tracking-tight">{plan.name}</h3>
-                                    <div className="flex items-baseline gap-1">
-                                        <span className="text-4xl font-black text-white">{plan.price}</span>
-                                        {plan.price !== "Grátis" && <span className="text-gray-500 text-sm">/mês</span>}
-                                    </div>
-                                    <p className="text-gray-500 text-sm mt-4 font-medium">{plan.desc}</p>
-                                </div>
-                                <div className="space-y-4 mb-10 flex-1">
-                                    {plan.features.map((feature, j) => (
-                                        <div key={j} className="flex items-center gap-3">
-                                            <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
-                                                <CheckCircle2 size={12} className="text-primary" />
-                                            </div>
-                                            <span className="text-sm text-gray-400 font-medium">{feature}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                                <button className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${plan.popular
-                                    ? 'bg-primary text-black hover:bg-white shadow-xl shadow-primary/20'
-                                    : 'bg-white/5 text-white hover:bg-white/10 border border-white/10'
-                                    }`}>
-                                    {plan.button}
-                                </button>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
 
             {/* Final CTA */}
             <section className="relative py-32 px-4 md:px-8">
