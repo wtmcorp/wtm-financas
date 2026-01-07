@@ -148,7 +148,7 @@ export default function GoalsPage() {
                 {/* Header Section */}
                 <motion.header
                     variants={itemVariants}
-                    className="relative overflow-hidden p-10 md:p-20 rounded-[3.5rem] bg-gradient-to-br from-card via-background to-card border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
+                    className="relative overflow-hidden p-10 md:p-20 rounded-[3.5rem] bg-gradient-to-br from-card via-background to-card border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
                 >
                     <div className="absolute top-0 right-0 hidden md:block opacity-5 -mr-20 -mt-20">
                         <Target size={400} className="text-primary rotate-12" />

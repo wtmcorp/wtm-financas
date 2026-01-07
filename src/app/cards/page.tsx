@@ -87,7 +87,7 @@ export default function CardsPage() {
                 <motion.header
                     initial={{ y: -20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="relative overflow-hidden p-6 md:p-20 rounded-[2.5rem] md:rounded-[3.5rem] bg-gradient-to-br from-card via-background to-card border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
+                    className="relative overflow-hidden p-6 md:p-20 rounded-[2.5rem] md:rounded-[3.5rem] bg-gradient-to-br from-card via-background to-card border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
                 >
                     <div className="absolute top-0 right-0 hidden md:block opacity-5 -mr-20 -mt-20">
                         <Trophy size={400} className="text-primary rotate-12" />

@@ -151,7 +151,7 @@ const StarfieldBackground = () => {
             ref={containerRef}
             className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none"
             style={{
-                background: "radial-gradient(circle at center, #1e1e35 0%, #0a0a0f 100%)", // Lighter deep blue to dark grey
+                background: "radial-gradient(circle at center, #232342 0%, #0f0f18 100%)", // Matches new --background
             }}
         >
             <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />

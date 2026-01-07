@@ -84,7 +84,7 @@ export default function InvestPage() {
                 {/* Simulation Control Panel */}
                 <motion.div
                     variants={itemVariants}
-                    className="glass-panel p-6 md:p-12 bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e] relative overflow-hidden group"
+                    className="glass-panel p-6 md:p-12 bg-gradient-to-r from-card to-background relative overflow-hidden group"
                 >
                     <div className="absolute top-0 right-0 p-8 md:p-12 opacity-5 group-hover:opacity-10 transition-opacity">
                         <DollarSign size={100} className="md:w-[150px] md:h-[150px]" />
