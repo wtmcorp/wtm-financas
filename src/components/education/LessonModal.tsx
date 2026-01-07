@@ -272,15 +272,23 @@ export default function LessonModal({
                                         <motion.div
                                             initial={{ opacity: 0, scale: 0.95 }}
                                             animate={{ opacity: 1, scale: 1 }}
-                                            className="mt-8 p-6 bg-green-500/10 border border-green-500/20 rounded-2xl text-green-400 font-black flex items-center gap-4"
+                                            className="mt-8 p-6 bg-green-500/10 border border-green-500/20 rounded-2xl text-green-400 font-black"
                                         >
-                                            <div className="p-2 bg-green-500/20 rounded-full">
-                                                <CheckCircle2 size={24} />
+                                            <div className="flex items-center gap-4 mb-4">
+                                                <div className="p-2 bg-green-500/20 rounded-full">
+                                                    <CheckCircle2 size={24} />
+                                                </div>
+                                                <div>
+                                                    <div className="text-lg">Excelente! Resposta correta.</div>
+                                                    <div className="text-sm opacity-60 font-bold">Você está dominando o conteúdo! 🎉</div>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <div className="text-lg">Excelente! Resposta correta.</div>
-                                                <div className="text-sm opacity-60 font-bold">Você está dominando o conteúdo! 🎉</div>
-                                            </div>
+                                            <button
+                                                onClick={handleNextLesson}
+                                                className="w-full md:w-auto px-8 py-4 bg-green-500 text-black font-black rounded-xl hover:bg-green-400 transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs shadow-lg shadow-green-500/20"
+                                            >
+                                                {activeLessonIndex === lessons.length - 1 ? "Concluir Módulo" : "Próxima Aula"} <ChevronRight size={16} />
+                                            </button>
                                         </motion.div>
                                     )}
 
@@ -303,7 +311,20 @@ export default function LessonModal({
                                     )}
                                 </div>
                             )}
+
+                            {/* Next Lesson Button for Articles (Non-Quiz) */}
+                            {!activeLesson.quiz && (
+                                <div className="pt-8 flex justify-end">
+                                    <button
+                                        onClick={handleNextLesson}
+                                        className="w-full md:w-auto px-8 py-4 bg-primary text-black font-black rounded-2xl hover:bg-white transition-all flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(167,139,250,0.3)] uppercase tracking-widest text-xs"
+                                    >
+                                        {activeLessonIndex === lessons.length - 1 ? "Concluir Módulo" : "Próxima Aula"} <ChevronRight size={16} />
+                                    </button>
+                                </div>
+                            )}
                         </div>
+
                     </div>
 
                     {/* Footer Actions */}

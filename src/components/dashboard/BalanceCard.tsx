@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from "@/components/ui/Card";
+
 import { Eye, EyeOff, Edit2, Check, Wallet, TrendingUp, ArrowUpRight, ArrowDownRight, Sparkles, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";

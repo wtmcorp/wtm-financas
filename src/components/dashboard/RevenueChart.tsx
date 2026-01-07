@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from "@/components/ui/Card";
+
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell, YAxis, CartesianGrid } from "recharts";
 import { ChevronLeft, ChevronRight, BarChart3, TrendingUp, Calendar } from "lucide-react";
 import { useState, useMemo } from "react";

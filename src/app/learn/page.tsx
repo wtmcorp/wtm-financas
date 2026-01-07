@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import ModuleCard from "@/components/education/ModuleCard";
 import LessonModal from "@/components/education/LessonModal";
 import { GraduationCap, BookOpen, TrendingUp, ShieldCheck, Coins, Globe, BrainCircuit, Plane, Sparkles, ArrowUpRight, Target, Award, ChevronRight } from "lucide-react";
@@ -16,8 +16,10 @@ export default function LearnPage() {
         loading: progressLoading,
         markLessonComplete,
         canAccessLesson,
+        getLessonStatus,
         getModuleProgress,
-        getCompletedLessonsCount
+        getCompletedLessonsCount,
+        getTotalCompletedLessonsCount
     } = useLearnProgress();
 
     const containerVariants = {
@@ -1074,7 +1076,31 @@ export default function LearnPage() {
         }
     ];
 
-    const activeModuleData = modules.find(m => m.id === activeModule);
+    const modulesWithProgress = useMemo(() => {
+        return modules.map(module => {
+            const moduleProgress = getModuleProgress(module.id, module.totalLessons);
+            const completedCount = getCompletedLessonsCount(module.id);
+
+            const lessonsWithStatus = module.lessons.map((lesson, index) => ({
+                ...lesson,
+                completed: getLessonStatus(module.id, lesson.id) === "completed",
+                isLocked: !canAccessLesson(module.id, index)
+            }));
+
+            return {
+                ...module,
+                progress: moduleProgress,
+                completedLessons: completedCount,
+                lessons: lessonsWithStatus
+            };
+        });
+    }, [modules, getModuleProgress, getCompletedLessonsCount, getLessonStatus, canAccessLesson]);
+
+    const activeModuleData = modulesWithProgress.find(m => m.id === activeModule);
+
+    const totalCompletedLessons = getTotalCompletedLessonsCount();
+    const totalLessonsCount = modules.reduce((acc, m) => acc + m.totalLessons, 0);
+    const totalProgressPercentage = totalLessonsCount > 0 ? Math.round((totalCompletedLessons / totalLessonsCount) * 100) : 0;
 
     return (
         <motion.div
@@ -1133,7 +1159,7 @@ export default function LearnPage() {
 
                 {/* Modules Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {modules.map((module) => (
+                    {modulesWithProgress.map((module) => (
                         <motion.div
                             key={module.id}
                             variants={itemVariants}
@@ -1142,8 +1168,8 @@ export default function LearnPage() {
                         >
                             <ModuleCard
                                 {...module}
-                                progress={getModuleProgress(module.id, module.totalLessons)}
-                                completedLessons={getCompletedLessonsCount(module.id)}
+                                progress={module.progress}
+                                completedLessons={module.completedLessons}
                             />
                         </motion.div>
                     ))}
@@ -1162,12 +1188,12 @@ export default function LearnPage() {
                         <div className="flex-1 w-full max-w-xl space-y-3 md:space-y-4">
                             <div className="flex justify-between items-end">
                                 <span className="text-[8px] md:text-[10px] font-black text-gray-500 uppercase tracking-widest">Progresso Geral</span>
-                                <span className="text-xl md:text-2xl font-black text-primary tracking-tighter">25%</span>
+                                <span className="text-xl md:text-2xl font-black text-primary tracking-tighter">{totalProgressPercentage}%</span>
                             </div>
                             <div className="h-3 md:h-4 bg-white/5 rounded-full overflow-hidden border border-white/5 p-0.5 md:p-1">
                                 <motion.div
                                     initial={{ width: 0 }}
-                                    animate={{ width: "25%" }}
+                                    animate={{ width: `${totalProgressPercentage}%` }}
                                     transition={{ duration: 2, ease: [0.23, 1, 0.32, 1] }}
                                     className="h-full bg-gradient-to-r from-primary via-purple-500 to-blue-600 rounded-full shadow-[0_0_20px_rgba(167,139,250,0.4)]"
                                 />
