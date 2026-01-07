@@ -27,27 +27,28 @@ export default function InteractiveLogo({ size = "md" }: InteractiveLogoProps) {
     // Easter egg timer
     useEffect(() => {
         let interval: NodeJS.Timeout;
-        if (isHovering) {
+        if (isHovering && !showEasterEgg) {
             interval = setInterval(() => {
-                setHoverDuration((prev) => {
-                    if (prev >= 3000) {
-                        setShowEasterEgg(true);
-                        controls.start({
-                            rotate: [0, 360, 720],
-                            scale: [1, 1.3, 1],
-                            transition: { duration: 1.5, ease: "easeInOut" }
-                        });
-                        return 0;
-                    }
-                    return prev + 100;
-                });
+                setHoverDuration((prev) => prev + 100);
             }, 100);
         } else {
             setHoverDuration(0);
-            setShowEasterEgg(false);
         }
         return () => clearInterval(interval);
-    }, [isHovering, controls]);
+    }, [isHovering, showEasterEgg]);
+
+    // Trigger Easter Egg
+    useEffect(() => {
+        if (hoverDuration >= 3000) {
+            setShowEasterEgg(true);
+            setHoverDuration(0);
+            controls.start({
+                rotate: [0, 360, 720],
+                scale: [1, 1.3, 1],
+                transition: { duration: 1.5, ease: "easeInOut" }
+            }).then(() => setShowEasterEgg(false));
+        }
+    }, [hoverDuration, controls]);
 
     const handleClick = () => {
         router.push("/");

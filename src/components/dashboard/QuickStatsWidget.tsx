@@ -16,7 +16,8 @@ export default function QuickStatsWidget() {
 
     useEffect(() => {
         // Calculate stats from user data and transactions
-        const balance = parseFloat(localStorage.getItem("wtm_balance") || "0");
+        const storedBalance = localStorage.getItem("wtm_balance");
+        const balance = storedBalance ? parseFloat(storedBalance) : 0;
         const income = user?.income || 0;
 
         // Mock calculations (replace with real data)
@@ -25,8 +26,8 @@ export default function QuickStatsWidget() {
         const savingsRate = income > 0 ? (savings / income) * 100 : 0;
 
         setStats({
-            netWorth: balance,
-            savingsRate: savingsRate,
+            netWorth: isNaN(balance) ? 0 : balance,
+            savingsRate: isNaN(savingsRate) ? 0 : savingsRate,
             monthlyGrowth: 12.5, // Mock data
             investmentROI: 8.3 // Mock data
         });

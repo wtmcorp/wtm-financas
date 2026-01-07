@@ -11,7 +11,7 @@ import WhatsAppButton from "@/components/contact/WhatsAppButton";
 import BugReportButton from "@/components/feedback/BugReportButton";
 import Footer from "./Footer";
 
-const publicPaths = ["/login", "/register"];
+const publicPaths = ["/", "/login", "/register"];
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
