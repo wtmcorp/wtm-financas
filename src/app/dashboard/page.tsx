@@ -140,7 +140,7 @@ export default function DashboardPage() {
 
                 {/* Quick Stats Overview */}
                 <motion.div variants={itemVariants}>
-                    {/* <QuickStatsWidget /> */}
+                    <QuickStatsWidget />
                 </motion.div>
 
 
@@ -150,10 +150,10 @@ export default function DashboardPage() {
                     {/* Left Section: Balance & Quick Actions (4 cols) */}
                     <div className="lg:col-span-4 space-y-12">
                         <motion.div variants={itemVariants}>
-                            {/* <BalanceCard /> */}
+                            <BalanceCard />
                         </motion.div>
                         <motion.div variants={itemVariants}>
-                            {/* <QuickActions /> */}
+                            <QuickActions />
                         </motion.div>
                     </div>
 
@@ -236,13 +236,13 @@ export default function DashboardPage() {
                     {/* Right Section: AI & Health (3 cols) */}
                     <div className="lg:col-span-3 space-y-12">
                         <motion.div variants={itemVariants}>
-                            {/* <HealthScore /> */}
+                            <HealthScore />
                         </motion.div>
                         <motion.div variants={itemVariants}>
-                            {/* <AiInsights /> */}
+                            <AiInsights />
                         </motion.div>
                         <motion.div variants={itemVariants}>
-                            {/* <GoalsWidget /> */}
+                            <GoalsWidget />
                         </motion.div>
                     </div>
                 </div>
@@ -269,22 +269,22 @@ export default function DashboardPage() {
                                     Ver Todas
                                 </button>
                             </div>
-                            {/* <TransactionList limit={5} /> */}
+                            <TransactionList limit={5} />
                         </motion.div>
                         <motion.div variants={itemVariants}>
-                            {/* <NewsSection /> */}
+                            <NewsSection />
                         </motion.div>
                     </div>
 
                     <div className="lg:col-span-4 space-y-12">
                         <motion.div variants={itemVariants}>
-                            {/* <AchievementsWidget /> */}
+                            <AchievementsWidget />
                         </motion.div>
                         <motion.div variants={itemVariants}>
-                            {/* <FinancialCalendar /> */}
+                            <FinancialCalendar />
                         </motion.div>
                         <motion.div variants={itemVariants}>
-                            {/* <MonthlyClosingCard /> */}
+                            <MonthlyClosingCard />
                         </motion.div>
                     </div>
                 </div>
