@@ -106,7 +106,7 @@ export default function InvestPage() {
                                     type="number"
                                     value={simulationAmount}
                                     onChange={(e) => setSimulationAmount(e.target.value)}
-                                    className="w-full bg-black/40 border border-white/10 rounded-2xl md:rounded-[2rem] pl-16 md:pl-20 pr-6 md:pr-8 py-6 md:py-8 text-white font-black text-2xl md:text-4xl outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-gray-800 backdrop-blur-xl"
+                                    className="w-full bg-card/40 border border-white/10 rounded-2xl md:rounded-[2rem] pl-16 md:pl-20 pr-6 md:pr-8 py-6 md:py-8 text-white font-black text-2xl md:text-4xl outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-gray-800 backdrop-blur-xl"
                                     placeholder="0,00"
                                 />
                             </div>

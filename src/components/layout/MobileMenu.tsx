@@ -99,7 +99,7 @@ export default function MobileMenu() {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: '#000000',
+                        backgroundColor: 'var(--background)',
                         zIndex: 99999,
                         display: 'flex',
                         flexDirection: 'column',
@@ -109,11 +109,11 @@ export default function MobileMenu() {
                     }}
                 >
                     {/* Animated Background */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-violet-950/20 via-black to-purple-950/20" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-violet-950/20 via-background to-purple-950/20" />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(124,58,237,0.1),transparent_50%)]" />
 
                     {/* Header Area */}
-                    <div className="relative px-6 py-6 flex items-center justify-between border-b border-white/10 bg-black/50 backdrop-blur-xl shrink-0">
+                    <div className="relative px-6 py-6 flex items-center justify-between border-b border-white/10 bg-card/50 backdrop-blur-xl shrink-0">
                         <div className="flex items-center gap-3">
                             <InteractiveLogo size="md" />
                             <div className="flex flex-col">
@@ -224,7 +224,7 @@ export default function MobileMenu() {
                     </div>
 
                     {/* Footer Area */}
-                    <div className="relative p-6 border-t border-white/10 bg-black/50 backdrop-blur-xl shrink-0">
+                    <div className="relative p-6 border-t border-white/10 bg-card/50 backdrop-blur-xl shrink-0">
                         {user ? (
                             <button
                                 onClick={() => {

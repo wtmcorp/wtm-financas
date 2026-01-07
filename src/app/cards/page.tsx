@@ -87,7 +87,7 @@ export default function CardsPage() {
                 <motion.header
                     initial={{ y: -20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="relative overflow-hidden p-6 md:p-20 rounded-[2.5rem] md:rounded-[3.5rem] bg-gradient-to-br from-[#0f0f13] via-[#1a1a2e] to-[#0f0f13] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
+                    className="relative overflow-hidden p-6 md:p-20 rounded-[2.5rem] md:rounded-[3.5rem] bg-gradient-to-br from-card via-background to-card border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
                 >
                     <div className="absolute top-0 right-0 hidden md:block opacity-5 -mr-20 -mt-20">
                         <Trophy size={400} className="text-primary rotate-12" />
@@ -126,7 +126,7 @@ export default function CardsPage() {
                                 placeholder="Buscar cartões..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="relative w-full pl-14 pr-6 py-4 md:py-5 bg-black/40 border border-white/10 rounded-2xl md:rounded-[1.5rem] text-white text-sm md:text-lg focus:outline-none focus:border-primary/50 focus:bg-black/60 transition-all placeholder:text-gray-700 backdrop-blur-xl"
+                                className="relative w-full pl-14 pr-6 py-4 md:py-5 bg-card/40 border border-white/10 rounded-2xl md:rounded-[1.5rem] text-white text-sm md:text-lg focus:outline-none focus:border-primary/50 focus:bg-card/60 transition-all placeholder:text-gray-700 backdrop-blur-xl"
                             />
                         </div>
                     </div>
@@ -230,19 +230,19 @@ export default function CardsPage() {
                                                     type="number"
                                                     value={simulationAmount}
                                                     onChange={(e) => setSimulationAmount(Number(e.target.value))}
-                                                    className="w-full bg-black/40 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white font-black text-xl outline-none focus:border-yellow-500/50 transition-all"
+                                                    className="w-full bg-card/40 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white font-black text-xl outline-none focus:border-yellow-500/50 transition-all"
                                                 />
                                             </div>
                                         </div>
 
                                         <div className="flex-1 w-full grid grid-cols-2 gap-4">
-                                            <div className="p-4 bg-black/40 rounded-2xl border border-white/5">
+                                            <div className="p-4 bg-card/40 rounded-2xl border border-white/5">
                                                 <p className="text-[10px] text-gray-500 uppercase tracking-widest font-black">Em 1 Mês (100% CDI)</p>
                                                 <p className="text-xl font-black text-green-400 mt-1">
                                                     + R$ {(simulationAmount * 0.0095).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                                 </p>
                                             </div>
-                                            <div className="p-4 bg-black/40 rounded-2xl border border-white/5">
+                                            <div className="p-4 bg-card/40 rounded-2xl border border-white/5">
                                                 <p className="text-[10px] text-gray-500 uppercase tracking-widest font-black">Em 1 Ano (100% CDI)</p>
                                                 <p className="text-xl font-black text-green-400 mt-1">
                                                     + R$ {(simulationAmount * 0.12).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -286,13 +286,13 @@ export default function CardsPage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-2xl"
+                            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/95 backdrop-blur-2xl"
                         >
                             <motion.div
                                 initial={{ scale: 0.9, y: 20 }}
                                 animate={{ scale: 1, y: 0 }}
                                 exit={{ scale: 0.9, y: 20 }}
-                                className="bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] md:rounded-[3rem] p-6 md:p-16 max-w-3xl w-full relative overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.8)]"
+                                className="bg-card border border-white/10 rounded-[2.5rem] md:rounded-[3rem] p-6 md:p-16 max-w-3xl w-full relative overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.8)]"
                             >
                                 <button
                                     onClick={() => { setShowWizard(false); setWizardStep(0); }}
@@ -421,13 +421,13 @@ export default function CardsPage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-2xl overflow-y-auto"
+                            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/95 backdrop-blur-2xl overflow-y-auto"
                         >
                             <motion.div
                                 initial={{ scale: 0.9, y: 20 }}
                                 animate={{ scale: 1, y: 0 }}
                                 exit={{ scale: 0.9, y: 20 }}
-                                className="bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] md:rounded-[3rem] max-w-5xl w-full relative overflow-hidden flex flex-col md:flex-row shadow-[0_50px_100px_rgba(0,0,0,0.8)] my-8"
+                                className="bg-card border border-white/10 rounded-[2.5rem] md:rounded-[3rem] max-w-5xl w-full relative overflow-hidden flex flex-col md:flex-row shadow-[0_50px_100px_rgba(0,0,0,0.8)] my-8"
                             >
                                 <button
                                     onClick={() => setSelectedCard(null)}

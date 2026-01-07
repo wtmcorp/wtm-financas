@@ -39,16 +39,16 @@ export default function MarketTicker() {
 
     if (loading && !data) {
         return (
-            <div className="w-full bg-black border-t border-white/10 h-10 flex items-center justify-center">
+            <div className="w-full bg-background border-t border-white/10 h-10 flex items-center justify-center">
                 <Loader2 size={14} className="animate-spin text-violet-500" />
             </div>
         );
     }
 
     return (
-        <div className="w-full bg-black border-t border-white/10 h-10 flex items-center relative overflow-hidden z-30">
+        <div className="w-full bg-background border-t border-white/10 h-10 flex items-center relative overflow-hidden z-30">
             {/* Label Pill with Gradient Fade */}
-            <div className="absolute left-0 z-20 bg-gradient-to-r from-black via-black/95 to-transparent pr-12 md:pr-20 h-full flex items-center">
+            <div className="absolute left-0 z-20 bg-gradient-to-r from-background via-background/95 to-transparent pr-12 md:pr-20 h-full flex items-center">
                 <div className="px-2 py-0.5 md:px-3 md:py-1 rounded-full border border-white/20 bg-white/[0.03] backdrop-blur-md flex items-center gap-1.5 md:gap-2 ml-2 md:ml-4">
                     <div className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-primary animate-pulse" />
                     <span className="text-[7px] md:text-[9px] font-black text-primary tracking-widest uppercase whitespace-nowrap">
@@ -58,7 +58,7 @@ export default function MarketTicker() {
             </div>
 
             {/* Right Gradient Fade */}
-            <div className="absolute right-0 z-20 w-16 md:w-24 h-full bg-gradient-to-l from-black to-transparent" />
+            <div className="absolute right-0 z-20 w-16 md:w-24 h-full bg-gradient-to-l from-background to-transparent" />
 
             {/* Scrolling Content */}
             <div className="flex-1 overflow-hidden h-full flex items-center ml-[100px] md:ml-[180px]">

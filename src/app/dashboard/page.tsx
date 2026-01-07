@@ -58,7 +58,7 @@ export default function DashboardPage() {
 
     if (!mounted || loading || !user) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-black">
+            <div className="min-h-screen flex items-center justify-center bg-background">
                 <Loader2 className="w-10 h-10 text-primary animate-spin" />
             </div>
         );
@@ -83,7 +83,7 @@ export default function DashboardPage() {
     const budget = (user as any)?.budget || { needs: 0, wants: 0, savings: 0 };
 
     return (
-        <div className="min-h-screen bg-black text-white p-4 md:p-8 pb-32 overflow-x-hidden">
+        <div className="min-h-screen bg-background text-white p-4 md:p-8 pb-32 overflow-x-hidden">
             {/* Background Ambient */}
             <div className="fixed inset-0 z-0 pointer-events-none">
                 <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />

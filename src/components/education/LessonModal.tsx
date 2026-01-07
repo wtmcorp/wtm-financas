@@ -110,11 +110,11 @@ export default function LessonModal({
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-4 bg-black/95 backdrop-blur-2xl animate-in fade-in duration-300">
-            <div className="bg-[#0f0f13] border-t md:border border-white/10 rounded-t-3xl md:rounded-3xl w-full max-w-7xl h-full md:h-[90vh] flex flex-col md:flex-row overflow-hidden shadow-2xl relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-4 bg-background/95 backdrop-blur-2xl animate-in fade-in duration-300">
+            <div className="bg-card border-t md:border border-white/10 rounded-t-3xl md:rounded-3xl w-full max-w-7xl h-full md:h-[90vh] flex flex-col md:flex-row overflow-hidden shadow-2xl relative">
 
                 {/* Header - Mobile Only */}
-                <div className="md:hidden flex items-center justify-between p-4 border-b border-white/10 bg-black/20">
+                <div className="md:hidden flex items-center justify-between p-4 border-b border-white/10 bg-card/20">
                     <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-gray-400 hover:text-white">
                         <Menu size={24} />
                     </button>
@@ -131,7 +131,7 @@ export default function LessonModal({
                             initial={{ x: -320 }}
                             animate={{ x: 0 }}
                             exit={{ x: -320 }}
-                            className={`w-full md:w-80 border-r border-white/10 bg-black/40 flex flex-col absolute md:relative inset-0 z-40 md:z-auto ${isMobileMenuOpen ? "flex" : "hidden md:flex"}`}
+                            className={`w-full md:w-80 border-r border-white/10 bg-card/40 flex flex-col absolute md:relative inset-0 z-40 md:z-auto ${isMobileMenuOpen ? "flex" : "hidden md:flex"}`}
                         >
                             <div className="p-6 border-b border-white/10 flex justify-between items-center">
                                 <div>
@@ -188,7 +188,7 @@ export default function LessonModal({
                 </AnimatePresence>
 
                 {/* Main Content Area */}
-                <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0a0a0c]">
+                <div className="flex-1 flex flex-col h-full overflow-hidden bg-background">
                     {/* Desktop Close Button */}
                     <button
                         onClick={onClose}
@@ -240,7 +240,7 @@ export default function LessonModal({
                                                 }}
                                                 className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 ${quizSelected === idx
                                                     ? "bg-primary/20 border-primary text-white shadow-[0_0_30px_rgba(167,139,250,0.2)]"
-                                                    : "bg-black/40 border-white/5 text-gray-500 hover:border-white/20 hover:text-gray-300"
+                                                    : "bg-card/40 border-white/5 text-gray-500 hover:border-white/20 hover:text-gray-300"
                                                     } ${quizResult === 'correct' && idx === activeLesson.quiz!.correctAnswer ? "bg-green-500/20 border-green-500 text-green-400" : ""}
                                                   ${quizResult === 'incorrect' && idx === quizSelected ? "bg-red-500/20 border-red-500 text-red-400" : ""}
                                                 `}
@@ -328,7 +328,7 @@ export default function LessonModal({
                     </div>
 
                     {/* Footer Actions */}
-                    <div className="p-6 md:p-8 border-t border-white/10 bg-black/60 backdrop-blur-md flex justify-between items-center">
+                    <div className="p-6 md:p-8 border-t border-white/10 bg-card/60 backdrop-blur-md flex justify-between items-center">
                         <button
                             onClick={handlePrevLesson}
                             disabled={activeLessonIndex === 0}

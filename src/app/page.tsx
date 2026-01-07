@@ -39,7 +39,7 @@ export default function LandingPage() {
 
     if (!mounted || loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-black">
+            <div className="min-h-screen flex items-center justify-center bg-background">
                 <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin shadow-[0_0_30px_rgba(167,139,250,0.3)]"></div>
             </div>
         );
@@ -116,7 +116,7 @@ export default function LandingPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-black overflow-x-hidden">
+        <div className="min-h-screen bg-background overflow-x-hidden">
             {/* Hero Section */}
             <motion.section
                 style={{ opacity, scale }}

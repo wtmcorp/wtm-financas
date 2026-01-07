@@ -33,7 +33,7 @@ export default function ProfilePage() {
 
     if (loading || !user) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-black">
+            <div className="min-h-screen flex items-center justify-center bg-background">
                 <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin shadow-[0_0_30px_rgba(167,139,250,0.3)]"></div>
             </div>
         );
@@ -74,7 +74,7 @@ export default function ProfilePage() {
                     <div className="relative z-10 flex flex-col md:flex-row items-center gap-12">
                         <div className="relative group/avatar">
                             <div className="w-48 h-48 bg-gradient-to-br from-primary via-purple-500 to-blue-600 rounded-[3rem] p-1 shadow-2xl shadow-primary/20 group-hover/avatar:rotate-6 transition-transform duration-700">
-                                <div className="w-full h-full bg-[#0f0f13] rounded-[2.8rem] flex items-center justify-center overflow-hidden relative">
+                                <div className="w-full h-full bg-card rounded-[2.8rem] flex items-center justify-center overflow-hidden relative">
                                     <span className="text-7xl font-black text-white">{user.name.charAt(0)}</span>
                                     <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover/avatar:opacity-100 transition-opacity" />
                                 </div>
@@ -83,7 +83,7 @@ export default function ProfilePage() {
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
                                 transition={{ delay: 0.5, type: "spring" }}
-                                className="absolute -bottom-4 -right-4 bg-[#0f0f13] border-2 border-primary px-5 py-2 rounded-2xl flex items-center gap-3 shadow-2xl"
+                                className="absolute -bottom-4 -right-4 bg-card border-2 border-primary px-5 py-2 rounded-2xl flex items-center gap-3 shadow-2xl"
                             >
                                 <Trophy size={18} className="text-yellow-500" />
                                 <span className="text-lg font-black text-white">Lvl {level}</span>
@@ -212,7 +212,7 @@ export default function ProfilePage() {
                         ].map((item, i) => (
                             <div key={i} className="space-y-3 group/item">
                                 <label className="text-[10px] font-black text-gray-600 uppercase tracking-[0.3em] ml-1">{item.label}</label>
-                                <div className="p-6 bg-black/40 border border-white/10 rounded-2xl text-white font-black text-sm flex items-center justify-between group-hover/item:border-primary/30 transition-all backdrop-blur-xl">
+                                <div className="p-6 bg-card/40 border border-white/10 rounded-2xl text-white font-black text-sm flex items-center justify-between group-hover/item:border-primary/30 transition-all backdrop-blur-xl">
                                     <div className="flex items-center gap-4">
                                         <item.icon size={20} className={`${item.color || 'text-gray-500'} group-hover/item:text-primary transition-colors`} />
                                         <span className="tracking-tight">{item.value}</span>

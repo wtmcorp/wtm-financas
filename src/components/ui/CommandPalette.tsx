@@ -57,7 +57,7 @@ export default function CommandPalette() {
             {/* Search Trigger Button (Desktop) */}
             <button
                 onClick={togglePalette}
-                className="hidden md:flex items-center justify-between bg-white/[0.03] border border-white/10 rounded-xl px-3 py-2 w-48 group hover:border-violet-500/50 hover:bg-black transition-all"
+                className="hidden md:flex items-center justify-between bg-white/[0.03] border border-white/10 rounded-xl px-3 py-2 w-48 group hover:border-violet-500/50 hover:bg-card transition-all"
             >
                 <div className="flex items-center gap-2">
                     <Search className="text-gray-500 group-hover:text-violet-400 transition-colors" size={14} />
@@ -77,14 +77,14 @@ export default function CommandPalette() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsOpen(false)}
-                            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+                            className="absolute inset-0 bg-background/80 backdrop-blur-md"
                         />
 
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95, y: -20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                            className="relative w-full max-w-2xl bg-[#0f0f13] border border-white/10 rounded-[2rem] shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden"
+                            className="relative w-full max-w-2xl bg-card border border-white/10 rounded-[2rem] shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden"
                         >
                             <div className="p-6 border-b border-white/10 flex items-center gap-4">
                                 <Search className="text-primary" size={24} />
@@ -136,7 +136,7 @@ export default function CommandPalette() {
                                 )}
                             </div>
 
-                            <div className="p-4 border-t border-white/10 bg-black/40 flex items-center justify-between">
+                            <div className="p-4 border-t border-white/10 bg-card/40 flex items-center justify-between">
                                 <div className="flex items-center gap-6">
                                     <div className="flex items-center gap-2 text-[10px] font-black text-gray-600 uppercase tracking-widest">
                                         <kbd className="px-1.5 py-0.5 bg-white/5 rounded border border-white/10 text-gray-400">ESC</kbd> Fechar

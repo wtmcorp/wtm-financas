@@ -148,7 +148,7 @@ export default function GoalsPage() {
                 {/* Header Section */}
                 <motion.header
                     variants={itemVariants}
-                    className="relative overflow-hidden p-10 md:p-20 rounded-[3.5rem] bg-gradient-to-br from-[#0f0f13] via-[#1a1a2e] to-[#0f0f13] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
+                    className="relative overflow-hidden p-10 md:p-20 rounded-[3.5rem] bg-gradient-to-br from-card via-background to-card border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
                 >
                     <div className="absolute top-0 right-0 hidden md:block opacity-5 -mr-20 -mt-20">
                         <Target size={400} className="text-primary rotate-12" />
@@ -175,7 +175,7 @@ export default function GoalsPage() {
                 {/* Control Panel */}
                 <motion.div
                     variants={itemVariants}
-                    className="glass-panel p-10 bg-gradient-to-br from-[#0f0f13] to-[#1a1a2e] relative overflow-hidden group"
+                    className="glass-panel p-10 bg-gradient-to-br from-card to-background relative overflow-hidden group"
                 >
                     <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity">
                         <Target size={150} />
@@ -206,7 +206,7 @@ export default function GoalsPage() {
                                     type="number"
                                     value={transactionAmount}
                                     onChange={(e) => setTransactionAmount(e.target.value)}
-                                    className="w-full bg-black/40 border border-white/10 rounded-[2rem] pl-20 pr-8 py-8 text-white font-black text-4xl outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all backdrop-blur-xl"
+                                    className="w-full bg-card/40 border border-white/10 rounded-[2rem] pl-20 pr-8 py-8 text-white font-black text-4xl outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all backdrop-blur-xl"
                                     placeholder="0,00"
                                 />
                             </div>

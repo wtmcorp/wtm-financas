@@ -108,7 +108,7 @@ export default function BalanceCard() {
                                     value={tempBalance}
                                     onChange={(e) => setTempBalance(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleSave()}
-                                    className="bg-black/60 border-2 border-primary/50 rounded-[1.5rem] md:rounded-[2rem] px-6 py-4 md:px-8 md:py-6 text-white text-3xl md:text-6xl font-black outline-none focus:border-primary w-full shadow-2xl backdrop-blur-xl"
+                                    className="bg-card/60 border-2 border-primary/50 rounded-[1.5rem] md:rounded-[2rem] px-6 py-4 md:px-8 md:py-6 text-white text-3xl md:text-6xl font-black outline-none focus:border-primary w-full shadow-2xl backdrop-blur-xl"
                                     autoFocus
                                 />
                             </motion.div>

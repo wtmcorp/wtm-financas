@@ -151,7 +151,7 @@ const StarfieldBackground = () => {
             ref={containerRef}
             className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none"
             style={{
-                background: "radial-gradient(circle at center, #1a1a2e 0%, #000000 100%)", // Deep dark blue to black
+                background: "radial-gradient(circle at center, #1e1e35 0%, #0a0a0f 100%)", // Lighter deep blue to dark grey
             }}
         >
             <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
@@ -161,13 +161,13 @@ const StarfieldBackground = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 2 }}
-                className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-violet-600/20 rounded-full blur-[120px] mix-blend-screen animate-pulse-slow"
+                className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-violet-600/30 rounded-full blur-[120px] mix-blend-screen animate-pulse-slow"
             />
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 2, delay: 1 }}
-                className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[120px] mix-blend-screen animate-pulse-slow"
+                className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/30 rounded-full blur-[120px] mix-blend-screen animate-pulse-slow"
             />
         </div>
     );

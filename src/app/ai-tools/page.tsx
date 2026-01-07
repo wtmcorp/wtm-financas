@@ -154,7 +154,7 @@ export default function AiToolsPage() {
                 animate={{ x: 0, opacity: 1 }}
                 className={`
                     ${isSidebarOpen ? 'w-96' : 'w-24'} 
-                    bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/10 rounded-[3rem] 
+                    bg-card/80 backdrop-blur-2xl border border-white/10 rounded-[3rem] 
                     flex-col transition-all duration-500 ease-[0.23, 1, 0.32, 1] z-40
                     hidden md:flex sticky top-28 h-[calc(100vh-140px)] shadow-2xl
                 `}
@@ -250,7 +250,7 @@ export default function AiToolsPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
-                        className="fixed inset-0 bg-black/98 z-[60] md:hidden p-8 overflow-y-auto"
+                        className="fixed inset-0 bg-background/98 z-[60] md:hidden p-8 overflow-y-auto"
                     >
                         <div className="flex justify-between items-center mb-12">
                             <div className="flex items-center gap-4">
@@ -297,7 +297,7 @@ export default function AiToolsPage() {
             <motion.main
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex-1 bg-[#0a0a0a]/40 backdrop-blur-xl rounded-[3.5rem] border border-white/10 overflow-hidden flex flex-col relative min-h-[700px] shadow-2xl"
+                className="flex-1 bg-card/40 backdrop-blur-xl rounded-[3.5rem] border border-white/10 overflow-hidden flex flex-col relative min-h-[700px] shadow-2xl"
             >
                 {/* Tool Header */}
                 <div className="p-8 md:p-10 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-gradient-to-b from-white/[0.02] to-transparent">
@@ -360,7 +360,7 @@ export default function AiToolsPage() {
                 </div>
 
                 {/* Bottom Status Bar */}
-                <div className="px-10 py-4 border-t border-white/5 bg-black/40 flex items-center justify-between">
+                <div className="px-10 py-4 border-t border-white/5 bg-card/40 flex items-center justify-between">
                     <div className="flex items-center gap-6">
                         <div className="flex items-center gap-2">
                             <Cpu size={14} className="text-primary" />
