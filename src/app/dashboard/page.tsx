@@ -226,9 +226,8 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Transactions & News (8 cols) */}
                     <div className="lg:col-span-8 space-y-8">
-                        <motion.div variants={itemVariants}>
-                            {/* Replaced NetWorthChart with Placeholder */}
-                            <ChartPlaceholder title="Evolução Patrimonial" />
+                        <motion.div variants={itemVariants} className="h-[450px]">
+                            <NetWorthChart />
                         </motion.div>
 
                         <motion.div variants={itemVariants} className="glass-panel p-6 md:p-8">
