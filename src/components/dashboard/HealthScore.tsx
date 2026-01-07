@@ -124,18 +124,18 @@ export default function HealthScore() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-3 md:gap-4">
-                        <div className="p-4 md:p-5 bg-white/[0.02] rounded-2xl border border-white/5 group-hover:border-white/10 transition-all">
-                            <p className="text-[8px] md:text-[9px] text-gray-600 uppercase font-black tracking-[0.2em] mb-2 md:mb-3">RESERVA</p>
-                            <div className="flex items-center justify-between">
-                                <span className="text-[10px] md:text-xs font-black text-white uppercase">{score > 70 ? "BLINDADA" : "EM CONSTRUÇÃO"}</span>
-                                <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${score > 70 ? "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,1)]" : "bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,1)]"}`} />
+                        <div className="p-3 md:p-4 bg-white/[0.02] rounded-2xl border border-white/5 group-hover:border-white/10 transition-all flex flex-col justify-between">
+                            <p className="text-[7px] md:text-[8px] text-gray-600 uppercase font-black tracking-[0.2em] mb-1">RESERVA</p>
+                            <div className="flex items-center justify-between gap-2">
+                                <span className="text-[9px] md:text-[10px] font-black text-white uppercase leading-tight">{score > 70 ? "BLINDADA" : "EM CONSTRUÇÃO"}</span>
+                                <div className={`shrink-0 w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${score > 70 ? "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,1)]" : "bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,1)]"}`} />
                             </div>
                         </div>
-                        <div className="p-4 md:p-5 bg-white/[0.02] rounded-2xl border border-white/5 group-hover:border-white/10 transition-all">
-                            <p className="text-[8px] md:text-[9px] text-gray-600 uppercase font-black tracking-[0.2em] mb-2 md:mb-3">DÍVIDAS</p>
-                            <div className="flex items-center justify-between">
-                                <span className="text-[10px] md:text-xs font-black text-white uppercase">{score > 50 ? "CONTROLE" : "ALERTA"}</span>
-                                <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${score > 50 ? "bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,1)]" : "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,1)]"}`} />
+                        <div className="p-3 md:p-4 bg-white/[0.02] rounded-2xl border border-white/5 group-hover:border-white/10 transition-all flex flex-col justify-between">
+                            <p className="text-[7px] md:text-[8px] text-gray-600 uppercase font-black tracking-[0.2em] mb-1">DÍVIDAS</p>
+                            <div className="flex items-center justify-between gap-2">
+                                <span className="text-[9px] md:text-[10px] font-black text-white uppercase leading-tight">{score > 50 ? "CONTROLE" : "ALERTA"}</span>
+                                <div className={`shrink-0 w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${score > 50 ? "bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,1)]" : "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,1)]"}`} />
                             </div>
                         </div>
                     </div>
