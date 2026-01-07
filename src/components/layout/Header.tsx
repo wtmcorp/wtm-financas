@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import MarketTicker from "../dashboard/MarketTicker";
 import InteractiveLogo from "@/components/ui/InteractiveLogo";
 import MobileMenu from "./MobileMenu";
+import CommandPalette from "@/components/ui/CommandPalette";
 
 export default function Header() {
     const { user, logout } = useAuth();
@@ -68,18 +69,8 @@ export default function Header() {
                 {/* Right Section - Search & Auth */}
                 <div className="flex items-center gap-4 md:w-64 justify-end">
                     {/* Search Bar */}
-                    <div className="hidden md:flex items-center bg-white/[0.03] border border-white/10 rounded-xl px-3 py-2 w-48 group focus-within:border-violet-500/50 focus-within:bg-black transition-all">
-                        <Search className="text-gray-500 group-focus-within:text-violet-400 transition-colors" size={14} />
-                        <input
-                            type="text"
-                            placeholder="BUSCAR..."
-                            className="w-full bg-transparent border-none outline-none text-[10px] font-bold text-white placeholder:text-gray-600 ml-2 uppercase tracking-wider"
-                        />
-                        <div className="flex items-center gap-0.5 px-1.5 py-0.5 bg-white/5 rounded border border-white/5">
-                            <Command size={8} className="text-gray-500" />
-                            <span className="text-[8px] font-bold text-gray-500">K</span>
-                        </div>
-                    </div>
+                    {/* Search Bar */}
+                    <CommandPalette />
 
                     {/* Auth Button */}
                     {user ? (

@@ -79,6 +79,19 @@ body::before {
   mix-blend-mode: overlay;
 }
 
+/* Cinematic Vignette */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
+  pointer-events: none;
+  z-index: 9998;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

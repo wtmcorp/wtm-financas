@@ -54,14 +54,18 @@ export default function CommandPalette() {
     return (
         <>
             {/* Search Trigger Button (Desktop) */}
+            {/* Search Trigger Button (Desktop) */}
             <button
                 onClick={togglePalette}
-                className="hidden md:flex items-center gap-3 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-gray-400 transition-all group"
+                className="hidden md:flex items-center justify-between bg-white/[0.03] border border-white/10 rounded-xl px-3 py-2 w-48 group hover:border-violet-500/50 hover:bg-black transition-all"
             >
-                <Search size={16} className="group-hover:text-primary transition-colors" />
-                <span className="text-[10px] font-black uppercase tracking-widest">Buscar...</span>
-                <div className="flex items-center gap-1 px-1.5 py-0.5 bg-white/5 rounded border border-white/10 text-[9px] font-black">
-                    <Command size={10} /> K
+                <div className="flex items-center gap-2">
+                    <Search className="text-gray-500 group-hover:text-violet-400 transition-colors" size={14} />
+                    <span className="text-[10px] font-bold text-gray-500 group-hover:text-white uppercase tracking-wider">BUSCAR...</span>
+                </div>
+                <div className="flex items-center gap-0.5 px-1.5 py-0.5 bg-white/5 rounded border border-white/5">
+                    <Command size={8} className="text-gray-500" />
+                    <span className="text-[8px] font-bold text-gray-500">K</span>
                 </div>
             </button>
 
