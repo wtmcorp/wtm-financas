@@ -4,13 +4,6 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { FinanceProvider } from "@/contexts/FinanceContext";
 import { Toaster } from "react-hot-toast";
 import WelcomeModal from "@/components/onboarding/WelcomeModal";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import BottomNav from "@/components/layout/BottomNav";
-import ChatBubble from "@/components/ai/ChatBubble";
-import WhatsAppButton from "@/components/contact/WhatsAppButton";
-import BugReportButton from "@/components/feedback/BugReportButton";
-import MouseTracker from "@/components/ui/MouseTracker";
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
