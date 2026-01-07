@@ -80,7 +80,7 @@ export default function DashboardPage() {
                 {/* Dashboard Header */}
                 <motion.header
                     variants={itemVariants}
-                    className="relative overflow-hidden rounded-[3.5rem] bg-black/20 backdrop-blur-3xl border border-white/10 p-10 md:p-16 shadow-[0_50px_100px_rgba(0,0,0,0.6)] group"
+                    className="relative overflow-hidden rounded-[3.5rem] glass-panel p-10 md:p-16 shadow-[0_50px_100px_rgba(0,0,0,0.6)] group"
                 >
                     <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
                         <User size={400} className="text-primary rotate-12 animate-float" />

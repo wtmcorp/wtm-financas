@@ -108,7 +108,7 @@ export default function ChallengePage() {
                         transition={{ duration: 0.5 }}
                         className="max-w-7xl mx-auto space-y-8"
                     >
-                        <header className="reveal relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0f0f13] to-[#1a1a2e] border border-white/10 p-8 md:p-12 shadow-2xl">
+                        <header className="reveal relative overflow-hidden rounded-3xl glass-panel p-8 md:p-12 shadow-2xl">
                             <div className="absolute top-0 right-0 p-12 opacity-5">
                                 <Heart size={300} className="text-pink-500 rotate-12" />
                             </div>

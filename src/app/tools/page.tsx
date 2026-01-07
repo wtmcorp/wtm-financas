@@ -80,7 +80,7 @@ export default function ToolsPage() {
                 <motion.header
                     initial={{ y: -20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="space-y-8 p-8 md:p-16 rounded-[3rem] bg-gradient-to-br from-[#0f0f13] via-[#1a1a2e] to-[#0f0f13] border border-white/10 relative overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
+                    className="space-y-8 p-8 md:p-16 rounded-[3rem] glass-panel relative overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
                 >
                     <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[120px] -mr-48 -mt-48 animate-pulse-slow" />
                     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none"></div>

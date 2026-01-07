@@ -19,7 +19,7 @@ export default function InvestmentCard({ title, rate, period, type, profitabilit
     return (
         <motion.div
             whileHover={{ y: -8, scale: 1.02 }}
-            className="card-premium p-6 md:p-8 relative overflow-hidden group border border-white/5 hover:border-primary/30 transition-all duration-500 bg-gradient-to-br from-[#0f0f13] to-[#1a1a2e]"
+            className="glass-panel p-6 md:p-8 relative overflow-hidden group border border-white/5 hover:border-primary/30 transition-all duration-500"
         >
             {/* Background Glow */}
             <div className="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-primary/5 rounded-full blur-2xl md:blur-3xl -mr-12 -mt-12 md:-mr-16 md:-mt-16 group-hover:bg-primary/10 transition-all duration-700" />

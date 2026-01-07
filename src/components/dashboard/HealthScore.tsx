@@ -45,7 +45,7 @@ export default function HealthScore() {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="card-premium p-6 md:p-10 space-y-8 md:space-y-10 relative overflow-hidden group h-full flex flex-col"
+            className="glass-panel p-6 md:p-10 space-y-8 md:space-y-10 relative overflow-hidden group h-full flex flex-col"
         >
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-all duration-700" />
 

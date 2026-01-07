@@ -29,7 +29,7 @@ export default function GoalsWidget() {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="card-premium p-6 md:p-8 h-full flex flex-col relative overflow-hidden group"
+            className="glass-panel p-6 md:p-8 h-full flex flex-col relative overflow-hidden group"
         >
             {/* Background Glow */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-all duration-700" />

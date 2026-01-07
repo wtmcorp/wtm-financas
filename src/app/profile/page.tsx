@@ -63,7 +63,7 @@ export default function ProfilePage() {
                 {/* Identity Header */}
                 <motion.header
                     variants={itemVariants}
-                    className="relative overflow-hidden p-10 md:p-16 rounded-[3.5rem] bg-gradient-to-br from-[#0f0f13] via-[#1a1a2e] to-[#0f0f13] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.6)] group"
+                    className="relative overflow-hidden p-10 md:p-16 rounded-[3.5rem] glass-panel shadow-[0_50px_100px_rgba(0,0,0,0.6)] group"
                 >
                     <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
                         <User size={400} className="text-primary rotate-12 animate-float" />

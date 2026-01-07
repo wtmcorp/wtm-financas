@@ -65,7 +65,7 @@ export default function SettingsPage() {
                 {/* Header Section */}
                 <motion.header
                     variants={itemVariants}
-                    className="relative overflow-hidden p-10 md:p-20 rounded-[3.5rem] bg-gradient-to-br from-[#0f0f13] via-[#1a1a2e] to-[#0f0f13] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
+                    className="relative overflow-hidden p-10 md:p-20 rounded-[3.5rem] glass-panel shadow-[0_50px_100px_rgba(0,0,0,0.6)]"
                 >
                     <div className="absolute top-0 right-0 hidden md:block opacity-5 -mr-20 -mt-20">
                         <Cpu size={400} className="text-primary rotate-12" />

@@ -36,7 +36,7 @@ export default function TrendsPage() {
 
                 {/* Header */}
                 {/* Header */}
-                <motion.header variants={itemVariants} className="relative p-8 md:p-12 rounded-[3rem] bg-gradient-to-br from-blue-900/20 via-black to-purple-900/20 border border-white/10 overflow-hidden group">
+                <motion.header variants={itemVariants} className="relative p-8 md:p-12 rounded-[3rem] glass-panel overflow-hidden group">
                     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] -mr-32 -mt-32 group-hover:bg-blue-500/20 transition-all duration-1000" />
 
                     <div className="relative z-10 flex flex-col lg:flex-row items-end justify-between gap-8">

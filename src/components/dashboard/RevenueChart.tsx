@@ -10,7 +10,7 @@ import { useFinance } from "@/contexts/FinanceContext";
 const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
         return (
-            <div className="bg-[#0f0f13]/90 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl">
+            <div className="glass-panel p-4 rounded-2xl shadow-2xl">
                 <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-3">{label}</p>
                 <div className="space-y-2">
                     <div className="flex items-center justify-between gap-8">

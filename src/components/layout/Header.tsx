@@ -24,7 +24,7 @@ export default function Header() {
     return (
         <header className="fixed top-0 left-0 right-0 z-50 flex flex-col">
             {/* Top Bar */}
-            <div className="h-20 bg-black/80 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-4 md:px-8">
+            <div className="h-20 glass-panel border-b border-white/5 flex items-center justify-between px-4 md:px-8 relative z-50">
 
                 {/* Left Section - Logo + Menu */}
                 <div className="flex items-center gap-4 md:w-64">

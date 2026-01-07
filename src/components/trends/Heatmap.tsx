@@ -44,7 +44,7 @@ export default function MarketOverview() {
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.05 }}
-                        className={`${sector.size} ${getColor(sector.change)} rounded-[2rem] p-6 flex flex-col justify-between items-center transition-all cursor-pointer group relative overflow-hidden border backdrop-blur-xl hover:scale-[1.02] active:scale-[0.98]`}
+                        className={`${sector.size} ${getColor(sector.change)} rounded-[2rem] p-6 flex flex-col justify-between items-center transition-all cursor-pointer group relative overflow-hidden border transition-all hover:scale-[1.02] active:scale-[0.98]`}
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 

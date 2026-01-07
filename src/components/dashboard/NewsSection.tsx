@@ -105,7 +105,7 @@ const NewsSection = () => {
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: idx * 0.05 }}
-                                className="group/item cursor-pointer relative p-3 md:p-4 rounded-2xl hover:bg-white/[0.03] border border-transparent hover:border-white/5 transition-all"
+                                className="group/item cursor-pointer relative p-3 md:p-4 rounded-2xl hover:glass-panel border border-transparent transition-all"
                                 onClick={() => item.url && window.open(item.url, '_blank')}
                             >
                                 <div className="flex justify-between items-start mb-2 md:mb-3">

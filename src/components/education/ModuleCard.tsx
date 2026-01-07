@@ -44,7 +44,7 @@ export default function ModuleCard({
                 group relative p-8 rounded-[2.5rem] border transition-all duration-500
                 ${isLocked
                     ? "bg-white/5 border-white/5 opacity-50 cursor-not-allowed"
-                    : "bg-gradient-to-br from-[#0f0f13] to-[#1a1a2e] border-white/10 hover:border-primary/50 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)] cursor-pointer"
+                    : "glass-panel border-white/10 hover:border-primary/50 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)] cursor-pointer"
                 }
             `}
         >
@@ -56,8 +56,8 @@ export default function ModuleCard({
             <div className="relative z-10 space-y-6">
                 <div className="flex justify-between items-center">
                     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-500 ${isLocked
-                            ? "bg-white/5 text-gray-600 border-white/5"
-                            : "bg-primary/10 text-primary border-primary/20 group-hover:scale-110 group-hover:rotate-6 shadow-2xl"
+                        ? "bg-white/5 text-gray-600 border-white/5"
+                        : "bg-primary/10 text-primary border-primary/20 group-hover:scale-110 group-hover:rotate-6 shadow-2xl"
                         }`}>
                         <Icon size={28} />
                     </div>

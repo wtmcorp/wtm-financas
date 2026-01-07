@@ -114,7 +114,7 @@ export default function NewsFeed() {
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
                             whileHover={{ y: -8 }}
-                            className="group relative bg-[#0f0f13]/60 backdrop-blur-xl border border-white/10 rounded-[2.5rem] overflow-hidden hover:border-primary/50 transition-all duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex flex-col"
+                            className="group relative glass-panel rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex flex-col"
                         >
                             <div className="aspect-[16/9] w-full overflow-hidden relative bg-white/5">
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f13] via-transparent to-transparent z-10 opacity-90" />

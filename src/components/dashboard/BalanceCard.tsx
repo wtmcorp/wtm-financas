@@ -118,7 +118,7 @@ export default function BalanceCard() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 onClick={handleEdit}
-                                className="text-4xl md:text-8xl font-black text-white tracking-tighter leading-none cursor-pointer hover:text-primary transition-colors"
+                                className="text-4xl md:text-8xl font-black gradient-text tracking-tighter leading-none cursor-pointer hover:opacity-80 transition-opacity"
                             >
                                 {visible ? balance.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "••••••"}
                             </motion.span>

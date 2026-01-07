@@ -170,7 +170,7 @@ const QuickActions = () => {
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-8 max-w-sm w-full relative z-10 shadow-2xl"
+                            className="glass-panel rounded-[2.5rem] p-8 max-w-sm w-full relative z-10 shadow-2xl"
                         >
                             <div className="flex justify-between items-center mb-8">
                                 <h3 className="text-xl font-black text-white uppercase tracking-tight">Exportar Dados</h3>

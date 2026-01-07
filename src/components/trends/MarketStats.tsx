@@ -23,7 +23,7 @@ export default function MarketStats() {
             <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                className="card-premium p-6 bg-emerald-500/5 border-emerald-500/10"
+                className="glass-panel p-6"
             >
                 <div className="flex items-center gap-3 mb-6">
                     <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 border border-emerald-500/20">
@@ -51,7 +51,7 @@ export default function MarketStats() {
             <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                className="card-premium p-6 bg-red-500/5 border-red-500/10"
+                className="glass-panel p-6"
             >
                 <div className="flex items-center gap-3 mb-6">
                     <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500 border border-red-500/20">

@@ -17,8 +17,8 @@ export default function BottomNav() {
     ];
 
     return (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] lg:hidden w-[90%] max-w-md">
-            <nav className="bg-black/40 backdrop-blur-2xl rounded-[2rem] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] lg:hidden w-[90%] max-w-md">
+            <nav className="glass-panel rounded-[2.5rem] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.8)] overflow-hidden">
                 <div className="flex justify-around items-center h-20 px-4">
                     {navItems.map((item) => {
                         const Icon = item.icon;

@@ -151,7 +151,7 @@ export default function AiInsights() {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: index * 0.1 }}
-                                className="p-4 md:p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/30 hover:bg-white/[0.05] transition-all group/item cursor-pointer relative overflow-hidden"
+                                className="glass-panel p-4 md:p-5 rounded-2xl hover:border-primary/30 transition-all group/item cursor-pointer relative overflow-hidden"
                             >
                                 <div className="flex gap-4 md:gap-5 relative z-10">
                                     <div className={`w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-xl ${insight.bg} ${insight.color} flex items-center justify-center border border-current/10 group-hover/item:scale-110 transition-transform`}>
