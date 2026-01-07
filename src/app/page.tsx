@@ -20,7 +20,8 @@ import {
     BarChart3,
     Wallet,
     GraduationCap,
-    Lock
+    Lock,
+    CheckCircle2
 } from "lucide-react";
 import InteractiveLogo from "@/components/ui/InteractiveLogo";
 
@@ -405,8 +406,8 @@ export default function LandingPage() {
                                     ))}
                                 </div>
                                 <button className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${plan.popular
-                                        ? 'bg-primary text-black hover:bg-white shadow-xl shadow-primary/20'
-                                        : 'bg-white/5 text-white hover:bg-white/10 border border-white/10'
+                                    ? 'bg-primary text-black hover:bg-white shadow-xl shadow-primary/20'
+                                    : 'bg-white/5 text-white hover:bg-white/10 border border-white/10'
                                     }`}>
                                     {plan.button}
                                 </button>

@@ -15,7 +15,7 @@ const nextConfig = {
 
     // Experimental features for better performance
     experimental: {
-        optimizeCss: true, // Enable CSS optimization
+        optimizeCss: false, // Disable CSS optimization to avoid critters dependency issue
         optimizePackageImports: ['lucide-react', 'framer-motion', 'recharts'], // Optimize specific packages
     },
 

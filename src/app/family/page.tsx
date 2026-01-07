@@ -14,7 +14,8 @@ import {
     Lock,
     Settings,
     PieChart,
-    Target
+    Target,
+    ChevronRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";

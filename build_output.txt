@@ -1,0 +1,70 @@
+
+> wtm-corps@0.1.0 build
+> next build
+
+   Γû▓ Next.js 14.1.0
+   - Environments: .env.local
+   - Experiments (use at your own risk):
+     ┬╖ optimizeCss
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/22) ...
+
+Error occurred prerendering page "/500". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: Cannot find module 'critters'
+Require stack:
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\compiled\next-server\pages.runtime.prod.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\.next\server\pages\_document.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\server\require.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\server\load-components.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\build\utils.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\build\worker.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1421:15)
+    at C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\server\require-hook.js:55:36
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1504:12)
+    at mod.require (C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\server\require-hook.js:65:28)
+    at require (node:internal/modules/helpers:152:16)
+
+   Generating static pages (5/22) 
+
+Error occurred prerendering page "/404". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: Cannot find module 'critters'
+Require stack:
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\compiled\next-server\pages.runtime.prod.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\.next\server\pages\_document.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\server\require.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\server\load-components.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\build\utils.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\build\worker.js
+- C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1421:15)
+    at C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\server\require-hook.js:55:36
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1504:12)
+    at mod.require (C:\Users\Administrator\Desktop\Site Wtm corps finan├ºas\node_modules\next\dist\server\require-hook.js:65:28)
+    at require (node:internal/modules/helpers:152:16)
+
+   Generating static pages (10/22) 
+
+   Generating static pages (16/22) 
+
+ Γ£ô Generating static pages (22/22) 
+
+> Export encountered errors on following paths:
+	/_error: /404
+	/_error: /500
