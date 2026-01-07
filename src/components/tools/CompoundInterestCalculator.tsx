@@ -49,7 +49,7 @@ export default function CompoundInterestCalculator() {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="card-premium p-8 md:p-10 relative overflow-hidden group"
+                className="glass-panel p-8 md:p-10 relative overflow-hidden group"
             >
                 <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity">
                     <TrendingUp size={200} className="text-primary" />
@@ -137,7 +137,7 @@ export default function CompoundInterestCalculator() {
                         animate={{ opacity: 1, scale: 1 }}
                         className="grid grid-cols-1 md:grid-cols-3 gap-6"
                     >
-                        <div className="card-premium p-8 bg-gradient-to-br from-blue-500/10 to-transparent border-blue-500/20">
+                        <div className="glass-panel p-8 bg-gradient-to-br from-blue-500/10 to-transparent border-blue-500/20">
                             <p className="text-[9px] font-black text-blue-400 uppercase tracking-widest mb-4">Total Investido</p>
                             <p className="text-3xl font-black text-white tracking-tighter">
                                 R$ {result.totalInvested.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
@@ -147,7 +147,7 @@ export default function CompoundInterestCalculator() {
                             </div>
                         </div>
 
-                        <div className="card-premium p-8 bg-gradient-to-br from-green-500/10 to-transparent border-green-500/20">
+                        <div className="glass-panel p-8 bg-gradient-to-br from-green-500/10 to-transparent border-green-500/20">
                             <p className="text-[9px] font-black text-green-400 uppercase tracking-widest mb-4">Juros Acumulados</p>
                             <p className="text-3xl font-black text-white tracking-tighter">
                                 R$ {result.totalInterest.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
@@ -157,7 +157,7 @@ export default function CompoundInterestCalculator() {
                             </div>
                         </div>
 
-                        <div className="card-premium p-8 bg-gradient-to-br from-primary/10 to-transparent border-primary/20">
+                        <div className="glass-panel p-8 bg-gradient-to-br from-primary/10 to-transparent border-primary/20">
                             <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-4">Montante Final</p>
                             <p className="text-3xl font-black text-white tracking-tighter">
                                 R$ {result.totalAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}

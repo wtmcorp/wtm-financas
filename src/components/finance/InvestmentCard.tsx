@@ -18,7 +18,7 @@ export default function InvestmentCard({ title, rate, period, type, profitabilit
 
     return (
         <motion.div
-            whileHover={{ y: -8, scale: 1.02 }}
+            whileHover={{ y: -4, scale: 1.01 }}
             className="glass-panel p-6 md:p-8 relative overflow-hidden group border border-white/5 hover:border-primary/30 transition-all duration-500"
         >
             {/* Background Glow */}

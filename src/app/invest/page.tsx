@@ -71,7 +71,7 @@ export default function InvestPage() {
                             <Sparkles size={14} className="text-primary animate-pulse md:w-[18px] md:h-[18px]" />
                             <span className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-[0.3em]">Wealth Multiplier</span>
                         </div>
-                        <h1 className="text-4xl md:text-9xl font-black text-white tracking-tighter leading-[0.9] md:leading-[0.85]">
+                        <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.9] md:leading-[0.85]">
                             Central de <br />
                             <span className="gradient-text">Investimentos</span>
                         </h1>
@@ -101,12 +101,12 @@ export default function InvestPage() {
                                 </div>
                             </div>
                             <div className="relative group">
-                                <span className="absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-primary font-black text-2xl md:text-3xl group-focus-within:text-white transition-colors">R$</span>
+                                <span className="absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-primary font-black text-xl md:text-2xl group-focus-within:text-white transition-colors">R$</span>
                                 <input
                                     type="number"
                                     value={simulationAmount}
                                     onChange={(e) => setSimulationAmount(e.target.value)}
-                                    className="w-full bg-black/40 border border-white/10 rounded-2xl md:rounded-[2rem] pl-16 md:pl-20 pr-6 md:pr-8 py-6 md:py-8 text-white font-black text-3xl md:text-5xl outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-gray-800 backdrop-blur-xl"
+                                    className="w-full bg-black/40 border border-white/10 rounded-2xl md:rounded-[2rem] pl-16 md:pl-20 pr-6 md:pr-8 py-6 md:py-8 text-white font-black text-2xl md:text-4xl outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-gray-800 backdrop-blur-xl"
                                     placeholder="0,00"
                                 />
                             </div>

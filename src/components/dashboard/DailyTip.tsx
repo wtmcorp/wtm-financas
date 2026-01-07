@@ -45,7 +45,7 @@ export default function DailyTip() {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="card-premium p-8 relative overflow-hidden group h-full flex flex-col justify-between"
+            className="glass-panel p-8 relative overflow-hidden group h-full flex flex-col justify-between"
         >
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Lightbulb size={100} className="text-primary" />

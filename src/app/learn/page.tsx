@@ -1100,7 +1100,7 @@ export default function LearnPage() {
                             <BrainCircuit size={14} className="text-primary animate-pulse md:w-[18px] md:h-[18px]" />
                             <span className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-[0.3em]">WTM Academy: Intelligence Protocol</span>
                         </div>
-                        <h1 className="text-4xl md:text-9xl font-black text-white tracking-tighter leading-[0.9] md:leading-[0.85]">
+                        <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.9] md:leading-[0.85]">
                             Domine o <br />
                             <span className="gradient-text">Capital</span>
                         </h1>

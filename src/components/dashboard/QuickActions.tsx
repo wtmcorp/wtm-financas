@@ -116,7 +116,7 @@ const QuickActions = () => {
         <>
             <motion.div
                 whileHover={{ y: -4 }}
-                className="glass-card p-6 md:p-8 rounded-3xl relative overflow-hidden group flex flex-col"
+                className="glass-panel p-6 md:p-8 rounded-3xl relative overflow-hidden group flex flex-col"
             >
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400">

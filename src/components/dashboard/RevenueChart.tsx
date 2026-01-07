@@ -64,7 +64,7 @@ export default function RevenueChart() {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="card-premium p-6 md:p-8 h-full flex flex-col relative overflow-hidden group"
+            className="glass-panel p-6 md:p-8 h-full flex flex-col relative overflow-hidden group"
         >
             {/* Background Effects */}
             <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl -mr-20 -mt-20 group-hover:bg-primary/10 transition-all duration-700" />
@@ -129,12 +129,12 @@ export default function RevenueChart() {
                             content={<CustomTooltip />}
                             cursor={{ fill: 'rgba(255, 255, 255, 0.03)' }}
                         />
-                        <Bar dataKey="entrada" fill="#a78bfa" radius={[4, 4, 0, 0]} barSize={window.innerWidth < 768 ? 12 : 24}>
+                        <Bar dataKey="entrada" fill="#a78bfa" radius={[4, 4, 0, 0]} barSize={20}>
                             {visibleData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fillOpacity={0.8} />
                             ))}
                         </Bar>
-                        <Bar dataKey="saida" fill="#333" radius={[4, 4, 0, 0]} barSize={window.innerWidth < 768 ? 12 : 24}>
+                        <Bar dataKey="saida" fill="#333" radius={[4, 4, 0, 0]} barSize={20}>
                             {visibleData.map((entry, index) => (
                                 <Cell key={`cell-exp-${index}`} fillOpacity={0.5} />
                             ))}

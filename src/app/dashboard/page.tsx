@@ -95,7 +95,7 @@ export default function DashboardPage() {
                                     <Sparkles size={18} className="text-primary animate-pulse" />
                                     <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Command Center v2.0</span>
                                 </div>
-                                <h1 className="text-4xl md:text-8xl font-black text-white tracking-tighter leading-[0.85]">
+                                <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-[0.85]">
                                     Bem-vindo, <br />
                                     <span className="gradient-text">{user.name.split(" ")[0]}</span>
                                 </h1>
@@ -118,7 +118,7 @@ export default function DashboardPage() {
                                         <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Receita Mensal</p>
                                         <ArrowUpRight size={14} className="text-primary opacity-0 group-hover/income:opacity-100 transition-all" />
                                     </div>
-                                    <p className="text-4xl md:text-5xl font-black text-white tracking-tighter">
+                                    <p className="text-3xl md:text-4xl font-black text-white tracking-tighter">
                                         R$ {user.income?.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) || "0,00"}
                                     </p>
                                     <div className="mt-4 h-1 w-full bg-white/5 rounded-full overflow-hidden">

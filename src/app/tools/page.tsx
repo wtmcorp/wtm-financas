@@ -93,7 +93,7 @@ export default function ToolsPage() {
                                     Wtm Utility Hub
                                 </div>
                             </div>
-                            <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.85]">
+                            <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.85]">
                                 Central de <br />
                                 <span className="gradient-text">Utilidades</span>
                             </h1>

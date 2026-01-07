@@ -116,7 +116,7 @@ export default function AiInsights() {
         <>
             <motion.div
                 whileHover={{ y: -5 }}
-                className="card-premium p-6 md:p-8 space-y-6 md:space-y-8 overflow-hidden relative group h-full flex flex-col"
+                className="glass-panel p-6 md:p-8 space-y-6 md:space-y-8 overflow-hidden relative group h-full flex flex-col"
             >
                 {/* Background Effects */}
                 <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">

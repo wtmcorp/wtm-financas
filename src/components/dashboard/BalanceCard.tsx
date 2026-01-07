@@ -43,7 +43,7 @@ export default function BalanceCard() {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="card-premium p-6 md:p-10 relative overflow-hidden group"
+            className="glass-panel p-6 md:p-10 relative overflow-hidden group"
         >
             {/* Background Effects */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -mr-32 -mt-32 group-hover:bg-primary/10 transition-all duration-1000" />
@@ -94,7 +94,7 @@ export default function BalanceCard() {
 
             <div className="relative z-10 mb-8 md:mb-12">
                 <div className="flex items-baseline gap-2 md:gap-3">
-                    <span className="text-primary text-2xl md:text-4xl font-black tracking-tighter">R$</span>
+                    <span className="text-gray-500 text-xl md:text-2xl font-black tracking-tighter">R$</span>
                     <AnimatePresence mode="wait">
                         {isEditing ? (
                             <motion.div
@@ -118,7 +118,7 @@ export default function BalanceCard() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 onClick={handleEdit}
-                                className="text-4xl md:text-8xl font-black gradient-text tracking-tighter leading-none cursor-pointer hover:opacity-80 transition-opacity"
+                                className="text-4xl md:text-6xl font-black gradient-text tracking-tighter leading-none cursor-pointer hover:opacity-80 transition-opacity"
                             >
                                 {visible ? balance.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "••••••"}
                             </motion.span>

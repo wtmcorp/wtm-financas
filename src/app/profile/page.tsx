@@ -96,7 +96,7 @@ export default function ProfilePage() {
                                     <Crown size={14} className="text-yellow-500" />
                                     <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Platinum Elite Member</span>
                                 </div>
-                                <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none">
+                                <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">
                                     {user.name.split(" ")[0]} <br />
                                     <span className="gradient-text">{user.name.split(" ").slice(1).join(" ")}</span>
                                 </h1>

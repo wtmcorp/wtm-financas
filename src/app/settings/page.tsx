@@ -79,7 +79,7 @@ export default function SettingsPage() {
                             <ShieldCheck size={18} className="text-primary animate-pulse" />
                             <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">System Configuration v2.4</span>
                         </div>
-                        <h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter leading-[0.85]">
+                        <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.85]">
                             Painel de <br />
                             <span className="gradient-text">Controle</span>
                         </h1>

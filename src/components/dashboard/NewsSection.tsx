@@ -55,7 +55,7 @@ const NewsSection = () => {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="card-premium p-6 md:p-8 h-full border border-white/5 hover:border-primary/20 transition-all group/news relative overflow-hidden flex flex-col"
+            className="glass-panel p-6 md:p-8 h-full border border-white/5 hover:border-primary/20 transition-all group/news relative overflow-hidden flex flex-col"
         >
             {/* Background Effects */}
             <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity duration-1000">
