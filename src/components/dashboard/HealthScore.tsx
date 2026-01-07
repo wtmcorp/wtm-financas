@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, ArrowUpRight } from "lucide-react";
+import { Shield, TrendingUp, AlertCircle, CheckCircle2, Info, ArrowUpRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useFinance } from "@/contexts/FinanceContext";
 import { useMemo } from "react";
