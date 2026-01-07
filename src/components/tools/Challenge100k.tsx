@@ -11,7 +11,7 @@ import {
     Sparkles,
     Trophy,
     Cloud,
-    CloudCheck,
+    CheckCircle2,
     AlertCircle,
     Target
 } from "lucide-react";
@@ -124,10 +124,10 @@ export default function Challenge100k() {
                     <div className="space-y-4 text-center md:text-left">
                         <div className="flex items-center justify-center md:justify-start gap-3">
                             <div className={`px-3 py-1 rounded-full border flex items-center gap-2 ${syncStatus === 'synced' ? 'bg-green-500/10 border-green-500/20 text-green-400' :
-                                    syncStatus === 'syncing' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
-                                        'bg-red-500/10 border-red-500/20 text-red-400'
+                                syncStatus === 'syncing' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
+                                    'bg-red-500/10 border-red-500/20 text-red-400'
                                 }`}>
-                                {syncStatus === 'synced' ? <CloudCheck size={12} /> :
+                                {syncStatus === 'synced' ? <div className="flex items-center gap-1"><Cloud size={12} /><Check size={8} className="text-green-400" /></div> :
                                     syncStatus === 'syncing' ? <Cloud size={12} className="animate-bounce" /> :
                                         <AlertCircle size={12} />}
                                 <span className="text-[9px] font-black uppercase tracking-widest">
@@ -222,8 +222,8 @@ export default function Challenge100k() {
                                         key={idx}
                                         onClick={() => toggleSlot(activeTab, idx)}
                                         className={`aspect-square rounded-xl border-2 flex flex-col items-center justify-center transition-all group relative ${isChecked
-                                                ? activeTab === 1 ? 'bg-primary border-transparent text-black' : 'bg-pink-500 border-transparent text-white'
-                                                : 'bg-white/[0.02] border-white/5 text-gray-600 hover:border-white/20'
+                                            ? activeTab === 1 ? 'bg-primary border-transparent text-black' : 'bg-pink-500 border-transparent text-white'
+                                            : 'bg-white/[0.02] border-white/5 text-gray-600 hover:border-white/20'
                                             }`}
                                     >
                                         {isChecked ? (
