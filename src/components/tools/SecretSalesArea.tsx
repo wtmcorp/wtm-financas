@@ -134,6 +134,13 @@ export default function SecretSalesArea() {
         type: string;
         color: string;
         bgGradient: string;
+        // Specific fields
+        beforeText?: string;
+        afterText?: string;
+        clientName?: string;
+        review?: string;
+        rating?: number;
+        items?: string[];
     }
 
     // Content Lab State
@@ -760,10 +767,16 @@ export default function SecretSalesArea() {
                                                             onClick={() => setEditingTemplate({
                                                                 id: t.id,
                                                                 title: t.title,
-                                                                subtitle: "Toque para editar este texto e criar seu post profissional",
+                                                                subtitle: t.id === "carousel" ? "Toque para editar este texto e criar seu post profissional" : "",
                                                                 type: t.title,
                                                                 color: t.accent,
-                                                                bgGradient: t.gradient
+                                                                bgGradient: t.gradient,
+                                                                beforeText: t.id === "before-after" ? "Site antigo, lento e sem conversão" : undefined,
+                                                                afterText: t.id === "before-after" ? "Novo site WTM: Rápido, moderno e focado em vendas" : undefined,
+                                                                clientName: t.id === "proof" ? "João Silva, CEO da TechFlow" : undefined,
+                                                                review: t.id === "proof" ? "A WTM transformou nossa presença digital. Em 30 dias, nossas vendas aumentaram 40%." : undefined,
+                                                                rating: t.id === "proof" ? 5 : undefined,
+                                                                items: t.id === "checklist" ? ["Velocidade Extrema", "SEO Otimizado", "Design Mobile-First", "Copy Persuasiva"] : undefined
                                                             })}
                                                             className="w-full py-3 bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-violet-500/20"
                                                         >
@@ -799,7 +812,7 @@ export default function SecretSalesArea() {
                                                         <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Preview em Tempo Real</p>
                                                         <div
                                                             id="template-preview"
-                                                            className="aspect-square w-full rounded-2xl overflow-hidden shadow-2xl relative flex flex-col items-center justify-center p-12 text-center"
+                                                            className="aspect-square w-full rounded-2xl overflow-hidden shadow-2xl relative flex flex-col items-center justify-center p-8 text-center"
                                                             style={{ background: editingTemplate.bgGradient }}
                                                         >
                                                             {/* Decorative Elements */}
@@ -808,17 +821,73 @@ export default function SecretSalesArea() {
                                                                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full blur-[80px]" style={{ background: editingTemplate.color }}></div>
                                                             </div>
 
-                                                            <div className="relative z-10 space-y-6">
-                                                                <div className="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4" style={{ background: `${editingTemplate.color}20`, color: editingTemplate.color, border: `1px solid ${editingTemplate.color}40` }}>
+                                                            <div className="relative z-10 w-full h-full flex flex-col items-center justify-center">
+                                                                <div className="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-6" style={{ background: `${editingTemplate.color}20`, color: editingTemplate.color, border: `1px solid ${editingTemplate.color}40` }}>
                                                                     WTM Corps • {editingTemplate.type}
                                                                 </div>
-                                                                <h2 className="text-4xl font-black text-white leading-tight tracking-tight drop-shadow-2xl">
-                                                                    {editingTemplate.title}
-                                                                </h2>
-                                                                <div className="w-16 h-1.5 mx-auto rounded-full" style={{ background: editingTemplate.color }}></div>
-                                                                <p className="text-lg text-zinc-300 font-medium leading-relaxed max-w-sm mx-auto">
-                                                                    {editingTemplate.subtitle}
-                                                                </p>
+
+                                                                {/* Dynamic Layouts */}
+                                                                {editingTemplate.id === "carousel" && (
+                                                                    <div className="space-y-6">
+                                                                        <h2 className="text-4xl font-black text-white leading-tight tracking-tight drop-shadow-2xl">
+                                                                            {editingTemplate.title}
+                                                                        </h2>
+                                                                        <div className="w-16 h-1.5 mx-auto rounded-full" style={{ background: editingTemplate.color }}></div>
+                                                                        <p className="text-lg text-zinc-300 font-medium leading-relaxed max-w-sm mx-auto">
+                                                                            {editingTemplate.subtitle}
+                                                                        </p>
+                                                                    </div>
+                                                                )}
+
+                                                                {editingTemplate.id === "before-after" && (
+                                                                    <div className="w-full h-full flex flex-col gap-4 py-4">
+                                                                        <div className="flex-1 bg-black/40 border border-white/10 rounded-xl p-6 flex flex-col items-center justify-center gap-2">
+                                                                            <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">Antes</span>
+                                                                            <p className="text-sm text-zinc-400 italic">"{editingTemplate.beforeText}"</p>
+                                                                        </div>
+                                                                        <div className="flex items-center justify-center">
+                                                                            <ArrowRight size={24} className="text-white rotate-90" />
+                                                                        </div>
+                                                                        <div className="flex-1 bg-white/5 border border-white/20 rounded-xl p-6 flex flex-col items-center justify-center gap-2" style={{ borderColor: `${editingTemplate.color}40` }}>
+                                                                            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: editingTemplate.color }}>Depois</span>
+                                                                            <p className="text-sm text-white font-bold">"{editingTemplate.afterText}"</p>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+
+                                                                {editingTemplate.id === "proof" && (
+                                                                    <div className="bg-black/40 border border-white/10 rounded-2xl p-8 space-y-6 max-w-sm relative">
+                                                                        <div className="absolute -top-4 -left-4 w-10 h-10 bg-violet-600 rounded-full flex items-center justify-center shadow-lg">
+                                                                            <MessageCircle size={20} className="text-white" />
+                                                                        </div>
+                                                                        <div className="flex justify-center gap-1">
+                                                                            {[...Array(editingTemplate.rating)].map((_, i) => (
+                                                                                <Zap key={i} size={16} className="fill-yellow-500 text-yellow-500" />
+                                                                            ))}
+                                                                        </div>
+                                                                        <p className="text-lg text-white font-medium italic leading-relaxed">
+                                                                            "{editingTemplate.review}"
+                                                                        </p>
+                                                                        <div className="pt-4 border-t border-white/10">
+                                                                            <p className="font-bold text-white">{editingTemplate.clientName}</p>
+                                                                            <p className="text-[10px] text-zinc-500 uppercase tracking-widest">Cliente Satisfeito</p>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+
+                                                                {editingTemplate.id === "checklist" && (
+                                                                    <div className="space-y-6 w-full max-w-xs text-left">
+                                                                        <h3 className="text-2xl font-black text-white mb-8 text-center">{editingTemplate.title}</h3>
+                                                                        <div className="space-y-4">
+                                                                            {editingTemplate.items?.map((item, i) => (
+                                                                                <div key={i} className="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/5">
+                                                                                    <CheckCircle2 size={18} style={{ color: editingTemplate.color }} />
+                                                                                    <span className="text-sm text-zinc-200 font-medium">{item}</span>
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    </div>
+                                                                )}
                                                             </div>
 
                                                             <div className="absolute bottom-8 left-0 w-full flex justify-center gap-8 opacity-50">
@@ -830,29 +899,132 @@ export default function SecretSalesArea() {
                                                     </div>
 
                                                     {/* Controls Area */}
-                                                    <div className="bg-zinc-800/50 border border-white/5 rounded-2xl p-6 space-y-6">
+                                                    <div className="bg-zinc-800/50 border border-white/5 rounded-2xl p-6 space-y-6 overflow-y-auto max-h-[600px] custom-scrollbar">
                                                         <div className="space-y-4">
                                                             <h4 className="text-sm font-bold text-white flex items-center gap-2">
                                                                 <FileText size={16} className="text-violet-500" />
-                                                                Conteúdo do Post
+                                                                Conteúdo Personalizado
                                                             </h4>
+
                                                             <div className="space-y-4">
-                                                                <div className="space-y-1.5">
-                                                                    <label className="text-[10px] font-bold text-zinc-500 uppercase">Título Principal</label>
-                                                                    <input
-                                                                        type="text"
-                                                                        value={editingTemplate.title}
-                                                                        onChange={(e) => setEditingTemplate({ ...editingTemplate, title: e.target.value })}
-                                                                        className="w-full bg-zinc-900 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
-                                                                    />
-                                                                </div>
-                                                                <div className="space-y-1.5">
-                                                                    <label className="text-[10px] font-bold text-zinc-500 uppercase">Subtítulo / Descrição</label>
-                                                                    <textarea
-                                                                        value={editingTemplate.subtitle}
-                                                                        onChange={(e) => setEditingTemplate({ ...editingTemplate, subtitle: e.target.value })}
-                                                                        className="w-full h-24 bg-zinc-900 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-violet-500 resize-none"
-                                                                    />
+                                                                {(editingTemplate.id === "carousel" || editingTemplate.id === "checklist") && (
+                                                                    <div className="space-y-1.5">
+                                                                        <label className="text-[10px] font-bold text-zinc-500 uppercase">Título Principal</label>
+                                                                        <input
+                                                                            type="text"
+                                                                            value={editingTemplate.title}
+                                                                            onChange={(e) => setEditingTemplate({ ...editingTemplate, title: e.target.value })}
+                                                                            className="w-full bg-zinc-900 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
+                                                                        />
+                                                                    </div>
+                                                                )}
+
+                                                                {editingTemplate.id === "carousel" && (
+                                                                    <div className="space-y-1.5">
+                                                                        <label className="text-[10px] font-bold text-zinc-500 uppercase">Subtítulo</label>
+                                                                        <textarea
+                                                                            value={editingTemplate.subtitle}
+                                                                            onChange={(e) => setEditingTemplate({ ...editingTemplate, subtitle: e.target.value })}
+                                                                            className="w-full h-24 bg-zinc-900 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-violet-500 resize-none"
+                                                                        />
+                                                                    </div>
+                                                                )}
+
+                                                                {editingTemplate.id === "before-after" && (
+                                                                    <>
+                                                                        <div className="space-y-1.5">
+                                                                            <label className="text-[10px] font-bold text-zinc-500 uppercase">Texto do "Antes"</label>
+                                                                            <input
+                                                                                type="text"
+                                                                                value={editingTemplate.beforeText}
+                                                                                onChange={(e) => setEditingTemplate({ ...editingTemplate, beforeText: e.target.value })}
+                                                                                className="w-full bg-zinc-900 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
+                                                                            />
+                                                                        </div>
+                                                                        <div className="space-y-1.5">
+                                                                            <label className="text-[10px] font-bold text-zinc-500 uppercase">Texto do "Depois"</label>
+                                                                            <input
+                                                                                type="text"
+                                                                                value={editingTemplate.afterText}
+                                                                                onChange={(e) => setEditingTemplate({ ...editingTemplate, afterText: e.target.value })}
+                                                                                className="w-full bg-zinc-900 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
+                                                                            />
+                                                                        </div>
+                                                                    </>
+                                                                )}
+
+                                                                {editingTemplate.id === "proof" && (
+                                                                    <>
+                                                                        <div className="space-y-1.5">
+                                                                            <label className="text-[10px] font-bold text-zinc-500 uppercase">Nome do Cliente</label>
+                                                                            <input
+                                                                                type="text"
+                                                                                value={editingTemplate.clientName}
+                                                                                onChange={(e) => setEditingTemplate({ ...editingTemplate, clientName: e.target.value })}
+                                                                                className="w-full bg-zinc-900 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
+                                                                            />
+                                                                        </div>
+                                                                        <div className="space-y-1.5">
+                                                                            <label className="text-[10px] font-bold text-zinc-500 uppercase">Depoimento</label>
+                                                                            <textarea
+                                                                                value={editingTemplate.review}
+                                                                                onChange={(e) => setEditingTemplate({ ...editingTemplate, review: e.target.value })}
+                                                                                className="w-full h-24 bg-zinc-900 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-violet-500 resize-none"
+                                                                            />
+                                                                        </div>
+                                                                        <div className="space-y-1.5">
+                                                                            <label className="text-[10px] font-bold text-zinc-500 uppercase">Avaliação (1-5 estrelas)</label>
+                                                                            <div className="flex gap-2">
+                                                                                {[1, 2, 3, 4, 5].map((star) => (
+                                                                                    <button
+                                                                                        key={star}
+                                                                                        onClick={() => setEditingTemplate({ ...editingTemplate, rating: star })}
+                                                                                        className={`p-2 rounded-lg transition-all ${editingTemplate.rating === star ? "bg-yellow-500/20 text-yellow-500 border border-yellow-500/50" : "bg-zinc-900 text-zinc-500 border border-white/5 hover:border-white/20"}`}
+                                                                                    >
+                                                                                        <Zap size={16} className={editingTemplate.rating && editingTemplate.rating >= star ? "fill-current" : ""} />
+                                                                                    </button>
+                                                                                ))}
+                                                                            </div>
+                                                                        </div>
+                                                                    </>
+                                                                )}
+
+                                                                <div className="space-y-2">
+                                                                    <div className="flex items-center justify-between">
+                                                                        <label className="text-[10px] font-bold text-zinc-500 uppercase">Itens da Lista</label>
+                                                                        <button
+                                                                            onClick={() => {
+                                                                                const newItems = [...(editingTemplate.items || []), "Novo item"];
+                                                                                setEditingTemplate({ ...editingTemplate, items: newItems });
+                                                                            }}
+                                                                            className="text-[10px] font-bold text-violet-400 hover:text-violet-300 uppercase"
+                                                                        >
+                                                                            + Adicionar
+                                                                        </button>
+                                                                    </div>
+                                                                    {editingTemplate.items?.map((item, i) => (
+                                                                        <div key={i} className="flex gap-2">
+                                                                            <input
+                                                                                type="text"
+                                                                                value={item}
+                                                                                onChange={(e) => {
+                                                                                    const newItems = [...(editingTemplate.items || [])];
+                                                                                    newItems[i] = e.target.value;
+                                                                                    setEditingTemplate({ ...editingTemplate, items: newItems });
+                                                                                }}
+                                                                                className="flex-1 bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
+                                                                            />
+                                                                            <button
+                                                                                onClick={() => {
+                                                                                    const newItems = editingTemplate.items?.filter((_, idx) => idx !== i);
+                                                                                    setEditingTemplate({ ...editingTemplate, items: newItems });
+                                                                                }}
+                                                                                className="p-2 text-zinc-500 hover:text-red-500 transition-colors"
+                                                                            >
+                                                                                <Trash2 size={14} />
+                                                                            </button>
+                                                                        </div>
+                                                                    ))}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -862,35 +1034,18 @@ export default function SecretSalesArea() {
                                                                 <Zap size={16} className="text-violet-500" />
                                                                 Estilo & Cores
                                                             </h4>
-                                                            <div className="grid grid-cols-2 gap-4">
+                                                            <div className="grid grid-cols-1 gap-4">
                                                                 <div className="space-y-1.5">
                                                                     <label className="text-[10px] font-bold text-zinc-500 uppercase">Cor de Destaque</label>
                                                                     <div className="flex gap-2">
                                                                         {["#3b82f6", "#10b981", "#8b5cf6", "#f59e0b", "#ef4444"].map(c => (
                                                                             <button
                                                                                 key={c}
-                                                                                onClick={() => setEditingTemplate({ ...editingTemplate, color: c })}
-                                                                                className={`w-6 h-6 rounded-full border-2 ${editingTemplate.color === c ? "border-white" : "border-transparent"}`}
+                                                                                onClick={() => setEditingTemplate({ ...editingTemplate, color: c, bgGradient: editingTemplate.bgGradient.includes('linear-gradient') ? `linear-gradient(135deg, ${c}40 0%, #000000 100%)` : editingTemplate.bgGradient })}
+                                                                                className={`w-8 h-8 rounded-full border-2 transition-all ${editingTemplate.color === c ? "border-white scale-110" : "border-transparent opacity-50 hover:opacity-100"}`}
                                                                                 style={{ background: c }}
                                                                             />
                                                                         ))}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="space-y-1.5">
-                                                                    <label className="text-[10px] font-bold text-zinc-500 uppercase">Fundo</label>
-                                                                    <div className="flex gap-2">
-                                                                        <button
-                                                                            onClick={() => setEditingTemplate({ ...editingTemplate, bgGradient: `linear-gradient(135deg, ${editingTemplate.color}40 0%, #000000 100%)` })}
-                                                                            className="px-2 py-1 bg-zinc-900 border border-white/10 rounded text-[10px] text-zinc-400 hover:text-white"
-                                                                        >
-                                                                            Gradiente
-                                                                        </button>
-                                                                        <button
-                                                                            onClick={() => setEditingTemplate({ ...editingTemplate, bgGradient: "#09090b" })}
-                                                                            className="px-2 py-1 bg-zinc-900 border border-white/10 rounded text-[10px] text-zinc-400 hover:text-white"
-                                                                        >
-                                                                            Sólido
-                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -898,33 +1053,140 @@ export default function SecretSalesArea() {
 
                                                         <button
                                                             onClick={() => {
-                                                                // Simple download simulation using canvas
                                                                 const canvas = document.createElement('canvas');
                                                                 canvas.width = 1080;
                                                                 canvas.height = 1080;
                                                                 const ctx = canvas.getContext('2d');
                                                                 if (ctx) {
-                                                                    // Draw Background
+                                                                    // Background
                                                                     const grad = ctx.createLinearGradient(0, 0, 1080, 1080);
-                                                                    grad.addColorStop(0, editingTemplate.bgGradient.includes('linear-gradient') ? `${editingTemplate.color}40` : editingTemplate.bgGradient);
+                                                                    grad.addColorStop(0, editingTemplate.bgGradient.includes('linear-gradient') ? `${editingTemplate.color}60` : editingTemplate.bgGradient);
                                                                     grad.addColorStop(1, '#000000');
                                                                     ctx.fillStyle = grad;
                                                                     ctx.fillRect(0, 0, 1080, 1080);
 
-                                                                    // Draw Text
-                                                                    ctx.fillStyle = 'white';
+                                                                    // Branding
+                                                                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                                                                    ctx.font = 'bold 20px sans-serif';
                                                                     ctx.textAlign = 'center';
-                                                                    ctx.font = 'bold 80px sans-serif';
-                                                                    ctx.fillText(editingTemplate.title, 540, 450);
+                                                                    ctx.fillText('@wtmcorps', 540, 1000);
 
+                                                                    // Type Badge
+                                                                    ctx.fillStyle = `${editingTemplate.color}40`;
+                                                                    ctx.beginPath();
+                                                                    ctx.roundRect(440, 100, 200, 40, 20);
+                                                                    ctx.fill();
                                                                     ctx.fillStyle = editingTemplate.color;
-                                                                    ctx.fillRect(490, 500, 100, 10);
+                                                                    ctx.font = 'bold 18px sans-serif';
+                                                                    ctx.fillText(editingTemplate.type.toUpperCase(), 540, 125);
 
-                                                                    ctx.fillStyle = '#d1d5db';
-                                                                    ctx.font = '40px sans-serif';
-                                                                    ctx.fillText(editingTemplate.subtitle, 540, 600);
+                                                                    // Helper for text wrapping
+                                                                    const wrapText = (text: string, x: number, y: number, maxWidth: number, lineHeight: number) => {
+                                                                        const words = text.split(' ');
+                                                                        let line = '';
+                                                                        let currentY = y;
 
-                                                                    // Export
+                                                                        for (let n = 0; n < words.length; n++) {
+                                                                            const testLine = line + words[n] + ' ';
+                                                                            const metrics = ctx.measureText(testLine);
+                                                                            const testWidth = metrics.width;
+                                                                            if (testWidth > maxWidth && n > 0) {
+                                                                                ctx.fillText(line, x, currentY);
+                                                                                line = words[n] + ' ';
+                                                                                currentY += lineHeight;
+                                                                            } else {
+                                                                                line = testLine;
+                                                                            }
+                                                                        }
+                                                                        ctx.fillText(line, x, currentY);
+                                                                        return currentY;
+                                                                    };
+
+                                                                    // Content Rendering based on ID
+                                                                    ctx.fillStyle = 'white';
+                                                                    if (editingTemplate.id === "carousel") {
+                                                                        ctx.font = 'bold 80px sans-serif';
+                                                                        ctx.textAlign = 'center';
+                                                                        const lastY = wrapText(editingTemplate.title, 540, 400, 900, 90);
+
+                                                                        ctx.fillStyle = editingTemplate.color;
+                                                                        ctx.fillRect(490, lastY + 40, 100, 10);
+
+                                                                        ctx.fillStyle = '#d1d5db';
+                                                                        ctx.font = '40px sans-serif';
+                                                                        wrapText(editingTemplate.subtitle, 540, lastY + 120, 800, 50);
+                                                                    } else if (editingTemplate.id === "before-after") {
+                                                                        // Antes
+                                                                        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                                                                        ctx.beginPath();
+                                                                        ctx.roundRect(100, 200, 880, 280, 20);
+                                                                        ctx.fill();
+
+                                                                        ctx.fillStyle = '#ef4444';
+                                                                        ctx.font = 'bold 25px sans-serif';
+                                                                        ctx.textAlign = 'center';
+                                                                        ctx.fillText('ANTES', 540, 250);
+
+                                                                        ctx.fillStyle = '#9ca3af';
+                                                                        ctx.font = 'italic 35px sans-serif';
+                                                                        wrapText(`"${editingTemplate.beforeText}"`, 540, 330, 800, 45);
+
+                                                                        // Depois
+                                                                        ctx.fillStyle = 'rgba(255,255,255,0.05)';
+                                                                        ctx.beginPath();
+                                                                        ctx.roundRect(100, 520, 880, 280, 20);
+                                                                        ctx.fill();
+
+                                                                        ctx.fillStyle = editingTemplate.color;
+                                                                        ctx.font = 'bold 25px sans-serif';
+                                                                        ctx.fillText('DEPOIS', 540, 570);
+
+                                                                        ctx.fillStyle = 'white';
+                                                                        ctx.font = 'bold 40px sans-serif';
+                                                                        wrapText(`"${editingTemplate.afterText}"`, 540, 650, 800, 55);
+                                                                    } else if (editingTemplate.id === "proof") {
+                                                                        ctx.fillStyle = 'rgba(0,0,0,0.4)';
+                                                                        ctx.beginPath();
+                                                                        ctx.roundRect(140, 250, 800, 500, 40);
+                                                                        ctx.fill();
+
+                                                                        ctx.fillStyle = '#f59e0b';
+                                                                        ctx.font = '50px sans-serif';
+                                                                        ctx.textAlign = 'center';
+                                                                        ctx.fillText('★'.repeat(editingTemplate.rating || 5), 540, 350);
+
+                                                                        ctx.fillStyle = 'white';
+                                                                        ctx.font = 'italic 45px sans-serif';
+                                                                        const lastY = wrapText(`"${editingTemplate.review}"`, 540, 450, 700, 60);
+
+                                                                        ctx.fillStyle = editingTemplate.color;
+                                                                        ctx.font = 'bold 40px sans-serif';
+                                                                        ctx.fillText(editingTemplate.clientName || '', 540, lastY + 80);
+
+                                                                        ctx.fillStyle = '#6b7280';
+                                                                        ctx.font = 'bold 20px sans-serif';
+                                                                        ctx.fillText('CLIENTE SATISFEITO', 540, lastY + 120);
+                                                                    } else if (editingTemplate.id === "checklist") {
+                                                                        ctx.font = 'bold 70px sans-serif';
+                                                                        ctx.textAlign = 'center';
+                                                                        ctx.fillStyle = 'white';
+                                                                        const lastY = wrapText(editingTemplate.title, 540, 250, 900, 80);
+
+                                                                        ctx.textAlign = 'left';
+                                                                        editingTemplate.items?.forEach((item, idx) => {
+                                                                            const itemY = lastY + 100 + (idx * 90);
+                                                                            if (itemY < 950) {
+                                                                                ctx.fillStyle = editingTemplate.color;
+                                                                                ctx.font = 'bold 50px sans-serif';
+                                                                                ctx.fillText('✓', 200, itemY);
+
+                                                                                ctx.fillStyle = '#e5e7eb';
+                                                                                ctx.font = '40px sans-serif';
+                                                                                ctx.fillText(item, 270, itemY);
+                                                                            }
+                                                                        });
+                                                                    }
+
                                                                     const link = document.createElement('a');
                                                                     link.download = `wtm-post-${editingTemplate.id}.png`;
                                                                     link.href = canvas.toDataURL();
@@ -1025,9 +1287,10 @@ export default function SecretSalesArea() {
                                     </motion.div>
                                 )}
                             </AnimatePresence>
-                        </div>
-                    </div>
-                )}
+                        </div >
+                    </div >
+                )
+                }
 
                 {/* Footer */}
                 <div className="p-4 bg-zinc-950/50 border-t border-white/5 flex justify-between items-center shrink-0">
@@ -1036,7 +1299,7 @@ export default function SecretSalesArea() {
                         WTM Corps Sales Intelligence v2.1 - Secured
                     </div>
                 </div>
-            </motion.div>
-        </div>
+            </motion.div >
+        </div >
     );
 }
