@@ -62,6 +62,44 @@ const TEMPLATES = [
     }
 ];
 
+const CONTENT_IDEAS = {
+    "web-design": [
+        { title: "5 Sinais que seu site está espantando clientes", type: "Carrossel", caption: "Seu site é sua vitrine virtual. Se ele demora a carregar ou não é responsivo, você está perdendo dinheiro. #WebDesign #MarketingDigital" },
+        { title: "Landing Page vs Site Institucional: Qual você precisa?", type: "Reels/Vídeo", caption: "Muitos empresários confundem os dois. Explico a diferença crucial para sua conversão. #LandingPage #VendasOnline" },
+        { title: "Como um design premium aumenta seu ticket médio", type: "Post Estático", caption: "A percepção de valor começa pelo olhar. Um site amador atrai clientes que buscam preço, um site premium atrai clientes que buscam qualidade. #DesignPremium #Branding" }
+    ],
+    "marketing": [
+        { title: "O erro #1 que impede sua empresa de vender no Google", type: "Carrossel", caption: "Não adianta ter tráfego se sua página não converte. O segredo está na experiência do usuário. #GoogleAds #SEO" },
+        { title: "3 Gatilhos mentais indispensáveis para sua página de vendas", type: "Reels/Vídeo", caption: "Autoridade, Escassez e Prova Social. Como usar sem parecer forçado. #Neuromarketing #Copywriting" },
+        { title: "Por que o tráfego pago sozinho não faz milagre", type: "Post Estático", caption: "O anúncio traz o cliente, mas o site é quem fecha a venda. Cuide da sua casa digital. #MarketingDeResultados #Growth" }
+    ],
+    "lifestyle": [
+        { title: "Bastidores: Como criamos uma identidade visual do zero", type: "Stories/Processo", caption: "Mostrando o processo criativo desde o briefing até o lançamento. #DesignProcess #CreativeAgency" },
+        { title: "Um dia na WTM Corps: Foco em resultados", type: "Vlog Curto", caption: "Nossa rotina focada em entregar o melhor para nossos parceiros. #AgencyLife #WTMCorps" }
+    ],
+    "results": [
+        { title: "Case de Sucesso: +200% em conversão em 30 dias", type: "Estudo de Caso", caption: "Como reformulamos o checkout de um cliente e explodimos as vendas. #CaseDeSucesso #ROI" },
+        { title: "Depoimento: O que nossos clientes dizem sobre nós", type: "Prova Social", caption: "A satisfação de quem confiou sua presença digital à WTM. #Feedback #ClientesSatisfeitos" }
+    ]
+};
+
+const STRATEGY_GUIDE = {
+    scripts: [
+        { title: "Script de Abordagem Fria (Direct)", content: "Olá [Nome], vi seu perfil e notei que sua empresa tem um potencial incrível, mas seu site atual pode estar limitando seu crescimento. Trabalhamos com design de alta conversão na WTM Corps. Toparia uma análise gratuita de 5 min?" },
+        { title: "Quebra de Objeção: 'Está caro'", content: "Entendo perfeitamente. Na verdade, o investimento se paga com o aumento da conversão. Se recuperarmos apenas 2 clientes que você perde hoje por causa do site, o projeto já se pagou. Faz sentido?" },
+        { title: "Follow-up Estratégico", content: "Oi [Nome], passando para compartilhar um case de um cliente do seu nicho que teve resultados excelentes após a nossa intervenção. Pensei que você gostaria de ver!" },
+        { title: "Script de Indicação", content: "Olá [Parceiro], estamos expandindo nossa operação e buscando 3 novas empresas para escalar este mês. Se conhecer alguém que precise profissionalizar o site, ficarei muito grato pela indicação!" }
+    ],
+    hashtags: "#WebDesignProfissional #MarketingDeServiços #WTMCorps #VendasOnline #LandingPageAltaConversão #EmpreendedorismoDigital #DesignEstratégico",
+    tips: [
+        "Poste 3x por semana focando em resolver dores do seu cliente ideal.",
+        "Interaja com 20 perfis de potenciais clientes todos os dias (comentários sinceros).",
+        "Use os Stories para mostrar os bastidores e gerar autoridade.",
+        "Sempre tenha uma CTA (Chamada para Ação) clara em todos os posts.",
+        "Responda todos os directs em menos de 1 hora para não perder o timing."
+    ]
+};
+
 export default function SecretSalesArea() {
     const [isOpen, setIsOpen] = useState(false);
     const [isUnlocked, setIsUnlocked] = useState(false);
@@ -93,66 +131,7 @@ export default function SecretSalesArea() {
     const [contentLabSubTab, setContentLabSubTab] = useState<"generator" | "templates" | "planner" | "strategy">("generator");
     const [generatedIdea, setGeneratedIdea] = useState<{ title: string; caption: string; type: string } | null>(null);
     const [plannedPosts, setPlannedPosts] = useState<{ id: string; title: string; date: string }[]>([]);
-
-    const CONTENT_IDEAS = {
-        "web-design": [
-            { title: "5 Sinais que seu site está espantando clientes", type: "Carrossel", caption: "Seu site é sua vitrine virtual. Se ele demora a carregar ou não é responsivo, você está perdendo dinheiro. #WebDesign #MarketingDigital" },
-            { title: "Landing Page vs Site Institucional: Qual escolher?", type: "Vídeo/Reels", caption: "Muitos empreendedores confundem os dois. No vídeo de hoje, explico a diferença estratégica. #LandingPage #Vendas" },
-            { title: "Como um design premium aumenta seu ticket médio", type: "Post Estático", caption: "A percepção de valor está diretamente ligada à estética e usabilidade. #DesignPremium #WTMCorps" },
-            { title: "O erro #1 que destrói a conversão do seu mobile", type: "Vídeo/Reels", caption: "Não é apenas diminuir o tamanho das coisas. É sobre hierarquia e facilidade de clique. #MobileFirst #UX" },
-            { title: "Por que você não deve usar templates prontos", type: "Carrossel", caption: "Templates limitam sua marca e prejudicam seu SEO. O design sob medida é o que diferencia os grandes. #DesignExclusivo" }
-        ],
-        "marketing": [
-            { title: "A psicologia das cores no fechamento de contratos", type: "Carrossel", caption: "Por que o azul transmite confiança e o roxo autoridade? Descubra como usar isso a seu favor. #Marketing #Vendas" },
-            { title: "3 Gatilhos mentais indispensáveis para sua Bio", type: "Vídeo/Reels", caption: "Sua bio é o primeiro contato. Use prova social, autoridade e escassez. #InstagramMarketing" },
-            { title: "Como atrair clientes de alto ticket no orgânico", type: "Post Estático", caption: "Pare de postar dicas genéricas e comece a falar sobre problemas de escala e lucro. #HighTicket #Vendas" },
-            { title: "A regra dos 3 segundos: Como prender a atenção", type: "Vídeo/Reels", caption: "O hook (gancho) é a parte mais importante do seu conteúdo. Aprenda a criar ganchos impossíveis de ignorar." }
-        ],
-        "lifestyle": [
-            { title: "Minha rotina como Web Designer de Elite", type: "Vídeo/Reels", caption: "Um dia na vida de quem constrói o futuro digital das empresas. #WebDesignerLife #WTMCorps" },
-            { title: "Setup 2026: O que uso para produzir em alta performance", type: "Post Estático", caption: "Ferramentas não fazem o mestre, mas ajudam na produtividade. Aqui está meu setup atual. #Productivity #Setup" },
-            { title: "Por que escolhi o Web Design em vez do CLT", type: "Carrossel", caption: "Liberdade geográfica, financeira e criativa. O caminho não é fácil, mas vale a pena. #Empreendedorismo" }
-        ],
-        "results": [
-            { title: "Case de Sucesso: +200% de conversão em 30 dias", type: "Carrossel", caption: "Veja como transformamos um site lento em uma máquina de vendas imparável. #CaseDeSucesso #Resultados" },
-            { title: "Feedback do Cliente: 'O melhor investimento do ano'", type: "Post Estático", caption: "Nada fala mais alto que um cliente satisfeito e lucrando. #ProvaSocial #WTMCorps" }
-        ]
-    };
-
-    const STRATEGY_GUIDE = {
-        scripts: [
-            { title: "Script de Abordagem Fria (Direct)", content: "Olá [Nome], vi seu perfil e notei que seu site atual não está otimizado para conversão. Eu ajudo empresas como a sua a dobrarem o faturamento através de design estratégico. Podemos conversar?" },
-            { title: "Script de Quebra de Objeção (Preço)", content: "Entendo que o investimento pareça alto, mas pense no custo de oportunidade de continuar perdendo clientes para a concorrência por causa de um site amador." },
-            { title: "Script de Follow-up (3 dias depois)", content: "Olá [Nome], passando para saber se conseguiu ver o material que te enviei. Acredito que temos uma janela de oportunidade incrível para o seu nicho agora." },
-            { title: "Script de Pedido de Indicação", content: "Olá [Nome], fico feliz que tenha gostado do novo site! Conhece algum outro empresário que também esteja precisando profissionalizar a presença digital?" }
-        ],
-        hashtags: "#WebDesignProfissional #MarketingDeServiços #WTMCorps #DesignEstratégico #VendasOnline #EmpreendedorismoDigital #LandingPages #UXDesign #MarketingDeConteúdo #VendasNoInstagram",
-        tips: [
-            "Poste 3x por semana no feed focando em dor/solução.",
-            "Use os Stories para mostrar bastidores e processos (Gera conexão).",
-            "Responda todos os comentários com perguntas para gerar engajamento.",
-            "Faça pelo menos 1 Reel por semana com um 'gancho' forte nos primeiros 2 segundos.",
-            "Utilize a técnica do 'AIDA' (Atenção, Interesse, Desejo, Ação) em todas as legendas.",
-            "Mantenha uma identidade visual consistente para ser reconhecido instantaneamente."
-        ]
-    };
-
-    const generateIdea = () => {
-        const categories = Object.keys(CONTENT_IDEAS) as Array<keyof typeof CONTENT_IDEAS>;
-        const category = categories[Math.floor(Math.random() * categories.length)];
-        const ideas = CONTENT_IDEAS[category];
-        const idea = ideas[Math.floor(Math.random() * ideas.length)];
-        setGeneratedIdea(idea);
-    };
-
-    const addPlannedPost = (title: string) => {
-        const newPost = { id: Date.now().toString(), title, date: new Date().toLocaleDateString() };
-        savePlannerToStorage([...plannedPosts, newPost]);
-    };
-
-    const removePlannedPost = (id: string) => {
-        savePlannerToStorage(plannedPosts.filter(p => p.id !== id));
-    };
+    const [isGenerating, setIsGenerating] = useState(false);
 
     useEffect(() => {
         const handleOpen = () => setIsOpen(true);
@@ -284,6 +263,31 @@ export default function SecretSalesArea() {
         navigator.clipboard.writeText(text);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+    };
+
+    const generateIdea = async () => {
+        setIsGenerating(true);
+        setGeneratedIdea(null);
+
+        // Simulate AI thinking
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        const categories = Object.keys(CONTENT_IDEAS) as Array<keyof typeof CONTENT_IDEAS>;
+        const category = categories[Math.floor(Math.random() * categories.length)];
+        const ideas = CONTENT_IDEAS[category];
+        const idea = ideas[Math.floor(Math.random() * ideas.length)];
+
+        setGeneratedIdea(idea);
+        setIsGenerating(false);
+    };
+
+    const addPlannedPost = (title: string) => {
+        const newPost = { id: Date.now().toString(), title, date: new Date().toLocaleDateString() };
+        savePlannerToStorage([...plannedPosts, newPost]);
+    };
+
+    const removePlannedPost = (id: string) => {
+        savePlannerToStorage(plannedPosts.filter(p => p.id !== id));
     };
 
     if (!isOpen) return null;
@@ -690,9 +694,17 @@ export default function SecretSalesArea() {
                                                     </div>
                                                     <button
                                                         onClick={generateIdea}
-                                                        className="bg-violet-600 hover:bg-violet-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-violet-500/20"
+                                                        disabled={isGenerating}
+                                                        className="bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-violet-500/20 flex items-center justify-center gap-2 mx-auto"
                                                     >
-                                                        Gerar Nova Ideia
+                                                        {isGenerating ? (
+                                                            <>
+                                                                <Loader2 className="animate-spin" size={20} />
+                                                                IA Criando...
+                                                            </>
+                                                        ) : (
+                                                            "Gerar Nova Ideia"
+                                                        )}
                                                     </button>
                                                 </div>
 
