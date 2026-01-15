@@ -4,7 +4,7 @@ import { Providers } from "@/components/providers/Providers";
 import StarfieldBackground from "@/components/ui/StarfieldBackground";
 import AuthGuard from "@/components/auth/AuthGuard";
 import MainLayout from "@/components/layout/MainLayout";
-import SecretSalesArea from "@/components/tools/SecretSalesArea";
+import SecretAreaLoader from "@/components/tools/SecretAreaLoader";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -27,7 +27,7 @@ export default function RootLayout({
                         <MainLayout>
                             {children}
                         </MainLayout>
-                        <SecretSalesArea />
+                        <SecretAreaLoader />
                     </AuthGuard>
                 </Providers>
             </body>

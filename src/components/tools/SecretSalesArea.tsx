@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     X,
@@ -10,22 +10,17 @@ import {
     MessageCircle,
     Store,
     Globe,
-    Phone,
     MapPin,
     ArrowRight,
     CheckCircle2,
     AlertCircle,
     Loader2,
-    Sparkles,
+    Zap,
     Save,
     Trash2,
-    LayoutDashboard,
     Users,
     FileText,
-    Zap,
-    ExternalLink,
     BarChart3,
-    History,
     Copy,
     Check
 } from "lucide-react";
@@ -72,6 +67,7 @@ export default function SecretSalesArea() {
     const [isUnlocked, setIsUnlocked] = useState(false);
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [isVerifying, setIsVerifying] = useState(false);
     const [activeTab, setActiveTab] = useState<"finder" | "crm" | "auditor" | "templates">("finder");
 
     // WhatsApp Sender State
@@ -109,14 +105,30 @@ export default function SecretSalesArea() {
         localStorage.setItem("wtm_crm_leads", JSON.stringify(updatedLeads));
     };
 
-    const handleUnlock = (e: React.FormEvent) => {
+    const handleUnlock = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (password === "wtmdisparador") {
-            setIsUnlocked(true);
-            setError("");
-        } else {
-            setError("Senha incorreta. Tente novamente.");
-            setPassword("");
+        setIsVerifying(true);
+        setError("");
+
+        try {
+            const response = await fetch("/api/secret/verify", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setIsUnlocked(true);
+            } else {
+                setError(data.error || "Senha incorreta.");
+                setPassword("");
+            }
+        } catch (err) {
+            setError("Erro de conexão. Tente novamente.");
+        } finally {
+            setIsVerifying(false);
         }
     };
 
@@ -136,7 +148,6 @@ export default function SecretSalesArea() {
         setIsSearching(true);
 
         try {
-            // Using Nominatim (OpenStreetMap) for real data
             const q = `${searchQuery} ${location}`;
             const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&addressdetails=1&limit=10`);
             const data = await response.json();
@@ -146,7 +157,7 @@ export default function SecretSalesArea() {
                 name: item.display_name.split(",")[0],
                 type: item.type || "Negócio",
                 address: item.display_name,
-                phone: "", // Nominatim doesn't provide phones easily, but we can search for them
+                phone: "",
                 website: "",
                 potential: Math.random() > 0.5 ? "high" : "medium"
             }));
@@ -172,11 +183,10 @@ export default function SecretSalesArea() {
         e.preventDefault();
         setIsAuditing(true);
 
-        // Simulated audit logic
         setTimeout(() => {
             const mockAudit: SiteAudit = {
                 url: auditUrl,
-                score: Math.floor(Math.random() * 40) + 30, // Low score for sales pitch
+                score: Math.floor(Math.random() * 40) + 30,
                 issues: [
                     "Tempo de carregamento superior a 4 segundos",
                     "Falta de otimização para dispositivos móveis",
@@ -267,10 +277,11 @@ export default function SecretSalesArea() {
                             </div>
                             <button
                                 type="submit"
-                                className="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group shadow-lg shadow-violet-500/20"
+                                disabled={isVerifying || !password}
+                                className="w-full bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group shadow-lg shadow-violet-500/20"
                             >
-                                Desbloquear Sistema
-                                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                {isVerifying ? <Loader2 className="animate-spin" size={20} /> : "Desbloquear Sistema"}
+                                {!isVerifying && <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />}
                             </button>
                         </form>
                     </div>
@@ -427,12 +438,6 @@ export default function SecretSalesArea() {
                                                     </div>
                                                 </div>
                                             ))}
-                                            {leads.length === 0 && !isSearching && (
-                                                <div className="col-span-full flex flex-col items-center justify-center py-20 text-zinc-600">
-                                                    <Store size={48} className="mb-4 opacity-10" />
-                                                    <p>Nenhum resultado para exibir. Inicie uma busca acima.</p>
-                                                </div>
-                                            )}
                                         </div>
                                     </motion.div>
                                 )}
@@ -468,7 +473,6 @@ export default function SecretSalesArea() {
                                                     <tr className="border-b border-white/5 bg-white/5">
                                                         <th className="p-4 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Nome / Empresa</th>
                                                         <th className="p-4 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Status</th>
-                                                        <th className="p-4 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Salvo em</th>
                                                         <th className="p-4 text-[10px] font-bold text-zinc-500 uppercase tracking-widest text-right">Ações</th>
                                                     </tr>
                                                 </thead>
@@ -481,9 +485,6 @@ export default function SecretSalesArea() {
                                                             </td>
                                                             <td className="p-4">
                                                                 <span className="px-2 py-0.5 bg-violet-500/10 text-violet-400 text-[10px] rounded-full font-bold">Pendente</span>
-                                                            </td>
-                                                            <td className="p-4 text-xs text-zinc-500">
-                                                                {lead.savedAt ? new Date(lead.savedAt).toLocaleDateString() : "-"}
                                                             </td>
                                                             <td className="p-4 text-right">
                                                                 <div className="flex items-center justify-end gap-2">
@@ -503,13 +504,6 @@ export default function SecretSalesArea() {
                                                             </td>
                                                         </tr>
                                                     ))}
-                                                    {savedLeads.length === 0 && (
-                                                        <tr>
-                                                            <td colSpan={4} className="p-12 text-center text-zinc-600 text-sm">
-                                                                Nenhum lead salvo ainda. Comece a prospectar no buscador!
-                                                            </td>
-                                                        </tr>
-                                                    )}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -527,7 +521,7 @@ export default function SecretSalesArea() {
                                         <div className="flex flex-col gap-4">
                                             <h3 className="text-2xl font-bold text-white flex items-center gap-2">
                                                 <BarChart3 className="text-violet-500" />
-                                                Auditor de Sites (Sales Hook)
+                                                Auditor de Sites
                                             </h3>
                                             <p className="text-zinc-400 text-sm">Gere um relatório de falhas para usar como argumento de venda.</p>
                                         </div>
@@ -537,7 +531,7 @@ export default function SecretSalesArea() {
                                                 type="text"
                                                 value={auditUrl}
                                                 onChange={(e) => setAuditUrl(e.target.value)}
-                                                placeholder="URL do site do cliente (ex: lojaexemplo.com.br)"
+                                                placeholder="URL do site do cliente"
                                                 className="flex-1 bg-zinc-800 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50"
                                             />
                                             <button
@@ -551,82 +545,28 @@ export default function SecretSalesArea() {
                                         </form>
 
                                         {auditResult && (
-                                            <motion.div
-                                                initial={{ opacity: 0, y: 20 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                className="grid grid-cols-1 md:grid-cols-3 gap-6"
-                                            >
-                                                <div className="md:col-span-1 bg-zinc-800/50 border border-white/5 rounded-2xl p-8 flex flex-col items-center justify-center text-center">
-                                                    <div className="relative w-32 h-32 mb-4">
-                                                        <svg className="w-full h-full" viewBox="0 0 36 36">
-                                                            <path
-                                                                className="text-white/5"
-                                                                strokeDasharray="100, 100"
-                                                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                                                                fill="none"
-                                                                stroke="currentColor"
-                                                                strokeWidth="3"
-                                                            />
-                                                            <path
-                                                                className="text-red-500"
-                                                                strokeDasharray={`${auditResult.score}, 100`}
-                                                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                                                                fill="none"
-                                                                stroke="currentColor"
-                                                                strokeWidth="3"
-                                                            />
-                                                        </svg>
-                                                        <div className="absolute inset-0 flex items-center justify-center">
-                                                            <span className="text-3xl font-black text-white">{auditResult.score}</span>
-                                                        </div>
-                                                    </div>
-                                                    <h4 className="text-lg font-bold text-white">Score de Performance</h4>
-                                                    <p className="text-xs text-red-400 mt-2 font-bold uppercase tracking-widest">Crítico</p>
+                                            <div className="bg-zinc-800/50 border border-white/5 rounded-2xl p-6 space-y-6">
+                                                <div className="flex items-center justify-between">
+                                                    <h4 className="font-bold text-white">{auditResult.url}</h4>
+                                                    <span className={`text-2xl font-black ${auditResult.score < 50 ? "text-red-500" : "text-yellow-500"}`}>
+                                                        {auditResult.score}/100
+                                                    </span>
                                                 </div>
-
-                                                <div className="md:col-span-2 space-y-6">
-                                                    <div className="bg-zinc-800/50 border border-white/5 rounded-2xl p-6">
-                                                        <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
-                                                            <AlertCircle className="text-red-500" size={16} />
-                                                            Falhas Identificadas
-                                                        </h4>
-                                                        <ul className="space-y-2">
-                                                            {auditResult.issues.map((issue, i) => (
-                                                                <li key={i} className="text-xs text-zinc-400 flex items-center gap-2">
-                                                                    <div className="w-1 h-1 rounded-full bg-red-500" />
-                                                                    {issue}
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    </div>
-
-                                                    <div className="bg-violet-500/10 border border-violet-500/20 rounded-2xl p-6">
-                                                        <h4 className="text-sm font-bold text-violet-400 mb-4 flex items-center gap-2">
-                                                            <CheckCircle2 size={16} />
-                                                            Soluções WTM Corps
-                                                        </h4>
-                                                        <ul className="space-y-2">
-                                                            {auditResult.recommendations.map((rec, i) => (
-                                                                <li key={i} className="text-xs text-zinc-300 flex items-center gap-2">
-                                                                    <div className="w-1 h-1 rounded-full bg-violet-500" />
-                                                                    {rec}
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    </div>
-
-                                                    <button
-                                                        onClick={() => {
-                                                            const report = `AUDITORIA DE SITE - ${auditResult.url}\n\nScore: ${auditResult.score}/100 (CRÍTICO)\n\nPrincipais Falhas:\n${auditResult.issues.map(i => `- ${i}`).join("\n")}\n\nPodemos resolver isso hoje?`;
-                                                            copyToClipboard(report);
-                                                        }}
-                                                        className="w-full bg-white/5 hover:bg-white/10 text-white text-xs font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2"
-                                                    >
-                                                        {copied ? <Check size={16} className="text-emerald-500" /> : <Copy size={16} />}
-                                                        Copiar Relatório de Vendas
-                                                    </button>
+                                                <div className="space-y-2">
+                                                    <p className="text-xs font-bold text-zinc-500 uppercase">Falhas:</p>
+                                                    {auditResult.issues.map((issue, i) => (
+                                                        <p key={i} className="text-xs text-red-400 flex items-center gap-2">
+                                                            <AlertCircle size={12} /> {issue}
+                                                        </p>
+                                                    ))}
                                                 </div>
-                                            </motion.div>
+                                                <button
+                                                    onClick={() => copyToClipboard(`Relatório de Auditoria: ${auditResult.url}\nScore: ${auditResult.score}\n\nFalhas:\n${auditResult.issues.join("\n")}`)}
+                                                    className="w-full bg-white/5 hover:bg-white/10 text-white text-xs font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2"
+                                                >
+                                                    <Copy size={14} /> Copiar Relatório
+                                                </button>
+                                            </div>
                                         )}
                                     </motion.div>
                                 )}
@@ -639,34 +579,18 @@ export default function SecretSalesArea() {
                                         exit={{ opacity: 0, x: -20 }}
                                         className="space-y-8"
                                     >
-                                        <div className="flex flex-col gap-4">
-                                            <h3 className="text-2xl font-bold text-white flex items-center gap-2">
-                                                <FileText className="text-violet-500" />
-                                                Scripts de Alta Conversão
-                                            </h3>
-                                            <p className="text-zinc-400 text-sm">Templates prontos para diferentes estágios da venda.</p>
-                                        </div>
-
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             {TEMPLATES.map(template => (
                                                 <div key={template.id} className="bg-zinc-800/50 border border-white/5 rounded-2xl p-6 space-y-4">
-                                                    <div className="flex justify-between items-center">
-                                                        <h4 className="font-bold text-white">{template.name}</h4>
-                                                        <button
-                                                            onClick={() => copyToClipboard(template.content)}
-                                                            className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-zinc-400 transition-all"
-                                                        >
-                                                            {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
-                                                        </button>
-                                                    </div>
-                                                    <p className="text-xs text-zinc-400 leading-relaxed bg-zinc-950/30 p-4 rounded-xl border border-white/5">
+                                                    <h4 className="font-bold text-white">{template.name}</h4>
+                                                    <p className="text-xs text-zinc-400 bg-zinc-950/30 p-4 rounded-xl border border-white/5">
                                                         {template.content}
                                                     </p>
                                                     <button
                                                         onClick={() => setMessage(template.content)}
-                                                        className={`w-full py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${message === template.content ? "bg-violet-500 text-white" : "bg-white/5 text-zinc-500 hover:bg-white/10"}`}
+                                                        className="w-full py-2 bg-violet-500 text-white rounded-lg text-[10px] font-bold uppercase"
                                                     >
-                                                        {message === template.content ? "Selecionado" : "Usar este Template"}
+                                                        Usar Template
                                                     </button>
                                                 </div>
                                             ))}
@@ -682,10 +606,7 @@ export default function SecretSalesArea() {
                 <div className="p-4 bg-zinc-950/50 border-t border-white/5 flex justify-between items-center shrink-0">
                     <div className="flex items-center gap-2 text-[10px] text-zinc-500">
                         <CheckCircle2 size={12} className="text-violet-500" />
-                        WTM Corps Sales Intelligence v2.0 - Full Automation Enabled
-                    </div>
-                    <div className="text-[10px] text-zinc-600 italic">
-                        "O sucesso não é sorte, é sistema."
+                        WTM Corps Sales Intelligence v2.1 - Secured
                     </div>
                 </div>
             </motion.div>
