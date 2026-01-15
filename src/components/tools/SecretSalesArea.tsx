@@ -127,11 +127,21 @@ export default function SecretSalesArea() {
     const [auditResult, setAuditResult] = useState<SiteAudit | null>(null);
     const [isAuditing, setIsAuditing] = useState(false);
 
+    interface Template {
+        id: string;
+        title: string;
+        subtitle: string;
+        type: string;
+        color: string;
+        bgGradient: string;
+    }
+
     // Content Lab State
     const [contentLabSubTab, setContentLabSubTab] = useState<"generator" | "templates" | "planner" | "strategy">("generator");
     const [generatedIdea, setGeneratedIdea] = useState<{ title: string; caption: string; type: string } | null>(null);
     const [plannedPosts, setPlannedPosts] = useState<{ id: string; title: string; date: string }[]>([]);
     const [isGenerating, setIsGenerating] = useState(false);
+    const [editingTemplate, setEditingTemplate] = useState<Template | null>(null);
 
     useEffect(() => {
         const handleOpen = () => setIsOpen(true);
@@ -733,21 +743,201 @@ export default function SecretSalesArea() {
                                             </div>
                                         )}
 
-                                        {contentLabSubTab === "templates" && (
+                                        {contentLabSubTab === "templates" && !editingTemplate && (
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {[
-                                                    { title: "Carrossel Educativo", desc: "Estrutura: Capa chamativa > Problema > Solução > CTA", color: "from-blue-500/20" },
-                                                    { title: "Post de Prova Social", desc: "Estrutura: Print de feedback > Resultado alcançado > CTA", color: "from-emerald-500/20" },
-                                                    { title: "Checklist de Valor", desc: "Estrutura: Lista de itens essenciais > Por que importa > CTA", color: "from-violet-500/20" },
-                                                    { title: "Antes e Depois", desc: "Estrutura: Site antigo > Site novo > Métricas de melhora", color: "from-orange-500/20" }
+                                                    { id: "carousel", title: "Carrossel Educativo", desc: "Estrutura: Capa chamativa > Problema > Solução > CTA", color: "from-blue-500/20", accent: "#3b82f6", gradient: "linear-gradient(135deg, #1e3a8a 0%, #000000 100%)" },
+                                                    { id: "proof", title: "Post de Prova Social", desc: "Estrutura: Print de feedback > Resultado alcançado > CTA", color: "from-emerald-500/20", accent: "#10b981", gradient: "linear-gradient(135deg, #064e3b 0%, #000000 100%)" },
+                                                    { id: "checklist", title: "Checklist de Valor", desc: "Estrutura: Lista de itens essenciais > Por que importa > CTA", color: "from-violet-500/20", accent: "#8b5cf6", gradient: "linear-gradient(135deg, #4c1d95 0%, #000000 100%)" },
+                                                    { id: "before-after", title: "Antes e Depois", desc: "Estrutura: Site antigo > Site novo > Métricas de melhora", color: "from-orange-500/20", accent: "#f59e0b", gradient: "linear-gradient(135deg, #7c2d12 0%, #000000 100%)" }
                                                 ].map((t, i) => (
-                                                    <div key={i} className={`bg-gradient-to-br ${t.color} to-zinc-900 border border-white/5 rounded-2xl p-6 space-y-3`}>
-                                                        <h4 className="font-bold text-white">{t.title}</h4>
-                                                        <p className="text-xs text-zinc-400">{t.desc}</p>
-                                                        <button className="text-[10px] font-bold text-violet-400 uppercase hover:underline">Ver no Canva (Mock)</button>
+                                                    <div key={i} className={`bg-gradient-to-br ${t.color} to-zinc-900 border border-white/5 rounded-2xl p-6 space-y-4 group relative overflow-hidden`}>
+                                                        <div className="space-y-2">
+                                                            <h4 className="font-bold text-white text-lg">{t.title}</h4>
+                                                            <p className="text-xs text-zinc-400 leading-relaxed">{t.desc}</p>
+                                                        </div>
+                                                        <button
+                                                            onClick={() => setEditingTemplate({
+                                                                id: t.id,
+                                                                title: t.title,
+                                                                subtitle: "Toque para editar este texto e criar seu post profissional",
+                                                                type: t.title,
+                                                                color: t.accent,
+                                                                bgGradient: t.gradient
+                                                            })}
+                                                            className="w-full py-3 bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-violet-500/20"
+                                                        >
+                                                            <Zap size={14} /> Editar Template
+                                                        </button>
                                                     </div>
                                                 ))}
                                             </div>
+                                        )}
+
+                                        {contentLabSubTab === "templates" && editingTemplate && (
+                                            <motion.div
+                                                initial={{ opacity: 0, scale: 0.95 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                className="space-y-6"
+                                            >
+                                                <div className="flex items-center justify-between">
+                                                    <button
+                                                        onClick={() => setEditingTemplate(null)}
+                                                        className="text-zinc-400 hover:text-white flex items-center gap-2 text-sm font-medium transition-colors"
+                                                    >
+                                                        <ArrowRight size={16} className="rotate-180" />
+                                                        Voltar para Galeria
+                                                    </button>
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-[10px] font-bold text-violet-400 uppercase tracking-widest bg-violet-500/10 px-2 py-1 rounded">Editor WTM Design</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                                    {/* Preview Area */}
+                                                    <div className="space-y-4">
+                                                        <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Preview em Tempo Real</p>
+                                                        <div
+                                                            id="template-preview"
+                                                            className="aspect-square w-full rounded-2xl overflow-hidden shadow-2xl relative flex flex-col items-center justify-center p-12 text-center"
+                                                            style={{ background: editingTemplate.bgGradient }}
+                                                        >
+                                                            {/* Decorative Elements */}
+                                                            <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+                                                                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full blur-[80px]" style={{ background: editingTemplate.color }}></div>
+                                                                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full blur-[80px]" style={{ background: editingTemplate.color }}></div>
+                                                            </div>
+
+                                                            <div className="relative z-10 space-y-6">
+                                                                <div className="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4" style={{ background: `${editingTemplate.color}20`, color: editingTemplate.color, border: `1px solid ${editingTemplate.color}40` }}>
+                                                                    WTM Corps • {editingTemplate.type}
+                                                                </div>
+                                                                <h2 className="text-4xl font-black text-white leading-tight tracking-tight drop-shadow-2xl">
+                                                                    {editingTemplate.title}
+                                                                </h2>
+                                                                <div className="w-16 h-1.5 mx-auto rounded-full" style={{ background: editingTemplate.color }}></div>
+                                                                <p className="text-lg text-zinc-300 font-medium leading-relaxed max-w-sm mx-auto">
+                                                                    {editingTemplate.subtitle}
+                                                                </p>
+                                                            </div>
+
+                                                            <div className="absolute bottom-8 left-0 w-full flex justify-center gap-8 opacity-50">
+                                                                <div className="text-[10px] font-bold text-white/50 uppercase tracking-widest">@wtmcorps</div>
+                                                                <div className="text-[10px] font-bold text-white/50 uppercase tracking-widest">wtmcorps.com.br</div>
+                                                            </div>
+                                                        </div>
+                                                        <p className="text-[10px] text-zinc-500 text-center italic">Dica: O design usa proporção 1:1 (Instagram/LinkedIn)</p>
+                                                    </div>
+
+                                                    {/* Controls Area */}
+                                                    <div className="bg-zinc-800/50 border border-white/5 rounded-2xl p-6 space-y-6">
+                                                        <div className="space-y-4">
+                                                            <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                                                                <FileText size={16} className="text-violet-500" />
+                                                                Conteúdo do Post
+                                                            </h4>
+                                                            <div className="space-y-4">
+                                                                <div className="space-y-1.5">
+                                                                    <label className="text-[10px] font-bold text-zinc-500 uppercase">Título Principal</label>
+                                                                    <input
+                                                                        type="text"
+                                                                        value={editingTemplate.title}
+                                                                        onChange={(e) => setEditingTemplate({ ...editingTemplate, title: e.target.value })}
+                                                                        className="w-full bg-zinc-900 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-violet-500"
+                                                                    />
+                                                                </div>
+                                                                <div className="space-y-1.5">
+                                                                    <label className="text-[10px] font-bold text-zinc-500 uppercase">Subtítulo / Descrição</label>
+                                                                    <textarea
+                                                                        value={editingTemplate.subtitle}
+                                                                        onChange={(e) => setEditingTemplate({ ...editingTemplate, subtitle: e.target.value })}
+                                                                        className="w-full h-24 bg-zinc-900 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-violet-500 resize-none"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="space-y-4">
+                                                            <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                                                                <Zap size={16} className="text-violet-500" />
+                                                                Estilo & Cores
+                                                            </h4>
+                                                            <div className="grid grid-cols-2 gap-4">
+                                                                <div className="space-y-1.5">
+                                                                    <label className="text-[10px] font-bold text-zinc-500 uppercase">Cor de Destaque</label>
+                                                                    <div className="flex gap-2">
+                                                                        {["#3b82f6", "#10b981", "#8b5cf6", "#f59e0b", "#ef4444"].map(c => (
+                                                                            <button
+                                                                                key={c}
+                                                                                onClick={() => setEditingTemplate({ ...editingTemplate, color: c })}
+                                                                                className={`w-6 h-6 rounded-full border-2 ${editingTemplate.color === c ? "border-white" : "border-transparent"}`}
+                                                                                style={{ background: c }}
+                                                                            />
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="space-y-1.5">
+                                                                    <label className="text-[10px] font-bold text-zinc-500 uppercase">Fundo</label>
+                                                                    <div className="flex gap-2">
+                                                                        <button
+                                                                            onClick={() => setEditingTemplate({ ...editingTemplate, bgGradient: `linear-gradient(135deg, ${editingTemplate.color}40 0%, #000000 100%)` })}
+                                                                            className="px-2 py-1 bg-zinc-900 border border-white/10 rounded text-[10px] text-zinc-400 hover:text-white"
+                                                                        >
+                                                                            Gradiente
+                                                                        </button>
+                                                                        <button
+                                                                            onClick={() => setEditingTemplate({ ...editingTemplate, bgGradient: "#09090b" })}
+                                                                            className="px-2 py-1 bg-zinc-900 border border-white/10 rounded text-[10px] text-zinc-400 hover:text-white"
+                                                                        >
+                                                                            Sólido
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <button
+                                                            onClick={() => {
+                                                                // Simple download simulation using canvas
+                                                                const canvas = document.createElement('canvas');
+                                                                canvas.width = 1080;
+                                                                canvas.height = 1080;
+                                                                const ctx = canvas.getContext('2d');
+                                                                if (ctx) {
+                                                                    // Draw Background
+                                                                    const grad = ctx.createLinearGradient(0, 0, 1080, 1080);
+                                                                    grad.addColorStop(0, editingTemplate.bgGradient.includes('linear-gradient') ? `${editingTemplate.color}40` : editingTemplate.bgGradient);
+                                                                    grad.addColorStop(1, '#000000');
+                                                                    ctx.fillStyle = grad;
+                                                                    ctx.fillRect(0, 0, 1080, 1080);
+
+                                                                    // Draw Text
+                                                                    ctx.fillStyle = 'white';
+                                                                    ctx.textAlign = 'center';
+                                                                    ctx.font = 'bold 80px sans-serif';
+                                                                    ctx.fillText(editingTemplate.title, 540, 450);
+
+                                                                    ctx.fillStyle = editingTemplate.color;
+                                                                    ctx.fillRect(490, 500, 100, 10);
+
+                                                                    ctx.fillStyle = '#d1d5db';
+                                                                    ctx.font = '40px sans-serif';
+                                                                    ctx.fillText(editingTemplate.subtitle, 540, 600);
+
+                                                                    // Export
+                                                                    const link = document.createElement('a');
+                                                                    link.download = `wtm-post-${editingTemplate.id}.png`;
+                                                                    link.href = canvas.toDataURL();
+                                                                    link.click();
+                                                                }
+                                                            }}
+                                                            className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
+                                                        >
+                                                            <Save size={18} /> Baixar Post Pronto
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
                                         )}
 
                                         {contentLabSubTab === "planner" && (
