@@ -98,24 +98,42 @@ export default function SecretSalesArea() {
         "web-design": [
             { title: "5 Sinais que seu site está espantando clientes", type: "Carrossel", caption: "Seu site é sua vitrine virtual. Se ele demora a carregar ou não é responsivo, você está perdendo dinheiro. #WebDesign #MarketingDigital" },
             { title: "Landing Page vs Site Institucional: Qual escolher?", type: "Vídeo/Reels", caption: "Muitos empreendedores confundem os dois. No vídeo de hoje, explico a diferença estratégica. #LandingPage #Vendas" },
-            { title: "Como um design premium aumenta seu ticket médio", type: "Post Estático", caption: "A percepção de valor está diretamente ligada à estética e usabilidade. #DesignPremium #WTMCorps" }
+            { title: "Como um design premium aumenta seu ticket médio", type: "Post Estático", caption: "A percepção de valor está diretamente ligada à estética e usabilidade. #DesignPremium #WTMCorps" },
+            { title: "O erro #1 que destrói a conversão do seu mobile", type: "Vídeo/Reels", caption: "Não é apenas diminuir o tamanho das coisas. É sobre hierarquia e facilidade de clique. #MobileFirst #UX" },
+            { title: "Por que você não deve usar templates prontos", type: "Carrossel", caption: "Templates limitam sua marca e prejudicam seu SEO. O design sob medida é o que diferencia os grandes. #DesignExclusivo" }
         ],
         "marketing": [
             { title: "A psicologia das cores no fechamento de contratos", type: "Carrossel", caption: "Por que o azul transmite confiança e o roxo autoridade? Descubra como usar isso a seu favor. #Marketing #Vendas" },
-            { title: "3 Gatilhos mentais indispensáveis para sua Bio", type: "Vídeo/Reels", caption: "Sua bio é o primeiro contato. Use prova social, autoridade e escassez. #InstagramMarketing" }
+            { title: "3 Gatilhos mentais indispensáveis para sua Bio", type: "Vídeo/Reels", caption: "Sua bio é o primeiro contato. Use prova social, autoridade e escassez. #InstagramMarketing" },
+            { title: "Como atrair clientes de alto ticket no orgânico", type: "Post Estático", caption: "Pare de postar dicas genéricas e comece a falar sobre problemas de escala e lucro. #HighTicket #Vendas" },
+            { title: "A regra dos 3 segundos: Como prender a atenção", type: "Vídeo/Reels", caption: "O hook (gancho) é a parte mais importante do seu conteúdo. Aprenda a criar ganchos impossíveis de ignorar." }
+        ],
+        "lifestyle": [
+            { title: "Minha rotina como Web Designer de Elite", type: "Vídeo/Reels", caption: "Um dia na vida de quem constrói o futuro digital das empresas. #WebDesignerLife #WTMCorps" },
+            { title: "Setup 2026: O que uso para produzir em alta performance", type: "Post Estático", caption: "Ferramentas não fazem o mestre, mas ajudam na produtividade. Aqui está meu setup atual. #Productivity #Setup" },
+            { title: "Por que escolhi o Web Design em vez do CLT", type: "Carrossel", caption: "Liberdade geográfica, financeira e criativa. O caminho não é fácil, mas vale a pena. #Empreendedorismo" }
+        ],
+        "results": [
+            { title: "Case de Sucesso: +200% de conversão em 30 dias", type: "Carrossel", caption: "Veja como transformamos um site lento em uma máquina de vendas imparável. #CaseDeSucesso #Resultados" },
+            { title: "Feedback do Cliente: 'O melhor investimento do ano'", type: "Post Estático", caption: "Nada fala mais alto que um cliente satisfeito e lucrando. #ProvaSocial #WTMCorps" }
         ]
     };
 
     const STRATEGY_GUIDE = {
         scripts: [
-            { title: "Script de Abordagem Fria", content: "Olá [Nome], vi seu perfil e notei que seu site atual não está otimizado para conversão. Eu ajudo empresas como a sua a dobrarem o faturamento através de design estratégico. Podemos conversar?" },
-            { title: "Script de Quebra de Objeção (Preço)", content: "Entendo que o investimento pareça alto, mas pense no custo de oportunidade de continuar perdendo clientes para a concorrência por causa de um site amador." }
+            { title: "Script de Abordagem Fria (Direct)", content: "Olá [Nome], vi seu perfil e notei que seu site atual não está otimizado para conversão. Eu ajudo empresas como a sua a dobrarem o faturamento através de design estratégico. Podemos conversar?" },
+            { title: "Script de Quebra de Objeção (Preço)", content: "Entendo que o investimento pareça alto, mas pense no custo de oportunidade de continuar perdendo clientes para a concorrência por causa de um site amador." },
+            { title: "Script de Follow-up (3 dias depois)", content: "Olá [Nome], passando para saber se conseguiu ver o material que te enviei. Acredito que temos uma janela de oportunidade incrível para o seu nicho agora." },
+            { title: "Script de Pedido de Indicação", content: "Olá [Nome], fico feliz que tenha gostado do novo site! Conhece algum outro empresário que também esteja precisando profissionalizar a presença digital?" }
         ],
-        hashtags: "#WebDesignProfissional #MarketingDeServiços #WTMCorps #DesignEstratégico #VendasOnline #EmpreendedorismoDigital",
+        hashtags: "#WebDesignProfissional #MarketingDeServiços #WTMCorps #DesignEstratégico #VendasOnline #EmpreendedorismoDigital #LandingPages #UXDesign #MarketingDeConteúdo #VendasNoInstagram",
         tips: [
             "Poste 3x por semana no feed focando em dor/solução.",
-            "Use os Stories para mostrar bastidores e processos.",
-            "Responda todos os comentários com perguntas para gerar engajamento."
+            "Use os Stories para mostrar bastidores e processos (Gera conexão).",
+            "Responda todos os comentários com perguntas para gerar engajamento.",
+            "Faça pelo menos 1 Reel por semana com um 'gancho' forte nos primeiros 2 segundos.",
+            "Utilize a técnica do 'AIDA' (Atenção, Interesse, Desejo, Ação) em todas as legendas.",
+            "Mantenha uma identidade visual consistente para ser reconhecido instantaneamente."
         ]
     };
 
@@ -129,11 +147,11 @@ export default function SecretSalesArea() {
 
     const addPlannedPost = (title: string) => {
         const newPost = { id: Date.now().toString(), title, date: new Date().toLocaleDateString() };
-        setPlannedPosts([...plannedPosts, newPost]);
+        savePlannerToStorage([...plannedPosts, newPost]);
     };
 
     const removePlannedPost = (id: string) => {
-        setPlannedPosts(plannedPosts.filter(p => p.id !== id));
+        savePlannerToStorage(plannedPosts.filter(p => p.id !== id));
     };
 
     useEffect(() => {
@@ -141,8 +159,12 @@ export default function SecretSalesArea() {
         window.addEventListener("open-secret-sales-area", handleOpen);
 
         // Load CRM data
-        const stored = localStorage.getItem("wtm_crm_leads");
-        if (stored) setSavedLeads(JSON.parse(stored));
+        const storedLeads = localStorage.getItem("wtm_crm_leads");
+        if (storedLeads) setSavedLeads(JSON.parse(storedLeads));
+
+        // Load Planner data
+        const storedPlanner = localStorage.getItem("wtm_content_planner");
+        if (storedPlanner) setPlannedPosts(JSON.parse(storedPlanner));
 
         return () => window.removeEventListener("open-secret-sales-area", handleOpen);
     }, []);
@@ -150,6 +172,11 @@ export default function SecretSalesArea() {
     const saveLeadsToStorage = (updatedLeads: Lead[]) => {
         setSavedLeads(updatedLeads);
         localStorage.setItem("wtm_crm_leads", JSON.stringify(updatedLeads));
+    };
+
+    const savePlannerToStorage = (updatedPosts: { id: string; title: string; date: string }[]) => {
+        setPlannedPosts(updatedPosts);
+        localStorage.setItem("wtm_content_planner", JSON.stringify(updatedPosts));
     };
 
     const handleUnlock = async (e: React.FormEvent) => {
@@ -742,10 +769,18 @@ export default function SecretSalesArea() {
                                         {contentLabSubTab === "strategy" && (
                                             <div className="space-y-8">
                                                 <div className="space-y-4">
-                                                    <h4 className="text-sm font-bold text-violet-400 uppercase tracking-widest">Scripts de Abordagem</h4>
+                                                    <div className="flex justify-between items-center">
+                                                        <h4 className="text-sm font-bold text-violet-400 uppercase tracking-widest">Scripts de Abordagem</h4>
+                                                        <button
+                                                            onClick={() => copyToClipboard(STRATEGY_GUIDE.scripts.map(s => `${s.title}:\n${s.content}`).join("\n\n"))}
+                                                            className="text-[10px] text-zinc-500 hover:text-violet-400 transition-colors flex items-center gap-1"
+                                                        >
+                                                            <Copy size={12} /> Copiar Todos
+                                                        </button>
+                                                    </div>
                                                     <div className="grid grid-cols-1 gap-4">
                                                         {STRATEGY_GUIDE.scripts.map((s, i) => (
-                                                            <div key={i} className="bg-zinc-800/50 border border-white/5 rounded-xl p-4 space-y-2">
+                                                            <div key={i} className="bg-zinc-800/50 border border-white/5 rounded-xl p-4 space-y-2 group relative">
                                                                 <p className="text-xs font-bold text-white">{s.title}</p>
                                                                 <p className="text-xs text-zinc-400 italic">"{s.content}"</p>
                                                                 <button onClick={() => copyToClipboard(s.content)} className="text-[10px] text-violet-500 font-bold hover:underline">Copiar Script</button>
@@ -755,7 +790,15 @@ export default function SecretSalesArea() {
                                                 </div>
 
                                                 <div className="space-y-4">
-                                                    <h4 className="text-sm font-bold text-violet-400 uppercase tracking-widest">Dicas de Crescimento Orgânico</h4>
+                                                    <div className="flex justify-between items-center">
+                                                        <h4 className="text-sm font-bold text-violet-400 uppercase tracking-widest">Dicas de Crescimento Orgânico</h4>
+                                                        <button
+                                                            onClick={() => copyToClipboard(STRATEGY_GUIDE.tips.join("\n"))}
+                                                            className="text-[10px] text-zinc-500 hover:text-violet-400 transition-colors flex items-center gap-1"
+                                                        >
+                                                            <Copy size={12} /> Copiar Todas
+                                                        </button>
+                                                    </div>
                                                     <ul className="space-y-2">
                                                         {STRATEGY_GUIDE.tips.map((tip, i) => (
                                                             <li key={i} className="flex items-start gap-2 text-xs text-zinc-400">
@@ -767,9 +810,13 @@ export default function SecretSalesArea() {
                                                 </div>
 
                                                 <div className="bg-violet-500/10 border border-violet-500/20 rounded-xl p-4 space-y-2">
-                                                    <h4 className="text-xs font-bold text-white uppercase">Hashtags Estratégicas</h4>
+                                                    <div className="flex justify-between items-center">
+                                                        <h4 className="text-xs font-bold text-white uppercase">Hashtags Estratégicas</h4>
+                                                        <button onClick={() => copyToClipboard(STRATEGY_GUIDE.hashtags)} className="text-violet-400 hover:text-white transition-colors">
+                                                            <Copy size={14} />
+                                                        </button>
+                                                    </div>
                                                     <p className="text-xs text-zinc-400">{STRATEGY_GUIDE.hashtags}</p>
-                                                    <button onClick={() => copyToClipboard(STRATEGY_GUIDE.hashtags)} className="text-[10px] text-violet-500 font-bold hover:underline">Copiar Todas</button>
                                                 </div>
                                             </div>
                                         )}
