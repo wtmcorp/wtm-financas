@@ -1,12 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, TrendingDown, Loader2 } from "lucide-react";
 
 export default function MarketTicker() {
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [clickCount, setClickCount] = useState(0);
+
+    const handleSecretTrigger = useCallback(() => {
+        setClickCount(prev => {
+            const newCount = prev + 1;
+            if (newCount >= 4) {
+                window.dispatchEvent(new CustomEvent("open-secret-sales-area"));
+                return 0;
+            }
+            return newCount;
+        });
+
+        // Reset click count after 2 seconds of inactivity
+        const timer = setTimeout(() => setClickCount(0), 2000);
+        return () => clearTimeout(timer);
+    }, []);
 
     useEffect(() => {
         const fetchMarket = async () => {
@@ -49,7 +65,10 @@ export default function MarketTicker() {
         <div className="w-full bg-background border-t border-white/10 h-10 flex items-center relative overflow-hidden z-30">
             {/* Label Pill with Gradient Fade */}
             <div className="absolute left-0 z-20 bg-gradient-to-r from-background via-background/95 to-transparent pr-12 md:pr-20 h-full flex items-center">
-                <div className="px-2 py-0.5 md:px-3 md:py-1 rounded-full border border-white/20 bg-white/[0.03] backdrop-blur-md flex items-center gap-1.5 md:gap-2 ml-2 md:ml-4">
+                <div
+                    onClick={handleSecretTrigger}
+                    className="px-2 py-0.5 md:px-3 md:py-1 rounded-full border border-white/20 bg-white/[0.03] backdrop-blur-md flex items-center gap-1.5 md:gap-2 ml-2 md:ml-4 cursor-pointer hover:bg-white/10 transition-colors active:scale-95 select-none"
+                >
                     <div className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-primary animate-pulse" />
                     <span className="text-[7px] md:text-[9px] font-black text-primary tracking-widest uppercase whitespace-nowrap">
                         Mercado Live
