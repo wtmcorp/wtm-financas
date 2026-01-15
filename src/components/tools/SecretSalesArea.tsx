@@ -68,7 +68,7 @@ export default function SecretSalesArea() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [isVerifying, setIsVerifying] = useState(false);
-    const [activeTab, setActiveTab] = useState<"finder" | "crm" | "auditor" | "templates">("finder");
+    const [activeTab, setActiveTab] = useState<"finder" | "crm" | "auditor" | "templates" | "content-lab">("finder");
 
     // WhatsApp Sender State
     const [phoneNumbers, setPhoneNumbers] = useState("");
@@ -88,6 +88,53 @@ export default function SecretSalesArea() {
     const [auditUrl, setAuditUrl] = useState("");
     const [auditResult, setAuditResult] = useState<SiteAudit | null>(null);
     const [isAuditing, setIsAuditing] = useState(false);
+
+    // Content Lab State
+    const [contentLabSubTab, setContentLabSubTab] = useState<"generator" | "templates" | "planner" | "strategy">("generator");
+    const [generatedIdea, setGeneratedIdea] = useState<{ title: string; caption: string; type: string } | null>(null);
+    const [plannedPosts, setPlannedPosts] = useState<{ id: string; title: string; date: string }[]>([]);
+
+    const CONTENT_IDEAS = {
+        "web-design": [
+            { title: "5 Sinais que seu site está espantando clientes", type: "Carrossel", caption: "Seu site é sua vitrine virtual. Se ele demora a carregar ou não é responsivo, você está perdendo dinheiro. #WebDesign #MarketingDigital" },
+            { title: "Landing Page vs Site Institucional: Qual escolher?", type: "Vídeo/Reels", caption: "Muitos empreendedores confundem os dois. No vídeo de hoje, explico a diferença estratégica. #LandingPage #Vendas" },
+            { title: "Como um design premium aumenta seu ticket médio", type: "Post Estático", caption: "A percepção de valor está diretamente ligada à estética e usabilidade. #DesignPremium #WTMCorps" }
+        ],
+        "marketing": [
+            { title: "A psicologia das cores no fechamento de contratos", type: "Carrossel", caption: "Por que o azul transmite confiança e o roxo autoridade? Descubra como usar isso a seu favor. #Marketing #Vendas" },
+            { title: "3 Gatilhos mentais indispensáveis para sua Bio", type: "Vídeo/Reels", caption: "Sua bio é o primeiro contato. Use prova social, autoridade e escassez. #InstagramMarketing" }
+        ]
+    };
+
+    const STRATEGY_GUIDE = {
+        scripts: [
+            { title: "Script de Abordagem Fria", content: "Olá [Nome], vi seu perfil e notei que seu site atual não está otimizado para conversão. Eu ajudo empresas como a sua a dobrarem o faturamento através de design estratégico. Podemos conversar?" },
+            { title: "Script de Quebra de Objeção (Preço)", content: "Entendo que o investimento pareça alto, mas pense no custo de oportunidade de continuar perdendo clientes para a concorrência por causa de um site amador." }
+        ],
+        hashtags: "#WebDesignProfissional #MarketingDeServiços #WTMCorps #DesignEstratégico #VendasOnline #EmpreendedorismoDigital",
+        tips: [
+            "Poste 3x por semana no feed focando em dor/solução.",
+            "Use os Stories para mostrar bastidores e processos.",
+            "Responda todos os comentários com perguntas para gerar engajamento."
+        ]
+    };
+
+    const generateIdea = () => {
+        const categories = Object.keys(CONTENT_IDEAS) as Array<keyof typeof CONTENT_IDEAS>;
+        const category = categories[Math.floor(Math.random() * categories.length)];
+        const ideas = CONTENT_IDEAS[category];
+        const idea = ideas[Math.floor(Math.random() * ideas.length)];
+        setGeneratedIdea(idea);
+    };
+
+    const addPlannedPost = (title: string) => {
+        const newPost = { id: Date.now().toString(), title, date: new Date().toLocaleDateString() };
+        setPlannedPosts([...plannedPosts, newPost]);
+    };
+
+    const removePlannedPost = (id: string) => {
+        setPlannedPosts(plannedPosts.filter(p => p.id !== id));
+    };
 
     useEffect(() => {
         const handleOpen = () => setIsOpen(true);
@@ -321,6 +368,13 @@ export default function SecretSalesArea() {
                             >
                                 <FileText size={18} />
                                 Templates
+                            </button>
+                            <button
+                                onClick={() => setActiveTab("content-lab")}
+                                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === "content-lab" ? "bg-violet-500/10 text-violet-400 border border-violet-500/20" : "text-zinc-400 hover:bg-white/5"}`}
+                            >
+                                <Zap size={18} />
+                                Content Lab
                             </button>
 
                             <div className="pt-8">
@@ -571,30 +625,154 @@ export default function SecretSalesArea() {
                                     </motion.div>
                                 )}
 
-                                {activeTab === "templates" && (
+                                {activeTab === "content-lab" && (
                                     <motion.div
-                                        key="templates"
+                                        key="content-lab"
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         exit={{ opacity: 0, x: -20 }}
                                         className="space-y-8"
                                     >
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            {TEMPLATES.map(template => (
-                                                <div key={template.id} className="bg-zinc-800/50 border border-white/5 rounded-2xl p-6 space-y-4">
-                                                    <h4 className="font-bold text-white">{template.name}</h4>
-                                                    <p className="text-xs text-zinc-400 bg-zinc-950/30 p-4 rounded-xl border border-white/5">
-                                                        {template.content}
-                                                    </p>
+                                        <div className="flex flex-col gap-4">
+                                            <h3 className="text-2xl font-bold text-white flex items-center gap-2">
+                                                <Zap className="text-violet-500" />
+                                                Laboratório de Conteúdo
+                                            </h3>
+                                            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                                                {["generator", "templates", "planner", "strategy"].map((tab) => (
                                                     <button
-                                                        onClick={() => setMessage(template.content)}
-                                                        className="w-full py-2 bg-violet-500 text-white rounded-lg text-[10px] font-bold uppercase"
+                                                        key={tab}
+                                                        onClick={() => setContentLabSubTab(tab as any)}
+                                                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${contentLabSubTab === tab ? "bg-violet-500 text-white" : "bg-white/5 text-zinc-400 hover:bg-white/10"}`}
                                                     >
-                                                        Usar Template
+                                                        {tab === "generator" ? "Gerador" : tab === "templates" ? "Templates" : tab === "planner" ? "Planejador" : "Estratégia"}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {contentLabSubTab === "generator" && (
+                                            <div className="space-y-6">
+                                                <div className="bg-zinc-800/50 border border-white/5 rounded-2xl p-8 text-center space-y-6">
+                                                    <div className="w-16 h-16 bg-violet-500/10 rounded-full flex items-center justify-center mx-auto">
+                                                        <Zap className="text-violet-500" size={32} />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <h4 className="text-xl font-bold text-white">Gerador de Ideias</h4>
+                                                        <p className="text-zinc-400 text-sm max-w-md mx-auto">Gere conceitos de posts e vídeos focados em marketing de serviços de web design.</p>
+                                                    </div>
+                                                    <button
+                                                        onClick={generateIdea}
+                                                        className="bg-violet-600 hover:bg-violet-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-violet-500/20"
+                                                    >
+                                                        Gerar Nova Ideia
                                                     </button>
                                                 </div>
-                                            ))}
-                                        </div>
+
+                                                {generatedIdea && (
+                                                    <motion.div
+                                                        initial={{ opacity: 0, y: 20 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        className="bg-zinc-800 border border-violet-500/30 rounded-2xl p-6 space-y-4"
+                                                    >
+                                                        <div className="flex justify-between items-start">
+                                                            <span className="px-2 py-1 bg-violet-500/20 text-violet-400 text-[10px] font-bold rounded uppercase">{generatedIdea.type}</span>
+                                                            <button onClick={() => copyToClipboard(`${generatedIdea.title}\n\n${generatedIdea.caption}`)} className="text-zinc-500 hover:text-white transition-colors">
+                                                                <Copy size={16} />
+                                                            </button>
+                                                        </div>
+                                                        <h5 className="text-lg font-bold text-white">{generatedIdea.title}</h5>
+                                                        <p className="text-sm text-zinc-400 leading-relaxed">{generatedIdea.caption}</p>
+                                                        <button
+                                                            onClick={() => addPlannedPost(generatedIdea.title)}
+                                                            className="w-full py-2 bg-white/5 hover:bg-white/10 text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-2"
+                                                        >
+                                                            <Save size={14} /> Salvar no Planejador
+                                                        </button>
+                                                    </motion.div>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {contentLabSubTab === "templates" && (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                {[
+                                                    { title: "Carrossel Educativo", desc: "Estrutura: Capa chamativa > Problema > Solução > CTA", color: "from-blue-500/20" },
+                                                    { title: "Post de Prova Social", desc: "Estrutura: Print de feedback > Resultado alcançado > CTA", color: "from-emerald-500/20" },
+                                                    { title: "Checklist de Valor", desc: "Estrutura: Lista de itens essenciais > Por que importa > CTA", color: "from-violet-500/20" },
+                                                    { title: "Antes e Depois", desc: "Estrutura: Site antigo > Site novo > Métricas de melhora", color: "from-orange-500/20" }
+                                                ].map((t, i) => (
+                                                    <div key={i} className={`bg-gradient-to-br ${t.color} to-zinc-900 border border-white/5 rounded-2xl p-6 space-y-3`}>
+                                                        <h4 className="font-bold text-white">{t.title}</h4>
+                                                        <p className="text-xs text-zinc-400">{t.desc}</p>
+                                                        <button className="text-[10px] font-bold text-violet-400 uppercase hover:underline">Ver no Canva (Mock)</button>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {contentLabSubTab === "planner" && (
+                                            <div className="space-y-6">
+                                                <div className="flex justify-between items-center">
+                                                    <h4 className="font-bold text-white">Calendário Editorial</h4>
+                                                    <span className="text-[10px] text-zinc-500 uppercase font-bold">{plannedPosts.length} Posts Planejados</span>
+                                                </div>
+                                                <div className="space-y-3">
+                                                    {plannedPosts.length === 0 ? (
+                                                        <div className="p-12 border-2 border-dashed border-white/5 rounded-2xl text-center text-zinc-500 text-sm">
+                                                            Nenhum post planejado ainda.
+                                                        </div>
+                                                    ) : (
+                                                        plannedPosts.map(post => (
+                                                            <div key={post.id} className="bg-zinc-800/50 border border-white/5 rounded-xl p-4 flex justify-between items-center">
+                                                                <div>
+                                                                    <p className="text-sm font-bold text-white">{post.title}</p>
+                                                                    <p className="text-[10px] text-zinc-500">{post.date}</p>
+                                                                </div>
+                                                                <button onClick={() => removePlannedPost(post.id)} className="text-red-500/50 hover:text-red-500 transition-colors">
+                                                                    <Trash2 size={16} />
+                                                                </button>
+                                                            </div>
+                                                        ))
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {contentLabSubTab === "strategy" && (
+                                            <div className="space-y-8">
+                                                <div className="space-y-4">
+                                                    <h4 className="text-sm font-bold text-violet-400 uppercase tracking-widest">Scripts de Abordagem</h4>
+                                                    <div className="grid grid-cols-1 gap-4">
+                                                        {STRATEGY_GUIDE.scripts.map((s, i) => (
+                                                            <div key={i} className="bg-zinc-800/50 border border-white/5 rounded-xl p-4 space-y-2">
+                                                                <p className="text-xs font-bold text-white">{s.title}</p>
+                                                                <p className="text-xs text-zinc-400 italic">"{s.content}"</p>
+                                                                <button onClick={() => copyToClipboard(s.content)} className="text-[10px] text-violet-500 font-bold hover:underline">Copiar Script</button>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                <div className="space-y-4">
+                                                    <h4 className="text-sm font-bold text-violet-400 uppercase tracking-widest">Dicas de Crescimento Orgânico</h4>
+                                                    <ul className="space-y-2">
+                                                        {STRATEGY_GUIDE.tips.map((tip, i) => (
+                                                            <li key={i} className="flex items-start gap-2 text-xs text-zinc-400">
+                                                                <CheckCircle2 size={14} className="text-emerald-500 shrink-0 mt-0.5" />
+                                                                {tip}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+
+                                                <div className="bg-violet-500/10 border border-violet-500/20 rounded-xl p-4 space-y-2">
+                                                    <h4 className="text-xs font-bold text-white uppercase">Hashtags Estratégicas</h4>
+                                                    <p className="text-xs text-zinc-400">{STRATEGY_GUIDE.hashtags}</p>
+                                                    <button onClick={() => copyToClipboard(STRATEGY_GUIDE.hashtags)} className="text-[10px] text-violet-500 font-bold hover:underline">Copiar Todas</button>
+                                                </div>
+                                            </div>
+                                        )}
                                     </motion.div>
                                 )}
                             </AnimatePresence>
