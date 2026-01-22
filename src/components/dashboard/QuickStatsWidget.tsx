@@ -73,52 +73,55 @@ export default function QuickStatsWidget() {
     ];
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {statCards.map((stat, i) => (
                 <motion.div
                     key={i}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    whileHover={{ y: -5, scale: 1.02 }}
-                    className="glass-panel p-6 relative overflow-hidden group cursor-pointer"
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    className="glass-card p-6 relative overflow-hidden group cursor-pointer"
                 >
                     {/* Background Gradient */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-[0.15] transition-opacity duration-500`} />
+
+                    {/* Glow Effect */}
+                    <div className={`absolute -right-8 -top-8 w-32 h-32 bg-gradient-to-br ${stat.color} blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
 
                     {/* Icon */}
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
-                        <stat.icon size={24} className="text-white" />
+                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-5 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg shadow-black/20 relative z-10`}>
+                        <stat.icon size={26} className="text-white" />
                     </div>
 
                     {/* Label */}
-                    <div className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] mb-2">
+                    <div className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-2 relative z-10">
                         {stat.label}
                     </div>
 
                     {/* Value */}
-                    <div className="text-xl md:text-2xl font-black text-white mb-1 tracking-tight truncate">
+                    <div className="text-2xl md:text-3xl font-black text-white mb-2 tracking-tight truncate relative z-10">
                         {stat.value}
                     </div>
 
                     {/* Description */}
-                    <p className="text-[10px] text-gray-400 font-medium mb-3 leading-tight">
+                    <p className="text-[11px] text-gray-500 font-medium mb-4 leading-relaxed relative z-10">
                         {stat.description}
                     </p>
 
                     {/* Change Indicator */}
-                    <div className={`flex items-center gap-1 text-xs font-bold ${stat.trend ? 'text-green-400' : 'text-red-400'}`}>
+                    <div className={`flex items-center gap-1.5 text-xs font-bold relative z-10 ${stat.trend ? 'text-emerald-400' : 'text-rose-400'}`}>
                         {stat.trend ? (
-                            <ArrowUpRight size={14} />
+                            <ArrowUpRight size={16} />
                         ) : (
-                            <ArrowDownRight size={14} />
+                            <ArrowDownRight size={16} />
                         )}
                         <span>{stat.change >= 0 ? '+' : ''}{stat.change.toFixed(1)}%</span>
-                        <span className="text-gray-600 ml-1">vs mês anterior</span>
+                        <span className="text-gray-600 ml-1 text-[10px]">vs mês anterior</span>
                     </div>
 
-                    {/* Sparkline Effect */}
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    {/* Bottom Accent Line */}
+                    <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${stat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                 </motion.div>
             ))}
         </div>

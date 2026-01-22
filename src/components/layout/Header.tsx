@@ -48,19 +48,22 @@ export default function Header() {
                 </div>
 
                 {/* Navigation Links - Centered Pill (XL+ only) */}
-                <nav className="hidden xl:flex items-center bg-white/[0.03] border border-white/10 rounded-full px-2 py-1.5">
+                <nav className="hidden xl:flex items-center bg-white/[0.04] border border-white/[0.12] rounded-full px-2 py-1.5 shadow-lg shadow-black/20 backdrop-blur-xl">
                     {navLinks.map((link) => {
                         const isActive = pathname === link.href;
                         return (
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 ${isActive
-                                    ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-                                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                                className={`relative flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 ${isActive
+                                    ? "bg-gradient-to-r from-violet-500 to-purple-600 text-white shadow-[0_4px_16px_rgba(139,92,246,0.4)]"
+                                    : "text-gray-400 hover:text-white hover:bg-white/[0.08]"
                                     }`}
                             >
                                 {link.label}
+                                {isActive && (
+                                    <div className="absolute inset-0 rounded-full bg-white/10 blur-sm"></div>
+                                )}
                             </Link>
                         );
                     })}
@@ -76,7 +79,7 @@ export default function Header() {
                     {user ? (
                         <button
                             onClick={logout}
-                            className="h-10 px-4 md:px-6 rounded-xl bg-white text-black text-xs font-black uppercase tracking-wider hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center gap-2"
+                            className="h-10 px-4 md:px-6 rounded-xl bg-gradient-to-r from-white to-gray-100 text-black text-xs font-black uppercase tracking-wider hover:from-gray-100 hover:to-white transition-all shadow-lg shadow-black/20 flex items-center gap-2"
                         >
                             <span className="hidden sm:inline">Sair</span>
                             <LogOut size={14} />
@@ -84,7 +87,7 @@ export default function Header() {
                     ) : (
                         <Link
                             href="/login"
-                            className="h-10 px-4 md:px-6 rounded-xl bg-white text-black text-xs font-black uppercase tracking-wider hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center justify-center"
+                            className="h-10 px-4 md:px-6 rounded-xl bg-gradient-to-r from-white to-gray-100 text-black text-xs font-black uppercase tracking-wider hover:from-gray-100 hover:to-white transition-all shadow-lg shadow-black/20 flex items-center justify-center"
                         >
                             Entrar
                         </Link>
