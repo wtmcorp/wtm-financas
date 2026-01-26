@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     X,
@@ -22,7 +22,9 @@ import {
     FileText,
     BarChart3,
     Copy,
-    Check
+    Check,
+    Play,
+    Square
 } from "lucide-react";
 
 interface Lead {
@@ -130,6 +132,8 @@ export default function SecretSalesArea() {
 
     // CRM State
     const [savedLeads, setSavedLeads] = useState<Lead[]>([]);
+    const [bulkStatus, setBulkStatus] = useState<{ current: number; total: number; isActive: boolean }>({ current: 0, total: 0, isActive: false });
+    const stopBulkRef = useRef(false);
 
     // Auditor State
     const [auditUrl, setAuditUrl] = useState("");
@@ -227,8 +231,8 @@ export default function SecretSalesArea() {
 
         setIsSending(true);
 
-        // Simulação de processamento
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        // Removed artificial delay to prevent popup blocker issues
+        // await new Promise(resolve => setTimeout(resolve, 1500));
 
         targetNumbers.forEach(num => {
             const cleanNumber = num.replace(/\D/g, "");
@@ -241,6 +245,56 @@ export default function SecretSalesArea() {
         setIsSending(false);
         setSendSuccess(true);
         setTimeout(() => setSendSuccess(false), 3000);
+    };
+
+    const stopBulkSend = () => {
+        stopBulkRef.current = true;
+        setBulkStatus(prev => ({ ...prev, isActive: false }));
+    };
+
+    const handleBulkSend = async () => {
+        const leadsWithPhone = savedLeads.filter(l => l.phone);
+        if (leadsWithPhone.length === 0) {
+            setError("Nenhum lead com telefone salvo.");
+            return;
+        }
+
+        stopBulkRef.current = false;
+        setBulkStatus({ current: 0, total: leadsWithPhone.length, isActive: true });
+
+        for (let i = 0; i < leadsWithPhone.length; i++) {
+            if (stopBulkRef.current) break;
+
+            const lead = leadsWithPhone[i];
+            setBulkStatus(prev => ({ ...prev, current: i + 1 }));
+
+            // Open WhatsApp
+            const cleanNumber = lead.phone?.replace(/\D/g, "");
+            if (cleanNumber) {
+                // Rotate templates or use a default one
+                const msg = TEMPLATES[0].content.replace("[Nome]", lead.name);
+                const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(msg)}`;
+                window.open(url, "_blank");
+            }
+
+            // Safety Delay: Random between 8s and 15s to avoid WhatsApp block
+            // We check for stop signal during the wait
+            const waitTime = Math.floor(Math.random() * 7000) + 8000;
+            const steps = waitTime / 100;
+            for (let j = 0; j < steps; j++) {
+                if (stopBulkRef.current) break;
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            // Double check before continuing loop
+            if (stopBulkRef.current) break;
+        }
+
+        setBulkStatus({ current: 0, total: 0, isActive: false });
+        stopBulkRef.current = false;
+        if (!stopBulkRef.current) {
+            copyToClipboard("Disparo em massa concluído!");
+        }
     };
 
     const findLeads = async (e: React.FormEvent) => {
@@ -836,13 +890,44 @@ export default function SecretSalesArea() {
                                                 </h3>
                                                 <p className="text-zinc-400 text-sm">Gerencie os leads que você salvou para acompanhamento.</p>
                                             </div>
-                                            <button
-                                                onClick={() => saveLeadsToStorage([])}
-                                                className="text-xs text-red-500 hover:underline flex items-center gap-1"
-                                            >
-                                                <Trash2 size={12} />
-                                                Limpar Tudo
-                                            </button>
+                                            <div className="flex items-center gap-3">
+                                                {bulkStatus.isActive ? (
+                                                    <div className="flex items-center gap-3 bg-zinc-800 px-3 py-1.5 rounded-lg border border-white/10">
+                                                        <span className="text-[10px] text-zinc-400 font-mono">
+                                                            {bulkStatus.current}/{bulkStatus.total}
+                                                        </span>
+                                                        <div className="w-20 h-1 bg-zinc-700 rounded-full overflow-hidden">
+                                                            <div
+                                                                className="h-full bg-violet-500 transition-all duration-500"
+                                                                style={{ width: `${(bulkStatus.current / bulkStatus.total) * 100}%` }}
+                                                            />
+                                                        </div>
+                                                        <button
+                                                            onClick={stopBulkSend}
+                                                            className="text-red-400 hover:text-red-300 transition-colors"
+                                                            title="Parar envio"
+                                                        >
+                                                            <Square size={12} fill="currentColor" />
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <button
+                                                        onClick={handleBulkSend}
+                                                        disabled={savedLeads.length === 0}
+                                                        className="text-xs bg-violet-600 hover:bg-violet-500 text-white px-3 py-1.5 rounded-lg font-bold flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    >
+                                                        <Play size={12} fill="currentColor" />
+                                                        Disparar para Todos
+                                                    </button>
+                                                )}
+                                                <button
+                                                    onClick={() => saveLeadsToStorage([])}
+                                                    className="text-xs text-red-500 hover:underline flex items-center gap-1"
+                                                >
+                                                    <Trash2 size={12} />
+                                                    Limpar Tudo
+                                                </button>
+                                            </div>
                                         </div>
 
                                         <div className="bg-zinc-800/30 border border-white/5 rounded-2xl overflow-hidden">
