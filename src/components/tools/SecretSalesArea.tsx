@@ -49,8 +49,26 @@ interface SiteAudit {
 const TEMPLATES = [
     {
         id: "first-contact",
-        name: "Primeiro Contato",
-        content: "Olá! Vi sua loja e notei um grande potencial para aumentarmos suas vendas com uma Landing Page profissional da WTM Corps. Podemos conversar?"
+        name: "Abordagem WTM",
+        content: `Oi! Tudo bem?
+
+Hoje em dia, quem não tem um site profissional acaba perdendo clientes todos os dias — mesmo sem perceber.
+
+Eu trabalho criando sites rápidos, modernos e que realmente passam confiança, feitos para transformar visitantes em clientes.
+
+👉 Esse é meu portfólio com projetos reais:
+https://wtmcorpsportfolio.vercel.app/
+
+Inclusive, um dos meus projetos é uma plataforma de finanças funcional, desenvolvida do zero:
+https://wtm-financas.vercel.app/dashboard
+
+Também compartilho conteúdos e projetos no meu Instagram profissional:
+https://www.instagram.com/wtmcorps/
+
+Se você quer mais autoridade, mais visibilidade e mais vendas, um site bem feito é o primeiro passo.
+
+Estou com poucas vagas abertas essa semana para novos projetos.
+Quer que eu te mostre uma ideia de site pensada exatamente para o seu negócio?`
     },
     {
         id: "follow-up",
@@ -274,7 +292,14 @@ export default function SecretSalesArea() {
                 // Rotate templates or use a default one
                 const msg = TEMPLATES[0].content.replace("[Nome]", lead.name);
                 const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(msg)}`;
-                window.open(url, "_blank");
+                const newWindow = window.open(url, "_blank");
+
+                if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                    setError("Popups bloqueados! Permita popups para este site na barra de endereço.");
+                    stopBulkRef.current = true;
+                    setBulkStatus(prev => ({ ...prev, isActive: false }));
+                    break;
+                }
             }
 
             // Safety Delay: Random between 8s and 15s to avoid WhatsApp block
