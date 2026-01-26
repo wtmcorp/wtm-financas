@@ -295,16 +295,15 @@ export default function SecretSalesArea() {
                 const newWindow = window.open(url, "_blank");
 
                 if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
-                    setError("Popups bloqueados! Permita popups para este site na barra de endereço.");
+                    setError("Popups bloqueados! O navegador impediu a abertura. Permita popups para este site na barra de endereço para enviar para todos.");
                     stopBulkRef.current = true;
                     setBulkStatus(prev => ({ ...prev, isActive: false }));
                     break;
                 }
             }
 
-            // Safety Delay: Random between 8s and 15s to avoid WhatsApp block
-            // We check for stop signal during the wait
-            const waitTime = Math.floor(Math.random() * 7000) + 8000;
+            // Wait 5 seconds as requested
+            const waitTime = 5000;
             const steps = waitTime / 100;
             for (let j = 0; j < steps; j++) {
                 if (stopBulkRef.current) break;
