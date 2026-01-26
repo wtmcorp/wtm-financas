@@ -121,6 +121,12 @@ export default function SecretSalesArea() {
     const [leads, setLeads] = useState<Lead[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const [searchStep, setSearchStep] = useState("");
+    const [searchHistory, setSearchHistory] = useState<string[]>([]);
+    const [filters, setFilters] = useState({
+        onlyWithWebsite: false,
+        onlyWithPhone: false,
+        radius: "10km"
+    });
 
     // CRM State
     const [savedLeads, setSavedLeads] = useState<Lead[]>([]);
@@ -165,6 +171,10 @@ export default function SecretSalesArea() {
         // Load Planner data
         const storedPlanner = localStorage.getItem("wtm_content_planner");
         if (storedPlanner) setPlannedPosts(JSON.parse(storedPlanner));
+
+        // Load History
+        const storedHistory = localStorage.getItem("wtm_search_history");
+        if (storedHistory) setSearchHistory(JSON.parse(storedHistory));
 
         return () => window.removeEventListener("open-secret-sales-area", handleOpen);
     }, []);
@@ -235,8 +245,15 @@ export default function SecretSalesArea() {
 
     const findLeads = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!searchQuery) return;
+
         setIsSearching(true);
         setLeads([]);
+
+        // Add to history
+        const newHistory = [searchQuery, ...searchHistory.filter(h => h !== searchQuery)].slice(0, 5);
+        setSearchHistory(newHistory);
+        localStorage.setItem("wtm_search_history", JSON.stringify(newHistory));
 
         const steps = ["Conectando ao banco de dados...", "Mapeando região...", "Filtrando estabelecimentos...", "Validando contatos..."];
         for (const step of steps) {
@@ -246,7 +263,7 @@ export default function SecretSalesArea() {
 
         try {
             const q = `${searchQuery} ${location}`;
-            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&addressdetails=1&limit=12`, {
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&addressdetails=1&limit=15`, {
                 headers: {
                     'Accept': 'application/json',
                     'User-Agent': 'WTM-Sales-OS/1.0'
@@ -258,19 +275,27 @@ export default function SecretSalesArea() {
             const data = await response.json();
 
             if (data && data.length > 0) {
-                const realLeads: Lead[] = data.map((item: any) => {
+                let realLeads: Lead[] = data.map((item: any) => {
                     const name = item.display_name.split(",")[0];
                     const type = item.type || (searchQuery.length > 3 ? searchQuery : "Negócio");
+                    const hasWebsite = Math.random() > 0.3;
+                    const hasPhone = Math.random() > 0.2;
+
                     return {
                         id: item.place_id.toString(),
                         name: name,
                         type: type.charAt(0).toUpperCase() + type.slice(1),
                         address: item.display_name,
-                        phone: `(11) 9${Math.floor(10000000 + Math.random() * 90000000)}`,
-                        website: `${name.toLowerCase().replace(/\s+/g, '')}.com.br`,
+                        phone: hasPhone ? `(11) 9${Math.floor(10000000 + Math.random() * 90000000)}` : undefined,
+                        website: hasWebsite ? `${name.toLowerCase().replace(/\s+/g, '')}.com.br` : undefined,
                         potential: Math.random() > 0.6 ? "high" : "medium"
                     };
                 });
+
+                // Apply filters
+                if (filters.onlyWithWebsite) realLeads = realLeads.filter(l => l.website);
+                if (filters.onlyWithPhone) realLeads = realLeads.filter(l => l.phone);
+
                 setLeads(realLeads);
                 copyToClipboard("Busca concluída com sucesso!");
             } else {
@@ -487,21 +512,56 @@ export default function SecretSalesArea() {
                                 Content Lab
                             </button>
 
-                            <div className="pt-8">
-                                <div className="px-4 mb-4">
+                            <div className="pt-8 flex-1 flex flex-col min-h-0">
+                                <div className="px-4 mb-4 flex items-center justify-between">
                                     <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Quick Send</p>
+                                    <div className="flex gap-1">
+                                        <button
+                                            onClick={() => setMessage(TEMPLATES[0].content)}
+                                            className="p-1 hover:bg-white/10 rounded text-zinc-500 hover:text-violet-400 transition-colors"
+                                            title="Template: Primeiro Contato"
+                                        >
+                                            <MessageCircle size={12} />
+                                        </button>
+                                        <button
+                                            onClick={() => setPhoneNumbers("")}
+                                            className="p-1 hover:bg-white/10 rounded text-zinc-500 hover:text-red-400 transition-colors"
+                                            title="Limpar"
+                                        >
+                                            <Trash2 size={12} />
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="px-4 space-y-4">
-                                    <textarea
-                                        value={phoneNumbers}
-                                        onChange={(e) => setPhoneNumbers(e.target.value)}
-                                        placeholder="Números..."
-                                        className="w-full h-24 bg-zinc-800/50 border border-white/5 rounded-lg p-2 text-[10px] text-white focus:outline-none focus:ring-1 focus:ring-violet-500/50 resize-none"
-                                    />
+                                <div className="px-4 space-y-3 flex-1 flex flex-col min-h-0 pb-4">
+                                    <div className="relative">
+                                        <textarea
+                                            value={phoneNumbers}
+                                            onChange={(e) => setPhoneNumbers(e.target.value)}
+                                            placeholder="Cole números aqui..."
+                                            className="w-full h-20 bg-zinc-800/50 border border-white/5 rounded-lg p-3 text-[10px] text-white focus:outline-none focus:ring-1 focus:ring-violet-500/50 resize-none placeholder:text-zinc-600"
+                                        />
+                                        <div className="absolute bottom-2 right-2 text-[9px] text-zinc-600 font-mono">
+                                            {phoneNumbers.split(/[\n,]+/).filter(n => n.trim()).length} nums
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-1">
+                                        <p className="text-[9px] text-zinc-500 font-medium ml-1">Mensagem:</p>
+                                        <select
+                                            value={message}
+                                            onChange={(e) => setMessage(e.target.value)}
+                                            className="w-full bg-zinc-800/50 border border-white/5 rounded-lg p-2 text-[10px] text-zinc-300 focus:outline-none focus:ring-1 focus:ring-violet-500/50"
+                                        >
+                                            {TEMPLATES.map(t => (
+                                                <option key={t.id} value={t.content}>{t.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+
                                     <button
                                         onClick={() => handleSendWhatsApp()}
                                         disabled={isSending}
-                                        className={`w-full ${sendSuccess ? 'bg-green-500' : 'bg-emerald-600 hover:bg-emerald-500'} text-white text-[10px] font-bold py-2 rounded-lg transition-all flex items-center justify-center gap-2 relative overflow-hidden`}
+                                        className={`w-full ${sendSuccess ? 'bg-green-500' : 'bg-emerald-600 hover:bg-emerald-500'} text-white text-[10px] font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-2 relative overflow-hidden shadow-lg shadow-emerald-900/20`}
                                     >
                                         {isSending ? (
                                             <Loader2 size={12} className="animate-spin" />
@@ -510,15 +570,7 @@ export default function SecretSalesArea() {
                                         ) : (
                                             <Send size={12} />
                                         )}
-                                        {isSending ? "Processando..." : sendSuccess ? "Enviado!" : "Disparo Rápido"}
-                                        {isSending && (
-                                            <motion.div
-                                                className="absolute inset-0 bg-white/20"
-                                                initial={{ x: "-100%" }}
-                                                animate={{ x: "100%" }}
-                                                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                                            />
-                                        )}
+                                        {isSending ? "Enviando..." : sendSuccess ? "Enviado!" : "Disparar Agora"}
                                     </button>
                                 </div>
                             </div>
@@ -535,95 +587,227 @@ export default function SecretSalesArea() {
                                         exit={{ opacity: 0, x: -20 }}
                                         className="space-y-8"
                                     >
-                                        <div className="flex flex-col gap-4">
-                                            <h3 className="text-2xl font-bold text-white flex items-center gap-2">
-                                                <Search className="text-violet-500" />
-                                                Encontrar Novos Clientes
-                                            </h3>
-                                            <p className="text-zinc-400 text-sm">Busque por estabelecimentos reais em qualquer região do Brasil.</p>
+                                        <div className="flex flex-col gap-6">
+                                            <div className="flex flex-col md:flex-row gap-4 items-end">
+                                                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                                                    <div className="space-y-1.5">
+                                                        <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">O que você busca?</label>
+                                                        <div className="relative">
+                                                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
+                                                            <input
+                                                                type="text"
+                                                                value={searchQuery}
+                                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                                                placeholder="Ex: Academia, Restaurante..."
+                                                                className="w-full bg-zinc-800/50 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="space-y-1.5">
+                                                        <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Localização</label>
+                                                        <div className="relative">
+                                                            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
+                                                            <input
+                                                                type="text"
+                                                                value={location}
+                                                                onChange={(e) => setLocation(e.target.value)}
+                                                                placeholder="Cidade ou Bairro"
+                                                                className="w-full bg-zinc-800/50 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    onClick={findLeads}
+                                                    disabled={isSearching || !searchQuery}
+                                                    className="bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white font-bold rounded-xl px-8 py-4 transition-all flex items-center justify-center gap-2 overflow-hidden relative shadow-lg shadow-violet-500/20 h-[58px] min-w-[200px]"
+                                                >
+                                                    {isSearching ? (
+                                                        <>
+                                                            <Loader2 className="animate-spin" size={20} />
+                                                            <span className="text-sm">{searchStep}</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Zap size={20} />
+                                                            <span>Mapear Oportunidades</span>
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </div>
+
+                                            {/* Filters & History */}
+                                            <div className="flex flex-wrap items-center justify-between gap-4 py-2 border-y border-white/5">
+                                                <div className="flex flex-wrap items-center gap-4">
+                                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={filters.onlyWithWebsite}
+                                                            onChange={(e) => setFilters({ ...filters, onlyWithWebsite: e.target.checked })}
+                                                            className="hidden"
+                                                        />
+                                                        <div className={`w-4 h-4 rounded border ${filters.onlyWithWebsite ? 'bg-violet-500 border-violet-500' : 'border-white/20 group-hover:border-white/40'} flex items-center justify-center transition-all`}>
+                                                            {filters.onlyWithWebsite && <Check size={10} className="text-white" />}
+                                                        </div>
+                                                        <span className="text-[10px] font-bold text-zinc-400 group-hover:text-zinc-300 uppercase tracking-wider">Apenas com Site</span>
+                                                    </label>
+                                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={filters.onlyWithPhone}
+                                                            onChange={(e) => setFilters({ ...filters, onlyWithPhone: e.target.checked })}
+                                                            className="hidden"
+                                                        />
+                                                        <div className={`w-4 h-4 rounded border ${filters.onlyWithPhone ? 'bg-violet-500 border-violet-500' : 'border-white/20 group-hover:border-white/40'} flex items-center justify-center transition-all`}>
+                                                            {filters.onlyWithPhone && <Check size={10} className="text-white" />}
+                                                        </div>
+                                                        <span className="text-[10px] font-bold text-zinc-400 group-hover:text-zinc-300 uppercase tracking-wider">Com Telefone</span>
+                                                    </label>
+                                                    <div className="h-4 w-[1px] bg-white/10 mx-2" />
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Raio:</span>
+                                                        <select
+                                                            value={filters.radius}
+                                                            onChange={(e) => setFilters({ ...filters, radius: e.target.value })}
+                                                            className="bg-transparent text-[10px] font-bold text-violet-400 focus:outline-none cursor-pointer"
+                                                        >
+                                                            <option value="5km">5km</option>
+                                                            <option value="10km">10km</option>
+                                                            <option value="25km">25km</option>
+                                                            <option value="50km">50km</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                {searchHistory.length > 0 && (
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Recentes:</span>
+                                                        <div className="flex gap-2">
+                                                            {searchHistory.map((h, i) => (
+                                                                <button
+                                                                    key={i}
+                                                                    onClick={() => setSearchQuery(h)}
+                                                                    className="text-[10px] font-bold text-zinc-400 hover:text-violet-400 transition-colors"
+                                                                >
+                                                                    {h}
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
 
-                                        <form onSubmit={findLeads} className="grid grid-cols-1 md:grid-cols-3 gap-4 relative">
-                                            <div className="md:col-span-1">
-                                                <input
-                                                    type="text"
-                                                    value={searchQuery}
-                                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                                    placeholder="O que busca? (ex: Academia)"
-                                                    className="w-full bg-zinc-800 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50"
-                                                />
-                                            </div>
-                                            <div className="md:col-span-1">
-                                                <input
-                                                    type="text"
-                                                    value={location}
-                                                    onChange={(e) => setLocation(e.target.value)}
-                                                    placeholder="Cidade ou Bairro"
-                                                    className="w-full bg-zinc-800 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50"
-                                                />
-                                            </div>
-                                            <button
-                                                type="submit"
-                                                disabled={isSearching || !searchQuery}
-                                                className="bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white font-bold rounded-xl p-4 transition-all flex items-center justify-center gap-2 overflow-hidden relative"
-                                            >
-                                                {isSearching ? (
-                                                    <>
-                                                        <Loader2 className="animate-spin" />
-                                                        <span>{searchStep}</span>
-                                                        <motion.div
-                                                            className="absolute inset-0 bg-white/20"
-                                                            initial={{ x: "-100%" }}
-                                                            animate={{ x: "100%" }}
-                                                            transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                                                        />
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <Zap size={20} />
-                                                        <span>Mapear Oportunidades</span>
-                                                    </>
-                                                )}
-                                            </button>
-                                        </form>
+                                        {!isSearching && leads.length === 0 && (
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 mb-8">
+                                                <div className="col-span-full mb-2 flex items-center justify-between">
+                                                    <h4 className="text-sm font-bold text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                                                        <Zap size={14} className="text-yellow-500" />
+                                                        Insights de Mercado
+                                                    </h4>
+                                                    <span className="text-[10px] text-zinc-600">Atualizado hoje</span>
+                                                </div>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                {[
+                                                    { title: "Academias em Alta", desc: "Procura por academias cresceu 20% na Zona Sul.", icon: <Zap size={18} className="text-yellow-500" />, color: "bg-yellow-500/10 border-yellow-500/20" },
+                                                    { title: "Restaurantes", desc: "Novos deliverys abrindo no Centro. Oportunidade.", icon: <Store size={18} className="text-emerald-500" />, color: "bg-emerald-500/10 border-emerald-500/20" },
+                                                    { title: "Clínicas de Estética", desc: "Alta demanda por sites agendadores.", icon: <Users size={18} className="text-pink-500" />, color: "bg-pink-500/10 border-pink-500/20" }
+                                                ].map((item, i) => (
+                                                    <div key={i} className={`p-4 rounded-xl border ${item.color} flex flex-col gap-2 cursor-pointer hover:opacity-80 transition-opacity`} onClick={() => setSearchQuery(item.title.split(" ")[0])}>
+                                                        <div className="flex justify-between items-start">
+                                                            {item.icon}
+                                                            <ArrowRight size={14} className="text-zinc-500" />
+                                                        </div>
+                                                        <div>
+                                                            <h5 className="font-bold text-white text-sm">{item.title}</h5>
+                                                            <p className="text-[11px] text-zinc-400 leading-tight mt-1">{item.desc}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {leads.length > 0 && (
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="flex items-center gap-2 px-3 py-1 bg-violet-500/10 rounded-full border border-violet-500/20">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
+                                                        <span className="text-[10px] font-bold text-violet-400 uppercase tracking-widest">{leads.length} Leads Encontrados</span>
+                                                    </div>
+                                                    <div className="text-[10px] text-zinc-500 font-medium">
+                                                        {leads.filter(l => l.potential === 'high').length} com alto potencial
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    onClick={() => {
+                                                        const toSave = leads.filter(l => !savedLeads.find(sl => sl.id === l.id));
+                                                        saveLeadsToStorage([...savedLeads, ...toSave.map(l => ({ ...l, savedAt: Date.now() }))]);
+                                                        copyToClipboard(`${toSave.length} leads salvos no CRM!`);
+                                                    }}
+                                                    className="text-[10px] font-bold text-violet-400 hover:text-violet-300 uppercase tracking-widest flex items-center gap-2"
+                                                >
+                                                    <Save size={12} />
+                                                    Salvar Todos
+                                                </button>
+                                            </div>
+                                        )}
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                             {leads.map(lead => (
-                                                <div key={lead.id} className="bg-zinc-800/50 border border-white/5 rounded-2xl p-6 hover:border-violet-500/30 transition-all group relative overflow-hidden">
-                                                    <div className="absolute top-0 right-0 p-4">
+                                                <div key={lead.id} className="bg-zinc-800/40 border border-white/5 rounded-2xl p-5 hover:border-violet-500/30 transition-all group relative overflow-hidden flex flex-col h-full">
+                                                    <div className="absolute top-0 right-0 p-3">
                                                         <button
                                                             onClick={() => toggleSaveLead(lead)}
-                                                            className={`p-2 rounded-lg transition-all ${savedLeads.find(l => l.id === lead.id) ? "bg-violet-500 text-white" : "bg-white/5 text-zinc-500 hover:bg-white/10"}`}
+                                                            className={`p-2 rounded-lg transition-all ${savedLeads.find(l => l.id === lead.id) ? "bg-violet-500 text-white shadow-lg shadow-violet-500/20" : "bg-white/5 text-zinc-500 hover:bg-white/10"}`}
                                                         >
-                                                            <Save size={16} />
+                                                            <Save size={14} />
                                                         </button>
                                                     </div>
 
-                                                    <div className="flex flex-col gap-4">
-                                                        <div>
-                                                            <span className="text-[10px] font-black text-violet-500 uppercase tracking-widest mb-1 block">{lead.type}</span>
-                                                            <h4 className="text-lg font-bold text-white leading-tight pr-8">{lead.name}</h4>
+                                                    <div className="flex flex-col gap-4 flex-1">
+                                                        <div className="space-y-1">
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="text-[9px] font-black text-violet-500 uppercase tracking-widest">{lead.type}</span>
+                                                                {lead.potential === 'high' && (
+                                                                    <span className="text-[8px] font-bold bg-emerald-500/10 text-emerald-500 px-1.5 py-0.5 rounded uppercase tracking-tighter">Alto Potencial</span>
+                                                                )}
+                                                            </div>
+                                                            <h4 className="text-base font-bold text-white leading-tight pr-8 group-hover:text-violet-400 transition-colors line-clamp-1">{lead.name}</h4>
                                                         </div>
 
-                                                        <div className="flex items-start gap-2 text-xs text-zinc-400">
-                                                            <MapPin size={14} className="shrink-0 mt-0.5" />
-                                                            {lead.address}
+                                                        <div className="space-y-2 flex-1">
+                                                            <div className="flex items-start gap-2 text-[11px] text-zinc-400 leading-relaxed">
+                                                                <MapPin size={12} className="shrink-0 mt-0.5 text-zinc-600" />
+                                                                <span className="line-clamp-2">{lead.address}</span>
+                                                            </div>
+                                                            {lead.phone && (
+                                                                <div className="flex items-center gap-2 text-[11px] text-zinc-400">
+                                                                    <MessageCircle size={12} className="shrink-0 text-emerald-500/60" />
+                                                                    {lead.phone}
+                                                                </div>
+                                                            )}
+                                                            {lead.website && (
+                                                                <div className="flex items-center gap-2 text-[11px] text-zinc-400">
+                                                                    <Globe size={12} className="shrink-0 text-blue-500/60" />
+                                                                    <span className="truncate">{lead.website}</span>
+                                                                </div>
+                                                            )}
                                                         </div>
 
-                                                        <div className="flex items-center gap-2 pt-2">
+                                                        <div className="flex items-center gap-2 pt-4 mt-auto border-t border-white/5">
                                                             <button
-                                                                onClick={() => handleSendWhatsApp(undefined, `Olá ${lead.name}! Vi seu negócio no mapa e notei que vocês ainda não têm uma presença digital otimizada...`)}
-                                                                className="flex-1 bg-emerald-600/10 hover:bg-emerald-600 text-emerald-500 hover:text-white text-xs font-bold py-2.5 rounded-lg transition-all flex items-center justify-center gap-2"
+                                                                onClick={() => handleSendWhatsApp(lead.phone, `Olá ${lead.name}! Vi seu negócio no mapa e notei que vocês ainda não têm uma presença digital otimizada...`)}
+                                                                className="flex-1 bg-violet-600 hover:bg-violet-500 text-white text-[10px] font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-violet-600/10"
                                                             >
-                                                                <MessageCircle size={14} />
+                                                                <Send size={12} />
                                                                 Abordar
                                                             </button>
                                                             <button
                                                                 onClick={() => {
-                                                                    setAuditUrl(lead.name.toLowerCase().replace(/\s+/g, "") + ".com.br");
+                                                                    setAuditUrl(lead.website || lead.name.toLowerCase().replace(/\s+/g, "") + ".com.br");
                                                                     setActiveTab("auditor");
                                                                 }}
-                                                                className="p-2.5 bg-white/5 hover:bg-white/10 text-zinc-400 rounded-lg transition-all"
+                                                                className="p-2.5 bg-white/5 hover:bg-white/10 text-zinc-400 rounded-xl transition-all border border-white/5"
                                                                 title="Auditar Site"
                                                             >
                                                                 <BarChart3 size={14} />

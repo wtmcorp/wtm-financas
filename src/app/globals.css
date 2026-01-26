@@ -118,7 +118,18 @@ body {
 
   /* Alias for backward compatibility */
   .card-premium {
-    @apply glass-card;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 8px 32px -4px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+      0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 1.5rem;
   }
 
   /* Neon Glows */
@@ -132,7 +143,9 @@ body {
 
   /* Gradient Text */
   .gradient-text {
-    @apply bg-clip-text text-transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     background-image: linear-gradient(135deg, #fff 0%, #a78bfa 50%, #7c3aed 100%);
     background-size: 200% auto;
     animation: gradientShift 5s ease infinite;
