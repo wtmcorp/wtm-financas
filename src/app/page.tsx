@@ -24,6 +24,7 @@ import {
     CheckCircle2
 } from "lucide-react";
 import InteractiveLogo from "@/components/ui/InteractiveLogo";
+import NewsletterForm from "@/components/marketing/NewsletterForm";
 
 export default function LandingPage() {
     const { user, loading } = useAuth();
@@ -489,6 +490,21 @@ export default function LandingPage() {
                             </div>
                         </div>
                     </motion.div>
+                </div>
+            </section>
+
+            {/* Newsletter Section */}
+            <section className="relative py-20 px-4 md:px-8 border-t border-white/5">
+                <div className="max-w-xl mx-auto text-center space-y-8">
+                    <div className="space-y-4">
+                        <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+                            Junte-se à elite financeira
+                        </h3>
+                        <p className="text-gray-400">
+                            Receba estratégias de investimento e hacks de produtividade financeira diretamente na sua caixa de entrada.
+                        </p>
+                    </div>
+                    <NewsletterForm />
                 </div>
             </section>
 

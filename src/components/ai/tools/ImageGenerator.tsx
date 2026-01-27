@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Wand2, Download, Share2, ImageIcon, RefreshCw } from "lucide-react";
+import NextImage from "next/image";
 
 export default function ImageGenerator() {
     const [prompt, setPrompt] = useState("");
@@ -17,7 +18,7 @@ export default function ImageGenerator() {
         const seed = Math.floor(Math.random() * 1000000);
         const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?seed=${seed}&width=1024&height=1024&nologo=true`;
 
-        const img = new Image();
+        const img = new Image(); // Native Image constructor
         img.src = url;
         img.onload = () => {
             setGeneratedImage(url);
@@ -96,12 +97,16 @@ export default function ImageGenerator() {
             <div className="flex-1 bg-[#0a0a0a] rounded-2xl border border-white/10 p-6 flex items-center justify-center relative overflow-hidden group min-h-[400px]">
                 {generatedImage ? (
                     <>
-                        <img
-                            key={imageKey}
-                            src={generatedImage}
-                            alt="Generated Art"
-                            className="w-full h-full object-contain max-h-[600px] rounded-lg shadow-2xl"
-                        />
+                        <div className="relative w-full h-full max-h-[600px]">
+                            <NextImage
+                                key={imageKey}
+                                src={generatedImage}
+                                alt="Generated Art"
+                                fill
+                                className="object-contain rounded-lg shadow-2xl"
+                                unoptimized // Pollinations AI images might not work well with Next.js optimization sometimes due to dynamic nature, but let's try standard first. Actually, for generated content, unoptimized is safer to avoid caching issues.
+                            />
+                        </div>
                         <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <a
                                 href={generatedImage}

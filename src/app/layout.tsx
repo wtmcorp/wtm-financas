@@ -13,6 +13,8 @@ export const metadata = {
     description: "Sua plataforma completa de gestão financeira e investimentos.",
 };
 
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -22,6 +24,7 @@ export default function RootLayout({
         <html lang="pt-BR">
             <body className={`${inter.className} text-white antialiased overflow-x-hidden selection:bg-primary selection:text-black`}>
                 <Providers>
+                    <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID || ""} />
                     <StarfieldBackground />
                     <AuthGuard>
                         <MainLayout>

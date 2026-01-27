@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Calendar, Clock, ExternalLink, Newspaper, ArrowUpRight, Loader2, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface NewsItem {
     source: string;
@@ -118,12 +119,15 @@ export default function NewsFeed() {
                         >
                             <div className="aspect-[16/9] w-full overflow-hidden relative bg-white/5">
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f13] via-transparent to-transparent z-10 opacity-90" />
-                                <img
+                                <Image
                                     src={item.image}
-                                    alt="" // Empty alt to prevent messy text on failure
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                    alt={item.title}
+                                    fill
+                                    className="object-cover group-hover:scale-110 transition-transform duration-700"
                                     onError={(e) => {
-                                        (e.target as HTMLImageElement).style.display = 'none';
+                                        // Fallback logic handled by parent div placeholder if image fails to load visually
+                                        const target = e.target as HTMLImageElement;
+                                        target.style.opacity = '0';
                                     }}
                                 />
                                 {/* Placeholder if image fails */}
