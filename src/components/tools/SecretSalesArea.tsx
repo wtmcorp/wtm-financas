@@ -29,14 +29,20 @@ import {
 
 interface Lead {
     id: string;
-    name: string;
-    type: string;
-    address: string;
-    phone?: string;
-    website?: string;
-    potential: "high" | "medium" | "low";
+    empresa: string;
+    nicho: string;
+    cidade: string;
+    instagram?: string;
+    whatsapp?: string;
+    email?: string;
+    possui_site: boolean;
+    qualidade_site: "nenhum" | "fraco" | "médio" | "bom";
+    score_venda: number;
+    motivo_oportunidade: string;
     savedAt?: number;
     notes?: string;
+    // Legacy fields for compatibility if needed, or mapped
+    address?: string;
 }
 
 interface SiteAudit {
@@ -137,7 +143,7 @@ export default function SecretSalesArea() {
 
     // Lead Finder State
     const [searchQuery, setSearchQuery] = useState("");
-    const [location, setLocation] = useState("");
+    const [location, setLocation] = useState("Suzano, SP");
     const [leads, setLeads] = useState<Lead[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const [searchStep, setSearchStep] = useState("");
@@ -271,7 +277,7 @@ export default function SecretSalesArea() {
     };
 
     const handleBulkSend = async () => {
-        const leadsWithPhone = savedLeads.filter(l => l.phone);
+        const leadsWithPhone = savedLeads.filter(l => l.whatsapp);
         if (leadsWithPhone.length === 0) {
             setError("Nenhum lead com telefone salvo.");
             return;
@@ -287,10 +293,10 @@ export default function SecretSalesArea() {
             setBulkStatus(prev => ({ ...prev, current: i + 1 }));
 
             // Open WhatsApp
-            const cleanNumber = lead.phone?.replace(/\D/g, "");
+            const cleanNumber = lead.whatsapp?.replace(/\D/g, "");
             if (cleanNumber) {
                 // Rotate templates or use a default one
-                const msg = TEMPLATES[0].content.replace("[Nome]", lead.name);
+                const msg = TEMPLATES[0].content.replace("[Nome]", lead.empresa);
                 const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(msg)}`;
                 const newWindow = window.open(url, "_blank");
 
@@ -336,59 +342,34 @@ export default function SecretSalesArea() {
         const steps = ["Conectando ao banco de dados...", "Mapeando região...", "Filtrando estabelecimentos...", "Validando contatos..."];
         for (const step of steps) {
             setSearchStep(step);
-            await new Promise(resolve => setTimeout(resolve, 600));
+            await new Promise(resolve => setTimeout(resolve, 300));
         }
 
         try {
-            const q = `${searchQuery} ${location}`;
-            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&addressdetails=1&limit=15`, {
-                headers: {
-                    'Accept': 'application/json',
-                    'User-Agent': 'WTM-Sales-OS/1.0'
-                }
+            const response = await fetch("/api/sales/leads", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: searchQuery, location })
             });
-
-            if (!response.ok) throw new Error("API Error");
 
             const data = await response.json();
 
-            if (data && data.length > 0) {
-                let realLeads: Lead[] = data.map((item: any) => {
-                    const name = item.display_name.split(",")[0];
-                    const type = item.type || (searchQuery.length > 3 ? searchQuery : "Negócio");
-                    const hasWebsite = Math.random() > 0.3;
-                    const hasPhone = Math.random() > 0.2;
-
-                    return {
-                        id: item.place_id.toString(),
-                        name: name,
-                        type: type.charAt(0).toUpperCase() + type.slice(1),
-                        address: item.display_name,
-                        phone: hasPhone ? `(11) 9${Math.floor(10000000 + Math.random() * 90000000)}` : undefined,
-                        website: hasWebsite ? `${name.toLowerCase().replace(/\s+/g, '')}.com.br` : undefined,
-                        potential: Math.random() > 0.6 ? "high" : "medium"
-                    };
-                });
+            if (data.leads && data.leads.length > 0) {
+                let realLeads: Lead[] = data.leads;
 
                 // Apply filters
-                if (filters.onlyWithWebsite) realLeads = realLeads.filter(l => l.website);
-                if (filters.onlyWithPhone) realLeads = realLeads.filter(l => l.phone);
+                if (filters.onlyWithWebsite) realLeads = realLeads.filter(l => l.possui_site);
+                if (filters.onlyWithPhone) realLeads = realLeads.filter(l => l.whatsapp);
 
                 setLeads(realLeads);
                 copyToClipboard("Busca concluída com sucesso!");
             } else {
-                throw new Error("No results");
+                copyToClipboard("LEAD NÃO ENCONTRADO");
+                setLeads([]);
             }
         } catch (err) {
-            console.error("Error fetching leads, using smart mocks:", err);
-            const mockLeads: Lead[] = [
-                { id: "m1", name: `${searchQuery} Premium`, type: "Empresa", address: `Av. Paulista, 1500 - ${location || 'São Paulo'}`, phone: "(11) 98877-6655", website: "premium.com.br", potential: "high" },
-                { id: "m2", name: `Studio ${searchQuery}`, type: "Serviços", address: `Rua Oscar Freire, 400 - ${location || 'São Paulo'}`, phone: "(11) 97766-5544", website: "studio.com.br", potential: "high" },
-                { id: "m3", name: `${searchQuery} & Co`, type: "Loja", address: `Faria Lima, 3000 - ${location || 'São Paulo'}`, phone: "(11) 96655-4433", website: "co.com.br", potential: "medium" },
-                { id: "m4", name: `Mundo ${searchQuery}`, type: "Negócio", address: `Centro - ${location || 'Curitiba'}`, phone: "(41) 95544-3322", website: "mundo.com.br", potential: "medium" },
-            ];
-            setLeads(mockLeads);
-            copyToClipboard("Busca concluída (Modo Offline).");
+            console.error("Error fetching leads:", err);
+            copyToClipboard("Erro ao buscar leads.");
         } finally {
             setIsSearching(false);
             setSearchStep("");
@@ -813,7 +794,7 @@ export default function SecretSalesArea() {
                                                         <span className="text-[10px] font-bold text-violet-400 uppercase tracking-widest">{leads.length} Leads Encontrados</span>
                                                     </div>
                                                     <div className="text-[10px] text-zinc-500 font-medium">
-                                                        {leads.filter(l => l.potential === 'high').length} com alto potencial
+                                                        {leads.filter(l => l.score_venda > 70).length} com alto potencial
                                                     </div>
                                                 </div>
                                                 <button
@@ -845,44 +826,51 @@ export default function SecretSalesArea() {
                                                     <div className="flex flex-col gap-4 flex-1">
                                                         <div className="space-y-1">
                                                             <div className="flex items-center gap-2">
-                                                                <span className="text-[9px] font-black text-violet-500 uppercase tracking-widest">{lead.type}</span>
-                                                                {lead.potential === 'high' && (
+                                                                <span className="text-[9px] font-black text-violet-500 uppercase tracking-widest">{lead.nicho}</span>
+                                                                {lead.score_venda > 70 && (
                                                                     <span className="text-[8px] font-bold bg-emerald-500/10 text-emerald-500 px-1.5 py-0.5 rounded uppercase tracking-tighter">Alto Potencial</span>
                                                                 )}
                                                             </div>
-                                                            <h4 className="text-base font-bold text-white leading-tight pr-8 group-hover:text-violet-400 transition-colors line-clamp-1">{lead.name}</h4>
+                                                            <h4 className="text-base font-bold text-white leading-tight pr-8 group-hover:text-violet-400 transition-colors line-clamp-1">{lead.empresa}</h4>
                                                         </div>
 
                                                         <div className="space-y-2 flex-1">
                                                             <div className="flex items-start gap-2 text-[11px] text-zinc-400 leading-relaxed">
                                                                 <MapPin size={12} className="shrink-0 mt-0.5 text-zinc-600" />
-                                                                <span className="line-clamp-2">{lead.address}</span>
+                                                                <span className="line-clamp-2">{lead.cidade}</span>
                                                             </div>
-                                                            {lead.phone && (
+                                                            {lead.whatsapp ? (
                                                                 <div className="flex items-center gap-2 text-[11px] text-zinc-400">
                                                                     <MessageCircle size={12} className="shrink-0 text-emerald-500/60" />
-                                                                    {lead.phone}
+                                                                    {lead.whatsapp}
+                                                                </div>
+                                                            ) : (
+                                                                <div className="flex items-center gap-2 text-[11px] text-zinc-600 italic">
+                                                                    <MessageCircle size={12} className="shrink-0" />
+                                                                    Sem WhatsApp
                                                                 </div>
                                                             )}
-                                                            {lead.website && (
-                                                                <div className="flex items-center gap-2 text-[11px] text-zinc-400">
-                                                                    <Globe size={12} className="shrink-0 text-blue-500/60" />
-                                                                    <span className="truncate">{lead.website}</span>
-                                                                </div>
-                                                            )}
+                                                            <div className="flex items-center gap-2 text-[11px] text-zinc-400">
+                                                                <Globe size={12} className="shrink-0 text-blue-500/60" />
+                                                                <span className="truncate">{lead.possui_site ? "Possui Site" : "Sem Site"}</span>
+                                                            </div>
+                                                            <div className="mt-2 p-2 bg-white/5 rounded-lg">
+                                                                <p className="text-[10px] text-zinc-400 italic">"{lead.motivo_oportunidade}"</p>
+                                                            </div>
                                                         </div>
 
                                                         <div className="flex items-center gap-2 pt-4 mt-auto border-t border-white/5">
                                                             <button
-                                                                onClick={() => handleSendWhatsApp(lead.phone, `Olá ${lead.name}! Vi seu negócio no mapa e notei que vocês ainda não têm uma presença digital otimizada...`)}
-                                                                className="flex-1 bg-violet-600 hover:bg-violet-500 text-white text-[10px] font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-violet-600/10"
+                                                                onClick={() => handleSendWhatsApp(lead.whatsapp, `Olá ${lead.empresa}! Vi seu negócio no mapa e notei que vocês ainda não têm uma presença digital otimizada...`)}
+                                                                disabled={!lead.whatsapp}
+                                                                className="flex-1 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-[10px] font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-violet-600/10"
                                                             >
                                                                 <Send size={12} />
                                                                 Abordar
                                                             </button>
                                                             <button
                                                                 onClick={() => {
-                                                                    setAuditUrl(lead.website || lead.name.toLowerCase().replace(/\s+/g, "") + ".com.br");
+                                                                    // setAuditUrl(lead.website || lead.empresa.toLowerCase().replace(/\s+/g, "") + ".com.br");
                                                                     setActiveTab("auditor");
                                                                 }}
                                                                 className="p-2.5 bg-white/5 hover:bg-white/10 text-zinc-400 rounded-xl transition-all border border-white/5"
@@ -967,10 +955,10 @@ export default function SecretSalesArea() {
                                                     {savedLeads.map(lead => (
                                                         <tr key={lead.id} className="hover:bg-white/[0.02] transition-colors group">
                                                             <td className="p-4">
-                                                                <p className="text-sm font-bold text-white">{lead.name}</p>
+                                                                <p className="text-sm font-bold text-white">{lead.empresa}</p>
                                                                 <div className="flex items-center gap-2">
-                                                                    <span className="text-[10px] text-zinc-500">{lead.type}</span>
-                                                                    {lead.phone && <span className="text-[10px] text-violet-400/60">• {lead.phone}</span>}
+                                                                    <span className="text-[10px] text-zinc-500">{lead.nicho}</span>
+                                                                    {lead.whatsapp && <span className="text-[10px] text-violet-400/60">• {lead.whatsapp}</span>}
                                                                 </div>
                                                             </td>
                                                             <td className="p-4">
@@ -979,7 +967,7 @@ export default function SecretSalesArea() {
                                                             <td className="p-4 text-right">
                                                                 <div className="flex items-center justify-end gap-2">
                                                                     <button
-                                                                        onClick={() => handleSendWhatsApp(undefined, `Olá ${lead.name}, estou entrando em contato novamente...`)}
+                                                                        onClick={() => handleSendWhatsApp(undefined, `Olá ${lead.empresa}, estou entrando em contato novamente...`)}
                                                                         className="p-2 bg-emerald-500/10 text-emerald-500 rounded-lg hover:bg-emerald-500 hover:text-white transition-all"
                                                                     >
                                                                         <MessageCircle size={14} />
