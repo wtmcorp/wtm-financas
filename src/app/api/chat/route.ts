@@ -9,9 +9,11 @@ const hasApiKey = apiKey && apiKey !== "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 const openai = hasApiKey ? new OpenAI({ apiKey }) : null;
 
 // Função de resposta offline (fallback)
-function getOfflineResponse(message: string) {
+function getOfflineResponse(message: string, isQuotaError: boolean = false) {
     const lowerMsg = message.toLowerCase();
-    let response = "Olá! No momento estou operando em modo de segurança (assistente básico). ";
+    let response = isQuotaError
+        ? "Olá! Notei que minha 'energia' (créditos da API) acabou por agora. Enquanto meu mestre não recarrega, posso te ajudar com orientações básicas: "
+        : "Olá! No momento estou operando em modo de segurança (assistente básico). ";
 
     if (lowerMsg.includes("investir") || lowerMsg.includes("investimento")) {
         response += "Para investir com segurança, foque primeiro em sua reserva de emergência (CDB 100% CDI ou Tesouro Selic). O mercado está em um momento de atenção com a Selic em patamares elevados. 🚀";
@@ -23,6 +25,10 @@ function getOfflineResponse(message: string) {
         response += "A WTM Corps é sua parceira em inteligência financeira. Estamos aqui para simplificar o mercado e ajudar você a tomar as melhores decisões com seu dinheiro. 🏢";
     } else {
         response += "Como posso ajudar você com suas finanças hoje? Posso falar sobre investimentos, cartões ou estratégias de economia. (Modo Offline)";
+    }
+
+    if (isQuotaError) {
+        response += "\n\n*(Nota: O limite de uso da API OpenAI foi atingido. É necessário adicionar créditos na plataforma para restaurar o chat completo.)*";
     }
 
     return response;
@@ -94,8 +100,11 @@ Contexto atual do Brasil (Janeiro 2026):
 
         } catch (apiError: any) {
             console.error("OpenAI API Error:", apiError.message);
-            // Se a API falhar (quota, chave inválida, etc), usa o fallback em vez de erro técnico
-            return NextResponse.json({ message: getOfflineResponse(message) });
+
+            // Detectar erro de quota (429)
+            const isQuotaError = apiError.status === 429 || apiError.message?.toLowerCase().includes("quota");
+
+            return NextResponse.json({ message: getOfflineResponse(message, isQuotaError) });
         }
 
     } catch (error: any) {
