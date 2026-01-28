@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Command, LogOut, LayoutDashboard, CreditCard, Wrench, Sparkles, Trophy, BookOpen } from "lucide-react";
+import { Search, Command, LogOut, LayoutDashboard, CreditCard, Wrench, Sparkles, Trophy, BookOpen, TrendingUp } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
