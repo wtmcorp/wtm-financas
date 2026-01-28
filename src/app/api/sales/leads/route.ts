@@ -27,6 +27,8 @@ interface NominatimResult {
         amenity?: string;
         shop?: string;
         office?: string;
+        tourism?: string;
+        leisure?: string;
     };
     extratags?: {
         website?: string;
@@ -42,6 +44,7 @@ interface NominatimResult {
 export async function POST(req: NextRequest) {
     try {
         const { query, location } = await req.json();
+        console.log(`Lead search request: query="${query}", location="${location}"`);
 
         if (!query) {
             return NextResponse.json({ error: "Query is required" }, { status: 400 });
@@ -49,13 +52,14 @@ export async function POST(req: NextRequest) {
 
         let apifyErrorDetail = null;
 
-        // 1. Try Apify first if configured (Melhor qualidade de dados)
-        if (process.env.APIFY_API_TOKEN) {
+        // 1. Try Apify first if configured
+        if (process.env.APIFY_API_TOKEN && process.env.APIFY_API_TOKEN !== 'apify_api_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx') {
             try {
-                console.log("Using Apify for leads search...");
+                console.log("Attempting Apify search...");
                 const apifyResults = await searchBusinessLeads(query, location || "Brasil");
 
                 if (apifyResults && apifyResults.length > 0) {
+                    console.log(`Apify found ${apifyResults.length} leads.`);
                     const leads = apifyResults.map((item: any) => {
                         const possui_site = !!item.website;
                         let score = 0;
@@ -91,34 +95,59 @@ export async function POST(req: NextRequest) {
                     });
 
                     return NextResponse.json({ leads, source: 'apify' });
+                } else {
+                    console.log("Apify returned no results.");
                 }
             } catch (apifyError: any) {
                 console.error("Apify failed:", apifyError.message);
                 apifyErrorDetail = apifyError.message;
-                // Fallback to Nominatim below
+            }
+        } else {
+            console.log("Apify token not configured or default. Skipping Apify.");
+            apifyErrorDetail = "Token não configurado";
+        }
+
+        // 2. Fallback: Nominatim (OpenStreetMap)
+        console.log("Attempting Nominatim fallback...");
+
+        // Try multiple query variations for better results
+        const queryVariations = [
+            `${query} in ${location || 'Brasil'}`,
+            `${query} ${location || 'Brasil'}`,
+            location ? `${query} near ${location}` : query
+        ];
+
+        let allNominatimLeads: any[] = [];
+
+        for (const q of queryVariations.slice(0, 2)) { // Try first two variations
+            try {
+                const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&addressdetails=1&extratags=1&limit=40`;
+                console.log(`Fetching from Nominatim: ${nominatimUrl}`);
+
+                const response = await fetch(nominatimUrl, {
+                    headers: {
+                        'User-Agent': 'WTM-Sales-OS/1.2 (wtmcorps@gmail.com)'
+                    },
+                    next: { revalidate: 3600 }
+                });
+
+                if (response.ok) {
+                    const data: NominatimResult[] = await response.json();
+                    if (data && data.length > 0) {
+                        console.log(`Nominatim variation "${q}" found ${data.length} results.`);
+                        allNominatimLeads = [...allNominatimLeads, ...data];
+                    }
+                }
+            } catch (e) {
+                console.error(`Nominatim variation "${q}" failed:`, e);
             }
         }
 
-        // 2. Fallback: Nominatim (OpenStreetMap) - Gratuito
-        console.log("Using Nominatim for leads search...");
-        // Try to make the query more specific for Nominatim
-        const searchQuery = `${query} in ${location || 'Brasil'}`;
-        const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&addressdetails=1&extratags=1&limit=30`;
+        // Remove duplicates by place_id
+        const uniqueData = Array.from(new Map(allNominatimLeads.map(item => [item.place_id, item])).values());
 
-        const response = await fetch(nominatimUrl, {
-            headers: {
-                'User-Agent': 'WTM-Sales-OS/1.1 (wtmcorps@gmail.com)'
-            },
-            next: { revalidate: 3600 } // Cache for 1 hour
-        });
-
-        if (!response.ok) {
-            throw new Error(`Nominatim API error: ${response.statusText}`);
-        }
-
-        const data: NominatimResult[] = await response.json();
-
-        if (!data || data.length === 0) {
+        if (uniqueData.length === 0) {
+            console.log("Nominatim found no results.");
             return NextResponse.json({
                 leads: [],
                 source: 'nominatim',
@@ -126,9 +155,9 @@ export async function POST(req: NextRequest) {
             });
         }
 
-        const leads = data.map((item) => {
+        const leads = uniqueData.map((item) => {
             const name = item.display_name.split(",")[0];
-            const city = item.address?.city || item.address?.suburb || item.address?.state || location || "Localização desconhecida";
+            const city = item.address?.city || item.address?.suburb || item.address?.state || item.address?.town || location || "Localização desconhecida";
 
             const website = item.extratags?.website || item.extratags?.["contact:website"];
             const phone = item.extratags?.phone || item.extratags?.["contact:phone"];
@@ -156,7 +185,7 @@ export async function POST(req: NextRequest) {
             return {
                 id: item.place_id.toString(),
                 empresa: name,
-                nicho: item.address?.amenity || item.address?.shop || item.address?.office || item.type || query,
+                nicho: item.address?.amenity || item.address?.shop || item.address?.office || item.address?.tourism || item.address?.leisure || item.type || query,
                 cidade: city,
                 instagram: instagram || "",
                 whatsapp: phone || "",
@@ -169,6 +198,7 @@ export async function POST(req: NextRequest) {
             };
         });
 
+        console.log(`Returning ${leads.length} leads from Nominatim.`);
         return NextResponse.json({
             leads,
             source: 'nominatim',

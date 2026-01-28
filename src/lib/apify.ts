@@ -1,16 +1,14 @@
 import { ApifyClient } from 'apify-client';
 
-// Initialize the ApifyClient with API token from environment variables
-export const apifyClient = new ApifyClient({
-    token: process.env.APIFY_API_TOKEN,
-});
-
 // Helper function to run Google Maps Scraper (compass/crawler-google-places)
 // This is one of the best actors for finding business leads
 export async function searchBusinessLeads(query: string, location: string, maxLeads: number = 20) {
-    if (!process.env.APIFY_API_TOKEN) {
+    const token = process.env.APIFY_API_TOKEN;
+    if (!token) {
         throw new Error("APIFY_API_TOKEN not found in environment variables");
     }
+
+    const apifyClient = new ApifyClient({ token });
 
     const searchString = `${query} in ${location}`;
 
