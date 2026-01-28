@@ -3,17 +3,23 @@ import OpenAI from "openai";
 
 export const dynamic = 'force-dynamic';
 
-const apiKey = (process.env.OPENAI_API_KEY || "").trim();
-const hasApiKey = apiKey && apiKey !== "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" && apiKey !== "";
+// Configuração OpenAI
+const openaiKey = (process.env.OPENAI_API_KEY || "").trim();
+const hasOpenaiKey = openaiKey && openaiKey !== "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" && openaiKey !== "";
+const openai = hasOpenaiKey ? new OpenAI({ apiKey: openaiKey }) : null;
 
-const openai = hasApiKey ? new OpenAI({ apiKey }) : null;
+// Configuração DeepSeek (Fallback)
+const deepseekKey = (process.env.DEEPSEEK_API_KEY || "").trim();
+const hasDeepseekKey = deepseekKey && deepseekKey !== "";
+const deepseek = hasDeepseekKey ? new OpenAI({
+    apiKey: deepseekKey,
+    baseURL: 'https://api.deepseek.com'
+}) : null;
 
-// Função de resposta offline (fallback)
-function getOfflineResponse(message: string, isQuotaError: boolean = false) {
+// Função de resposta offline (último recurso)
+function getOfflineResponse(message: string, errorDetail: string = "") {
     const lowerMsg = message.toLowerCase();
-    let response = isQuotaError
-        ? "Olá! Notei que minha 'energia' (créditos da API) acabou por agora. Enquanto meu mestre não recarrega, posso te ajudar com orientações básicas: "
-        : "Olá! No momento estou operando em modo de segurança (assistente básico). ";
+    let response = "Olá! No momento estou operando em modo de segurança (offline). ";
 
     if (lowerMsg.includes("investir") || lowerMsg.includes("investimento")) {
         response += "Para investir com segurança, foque primeiro em sua reserva de emergência (CDB 100% CDI ou Tesouro Selic). O mercado está em um momento de atenção com a Selic em patamares elevados. 🚀";
@@ -27,8 +33,9 @@ function getOfflineResponse(message: string, isQuotaError: boolean = false) {
         response += "Como posso ajudar você com suas finanças hoje? Posso falar sobre investimentos, cartões ou estratégias de economia. (Modo Offline)";
     }
 
-    if (isQuotaError) {
-        response += "\n\n*(Nota: O limite de uso da API OpenAI foi atingido. É necessário adicionar créditos na plataforma para restaurar o chat completo.)*";
+    if (errorDetail) {
+        // Log discreto para debug, mas mensagem amigável para o usuário
+        console.warn("Offline fallback triggered due to:", errorDetail);
     }
 
     return response;
@@ -42,17 +49,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Message is required" }, { status: 400 });
         }
 
-        // 1. Se não houver API Key, usa o fallback imediatamente
-        if (!openai) {
-            return NextResponse.json({ message: getOfflineResponse(message) });
-        }
-
-        // 2. Tenta usar a OpenAI
-        try {
-            const messages = [
-                {
-                    role: "system",
-                    content: `Você é o Wtm AI, um assistente financeiro profissional especializado em finanças pessoais brasileiras. 
+        const systemPrompt = `Você é o Wtm AI, um assistente financeiro profissional especializado em finanças pessoais brasileiras. 
 Suas especialidades incluem:
 - Investimentos (CDB, Tesouro Direto, Ações, Fundos, Cripto)
 - Cartões de crédito (cashback, milhas, benefícios)
@@ -76,39 +73,59 @@ IMPORTANTE:
 Contexto atual do Brasil (Janeiro 2026):
 - Selic: ~9.5% a.a.
 - CDI: ~9.4% a.a.
-- IPCA (inflação): ~3.9% a.a.`,
-                },
-                ...(conversationHistory || []).map((msg: any) => ({
-                    role: msg.sender === "user" ? "user" : "assistant",
-                    content: msg.text,
-                })),
-                {
-                    role: "user",
-                    content: message,
-                },
-            ];
+- IPCA (inflação): ~3.9% a.a.`;
 
-            const response = await openai.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: messages as any,
-                max_tokens: 600,
-                temperature: 0.7,
-            });
+        const messages = [
+            { role: "system", content: systemPrompt },
+            ...(conversationHistory || []).map((msg: any) => ({
+                role: msg.sender === "user" ? "user" : "assistant",
+                content: msg.text,
+            })),
+            { role: "user", content: message },
+        ];
 
-            const aiMessage = response.choices[0].message.content || "Desculpe, não consegui gerar uma resposta.";
-            return NextResponse.json({ message: aiMessage });
-
-        } catch (apiError: any) {
-            console.error("OpenAI API Error:", apiError.message);
-
-            // Detectar erro de quota (429)
-            const isQuotaError = apiError.status === 429 || apiError.message?.toLowerCase().includes("quota");
-
-            return NextResponse.json({ message: getOfflineResponse(message, isQuotaError) });
+        // 1. Tenta OpenAI primeiro
+        if (openai) {
+            try {
+                const response = await openai.chat.completions.create({
+                    model: "gpt-4o-mini",
+                    messages: messages as any,
+                    max_tokens: 600,
+                    temperature: 0.7,
+                });
+                const aiMessage = response.choices[0].message.content || "Sem resposta.";
+                return NextResponse.json({ message: aiMessage, source: "openai" });
+            } catch (error: any) {
+                console.error("OpenAI Error:", error.message);
+                // Se for erro de cota ou outro erro, tenta o DeepSeek
+            }
         }
 
+        // 2. Tenta DeepSeek (Fallback)
+        if (deepseek) {
+            try {
+                console.log("Attempting DeepSeek fallback...");
+                const response = await deepseek.chat.completions.create({
+                    model: "deepseek-chat",
+                    messages: messages as any,
+                    max_tokens: 600,
+                    temperature: 0.7,
+                });
+                const aiMessage = response.choices[0].message.content || "Sem resposta.";
+                return NextResponse.json({ message: aiMessage, source: "deepseek" });
+            } catch (error: any) {
+                console.error("DeepSeek Error:", error.message);
+            }
+        }
+
+        // 3. Se tudo falhar, usa resposta offline
+        return NextResponse.json({
+            message: getOfflineResponse(message, "All AI providers failed"),
+            source: "offline"
+        });
+
     } catch (error: any) {
-        console.error("Chat API error:", error);
+        console.error("Chat API Critical Error:", error);
         return NextResponse.json({
             message: "Olá! Tivemos um pequeno problema de conexão, mas você pode continuar usando as ferramentas do dashboard enquanto restabelecemos o sinal total. 🛠️"
         });
