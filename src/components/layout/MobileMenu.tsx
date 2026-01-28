@@ -46,7 +46,7 @@ export default function MobileMenu() {
         { href: "/", icon: Home, label: "Dashboard", desc: "Visão geral da sua conta", color: "violet" },
         { href: "/cards", icon: CreditCard, label: "Cartões", desc: "Arsenal de crédito e milhas", color: "blue" },
         { href: "/tools", icon: Wrench, label: "Ferramentas", desc: "Calculadoras e conversores", color: "emerald" },
-        { href: "/ai-tools", icon: Sparkles, label: "I.As Úteis", desc: "Produtividade com inteligência", color: "purple" },
+        { href: "/trends", icon: TrendingUp, label: "Radar", desc: "Análise de mercado em tempo real", color: "purple" },
         { href: "/learn", icon: BookOpen, label: "Aprenda", desc: "Cursos e evolução financeira", color: "orange" },
         { href: "/challenge", icon: Trophy, label: "Desafio", desc: "Seu progresso exclusivo", color: "pink" },
     ];
@@ -54,7 +54,6 @@ export default function MobileMenu() {
     const secondaryItems = [
         { href: "/profile", icon: User, label: "Perfil" },
         { href: "/settings", icon: Settings, label: "Config" },
-        { href: "/trends", icon: TrendingUp, label: "Radar" },
         { href: "/help", icon: HelpCircle, label: "Ajuda" },
     ];
 

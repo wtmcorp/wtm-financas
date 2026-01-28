@@ -3,9 +3,10 @@ import OpenAI from "openai";
 
 export const dynamic = 'force-dynamic';
 
-const openai = new OpenAI({
-    apiKey: (process.env.OPENAI_API_KEY || "").trim(),
-});
+const apiKey = (process.env.OPENAI_API_KEY || "").trim();
+const hasApiKey = apiKey && apiKey !== "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+
+const openai = hasApiKey ? new OpenAI({ apiKey }) : null;
 
 export async function POST(req: NextRequest) {
     try {
@@ -16,6 +17,26 @@ export async function POST(req: NextRequest) {
                 { error: "Message is required" },
                 { status: 400 }
             );
+        }
+
+        // Fallback se não houver API Key
+        if (!openai) {
+            console.warn("OpenAI API Key is missing. Using fallback response.");
+
+            const lowerMsg = message.toLowerCase();
+            let fallbackResponse = "Olá! No momento estou operando em modo offline (sem chave de API configurada). ";
+
+            if (lowerMsg.includes("investir") || lowerMsg.includes("investimento")) {
+                fallbackResponse += "Para investir, recomendo começar pela sua reserva de emergência em um CDB de liquidez diária ou Tesouro Selic. 🚀";
+            } else if (lowerMsg.includes("cartão") || lowerMsg.includes("crédito")) {
+                fallbackResponse += "Sobre cartões, procure opções com cashback ou milhas que se adequem aos seus gastos mensais. 💳";
+            } else if (lowerMsg.includes("economizar") || lowerMsg.includes("poupar")) {
+                fallbackResponse += "Para economizar, a regra do 50/30/20 que usamos aqui no dashboard é um excelente começo! 💰";
+            } else {
+                fallbackResponse += "Como posso ajudar você com suas finanças hoje? (Modo Offline)";
+            }
+
+            return NextResponse.json({ message: fallbackResponse });
         }
 
         // Preparar mensagens para ChatGPT
@@ -75,9 +96,10 @@ Contexto atual do Brasil (Janeiro 2026):
 
     } catch (error: any) {
         console.error("Chat API error:", error);
-        return NextResponse.json(
-            { error: error.message || "Internal server error" },
-            { status: 500 }
-        );
+
+        // Fallback em caso de erro da API (ex: quota exceeded)
+        return NextResponse.json({
+            message: "Desculpe, tive um problema técnico para processar sua resposta agora. Por favor, tente novamente em alguns instantes ou verifique sua conexão. 🛠️"
+        });
     }
 }

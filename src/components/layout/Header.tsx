@@ -17,7 +17,7 @@ export default function Header() {
         { label: "Dashboard", href: "/", icon: LayoutDashboard },
         { label: "Cartões", href: "/cards", icon: CreditCard },
         { label: "Ferramentas", href: "/tools", icon: Wrench },
-        { label: "I.As Úteis", href: "/ai-tools", icon: Sparkles },
+        { label: "Radar", href: "/trends", icon: TrendingUp },
         { label: "Desafio", href: "/challenge", icon: Trophy },
         { label: "Aprenda", href: "/learn", icon: BookOpen },
     ];
