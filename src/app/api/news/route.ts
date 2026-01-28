@@ -19,60 +19,38 @@ const FINANCIAL_KEYWORDS = [
 // Fallback mock news in case API fails
 const FALLBACK_NEWS = [
     {
-        source: "Bloomberg Linea",
-        title: "Mercados emergentes se fortalecem com expectativa de cortes de juros",
-        tag: "Macroeconomia",
+        source: "Valor Econômico",
+        title: "Ibovespa opera em estabilidade com investidores atentos ao cenário fiscal",
+        tag: "Bolsa de Valores",
         color: "text-blue-400 border-blue-500/20 bg-blue-500/10",
         time: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
         image: "https://images.unsplash.com/photo-1611974765270-ca12586343bb?q=80&w=800&auto=format&fit=crop"
     },
     {
         source: "InfoMoney",
-        title: "Petrobras anuncia dividendos extraordinários para acionistas",
-        tag: "Dividendos",
+        title: "Tesouro Direto: taxas de Juros sobem após dados de inflação acima do esperado",
+        tag: "Renda Fixa",
         color: "text-green-400 border-green-500/20 bg-green-500/10",
         time: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
         image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?q=80&w=800&auto=format&fit=crop"
     },
     {
-        source: "Valor Econômico",
-        title: "Setor de tecnologia lidera alta na bolsa brasileira",
-        tag: "Bolsa de Valores",
+        source: "Bloomberg Linea",
+        title: "Dólar recua frente ao Real com fluxo de capital estrangeiro",
+        tag: "Câmbio",
         color: "text-purple-400 border-purple-500/20 bg-purple-500/10",
         time: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
         image: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=800&auto=format&fit=crop"
-    },
-    {
-        source: "CoinDesk",
-        title: "Bitcoin atinge novo patamar com aumento de adoção institucional",
-        tag: "Cripto",
-        color: "text-yellow-400 border-yellow-500/20 bg-yellow-500/10",
-        time: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
-        image: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?q=80&w=800&auto=format&fit=crop"
-    },
-    {
-        source: "Exame",
-        title: "Fundos imobiliários registram valorização acima da média",
-        tag: "FIIs",
-        color: "text-red-400 border-red-500/20 bg-red-500/10",
-        time: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
-        image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop"
-    },
-    {
-        source: "Reuters",
-        title: "Banco Central mantém taxa Selic em patamar atual",
-        tag: "Política Monetária",
-        color: "text-blue-400 border-blue-500/20 bg-blue-500/10",
-        time: new Date(Date.now() - 10 * 60 * 60 * 1000).toISOString(),
-        image: "https://images.unsplash.com/photo-1611974765270-ca12586343bb?q=80&w=800&auto=format&fit=crop"
     }
 ];
 
 async function fetchGoogleNewsRSS() {
     try {
+        // Querying high-authority financial sources in Brazil
+        const query = "site:valor.globo.com OR site:infomoney.com.br OR site:bloomberglinea.com.br OR site:exame.com OR site:estadao.com.br/economia OR site:folha.uol.com.br/mercado";
         const response = await fetch(
-            "https://news.google.com/rss/search?q=mercado+financeiro+brasil&hl=pt-BR&gl=BR&ceid=BR:pt-419",
-            { next: { revalidate: 60 } }
+            `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=pt-BR&gl=BR&ceid=BR:pt-419`,
+            { next: { revalidate: 300 } } // 5 minutes revalidation
         );
 
         if (!response.ok) {
@@ -87,7 +65,7 @@ async function fetchGoogleNewsRSS() {
         let match;
 
         while ((match = itemRegex.exec(xmlText)) !== null) {
-            if (items.length >= 6) break;
+            if (items.length >= 12) break; // Fetch more items for better variety
             const itemContent = match[1];
 
             const titleMatch = itemContent.match(/<title>(.*?)<\/title>/);
@@ -100,7 +78,7 @@ async function fetchGoogleNewsRSS() {
                     title: titleMatch[1].replace(" - " + (sourceMatch ? sourceMatch[1] : ""), ""), // Clean title
                     link: linkMatch[1],
                     pubDate: pubDateMatch ? pubDateMatch[1] : new Date().toISOString(),
-                    source: sourceMatch ? sourceMatch[1] : "Google News"
+                    source: sourceMatch ? sourceMatch[1] : "Fonte Segura"
                 });
             }
         }

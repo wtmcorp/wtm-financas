@@ -4,46 +4,49 @@ import OpenAI from "openai";
 export const dynamic = 'force-dynamic';
 
 const apiKey = (process.env.OPENAI_API_KEY || "").trim();
-const hasApiKey = apiKey && apiKey !== "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+const hasApiKey = apiKey && apiKey !== "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" && apiKey !== "";
 
 const openai = hasApiKey ? new OpenAI({ apiKey }) : null;
+
+// Função de resposta offline (fallback)
+function getOfflineResponse(message: string) {
+    const lowerMsg = message.toLowerCase();
+    let response = "Olá! No momento estou operando em modo de segurança (assistente básico). ";
+
+    if (lowerMsg.includes("investir") || lowerMsg.includes("investimento")) {
+        response += "Para investir com segurança, foque primeiro em sua reserva de emergência (CDB 100% CDI ou Tesouro Selic). O mercado está em um momento de atenção com a Selic em patamares elevados. 🚀";
+    } else if (lowerMsg.includes("cartão") || lowerMsg.includes("crédito")) {
+        response += "Sobre cartões, a melhor estratégia é concentrar gastos em um único cartão que ofereça benefícios reais como cashback ou milhas, evitando anuidades desnecessárias. 💳";
+    } else if (lowerMsg.includes("economizar") || lowerMsg.includes("poupar") || lowerMsg.includes("saudável")) {
+        response += "Para economizar de forma saudável, use a regra 50/30/20: 50% para necessidades básicas, 30% para lazer e 20% para o seu futuro. Pequenos cortes em gastos supérfluos fazem grande diferença no longo prazo. 💰";
+    } else if (lowerMsg.includes("wtm") || lowerMsg.includes("quem é")) {
+        response += "A WTM Corps é sua parceira em inteligência financeira. Estamos aqui para simplificar o mercado e ajudar você a tomar as melhores decisões com seu dinheiro. 🏢";
+    } else {
+        response += "Como posso ajudar você com suas finanças hoje? Posso falar sobre investimentos, cartões ou estratégias de economia. (Modo Offline)";
+    }
+
+    return response;
+}
 
 export async function POST(req: NextRequest) {
     try {
         const { message, conversationHistory } = await req.json();
 
         if (!message) {
-            return NextResponse.json(
-                { error: "Message is required" },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: "Message is required" }, { status: 400 });
         }
 
-        // Fallback se não houver API Key
+        // 1. Se não houver API Key, usa o fallback imediatamente
         if (!openai) {
-            console.warn("OpenAI API Key is missing. Using fallback response.");
-
-            const lowerMsg = message.toLowerCase();
-            let fallbackResponse = "Olá! No momento estou operando em modo offline (sem chave de API configurada). ";
-
-            if (lowerMsg.includes("investir") || lowerMsg.includes("investimento")) {
-                fallbackResponse += "Para investir, recomendo começar pela sua reserva de emergência em um CDB de liquidez diária ou Tesouro Selic. 🚀";
-            } else if (lowerMsg.includes("cartão") || lowerMsg.includes("crédito")) {
-                fallbackResponse += "Sobre cartões, procure opções com cashback ou milhas que se adequem aos seus gastos mensais. 💳";
-            } else if (lowerMsg.includes("economizar") || lowerMsg.includes("poupar")) {
-                fallbackResponse += "Para economizar, a regra do 50/30/20 que usamos aqui no dashboard é um excelente começo! 💰";
-            } else {
-                fallbackResponse += "Como posso ajudar você com suas finanças hoje? (Modo Offline)";
-            }
-
-            return NextResponse.json({ message: fallbackResponse });
+            return NextResponse.json({ message: getOfflineResponse(message) });
         }
 
-        // Preparar mensagens para ChatGPT
-        const messages = [
-            {
-                role: "system",
-                content: `Você é o Wtm AI, um assistente financeiro profissional especializado em finanças pessoais brasileiras. 
+        // 2. Tenta usar a OpenAI
+        try {
+            const messages = [
+                {
+                    role: "system",
+                    content: `Você é o Wtm AI, um assistente financeiro profissional especializado em finanças pessoais brasileiras. 
 Suas especialidades incluem:
 - Investimentos (CDB, Tesouro Direto, Ações, Fundos, Cripto)
 - Cartões de crédito (cashback, milhas, benefícios)
@@ -63,43 +66,42 @@ IMPORTANTE:
 - Quando falar de investimentos, mencione os riscos
 - Cite taxas e impostos quando relevante
 - Seja conciso mas completo (máximo 400 palavras por resposta)
-- Forneça links úteis quando apropriado
 
 Contexto atual do Brasil (Janeiro 2026):
 - Selic: ~9.5% a.a.
 - CDI: ~9.4% a.a.
 - IPCA (inflação): ~3.9% a.a.`,
-            },
-            ...(conversationHistory || []).map((msg: any) => ({
-                role: msg.sender === "user" ? "user" : "assistant",
-                content: msg.text,
-            })),
-            {
-                role: "user",
-                content: message,
-            },
-        ];
+                },
+                ...(conversationHistory || []).map((msg: any) => ({
+                    role: msg.sender === "user" ? "user" : "assistant",
+                    content: msg.text,
+                })),
+                {
+                    role: "user",
+                    content: message,
+                },
+            ];
 
-        // Chamar OpenAI API
-        const response = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: messages as any,
-            max_tokens: 600,
-            temperature: 0.7,
-        });
+            const response = await openai.chat.completions.create({
+                model: "gpt-4o-mini",
+                messages: messages as any,
+                max_tokens: 600,
+                temperature: 0.7,
+            });
 
-        const aiMessage = response.choices[0].message.content || "Desculpe, não consegui gerar uma resposta.";
+            const aiMessage = response.choices[0].message.content || "Desculpe, não consegui gerar uma resposta.";
+            return NextResponse.json({ message: aiMessage });
 
-        return NextResponse.json({
-            message: aiMessage
-        });
+        } catch (apiError: any) {
+            console.error("OpenAI API Error:", apiError.message);
+            // Se a API falhar (quota, chave inválida, etc), usa o fallback em vez de erro técnico
+            return NextResponse.json({ message: getOfflineResponse(message) });
+        }
 
     } catch (error: any) {
         console.error("Chat API error:", error);
-
-        // Fallback em caso de erro da API (ex: quota exceeded)
         return NextResponse.json({
-            message: "Desculpe, tive um problema técnico para processar sua resposta agora. Por favor, tente novamente em alguns instantes ou verifique sua conexão. 🛠️"
+            message: "Olá! Tivemos um pequeno problema de conexão, mas você pode continuar usando as ferramentas do dashboard enquanto restabelecemos o sinal total. 🛠️"
         });
     }
 }
