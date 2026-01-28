@@ -96,20 +96,26 @@ const CONTENT_IDEAS = {
     "web-design": [
         { title: "5 Sinais que seu site está espantando clientes", type: "Carrossel", caption: "Seu site é sua vitrine virtual. Se ele demora a carregar ou não é responsivo, você está perdendo dinheiro. #WebDesign #MarketingDigital" },
         { title: "Landing Page vs Site Institucional: Qual você precisa?", type: "Reels/Vídeo", caption: "Muitos empresários confundem os dois. Explico a diferença crucial para sua conversão. #LandingPage #VendasOnline" },
-        { title: "Como um design premium aumenta seu ticket médio", type: "Post Estático", caption: "A percepção de valor começa pelo olhar. Um site amador atrai clientes que buscam preço, um site premium atrai clientes que buscam qualidade. #DesignPremium #Branding" }
+        { title: "Como um design premium aumenta seu ticket médio", type: "Post Estático", caption: "A percepção de valor começa pelo olhar. Um site amador atrai clientes que buscam preço, um site premium atrai clientes que buscam qualidade. #DesignPremium #Branding" },
+        { title: "A psicologia das cores no seu site", type: "Carrossel", caption: "Como as cores influenciam a decisão de compra do seu cliente. #Neuromarketing #WebDesign" },
+        { title: "Por que o 'Mobile First' não é mais opcional", type: "Reels", caption: "Mais de 70% do tráfego vem do celular. Se seu site não é perfeito no mobile, você não existe. #MobileFirst #UX" }
     ],
     "marketing": [
         { title: "O erro #1 que impede sua empresa de vender no Google", type: "Carrossel", caption: "Não adianta ter tráfego se sua página não converte. O segredo está na experiência do usuário. #GoogleAds #SEO" },
         { title: "3 Gatilhos mentais indispensáveis para sua página de vendas", type: "Reels/Vídeo", caption: "Autoridade, Escassez e Prova Social. Como usar sem parecer forçado. #Neuromarketing #Copywriting" },
-        { title: "Por que o tráfego pago sozinho não faz milagre", type: "Post Estático", caption: "O anúncio traz o cliente, mas o site é quem fecha a venda. Cuide da sua casa digital. #MarketingDeResultados #Growth" }
+        { title: "Por que o tráfego pago sozinho não faz milagre", type: "Post Estático", caption: "O anúncio traz o cliente, mas o site é quem fecha a venda. Cuide da sua casa digital. #MarketingDeResultados #Growth" },
+        { title: "Como criar uma oferta irresistível", type: "Carrossel", caption: "O segredo para vender mais não é baixar o preço, é aumentar o valor percebido. #Vendas #Marketing" },
+        { title: "SEO em 2026: O que realmente importa", type: "Post Estático", caption: "Velocidade, conteúdo útil e autoridade. Esqueça os truques baratos. #SEO #MarketingDigital" }
     ],
     "lifestyle": [
         { title: "Bastidores: Como criamos uma identidade visual do zero", type: "Stories/Processo", caption: "Mostrando o processo criativo desde o briefing até o lançamento. #DesignProcess #CreativeAgency" },
-        { title: "Um dia na WTM Corps: Foco em resultados", type: "Vlog Curto", caption: "Nossa rotina focada em entregar o melhor para nossos parceiros. #AgencyLife #WTMCorps" }
+        { title: "Um dia na WTM Corps: Foco em resultados", type: "Vlog Curto", caption: "Nossa rotina focada em entregar o melhor para nossos parceiros. #AgencyLife #WTMCorps" },
+        { title: "Minha configuração de trabalho para alta produtividade", type: "Post Estático", caption: "Onde a mágica acontece. Organização é a chave para a criatividade. #Setup #Productivity" }
     ],
     "results": [
         { title: "Case de Sucesso: +200% em conversão em 30 dias", type: "Estudo de Caso", caption: "Como reformulamos o checkout de um cliente e explodimos as vendas. #CaseDeSucesso #ROI" },
-        { title: "Depoimento: O que nossos clientes dizem sobre nós", type: "Prova Social", caption: "A satisfação de quem confiou sua presença digital à WTM. #Feedback #ClientesSatisfeitos" }
+        { title: "Depoimento: O que nossos clientes dizem sobre nós", type: "Prova Social", caption: "A satisfação de quem confiou sua presença digital à WTM. #Feedback #ClientesSatisfeitos" },
+        { title: "Antes vs Depois: Redesign de uma loja de móveis", type: "Carrossel", caption: "A transformação visual que gerou autoridade imediata. #Redesign #WebDesign" }
     ]
 };
 
@@ -118,15 +124,18 @@ const STRATEGY_GUIDE = {
         { title: "Script de Abordagem Fria (Direct)", content: "Olá [Nome], vi seu perfil e notei que sua empresa tem um potencial incrível, mas seu site atual pode estar limitando seu crescimento. Trabalhamos com design de alta conversão na WTM Corps. Toparia uma análise gratuita de 5 min?" },
         { title: "Quebra de Objeção: 'Está caro'", content: "Entendo perfeitamente. Na verdade, o investimento se paga com o aumento da conversão. Se recuperarmos apenas 2 clientes que você perde hoje por causa do site, o projeto já se pagou. Faz sentido?" },
         { title: "Follow-up Estratégico", content: "Oi [Nome], passando para compartilhar um case de um cliente do seu nicho que teve resultados excelentes após a nossa intervenção. Pensei que você gostaria de ver!" },
-        { title: "Script de Indicação", content: "Olá [Parceiro], estamos expandindo nossa operação e buscando 3 novas empresas para escalar este mês. Se conhecer alguém que precise profissionalizar o site, ficarei muito grato pela indicação!" }
+        { title: "Script de Indicação", content: "Olá [Parceiro], estamos expandindo nossa operação e buscando 3 novas empresas para escalar este mês. Se conhecer alguém que precise profissionalizar o site, ficarei muito grato pela indicação!" },
+        { title: "Abordagem Google Maps", content: "Olá [Nome], encontrei sua empresa no Google Maps e notei que vocês ainda não têm um site otimizado. Isso faz com que vocês percam muitos clientes locais. Podemos conversar sobre como resolver isso?" }
     ],
-    hashtags: "#WebDesignProfissional #MarketingDeServiços #WTMCorps #VendasOnline #LandingPageAltaConversão #EmpreendedorismoDigital #DesignEstratégico",
+    hashtags: "#WebDesignProfissional #MarketingDeServiços #WTMCorps #VendasOnline #LandingPageAltaConversão #EmpreendedorismoDigital #DesignEstratégico #WebDesignBrasil #MarketingParaEmpresas",
     tips: [
         "Poste 3x por semana focando em resolver dores do seu cliente ideal.",
         "Interaja com 20 perfis de potenciais clientes todos os dias (comentários sinceros).",
         "Use os Stories para mostrar os bastidores e gerar autoridade.",
         "Sempre tenha uma CTA (Chamada para Ação) clara em todos os posts.",
-        "Responda todos os directs em menos de 1 hora para não perder o timing."
+        "Responda todos os directs em menos de 1 hora para não perder o timing.",
+        "Use depoimentos de clientes em vídeo para aumentar a prova social.",
+        "Crie um portfólio em PDF para enviar rapidamente via WhatsApp."
     ]
 };
 
@@ -331,6 +340,8 @@ export default function SecretSalesArea() {
         stopBulkRef.current = false;
         if (!stopBulkRef.current) {
             copyToClipboard("Disparo em massa concluído!");
+            setSendSuccess(true);
+            setTimeout(() => setSendSuccess(false), 3000);
         }
     };
 
@@ -376,14 +387,25 @@ export default function SecretSalesArea() {
                 if (filters.onlyWithPhone) realLeads = realLeads.filter(l => l.whatsapp);
 
                 setLeads(realLeads);
-                copyToClipboard("Busca concluída com sucesso!");
+
+                const sourceInfo = data.source === 'apify' ? "via Google Maps" : "via OpenStreetMap";
+                copyToClipboard(`Busca concluída! ${realLeads.length} leads encontrados ${sourceInfo}.`);
+
+                if (data.info) {
+                    setError(data.info);
+                    setTimeout(() => setError(""), 5000);
+                }
             } else {
-                copyToClipboard("LEAD NÃO ENCONTRADO");
+                const msg = data.warning || "NENHUM LEAD ENCONTRADO";
+                copyToClipboard(msg);
+                setError(msg);
+                setTimeout(() => setError(""), 5000);
                 setLeads([]);
             }
         } catch (err) {
             console.error("Error fetching leads:", err);
             copyToClipboard("Erro ao buscar leads.");
+            setError("Erro na conexão com o servidor de busca.");
         } finally {
             setIsSearching(false);
             setSearchStep("");
@@ -425,39 +447,46 @@ export default function SecretSalesArea() {
 
     const runAudit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!auditUrl) return;
+
         setIsAuditing(true);
         setAuditResult(null);
+        setError("");
 
         const steps = ["Iniciando scanner...", "Analisando Core Web Vitals...", "Verificando SEO On-page...", "Checando segurança SSL...", "Gerando recomendações..."];
-        for (const step of steps) {
-            setAuditStep(step);
-            await new Promise(resolve => setTimeout(resolve, 700));
+
+        // Start steps in background
+        let currentStepIdx = 0;
+        const stepInterval = setInterval(() => {
+            if (currentStepIdx < steps.length) {
+                setAuditStep(steps[currentStepIdx]);
+                currentStepIdx++;
+            }
+        }, 800);
+
+        try {
+            const response = await fetch("/api/tools/audit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url: auditUrl })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setAuditResult(data);
+                copyToClipboard("Auditoria concluída com sucesso!");
+            } else {
+                setError(data.error || "Erro ao auditar site.");
+            }
+        } catch (err) {
+            console.error("Audit error:", err);
+            setError("Erro de conexão ao auditar site.");
+        } finally {
+            clearInterval(stepInterval);
+            setIsAuditing(false);
+            setAuditStep("");
         }
-
-        const score = Math.floor(Math.random() * 40) + 30; // 30-70
-        const issues = [
-            "Tempo de carregamento superior a 4.5s (LCP crítico)",
-            "Falta de tags de conversão (Pixel/GA4 não detectados)",
-            "Design não responsivo em dispositivos móveis modernos",
-            "Certificado SSL com configuração vulnerável",
-            "Ausência de formulários de captura otimizados",
-            "Imagens pesadas sem compressão Next-Gen (WebP)",
-            "SEO On-page inexistente ou mal configurado"
-        ].sort(() => 0.5 - Math.random()).slice(0, 4);
-
-        setAuditResult({
-            url: auditUrl.includes("://") ? auditUrl : `https://${auditUrl}`,
-            score,
-            issues,
-            recommendations: [
-                "Migrar para arquitetura WTM (Next.js + Vercel)",
-                "Implementar funil de vendas direto na Home",
-                "Otimizar Core Web Vitals para rankeamento Google"
-            ]
-        });
-        setIsAuditing(false);
-        setAuditStep("");
-        copyToClipboard("Auditoria concluída!");
     };
 
     const copyToClipboard = (text: string) => {
