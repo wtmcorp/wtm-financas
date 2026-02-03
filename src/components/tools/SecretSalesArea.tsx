@@ -3,6 +3,11 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
+    X,
+    Lock,
+    Search,
+    MessageCircle,
+    ArrowRight,
     CheckCircle2,
     AlertCircle,
     Loader2,
