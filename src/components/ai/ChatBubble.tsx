@@ -268,6 +268,10 @@ export default function ChatBubble() {
 
             const data = await response.json();
 
+            if (data.debugError) {
+                console.error("WTM AI Debug Error:", data.debugError);
+            }
+
             await addDoc(collection(db, "messages"), {
                 chat_id: chatId,
                 user_id: user.id,

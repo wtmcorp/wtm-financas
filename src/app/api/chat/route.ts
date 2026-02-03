@@ -5,12 +5,12 @@ export const dynamic = 'force-dynamic';
 
 // Configuração OpenAI
 const openaiKey = (process.env.OPENAI_API_KEY || "").trim();
-const hasOpenaiKey = openaiKey && openaiKey !== "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" && openaiKey !== "";
+const hasOpenaiKey = openaiKey && openaiKey.startsWith("sk-"); // Basic validation
 const openai = hasOpenaiKey ? new OpenAI({ apiKey: openaiKey }) : null;
 
 // Configuração DeepSeek (Fallback)
 const deepseekKey = (process.env.DEEPSEEK_API_KEY || "").trim();
-const hasDeepseekKey = deepseekKey && deepseekKey !== "";
+const hasDeepseekKey = deepseekKey && deepseekKey.length > 5; // Basic validation
 const deepseek = hasDeepseekKey ? new OpenAI({
     apiKey: deepseekKey,
     baseURL: 'https://api.deepseek.com'
@@ -34,16 +34,18 @@ function getOfflineResponse(message: string, errorDetail: string = "") {
     }
 
     if (errorDetail) {
-        // Log discreto para debug, mas mensagem amigável para o usuário
         console.warn("Offline fallback triggered due to:", errorDetail);
     }
 
-    return response;
+    return { message: response, errorDetail };
 }
 
 export async function POST(req: NextRequest) {
+    let lastError: string = "";
+
     try {
-        const { message, conversationHistory } = await req.json();
+        const body = await req.json().catch(() => ({}));
+        const { message, conversationHistory } = body;
 
         if (!message) {
             return NextResponse.json({ error: "Message is required" }, { status: 400 });
@@ -97,8 +99,10 @@ Contexto atual do Brasil (Janeiro 2026):
                 return NextResponse.json({ message: aiMessage, source: "openai" });
             } catch (error: any) {
                 console.error("OpenAI Error:", error.message);
-                // Se for erro de cota ou outro erro, tenta o DeepSeek
+                lastError += `OpenAI Error: ${error.message}; `;
             }
+        } else {
+            lastError += `OpenAI Key Invalid/Missing; `;
         }
 
         // 2. Tenta DeepSeek (Fallback)
@@ -115,19 +119,25 @@ Contexto atual do Brasil (Janeiro 2026):
                 return NextResponse.json({ message: aiMessage, source: "deepseek" });
             } catch (error: any) {
                 console.error("DeepSeek Error:", error.message);
+                lastError += `DeepSeek Error: ${error.message}; `;
             }
+        } else {
+            lastError += `DeepSeek Key Invalid/Missing; `;
         }
 
         // 3. Se tudo falhar, usa resposta offline
+        const offlineData = getOfflineResponse(message, lastError);
         return NextResponse.json({
-            message: getOfflineResponse(message, "All AI providers failed"),
-            source: "offline"
+            message: offlineData.message,
+            source: "offline",
+            debugError: offlineData.errorDetail // Frontend logs this
         });
 
     } catch (error: any) {
         console.error("Chat API Critical Error:", error);
         return NextResponse.json({
-            message: "Olá! Tivemos um pequeno problema de conexão, mas você pode continuar usando as ferramentas do dashboard enquanto restabelecemos o sinal total. 🛠️"
+            message: "Olá! Tivemos um pequeno problema de conexão, mas você pode continuar usando as ferramentas do dashboard enquanto restabelecemos o sinal total. 🛠️",
+            debugError: `Critical: ${error.message}`
         });
     }
 }

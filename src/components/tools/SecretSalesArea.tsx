@@ -172,8 +172,9 @@ export default function SecretSalesArea() {
 
     // CRM State
     const [savedLeads, setSavedLeads] = useState<Lead[]>([]);
-    const [bulkStatus, setBulkStatus] = useState<{ current: number; total: number; isActive: boolean }>({ current: 0, total: 0, isActive: false });
+    const [bulkStatus, setBulkStatus] = useState<{ current: number; total: number; isActive: boolean; isPaused: boolean }>({ current: 0, total: 0, isActive: false, isPaused: false });
     const stopBulkRef = useRef(false);
+    const bulkPauseRef = useRef(false);
 
     // Auditor State
     const [auditUrl, setAuditUrl] = useState("");
@@ -334,6 +335,11 @@ export default function SecretSalesArea() {
         setBulkStatus(prev => ({ ...prev, isActive: false }));
     };
 
+    const resumeBulkSend = () => {
+        bulkPauseRef.current = false;
+        setBulkStatus(prev => ({ ...prev, isPaused: false }));
+    };
+
     const handleBulkSend = async () => {
         const leadsWithPhone = savedLeads.filter(l => l.whatsapp);
         if (leadsWithPhone.length === 0) {
@@ -342,9 +348,18 @@ export default function SecretSalesArea() {
         }
 
         stopBulkRef.current = false;
-        setBulkStatus({ current: 0, total: leadsWithPhone.length, isActive: true });
+        bulkPauseRef.current = false;
+        setBulkStatus({ current: 0, total: leadsWithPhone.length, isActive: true, isPaused: false });
 
         for (let i = 0; i < leadsWithPhone.length; i++) {
+            // Check for stop signal
+            if (stopBulkRef.current) break;
+
+            // Check for pause signal (wait loop)
+            while (bulkPauseRef.current) {
+                if (stopBulkRef.current) break;
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
             if (stopBulkRef.current) break;
 
             const lead = leadsWithPhone[i];
@@ -358,28 +373,42 @@ export default function SecretSalesArea() {
                 const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(msg)}`;
                 const newWindow = window.open(url, "_blank");
 
+                // If popup blocked, PAUSE instead of ABORT
                 if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
-                    setError("Popups bloqueados! O navegador impediu a abertura. Permita popups para este site na barra de endereço para enviar para todos.");
-                    stopBulkRef.current = true;
-                    setBulkStatus(prev => ({ ...prev, isActive: false }));
-                    break;
+                    setError("Popup bloqueado! Libere os popups e clique em RETOMAR.");
+                    bulkPauseRef.current = true;
+                    setBulkStatus(prev => ({ ...prev, isPaused: true }));
+
+                    // Wait for user to resume
+                    while (bulkPauseRef.current && !stopBulkRef.current) {
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                    if (stopBulkRef.current) break;
+
+                    // Retry opening the window after resume
+                    i--; // Go back to retry this index
+                    continue;
                 }
             }
 
-            // Wait 5 seconds as requested
+            // Wait 5 seconds (prevent spam block)
             const waitTime = 5000;
             const steps = waitTime / 100;
             for (let j = 0; j < steps; j++) {
                 if (stopBulkRef.current) break;
+                // Check pause during wait
+                while (bulkPauseRef.current) {
+                    if (stopBulkRef.current) break;
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
                 await new Promise(resolve => setTimeout(resolve, 100));
             }
-
-            // Double check before continuing loop
-            if (stopBulkRef.current) break;
         }
 
-        setBulkStatus({ current: 0, total: 0, isActive: false });
+        setBulkStatus({ current: 0, total: 0, isActive: false, isPaused: false });
         stopBulkRef.current = false;
+        bulkPauseRef.current = false;
+
         if (!stopBulkRef.current) {
             copyToClipboard("Disparo em massa concluído!");
             setSendSuccess(true);
@@ -1071,6 +1100,15 @@ export default function SecretSalesArea() {
                                                             >
                                                                 <Square size={14} fill="currentColor" />
                                                             </button>
+                                                            {bulkStatus.isPaused && (
+                                                                <button
+                                                                    onClick={resumeBulkSend}
+                                                                    className="p-2 bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-white rounded-xl transition-all animate-pulse"
+                                                                    title="Retomar envios (Liberar Popup)"
+                                                                >
+                                                                    <Play size={14} fill="currentColor" />
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     ) : (
                                                         <button
