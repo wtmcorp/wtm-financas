@@ -2059,7 +2059,7 @@ export default function SecretSalesArea() {
                             <p className="text-zinc-500 text-sm font-medium">Automação inteligente de WhatsApp com delay anti-bloqueio.</p>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[600px]">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-[600px]">
                             {/* Left Column - Input */}
                             <div className="flex flex-col gap-6 h-full">
                                 <div className="flex-1 bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col relative overflow-hidden group">
@@ -2094,7 +2094,7 @@ export default function SecretSalesArea() {
 
                             {/* Right Column - Controls & Message */}
                             <div className="flex flex-col gap-6 h-full">
-                                <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col gap-6 relative overflow-hidden h-full">
+                                <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col gap-6 relative overflow-y-auto custom-scrollbar h-full">
                                     <div className="absolute inset-0 bg-gradient-to-b from-violet-500/5 to-transparent pointer-events-none" />
 
                                     <div className="space-y-3">
@@ -2116,7 +2116,7 @@ export default function SecretSalesArea() {
                                         <textarea
                                             value={message}
                                             onChange={(e) => setMessage(e.target.value)}
-                                            className="w-full h-32 bg-zinc-950/50 border border-white/10 rounded-2xl p-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-none placeholder:text-zinc-700 custom-scrollbar"
+                                            className="w-full h-64 bg-zinc-950/50 border border-white/10 rounded-2xl p-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-y placeholder:text-zinc-700 custom-scrollbar"
                                         />
                                     </div>
 
