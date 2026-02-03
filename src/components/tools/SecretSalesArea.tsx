@@ -727,7 +727,7 @@ export default function SecretSalesArea() {
                                             value={phoneNumbers}
                                             onChange={(e) => setPhoneNumbers(e.target.value)}
                                             placeholder="Cole os números aqui..."
-                                            className="w-full h-full bg-zinc-900/30 border border-white/5 rounded-[2rem] p-5 text-[11px] text-white focus:outline-none focus:ring-2 focus:ring-violet-500/20 resize-none placeholder:text-zinc-800 transition-all font-mono relative z-10 custom-scrollbar"
+                                            className="w-full h-full bg-zinc-900 border border-white/10 rounded-[2rem] p-5 text-[11px] text-white focus:outline-none focus:ring-2 focus:ring-violet-500/20 resize-none placeholder:text-zinc-600 transition-all font-mono relative z-10 custom-scrollbar"
                                         />
                                         <div className="absolute bottom-4 right-4 text-[9px] text-zinc-500 font-black bg-zinc-950/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 z-20">
                                             {phoneNumbers.split(/[\n,]+/).filter(n => n.trim()).length} LEADS
@@ -837,7 +837,7 @@ export default function SecretSalesArea() {
                                                                 value={searchQuery}
                                                                 onChange={(e) => setSearchQuery(e.target.value)}
                                                                 placeholder="Ex: Padarias, Academias, Clínicas..."
-                                                                className="w-full bg-zinc-900/40 border border-white/5 rounded-3xl py-6 pl-16 pr-8 text-white focus:outline-none focus:ring-2 focus:ring-violet-500/20 transition-all relative z-10 placeholder:text-zinc-800 font-bold text-lg"
+                                                                className="w-full bg-zinc-900 border border-white/10 rounded-3xl py-6 pl-16 pr-8 text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all relative z-10 placeholder:text-zinc-600 font-bold text-lg shadow-inner shadow-black/50"
                                                             />
                                                         </div>
                                                     </div>
@@ -853,7 +853,7 @@ export default function SecretSalesArea() {
                                                                 value={location}
                                                                 onChange={(e) => setLocation(e.target.value)}
                                                                 placeholder="Cidade ou Bairro"
-                                                                className="w-full bg-zinc-900/40 border border-white/5 rounded-3xl py-6 pl-16 pr-8 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all relative z-10 placeholder:text-zinc-800 font-bold text-lg"
+                                                                className="w-full bg-zinc-900 border border-white/10 rounded-3xl py-6 pl-16 pr-8 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all relative z-10 placeholder:text-zinc-600 font-bold text-lg shadow-inner shadow-black/50"
                                                             />
                                                         </div>
                                                     </div>
@@ -862,9 +862,9 @@ export default function SecretSalesArea() {
                                                     <button
                                                         onClick={findLeads}
                                                         disabled={isSearching || !searchQuery}
-                                                        className="w-full bg-white text-black hover:bg-zinc-200 disabled:opacity-50 font-black rounded-3xl h-[76px] transition-all duration-500 flex items-center justify-center gap-4 shadow-[0_20px_40px_rgba(255,255,255,0.05)] group relative overflow-hidden"
+                                                        className="w-full bg-white text-black hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 font-black rounded-3xl h-[76px] transition-all duration-300 flex items-center justify-center gap-4 shadow-[0_0_40px_rgba(255,255,255,0.1)] group relative overflow-hidden"
                                                     >
-                                                        <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 opacity-0 group-hover:opacity-10 transition-opacity" />
+                                                        <div className="absolute inset-0 bg-gradient-to-r from-violet-200 to-indigo-200 opacity-0 group-hover:opacity-100 transition-opacity mix-blend-overlay" />
                                                         {isSearching ? (
                                                             <Loader2 size={24} className="animate-spin" />
                                                         ) : (
