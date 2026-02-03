@@ -3,11 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-    X,
-    Lock,
-    Search,
-    MessageCircle,
-    ArrowRight,
     CheckCircle2,
     AlertCircle,
     Loader2,
@@ -28,7 +23,9 @@ import {
     Globe,
     Plus,
     Square,
-    Play
+    Play,
+    ListCollapse,
+    Info
 } from "lucide-react";
 
 interface Lead {
@@ -145,7 +142,7 @@ export default function SecretSalesArea() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [isVerifying, setIsVerifying] = useState(false);
-    const [activeTab, setActiveTab] = useState<"finder" | "crm" | "auditor" | "templates" | "content-lab">("finder");
+    const [activeTab, setActiveTab] = useState<"finder" | "crm" | "bulk-sender" | "auditor" | "templates" | "content-lab">("finder");
 
     // WhatsApp Sender State
     const [phoneNumbers, setPhoneNumbers] = useState("");
@@ -667,6 +664,7 @@ export default function SecretSalesArea() {
                                 {[
                                     { id: "finder", label: "Buscador de Leads", icon: Search },
                                     { id: "crm", label: "CRM / Prospectos", icon: Users, count: savedLeads.length },
+                                    { id: "bulk-sender", label: "Disparo em Massa", icon: Send },
                                     { id: "auditor", label: "Auditor de Sites", icon: BarChart3 },
                                     { id: "templates", label: "Scripts de Venda", icon: FileText },
                                     { id: "content-lab", label: "Laboratório Criativo", icon: Zap },
@@ -697,101 +695,13 @@ export default function SecretSalesArea() {
                                 ))}
                             </div>
 
-                            <div className="pt-8 border-t border-white/5 flex-1 flex flex-col min-h-0 relative z-10">
-                                <div className="px-2 mb-6 flex items-center justify-between">
-                                    <div className="flex flex-col">
-                                        <p className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em]">Command Center</p>
-                                        <p className="text-[8px] font-bold text-violet-500/60 uppercase tracking-widest">Disparo Rápido</p>
+                            <div className="pt-8 mt-auto border-t border-white/5 relative z-10">
+                                <div className="p-4 bg-violet-500/5 rounded-2xl border border-violet-500/10">
+                                    <p className="text-[10px] font-bold text-violet-400 uppercase tracking-widest mb-1">Status do Sistema</p>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                        <span className="text-xs font-bold text-white">Operacional</span>
                                     </div>
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={() => setMessage(TEMPLATES[0].content)}
-                                            className="p-2 bg-white/5 hover:bg-violet-500/20 rounded-xl text-zinc-500 hover:text-violet-400 transition-all border border-white/5"
-                                            title="Template Padrão"
-                                        >
-                                            <MessageCircle size={14} />
-                                        </button>
-                                        <button
-                                            onClick={() => setPhoneNumbers("")}
-                                            className="p-2 bg-white/5 hover:bg-red-500/20 rounded-xl text-zinc-500 hover:text-red-400 transition-all border border-white/5"
-                                            title="Limpar"
-                                        >
-                                            <Trash2 size={14} />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="px-2 space-y-5 flex-1 flex flex-col min-h-0 pb-6">
-                                    <div className="relative group flex-1 min-h-0">
-                                        <div className="absolute inset-0 bg-violet-500/5 rounded-[2rem] blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity" />
-                                        <textarea
-                                            value={phoneNumbers}
-                                            onChange={(e) => setPhoneNumbers(e.target.value)}
-                                            placeholder="Cole os números aqui..."
-                                            className="w-full h-full bg-zinc-900 border border-white/10 rounded-[2rem] p-5 text-[11px] text-white focus:outline-none focus:ring-2 focus:ring-violet-500/20 resize-none placeholder:text-zinc-600 transition-all font-mono relative z-10 custom-scrollbar"
-                                        />
-                                        <div className="absolute bottom-4 right-4 text-[9px] text-zinc-500 font-black bg-zinc-950/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 z-20">
-                                            {phoneNumbers.split(/[\n,]+/).filter(n => n.trim()).length} LEADS
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="text-[9px] text-zinc-600 font-black uppercase tracking-[0.2em] ml-2">Protocolo de Mensagem</label>
-                                        <div className="relative">
-                                            <select
-                                                value={message}
-                                                onChange={(e) => setMessage(e.target.value)}
-                                                className="w-full bg-zinc-900/50 border border-white/5 rounded-2xl p-4 text-[11px] text-zinc-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 appearance-none cursor-pointer font-bold"
-                                            >
-                                                {TEMPLATES.map(t => (
-                                                    <option key={t.id} value={t.content} className="bg-zinc-950">{t.name}</option>
-                                                ))}
-                                            </select>
-                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-600">
-                                                <ArrowRight size={14} className="rotate-90" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <button
-                                        onClick={bulkStatus.isActive ? stopBulkSend : () => handleSendWhatsApp()}
-                                        disabled={isSending && !bulkStatus.isActive}
-                                        className={`w-full group relative h-16 rounded-2xl transition-all duration-500 overflow-hidden ${bulkStatus.isActive
-                                            ? 'bg-zinc-900 border border-red-500/20'
-                                            : sendSuccess
-                                                ? 'bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.3)]'
-                                                : 'bg-white text-black hover:scale-[1.02] active:scale-[0.98]'
-                                            }`}
-                                    >
-                                        <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 opacity-0 group-hover:opacity-10 transition-opacity" />
-
-                                        {bulkStatus.isActive ? (
-                                            <div className="relative z-10 w-full px-6 flex flex-col justify-center h-full">
-                                                <div className="flex justify-between items-center mb-2">
-                                                    <span className="text-[9px] font-black text-white uppercase tracking-widest animate-pulse">Enviando {bulkStatus.current}/{bulkStatus.total}</span>
-                                                    <span className="text-[9px] font-bold text-red-400">PARAR</span>
-                                                </div>
-                                                <div className="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
-                                                    <motion.div
-                                                        className="h-full bg-violet-500"
-                                                        initial={{ width: 0 }}
-                                                        animate={{ width: `${(bulkStatus.current / bulkStatus.total) * 100}%` }}
-                                                        transition={{ duration: 0.5 }}
-                                                    />
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <div className="relative z-10 flex items-center justify-center gap-3 font-black text-[11px] uppercase tracking-[0.2em]">
-                                                {isSending ? (
-                                                    <Loader2 size={18} className="animate-spin" />
-                                                ) : sendSuccess ? (
-                                                    <CheckCircle2 size={18} />
-                                                ) : (
-                                                    <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                                                )}
-                                                {isSending ? "Processando..." : sendSuccess ? "Sucesso!" : "Iniciar Disparo"}
-                                            </div>
-                                        )}
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -805,6 +715,7 @@ export default function SecretSalesArea() {
                                     <h2 className="text-2xl font-black text-white uppercase tracking-tighter">
                                         {activeTab === 'finder' && "Lead Intelligence"}
                                         {activeTab === 'crm' && "Pipeline de Vendas"}
+                                        {activeTab === 'bulk-sender' && "Automação de Disparos"}
                                         {activeTab === 'auditor' && "Site Auditor PRO"}
                                         {activeTab === 'templates' && "Sales Scripts"}
                                         {activeTab === 'content-lab' && "Creative Lab"}
@@ -2087,7 +1998,138 @@ export default function SecretSalesArea() {
                     </div>
                 )}
 
-                {/* Footer */}
+                {activeTab === "bulk-sender" && (
+                    <motion.div
+                        key="bulk-sender"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="space-y-10"
+                    >
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-3xl font-black text-white flex items-center gap-4 uppercase tracking-tighter">
+                                <div className="p-3 bg-violet-500/10 rounded-2xl border border-violet-500/20">
+                                    <Send className="text-violet-500" size={24} />
+                                </div>
+                                Disparo em Massa
+                            </h3>
+                            <p className="text-zinc-500 text-sm font-medium">Automação inteligente de WhatsApp com delay anti-bloqueio.</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[600px]">
+                            {/* Left Column - Input */}
+                            <div className="flex flex-col gap-6 h-full">
+                                <div className="flex-1 bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col relative overflow-hidden group">
+                                    <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none" />
+
+                                    <div className="flex justify-between items-center mb-4">
+                                        <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                                            <ListCollapse size={16} /> Lista de Contatos
+                                        </label>
+                                        <div className="text-[10px] font-bold text-zinc-600 bg-white/5 px-3 py-1 rounded-full border border-white/5">
+                                            {phoneNumbers.split(/[\n,]+/).filter(n => n.trim()).length} LEADS IDENTIFICADOS
+                                        </div>
+                                    </div>
+
+                                    <textarea
+                                        value={phoneNumbers}
+                                        onChange={(e) => setPhoneNumbers(e.target.value)}
+                                        placeholder={`Cole sua lista de números aqui...\n\nExemplo:\n11999999999\n11988888888\n(11) 97777-7777`}
+                                        className="flex-1 w-full bg-zinc-950/50 border border-white/10 rounded-2xl p-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-none placeholder:text-zinc-700 font-mono custom-scrollbar transition-all"
+                                    />
+
+                                    <div className="mt-4 flex justify-end">
+                                        <button
+                                            onClick={() => setPhoneNumbers("")}
+                                            className="text-xs text-zinc-500 hover:text-red-400 transition-colors font-bold uppercase tracking-widest flex items-center gap-2"
+                                        >
+                                            <Trash2 size={14} /> Limpar Lista
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Right Column - Controls & Message */}
+                            <div className="flex flex-col gap-6 h-full">
+                                <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col gap-6 relative overflow-hidden h-full">
+                                    <div className="absolute inset-0 bg-gradient-to-b from-violet-500/5 to-transparent pointer-events-none" />
+
+                                    <div className="space-y-3">
+                                        <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                                            <MessageCircle size={16} /> Configurar Mensagem
+                                        </label>
+                                        <div className="relative">
+                                            <select
+                                                value={message}
+                                                onChange={(e) => setMessage(e.target.value)}
+                                                className="w-full bg-zinc-950/50 border border-white/10 rounded-2xl p-4 text-xs font-medium text-zinc-300 focus:outline-none focus:ring-2 focus:ring-violet-500/30 appearance-none cursor-pointer"
+                                            >
+                                                {TEMPLATES.map(t => (
+                                                    <option key={t.id} value={t.content} className="bg-zinc-950">{t.name}</option>
+                                                ))}
+                                            </select>
+                                            <ArrowRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600 rotate-90 pointer-events-none" />
+                                        </div>
+                                        <textarea
+                                            value={message}
+                                            onChange={(e) => setMessage(e.target.value)}
+                                            className="w-full h-32 bg-zinc-950/50 border border-white/10 rounded-2xl p-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-none placeholder:text-zinc-700 custom-scrollbar"
+                                        />
+                                    </div>
+
+                                    <div className="flex-1 flex flex-col justify-end gap-4 border-t border-white/5 pt-6">
+                                        <div className="flex items-center gap-4 p-4 bg-yellow-500/5 rounded-2xl border border-yellow-500/10">
+                                            <Info size={20} className="text-yellow-500 shrink-0" />
+                                            <p className="text-[10px] text-zinc-400 font-medium leading-relaxed">
+                                                <strong className="text-yellow-500">Modo de Segurança Ativo:</strong> O sistema aplicará um atraso aleatório de 5 a 8 segundos entre cada envio para evitar bloqueios do WhatsApp. Mantenha esta aba aberta.
+                                            </p>
+                                        </div>
+
+                                        <button
+                                            onClick={bulkStatus.isActive ? stopBulkSend : () => handleSendWhatsApp()}
+                                            disabled={isSending && !bulkStatus.isActive}
+                                            className={`w-full py-6 rounded-2xl font-black text-sm uppercase tracking-[0.2em] transition-all shadow-xl flex items-center justify-center gap-3 relative overflow-hidden group ${bulkStatus.isActive
+                                                ? 'bg-zinc-900 border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white'
+                                                : 'bg-violet-600 hover:bg-violet-500 text-white shadow-violet-600/20'
+                                                }`}
+                                        >
+                                            {bulkStatus.isActive ? (
+                                                <>
+                                                    <Square size={18} fill="currentColor" /> PARAR DISPARO ({bulkStatus.current}/{bulkStatus.total})
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> INICIAR DISPARO AUTOMÁTICO
+                                                </>
+                                            )}
+                                        </button>
+
+                                        {bulkStatus.isActive && (
+                                            <div className="space-y-2">
+                                                <div className="flex justify-between text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                                                    <span>Progresso</span>
+                                                    <span>{Math.round((bulkStatus.current / bulkStatus.total) * 100)}%</span>
+                                                </div>
+                                                <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
+                                                    <motion.div
+                                                        className="h-full bg-violet-500 shadow-[0_0_15px_rgba(124,58,237,0.5)]"
+                                                        initial={{ width: 0 }}
+                                                        animate={{ width: `${(bulkStatus.current / bulkStatus.total) * 100}%` }}
+                                                        transition={{ duration: 0.5 }}
+                                                    />
+                                                </div>
+                                                <p className="text-[10px] text-center text-zinc-600 animate-pulse mt-2">
+                                                    Processando envio... não feche esta janela.
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+
                 <div className="p-6 bg-zinc-950/80 backdrop-blur-xl border-t border-white/5 flex justify-between items-center shrink-0 relative z-10">
                     <div className="flex items-center gap-3 text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em]">
                         <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
