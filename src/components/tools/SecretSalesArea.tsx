@@ -269,22 +269,62 @@ export default function SecretSalesArea() {
             return;
         }
 
-        setIsSending(true);
-
-        // Removed artificial delay to prevent popup blocker issues
-        // await new Promise(resolve => setTimeout(resolve, 1500));
-
-        targetNumbers.forEach(num => {
-            const cleanNumber = num.replace(/\D/g, "");
+        // Single Send (Instant)
+        if (targetNumbers.length === 1) {
+            setIsSending(true);
+            const cleanNumber = targetNumbers[0].replace(/\D/g, "");
             if (cleanNumber) {
                 const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(finalMsg)}`;
                 window.open(url, "_blank");
             }
-        });
+            setIsSending(false);
+            setSendSuccess(true);
+            setTimeout(() => setSendSuccess(false), 3000);
+            return;
+        }
 
+        // Bulk Send Logic (Manual List)
+        stopBulkRef.current = false;
+        setBulkStatus({ current: 0, total: targetNumbers.length, isActive: true });
+        setIsSending(true);
+
+        for (let i = 0; i < targetNumbers.length; i++) {
+            if (stopBulkRef.current) break;
+
+            setBulkStatus(prev => ({ ...prev, current: i + 1 }));
+            const cleanNumber = targetNumbers[i].replace(/\D/g, "");
+
+            if (cleanNumber) {
+                const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(finalMsg)}`;
+                const newWindow = window.open(url, "_blank");
+
+                if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                    setError("Popups bloqueados! Permita popups para este site na barra de endereço.");
+                    stopBulkRef.current = true;
+                    break;
+                }
+            }
+
+            // Wait 5-8 seconds to simulate human behavior and avoid blocks
+            if (i < targetNumbers.length - 1) {
+                const waitTime = Math.floor(Math.random() * 3000) + 5000; // 5000ms to 8000ms
+                const steps = waitTime / 100;
+                for (let j = 0; j < steps; j++) {
+                    if (stopBulkRef.current) break;
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+            }
+        }
+
+        setBulkStatus({ current: 0, total: 0, isActive: false });
         setIsSending(false);
-        setSendSuccess(true);
-        setTimeout(() => setSendSuccess(false), 3000);
+        stopBulkRef.current = false;
+
+        if (!stopBulkRef.current) {
+            setSendSuccess(true);
+            setTimeout(() => setSendSuccess(false), 3000);
+            copyToClipboard("Disparo concluído!");
+        }
     };
 
     const stopBulkSend = () => {
@@ -713,24 +753,44 @@ export default function SecretSalesArea() {
                                     </div>
 
                                     <button
-                                        onClick={() => handleSendWhatsApp()}
-                                        disabled={isSending}
-                                        className={`w-full group relative h-16 rounded-2xl transition-all duration-500 overflow-hidden ${sendSuccess
-                                            ? 'bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.3)]'
-                                            : 'bg-white text-black hover:scale-[1.02] active:scale-[0.98]'
+                                        onClick={bulkStatus.isActive ? stopBulkSend : () => handleSendWhatsApp()}
+                                        disabled={isSending && !bulkStatus.isActive}
+                                        className={`w-full group relative h-16 rounded-2xl transition-all duration-500 overflow-hidden ${bulkStatus.isActive
+                                            ? 'bg-zinc-900 border border-red-500/20'
+                                            : sendSuccess
+                                                ? 'bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.3)]'
+                                                : 'bg-white text-black hover:scale-[1.02] active:scale-[0.98]'
                                             }`}
                                     >
                                         <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 opacity-0 group-hover:opacity-10 transition-opacity" />
-                                        <div className="relative z-10 flex items-center justify-center gap-3 font-black text-[11px] uppercase tracking-[0.2em]">
-                                            {isSending ? (
-                                                <Loader2 size={18} className="animate-spin" />
-                                            ) : sendSuccess ? (
-                                                <CheckCircle2 size={18} />
-                                            ) : (
-                                                <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                                            )}
-                                            {isSending ? "Processando..." : sendSuccess ? "Sucesso!" : "Iniciar Disparo"}
-                                        </div>
+
+                                        {bulkStatus.isActive ? (
+                                            <div className="relative z-10 w-full px-6 flex flex-col justify-center h-full">
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <span className="text-[9px] font-black text-white uppercase tracking-widest animate-pulse">Enviando {bulkStatus.current}/{bulkStatus.total}</span>
+                                                    <span className="text-[9px] font-bold text-red-400">PARAR</span>
+                                                </div>
+                                                <div className="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+                                                    <motion.div
+                                                        className="h-full bg-violet-500"
+                                                        initial={{ width: 0 }}
+                                                        animate={{ width: `${(bulkStatus.current / bulkStatus.total) * 100}%` }}
+                                                        transition={{ duration: 0.5 }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="relative z-10 flex items-center justify-center gap-3 font-black text-[11px] uppercase tracking-[0.2em]">
+                                                {isSending ? (
+                                                    <Loader2 size={18} className="animate-spin" />
+                                                ) : sendSuccess ? (
+                                                    <CheckCircle2 size={18} />
+                                                ) : (
+                                                    <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                                                )}
+                                                {isSending ? "Processando..." : sendSuccess ? "Sucesso!" : "Iniciar Disparo"}
+                                            </div>
+                                        )}
                                     </button>
                                 </div>
                             </div>
