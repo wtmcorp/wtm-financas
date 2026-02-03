@@ -305,6 +305,10 @@ export default function SecretSalesArea() {
             return;
         }
 
+        // Force user to confirm safe mode for bulk
+        const confirmSafe = window.confirm("MODO DE SEGURANÇA ATIVADO:\n\nPara evitar o banimento do seu WhatsApp, o sistema enviará mensagens com intervalos de 60 a 120 segundos e fará uma pausa de 5 minutos a cada 5 envios.\n\nEste processo é LENTO mas SEGURO. Deseja continuar?");
+        if (!confirmSafe) return;
+
         // Bulk Send Logic (Manual List)
         stopBulkRef.current = false;
         setBulkStatus({ current: 0, total: targetNumbers.length, isActive: true, isPaused: false });
@@ -327,13 +331,28 @@ export default function SecretSalesArea() {
                 }
             }
 
-            // Wait 5-8 seconds to simulate human behavior and avoid blocks
+            // Safety Delays
             if (i < targetNumbers.length - 1) {
-                const waitTime = Math.floor(Math.random() * 3000) + 5000; // 5000ms to 8000ms
-                const steps = waitTime / 100;
-                for (let j = 0; j < steps; j++) {
-                    if (stopBulkRef.current) break;
-                    await new Promise(resolve => setTimeout(resolve, 100));
+                // Every 5 messages, take a long break (5 minutes)
+                if ((i + 1) % 5 === 0) {
+                    setError("Pausa de segurança: 5 minutos para evitar bloqueio...");
+                    setBulkStatus(prev => ({ ...prev, isPaused: true }));
+                    const cooldownTime = 5 * 60 * 1000; // 5 minutes
+                    const steps = 3000; // 0.1s steps
+                    for (let j = 0; j < steps; j++) {
+                        if (stopBulkRef.current) break;
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                    setBulkStatus(prev => ({ ...prev, isPaused: false }));
+                    setError("");
+                } else {
+                    // Random delay between 60 and 120 seconds
+                    const waitTime = Math.floor(Math.random() * 60000) + 60000;
+                    const steps = waitTime / 100;
+                    for (let j = 0; j < steps; j++) {
+                        if (stopBulkRef.current) break;
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
                 }
             }
         }
@@ -345,42 +364,12 @@ export default function SecretSalesArea() {
         if (!stopBulkRef.current) {
             setSendSuccess(true);
             setTimeout(() => setSendSuccess(false), 3000);
-            copyToClipboard("Disparo concluído!");
+            copyToClipboard("Disparo concluído com segurança!");
         }
     };
 
     const startBulkSend = async () => {
-        const targetNumbers = phoneNumbers.split(/[\n,]+/).map(n => n.trim()).filter(n => n);
-        if (targetNumbers.length === 0) return;
-
-        stopBulkRef.current = false;
-        setBulkStatus({ current: 0, total: targetNumbers.length, isActive: true, isPaused: false });
-
-        for (let i = 0; i < targetNumbers.length; i++) {
-            if (stopBulkRef.current) break;
-
-            setBulkStatus(prev => ({ ...prev, current: i + 1 }));
-            const cleanNumber = targetNumbers[i].replace(/\D/g, "");
-
-            if (cleanNumber) {
-                const finalMsg = message.replace(/\[Nome\]/g, "Empresa");
-                const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(finalMsg)}`;
-                const newWindow = window.open(url, "_blank");
-
-                if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
-                    setError("Popups bloqueados!");
-                    stopBulkRef.current = true;
-                    setBulkStatus(prev => ({ ...prev, isPaused: true }));
-                    break;
-                }
-            }
-
-            if (i < targetNumbers.length - 1) {
-                await new Promise(resolve => setTimeout(resolve, 8000));
-            }
-        }
-
-        setBulkStatus(prev => ({ ...prev, isActive: false }));
+        await handleSendWhatsApp();
     };
 
     const stopOperation = () => {
@@ -750,6 +739,17 @@ export default function SecretSalesArea() {
                                                             <div className="flex-1 h-8 bg-white/5 rounded-full" />
                                                             <div className="w-8 h-8 bg-[#00a884] rounded-full flex items-center justify-center text-white"><Send size={14} fill="white" /></div>
                                                         </div>
+                                                    </div>
+
+                                                    <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-4 mb-4">
+                                                        <div className="flex items-center gap-2 text-emerald-500 mb-2">
+                                                            <ShieldCheck size={16} />
+                                                            <span className="text-[10px] font-black uppercase tracking-widest">Safe Mode Active</span>
+                                                        </div>
+                                                        <p className="text-[9px] text-zinc-500 leading-relaxed font-medium">
+                                                            Intervalos de 60-120s entre mensagens + Pausa de 5min a cada 5 envios.
+                                                            <span className="text-zinc-400 block mt-1">Proteção máxima contra banimento.</span>
+                                                        </p>
                                                     </div>
 
                                                     <div className="space-y-3">
