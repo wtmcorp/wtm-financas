@@ -1134,15 +1134,15 @@ export default function SecretSalesArea() {
                                                 </div>
                                             </div>
 
-                                            <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] overflow-hidden backdrop-blur-md">
-                                                <div className="overflow-x-auto">
-                                                    <table className="w-full text-left border-collapse">
-                                                        <thead>
-                                                            <tr className="border-b border-white/5 bg-white/[0.02]">
-                                                                <th className="p-6 text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em]">Empresa / Contato</th>
-                                                                <th className="p-6 text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em]">Nicho & Local</th>
-                                                                <th className="p-6 text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em]">Status</th>
-                                                                <th className="p-6 text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] text-right">Ações</th>
+                                            <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] overflow-hidden backdrop-blur-md relative border-collapse">
+                                                <div className="max-h-[600px] overflow-y-auto custom-scrollbar">
+                                                    <table className="w-full text-left border-collapse relative">
+                                                        <thead className="sticky top-0 z-20">
+                                                            <tr className="bg-[#0c0c10]/95 backdrop-blur-xl border-b border-white/10">
+                                                                <th className="p-6 text-[10px] font-black text-violet-400 uppercase tracking-[0.2em]">Empresa / Contato</th>
+                                                                <th className="p-6 text-[10px] font-black text-violet-400 uppercase tracking-[0.2em]">Nicho & Local</th>
+                                                                <th className="p-6 text-[10px] font-black text-violet-400 uppercase tracking-[0.2em]">Oportunidade</th>
+                                                                <th className="p-6 text-[10px] font-black text-violet-400 uppercase tracking-[0.2em] text-right">Ações</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody className="divide-y divide-white/5">
@@ -1150,51 +1150,70 @@ export default function SecretSalesArea() {
                                                                 <tr>
                                                                     <td colSpan={4} className="p-20 text-center">
                                                                         <div className="flex flex-col items-center gap-4 opacity-20">
-                                                                            <Users size={48} />
-                                                                            <p className="text-sm font-black uppercase tracking-widest">Nenhum lead no pipeline</p>
+                                                                            <Users size={64} />
+                                                                            <p className="text-xl font-bold uppercase tracking-widest">Nenhum lead salvo</p>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
                                                             ) : (
-                                                                savedLeads.map(lead => (
-                                                                    <tr key={lead.id} className="hover:bg-white/[0.02] transition-colors group">
+                                                                savedLeads.map((lead) => (
+                                                                    <motion.tr
+                                                                        key={lead.id}
+                                                                        initial={{ opacity: 0 }}
+                                                                        animate={{ opacity: 1 }}
+                                                                        className="group hover:bg-white/[0.02] transition-colors"
+                                                                    >
                                                                         <td className="p-6">
-                                                                            <div className="flex flex-col">
-                                                                                <span className="text-base font-black text-white uppercase tracking-tight">{lead.empresa}</span>
-                                                                                <div className="flex items-center gap-2 mt-1">
-                                                                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                                                                    <span className="text-[11px] font-mono text-zinc-500">{lead.whatsapp || "Sem telefone"}</span>
+                                                                            <div className="flex items-center gap-4">
+                                                                                <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/5 group-hover:border-violet-500/30 transition-all">
+                                                                                    <Store size={20} className="text-zinc-500 group-hover:text-violet-400" />
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p className="text-sm font-black text-white uppercase tracking-tight">{lead.empresa}</p>
+                                                                                    <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1 flex items-center gap-2">
+                                                                                        <MessageCircle size={12} className={lead.whatsapp ? "text-emerald-500" : "text-zinc-700"} />
+                                                                                        {lead.whatsapp || "N/A"}
+                                                                                    </p>
                                                                                 </div>
                                                                             </div>
                                                                         </td>
                                                                         <td className="p-6">
-                                                                            <div className="flex flex-col">
-                                                                                <span className="text-[10px] font-black text-violet-400 uppercase tracking-widest">{lead.nicho}</span>
-                                                                                <span className="text-[11px] text-zinc-500 font-medium mt-1">{lead.cidade}</span>
+                                                                            <div>
+                                                                                <span className="text-[10px] font-black text-violet-500 bg-violet-500/10 px-2.5 py-1 rounded-lg border border-violet-500/20 uppercase tracking-widest leading-none inline-block mb-2">
+                                                                                    {lead.nicho}
+                                                                                </span>
+                                                                                <p className="text-[11px] text-zinc-500 font-medium flex items-center gap-2 italic">
+                                                                                    <MapPin size={12} /> {lead.cidade}
+                                                                                </p>
                                                                             </div>
                                                                         </td>
                                                                         <td className="p-6">
-                                                                            <span className="px-3 py-1 bg-violet-500/10 text-violet-400 text-[10px] rounded-full font-black uppercase tracking-widest border border-violet-500/20">
-                                                                                Pendente
-                                                                            </span>
+                                                                            <div className="max-w-xs">
+                                                                                <p className="text-[10px] text-zinc-400 font-medium leading-relaxed line-clamp-2">
+                                                                                    {lead.motivo_oportunidade}
+                                                                                </p>
+                                                                            </div>
                                                                         </td>
-                                                                        <td className="p-6 text-right">
+                                                                        <td className="p-6">
                                                                             <div className="flex items-center justify-end gap-3">
                                                                                 <button
-                                                                                    onClick={() => handleSendWhatsApp(lead.whatsapp)}
-                                                                                    className="p-3 bg-emerald-500/10 text-emerald-500 rounded-xl hover:bg-emerald-500 hover:text-white transition-all border border-emerald-500/20 shadow-lg shadow-emerald-500/5"
+                                                                                    onClick={() => handleSendWhatsApp(lead.whatsapp, message)}
+                                                                                    disabled={!lead.whatsapp}
+                                                                                    className="p-3 bg-white/5 hover:bg-emerald-500 text-zinc-500 hover:text-white rounded-xl transition-all border border-white/10 hover:border-transparent group/btn"
+                                                                                    title="Abordar via WhatsApp"
                                                                                 >
-                                                                                    <MessageCircle size={18} />
+                                                                                    <Send size={16} />
                                                                                 </button>
                                                                                 <button
                                                                                     onClick={() => toggleSaveLead(lead)}
-                                                                                    className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all border border-red-500/20 shadow-lg shadow-red-500/5"
+                                                                                    className="p-3 bg-white/5 hover:bg-red-500/10 text-zinc-700 hover:text-red-500 rounded-xl transition-all border border-white/10 hover:border-transparent"
+                                                                                    title="Remover Lead"
                                                                                 >
-                                                                                    <Trash2 size={18} />
+                                                                                    <Trash2 size={16} />
                                                                                 </button>
                                                                             </div>
                                                                         </td>
-                                                                    </tr>
+                                                                    </motion.tr>
                                                                 ))
                                                             )}
                                                         </tbody>
@@ -2059,110 +2078,168 @@ export default function SecretSalesArea() {
                             <p className="text-zinc-500 text-sm font-medium">Automação inteligente de WhatsApp com delay anti-bloqueio.</p>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-[600px]">
-                            {/* Left Column - Input */}
-                            <div className="flex flex-col gap-6 h-full">
-                                <div className="flex-1 bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col relative overflow-hidden group">
+                        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                            {/* Left Column - Input List */}
+                            <div className="xl:col-span-1 space-y-6">
+                                <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col relative overflow-hidden group min-h-[500px]">
                                     <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none" />
 
-                                    <div className="flex justify-between items-center mb-4">
-                                        <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
-                                            <ListCollapse size={16} /> Lista de Contatos
-                                        </label>
-                                        <div className="text-[10px] font-bold text-zinc-600 bg-white/5 px-3 py-1 rounded-full border border-white/5">
-                                            {phoneNumbers.split(/[\n,]+/).filter(n => n.trim()).length} LEADS IDENTIFICADOS
+                                    <div className="flex justify-between items-center mb-6">
+                                        <div className="space-y-1">
+                                            <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                                                <ListCollapse size={16} /> Lista de Contatos
+                                            </label>
+                                            <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-tight">Insira um número por linha</p>
+                                        </div>
+                                        <div className="text-[10px] font-black text-violet-400 bg-violet-500/10 px-3 py-1.5 rounded-full border border-violet-500/20">
+                                            {phoneNumbers.split(/[\n,]+/).filter(n => n.trim()).length} LEADS
                                         </div>
                                     </div>
 
                                     <textarea
                                         value={phoneNumbers}
                                         onChange={(e) => setPhoneNumbers(e.target.value)}
-                                        placeholder={`Cole sua lista de números aqui...\n\nExemplo:\n11999999999\n11988888888\n(11) 97777-7777`}
-                                        className="flex-1 w-full bg-zinc-950/50 border border-white/10 rounded-2xl p-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-none placeholder:text-zinc-700 font-mono custom-scrollbar transition-all"
+                                        placeholder={`Cole sua lista aqui...\n\n11999999999\n11988888888\n(11) 97777-7777`}
+                                        className="flex-1 w-full bg-zinc-950/30 border border-white/10 rounded-3xl p-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-none placeholder:text-zinc-700 font-mono custom-scrollbar transition-all"
                                     />
 
-                                    <div className="mt-4 flex justify-end">
+                                    <div className="mt-4 flex justify-between items-center">
                                         <button
                                             onClick={() => setPhoneNumbers("")}
-                                            className="text-xs text-zinc-500 hover:text-red-400 transition-colors font-bold uppercase tracking-widest flex items-center gap-2"
+                                            className="p-2 text-zinc-600 hover:text-red-400 transition-colors"
+                                            title="Limpar Lista"
                                         >
-                                            <Trash2 size={14} /> Limpar Lista
+                                            <Trash2 size={16} />
+                                        </button>
+                                        <button
+                                            onClick={() => copyToClipboard(phoneNumbers)}
+                                            className="text-[10px] text-zinc-500 hover:text-white font-black uppercase tracking-widest flex items-center gap-2"
+                                        >
+                                            <Copy size={12} /> Copiar
                                         </button>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Right Column - Controls & Message */}
-                            <div className="flex flex-col gap-6 h-full">
-                                <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col gap-6 relative overflow-y-auto custom-scrollbar h-full">
+                            {/* Middle Column - Message Editor */}
+                            <div className="xl:col-span-1 space-y-6">
+                                <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col gap-6 relative overflow-hidden group min-h-[500px]">
                                     <div className="absolute inset-0 bg-gradient-to-b from-violet-500/5 to-transparent pointer-events-none" />
 
-                                    <div className="space-y-3">
-                                        <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
-                                            <MessageCircle size={16} /> Configurar Mensagem
-                                        </label>
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between items-center">
+                                            <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                                                <MessageCircle size={16} /> Configurar Abordagem
+                                            </label>
+                                        </div>
                                         <div className="relative">
                                             <select
                                                 value={message}
                                                 onChange={(e) => setMessage(e.target.value)}
-                                                className="w-full bg-zinc-950/50 border border-white/10 rounded-2xl p-4 text-xs font-medium text-zinc-300 focus:outline-none focus:ring-2 focus:ring-violet-500/30 appearance-none cursor-pointer"
+                                                className="w-full bg-zinc-950/50 border border-white/10 rounded-2xl p-4 text-xs font-black text-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 appearance-none cursor-pointer uppercase tracking-widest"
                                             >
                                                 {TEMPLATES.map(t => (
-                                                    <option key={t.id} value={t.content} className="bg-zinc-950">{t.name}</option>
+                                                    <option key={t.id} value={t.content} className="bg-zinc-950 text-white">{t.name}</option>
                                                 ))}
                                             </select>
-                                            <ArrowRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600 rotate-90 pointer-events-none" />
+                                            <ArrowRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-violet-500 rotate-90 pointer-events-none" />
                                         </div>
                                         <textarea
                                             value={message}
                                             onChange={(e) => setMessage(e.target.value)}
-                                            className="w-full h-64 bg-zinc-950/50 border border-white/10 rounded-2xl p-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-y placeholder:text-zinc-700 custom-scrollbar"
+                                            placeholder="Digite sua mensagem aqui..."
+                                            className="w-full h-[280px] bg-zinc-950/30 border border-white/10 rounded-3xl p-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-none placeholder:text-zinc-700 custom-scrollbar leading-relaxed"
                                         />
                                     </div>
 
-                                    <div className="flex-1 flex flex-col justify-end gap-4 border-t border-white/5 pt-6">
+                                    <div className="mt-auto space-y-4 pt-6 border-t border-white/5">
+                                        <div className="flex items-center gap-4 p-4 bg-violet-500/5 rounded-2xl border border-violet-500/10">
+                                            <Zap size={20} className="text-violet-500 shrink-0" />
+                                            <p className="text-[10px] text-zinc-400 font-medium leading-relaxed">
+                                                Use <strong className="text-violet-400">[Nome]</strong> para personalizar automaticamente com o nome da empresa.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Right Column - Preview & Actions */}
+                            <div className="xl:col-span-1 space-y-6">
+                                <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col gap-8 relative overflow-hidden group min-h-[500px]">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none" />
+
+                                    <div className="space-y-4 flex-1">
+                                        <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                                            <Sparkles size={16} /> Preview do WhatsApp
+                                        </label>
+
+                                        {/* WhatsApp Chat UI Mockup */}
+                                        <div className="bg-[#0b141a] rounded-[2rem] p-4 flex flex-col h-[320px] shadow-2xl border border-white/5 relative overflow-hidden">
+                                            <div className="absolute top-0 left-0 w-full h-12 bg-[#202c33] flex items-center px-4 gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-zinc-600" />
+                                                <div className="flex-1">
+                                                    <div className="w-24 h-2 bg-white/20 rounded-full mb-1" />
+                                                    <div className="w-16 h-1 bg-white/10 rounded-full" />
+                                                </div>
+                                            </div>
+                                            <div className="flex-1 p-4 mt-12 overflow-y-auto custom-scrollbar flex flex-col gap-2">
+                                                <div className="self-end bg-[#005c4b] text-white p-3 rounded-2xl rounded-tr-none text-[11px] max-w-[85%] shadow-sm relative leading-relaxed whitespace-pre-wrap">
+                                                    {message.replace("[Nome]", "Empresa Exemplo")}
+                                                    <div className="text-[9px] text-white/50 text-right mt-1 font-bold">14:20 ✓✓</div>
+                                                </div>
+                                            </div>
+                                            <div className="h-12 bg-[#202c33] flex items-center px-4 gap-3">
+                                                <div className="flex-1 h-8 bg-[#2a3942] rounded-full" />
+                                                <div className="w-8 h-8 rounded-full bg-[#00a884] flex items-center justify-center text-white">
+                                                    <Send size={14} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4">
                                         <div className="flex items-center gap-4 p-4 bg-yellow-500/5 rounded-2xl border border-yellow-500/10">
                                             <Info size={20} className="text-yellow-500 shrink-0" />
-                                            <p className="text-[10px] text-zinc-400 font-medium leading-relaxed">
-                                                <strong className="text-yellow-500">Modo de Segurança Ativo:</strong> O sistema aplicará um atraso aleatório de 5 a 8 segundos entre cada envio para evitar bloqueios do WhatsApp. Mantenha esta aba aberta.
+                                            <p className="text-[9px] text-zinc-400 font-medium leading-relaxed uppercase tracking-wider">
+                                                <strong className="text-yellow-500">Antispam:</strong> Delay de 5-8s ativo entre mensagens.
                                             </p>
                                         </div>
 
                                         <button
                                             onClick={bulkStatus.isActive ? stopBulkSend : () => handleSendWhatsApp()}
-                                            disabled={isSending && !bulkStatus.isActive}
-                                            className={`w-full py-6 rounded-2xl font-black text-sm uppercase tracking-[0.2em] transition-all shadow-xl flex items-center justify-center gap-3 relative overflow-hidden group ${bulkStatus.isActive
+                                            disabled={(isSending && !bulkStatus.isActive) || phoneNumbers.trim() === ""}
+                                            className={`w-full py-6 rounded-3xl font-black text-sm uppercase tracking-[0.2em] transition-all shadow-2xl flex items-center justify-center gap-4 relative overflow-hidden group ${bulkStatus.isActive
                                                 ? 'bg-zinc-900 border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white'
-                                                : 'bg-violet-600 hover:bg-violet-500 text-white shadow-violet-600/20'
+                                                : 'bg-white text-black hover:bg-violet-50 shadow-white/10 disabled:bg-zinc-800 disabled:text-zinc-600'
                                                 }`}
                                         >
                                             {bulkStatus.isActive ? (
                                                 <>
-                                                    <Square size={18} fill="currentColor" /> PARAR DISPARO ({bulkStatus.current}/{bulkStatus.total})
+                                                    <Square size={18} fill="currentColor" /> PARAR ENVIO
                                                 </>
                                             ) : (
                                                 <>
-                                                    <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> INICIAR DISPARO AUTOMÁTICO
+                                                    <Zap size={18} className="fill-black group-hover:scale-125 transition-transform" /> INICIAR FLUXO
                                                 </>
                                             )}
                                         </button>
 
                                         {bulkStatus.isActive && (
-                                            <div className="space-y-2">
+                                            <div className="space-y-3 p-4 bg-white/5 rounded-2xl border border-white/5">
                                                 <div className="flex justify-between text-[10px] font-black text-zinc-500 uppercase tracking-widest">
-                                                    <span>Progresso</span>
-                                                    <span>{Math.round((bulkStatus.current / bulkStatus.total) * 100)}%</span>
+                                                    <span>Progresso Geral</span>
+                                                    <span className="text-violet-400">{bulkStatus.current}/{bulkStatus.total}</span>
                                                 </div>
                                                 <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
                                                     <motion.div
-                                                        className="h-full bg-violet-500 shadow-[0_0_15px_rgba(124,58,237,0.5)]"
+                                                        className="h-full bg-gradient-to-r from-violet-600 to-indigo-600 shadow-[0_0_15px_rgba(124,58,237,0.5)]"
                                                         initial={{ width: 0 }}
                                                         animate={{ width: `${(bulkStatus.current / bulkStatus.total) * 100}%` }}
                                                         transition={{ duration: 0.5 }}
                                                     />
                                                 </div>
-                                                <p className="text-[10px] text-center text-zinc-600 animate-pulse mt-2">
-                                                    Processando envio... não feche esta janela.
+                                                <p className="text-[9px] text-center text-zinc-500 font-bold uppercase tracking-widest animate-pulse">
+                                                    {bulkStatus.isPaused ? "⚠️ POPUP BLOQUEADO - AGUARDANDO" : "⚙️ PROCESSANDO ENVIOS..."}
                                                 </p>
                                             </div>
                                         )}
