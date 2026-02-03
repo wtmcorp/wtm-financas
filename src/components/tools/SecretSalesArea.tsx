@@ -493,6 +493,11 @@ export default function SecretSalesArea() {
         savePlannerToStorage(plannedPosts.filter(p => p.id !== id));
     };
 
+    const addPlannedPost = (title: string) => {
+        const newPost = { id: Date.now().toString(), title, date: new Date().toLocaleDateString() };
+        savePlannerToStorage([...plannedPosts, newPost]);
+    };
+
     if (!isOpen) return null;
 
     return (
