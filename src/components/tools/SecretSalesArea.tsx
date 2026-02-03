@@ -605,7 +605,7 @@ export default function SecretSalesArea() {
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-600/5 blur-[120px] pointer-events-none" />
 
                 {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-white/5 bg-zinc-900/20 backdrop-blur-md shrink-0 relative z-10">
+                <div className="flex items-center justify-between p-4 border-b border-white/5 bg-zinc-900/20 backdrop-blur-md shrink-0 relative z-10">
                     <div className="flex items-center gap-4">
                         <div className="relative">
                             <div className="p-3 bg-violet-500/10 rounded-2xl border border-violet-500/20">
@@ -689,16 +689,16 @@ export default function SecretSalesArea() {
                     </div>
                 ) : (
                     <div className="flex-1 flex overflow-hidden relative z-10">
-                        {/* Sidebar */}
-                        <div className="w-80 border-r border-white/5 bg-zinc-950/60 backdrop-blur-2xl p-6 space-y-8 shrink-0 flex flex-col relative">
+                        {/* Sidebar Navigation */}
+                        <div className="w-64 bg-zinc-950/40 border-r border-white/5 backdrop-blur-md p-4 shrink-0 flex flex-col relative">
                             <div className="absolute inset-0 bg-gradient-to-b from-violet-600/5 to-transparent pointer-events-none" />
 
                             <div className="space-y-2 relative z-10">
                                 <p className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2 mb-4">Sistemas de Vendas</p>
                                 {[
-                                    { id: "finder", label: "Buscador de Leads", icon: Search },
-                                    { id: "crm", label: "CRM / Prospectos", icon: Users, count: savedLeads.length },
-                                    { id: "bulk-sender", label: "Disparo em Massa", icon: Send },
+                                    { id: "finder", label: "Lead Finder", icon: Search },
+                                    { id: "crm", label: "CRM Pipeline", icon: Users, count: savedLeads.length },
+                                    { id: "bulk-sender", label: "Bulk Sender", icon: Send },
                                     { id: "auditor", label: "Auditor de Sites", icon: BarChart3 },
                                     { id: "templates", label: "Scripts de Venda", icon: FileText },
                                     { id: "content-lab", label: "Laboratório Criativo", icon: Zap },
@@ -706,7 +706,7 @@ export default function SecretSalesArea() {
                                     <button
                                         key={item.id}
                                         onClick={() => setActiveTab(item.id as any)}
-                                        className={`w-full flex items-center gap-4 px-5 py-4 rounded-[1.25rem] text-sm font-black transition-all duration-300 group relative overflow-hidden ${activeTab === item.id
+                                        className={`w-full flex items-center gap-4 px-5 py-3.5 rounded-2xl text-xs font-black transition-all duration-300 group relative overflow-hidden ${activeTab === item.id
                                             ? "text-white"
                                             : "text-zinc-500 hover:text-zinc-300 hover:bg-white/5"
                                             }`}
@@ -718,10 +718,10 @@ export default function SecretSalesArea() {
                                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                             />
                                         )}
-                                        <item.icon size={20} className={`relative z-10 transition-transform duration-500 group-hover:scale-110 ${activeTab === item.id ? "text-white" : "group-hover:text-violet-400"}`} />
+                                        <item.icon size={18} className={`relative z-10 transition-transform duration-500 group-hover:scale-110 ${activeTab === item.id ? "text-white" : "group-hover:text-violet-400"}`} />
                                         <span className="relative z-10 tracking-tight">{item.label}</span>
                                         {item.count !== undefined && item.count > 0 && (
-                                            <span className={`ml-auto relative z-10 text-[10px] px-2.5 py-1 rounded-lg font-black ${activeTab === item.id ? "bg-white/20 text-white backdrop-blur-md" : "bg-violet-500/10 text-violet-400 border border-violet-500/20"}`}>
+                                            <span className={`ml-auto relative z-10 text-[9px] px-2 py-0.5 rounded-lg font-black ${activeTab === item.id ? "bg-white/20 text-white backdrop-blur-md" : "bg-violet-500/10 text-violet-400 border border-violet-500/20"}`}>
                                                 {item.count}
                                             </span>
                                         )}
@@ -729,12 +729,12 @@ export default function SecretSalesArea() {
                                 ))}
                             </div>
 
-                            <div className="pt-8 mt-auto border-t border-white/5 relative z-10">
-                                <div className="p-4 bg-violet-500/5 rounded-2xl border border-violet-500/10">
-                                    <p className="text-[10px] font-bold text-violet-400 uppercase tracking-widest mb-1">Status do Sistema</p>
+                            <div className="pt-6 mt-auto border-t border-white/5 relative z-10">
+                                <div className="p-3 bg-violet-500/5 rounded-2xl border border-violet-500/10">
+                                    <p className="text-[10px] font-bold text-violet-400 uppercase tracking-widest mb-1">Status</p>
                                     <div className="flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                        <span className="text-xs font-bold text-white">Operacional</span>
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                        <span className="text-[10px] font-bold text-white uppercase tracking-tight">Rede Ativa</span>
                                     </div>
                                 </div>
                             </div>
@@ -743,7 +743,7 @@ export default function SecretSalesArea() {
                         {/* Content Area */}
                         <div className="flex-1 overflow-y-auto custom-scrollbar relative bg-zinc-950/20">
                             {/* Content Header Overlay */}
-                            <div className="sticky top-0 z-30 w-full h-24 bg-gradient-to-b from-zinc-950 via-zinc-950/80 to-transparent pointer-events-none flex items-center px-12">
+                            <div className="sticky top-0 z-30 w-full h-16 bg-gradient-to-b from-zinc-950 via-zinc-950/80 to-transparent pointer-events-none flex items-center px-10">
                                 <div className="flex items-center gap-4 opacity-0 animate-fade-in" style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}>
                                     <div className="w-1 h-8 bg-violet-600 rounded-full" />
                                     <h2 className="text-2xl font-black text-white uppercase tracking-tighter">
@@ -757,7 +757,7 @@ export default function SecretSalesArea() {
                                 </div>
                             </div>
 
-                            <div className="p-12 pt-4 relative z-10">
+                            <div className="p-8 pt-4 relative z-10">
                                 <AnimatePresence mode="wait">
                                     {activeTab === "finder" && (
                                         <motion.div
@@ -766,10 +766,10 @@ export default function SecretSalesArea() {
                                             animate={{ opacity: 1, scale: 1, y: 0 }}
                                             exit={{ opacity: 0, scale: 0.98, y: -10 }}
                                             transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                                            className="space-y-12"
+                                            className="space-y-6"
                                         >
-                                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-                                                <div className="lg:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
+                                                <div className="lg:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-4">
                                                     <div className="space-y-3">
                                                         <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Nicho de Atuação</label>
                                                         <div className="relative group">
@@ -781,8 +781,8 @@ export default function SecretSalesArea() {
                                                                 type="text"
                                                                 value={searchQuery}
                                                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                                                placeholder="Ex: Padarias, Academias, Clínicas..."
-                                                                className="w-full bg-zinc-900 border border-white/10 rounded-3xl py-6 pl-16 pr-8 text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all relative z-10 placeholder:text-zinc-600 font-bold text-lg shadow-inner shadow-black/50"
+                                                                placeholder="Nicho (Ex: Academias)"
+                                                                className="w-full bg-zinc-900 border border-white/10 rounded-2xl py-4 pl-14 pr-6 text-white focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all relative z-10 placeholder:text-zinc-600 font-bold text-base shadow-inner shadow-black/50"
                                                             />
                                                         </div>
                                                     </div>
@@ -797,8 +797,8 @@ export default function SecretSalesArea() {
                                                                 type="text"
                                                                 value={location}
                                                                 onChange={(e) => setLocation(e.target.value)}
-                                                                placeholder="Cidade ou Bairro"
-                                                                className="w-full bg-zinc-900 border border-white/10 rounded-3xl py-6 pl-16 pr-8 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all relative z-10 placeholder:text-zinc-600 font-bold text-lg shadow-inner shadow-black/50"
+                                                                placeholder="Cidade/Bairro"
+                                                                className="w-full bg-zinc-900 border border-white/10 rounded-2xl py-4 pl-14 pr-6 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all relative z-10 placeholder:text-zinc-600 font-bold text-base shadow-inner shadow-black/50"
                                                             />
                                                         </div>
                                                     </div>
@@ -807,7 +807,7 @@ export default function SecretSalesArea() {
                                                     <button
                                                         onClick={findLeads}
                                                         disabled={isSearching || !searchQuery}
-                                                        className="w-full bg-white text-black hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 font-black rounded-3xl h-[76px] transition-all duration-300 flex items-center justify-center gap-4 shadow-[0_0_40px_rgba(255,255,255,0.1)] group relative overflow-hidden"
+                                                        className="w-full bg-white text-black hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 font-black rounded-2xl h-[60px] transition-all duration-300 flex items-center justify-center gap-4 shadow-[0_0_40px_rgba(255,255,255,0.1)] group relative overflow-hidden"
                                                     >
                                                         <div className="absolute inset-0 bg-gradient-to-r from-violet-200 to-indigo-200 opacity-0 group-hover:opacity-100 transition-opacity mix-blend-overlay" />
                                                         {isSearching ? (
@@ -834,8 +834,8 @@ export default function SecretSalesArea() {
                                             )}
 
                                             {/* Filters & History */}
-                                            <div className="flex flex-wrap items-center justify-between gap-6 py-8 border-y border-white/5 relative">
-                                                <div className="flex flex-wrap items-center gap-8">
+                                            <div className="flex flex-wrap items-center justify-between gap-4 py-4 border-y border-white/5 relative">
+                                                <div className="flex flex-wrap items-center gap-6">
                                                     <label className="flex items-center gap-3 cursor-pointer group">
                                                         <input
                                                             type="checkbox"
@@ -1058,17 +1058,17 @@ export default function SecretSalesArea() {
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: -20 }}
-                                            className="space-y-8"
+                                            className="space-y-6"
                                         >
-                                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                                                 <div>
-                                                    <h3 className="text-3xl font-black text-white flex items-center gap-4 uppercase tracking-tighter">
-                                                        <div className="p-3 bg-violet-500/10 rounded-2xl border border-violet-500/20">
-                                                            <Users className="text-violet-500" size={24} />
+                                                    <h3 className="text-2xl font-black text-white flex items-center gap-4 uppercase tracking-tighter">
+                                                        <div className="p-2 bg-violet-500/10 rounded-xl border border-violet-500/20">
+                                                            <Users className="text-violet-500" size={20} />
                                                         </div>
                                                         Pipeline de Vendas
                                                     </h3>
-                                                    <p className="text-zinc-500 text-sm font-medium mt-2">Gerencie seus prospectos e acompanhe o status de cada abordagem.</p>
+                                                    <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">Gerencie seus prospectos.</p>
                                                 </div>
                                                 <div className="flex flex-wrap items-center gap-3">
                                                     <button
@@ -2058,197 +2058,198 @@ export default function SecretSalesArea() {
                             </div>
                         </div>
                     </div>
-                )}
+                )
+                }
 
-                {activeTab === "bulk-sender" && (
-                    <motion.div
-                        key="bulk-sender"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="space-y-10"
-                    >
-                        <div className="flex flex-col gap-4">
-                            <h3 className="text-3xl font-black text-white flex items-center gap-4 uppercase tracking-tighter">
-                                <div className="p-3 bg-violet-500/10 rounded-2xl border border-violet-500/20">
-                                    <Send className="text-violet-500" size={24} />
-                                </div>
-                                Disparo em Massa
-                            </h3>
-                            <p className="text-zinc-500 text-sm font-medium">Automação inteligente de WhatsApp com delay anti-bloqueio.</p>
-                        </div>
-
-                        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                            {/* Left Column - Input List */}
-                            <div className="xl:col-span-1 space-y-6">
-                                <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col relative overflow-hidden group min-h-[500px]">
-                                    <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none" />
-
-                                    <div className="flex justify-between items-center mb-6">
-                                        <div className="space-y-1">
-                                            <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
-                                                <ListCollapse size={16} /> Lista de Contatos
-                                            </label>
-                                            <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-tight">Insira um número por linha</p>
-                                        </div>
-                                        <div className="text-[10px] font-black text-violet-400 bg-violet-500/10 px-3 py-1.5 rounded-full border border-violet-500/20">
-                                            {phoneNumbers.split(/[\n,]+/).filter(n => n.trim()).length} LEADS
-                                        </div>
+                {
+                    activeTab === "bulk-sender" && (
+                        <motion.div
+                            key="bulk-sender"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="space-y-6"
+                        >
+                            <div className="flex flex-col gap-2">
+                                <h3 className="text-2xl font-black text-white flex items-center gap-4 uppercase tracking-tighter">
+                                    <div className="p-2 bg-violet-500/10 rounded-xl border border-violet-500/20">
+                                        <Send className="text-violet-500" size={20} />
                                     </div>
-
-                                    <textarea
-                                        value={phoneNumbers}
-                                        onChange={(e) => setPhoneNumbers(e.target.value)}
-                                        placeholder={`Cole sua lista aqui...\n\n11999999999\n11988888888\n(11) 97777-7777`}
-                                        className="flex-1 w-full bg-zinc-950/30 border border-white/10 rounded-3xl p-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-none placeholder:text-zinc-700 font-mono custom-scrollbar transition-all"
-                                    />
-
-                                    <div className="mt-4 flex justify-between items-center">
-                                        <button
-                                            onClick={() => setPhoneNumbers("")}
-                                            className="p-2 text-zinc-600 hover:text-red-400 transition-colors"
-                                            title="Limpar Lista"
-                                        >
-                                            <Trash2 size={16} />
-                                        </button>
-                                        <button
-                                            onClick={() => copyToClipboard(phoneNumbers)}
-                                            className="text-[10px] text-zinc-500 hover:text-white font-black uppercase tracking-widest flex items-center gap-2"
-                                        >
-                                            <Copy size={12} /> Copiar
-                                        </button>
-                                    </div>
-                                </div>
+                                    Bulk Sender
+                                </h3>
+                                <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Automação inteligente de WhatsApp.</p>
                             </div>
 
-                            {/* Middle Column - Message Editor */}
-                            <div className="xl:col-span-1 space-y-6">
-                                <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col gap-6 relative overflow-hidden group min-h-[500px]">
-                                    <div className="absolute inset-0 bg-gradient-to-b from-violet-500/5 to-transparent pointer-events-none" />
+                            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                                {/* Left Column - Input List */}
+                                <div className="xl:col-span-1 space-y-4">
+                                    <div className="bg-zinc-900/40 border border-white/5 rounded-[2rem] p-6 flex flex-col relative overflow-hidden group min-h-[400px]">
+                                        <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none" />
 
-                                    <div className="space-y-4">
-                                        <div className="flex justify-between items-center">
-                                            <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
-                                                <MessageCircle size={16} /> Configurar Abordagem
-                                            </label>
+                                        <div className="flex justify-between items-center mb-6">
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                                                    <ListCollapse size={16} /> Lista de Contatos
+                                                </label>
+                                                <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-tight">Insira um número por linha</p>
+                                            </div>
+                                            <div className="text-[10px] font-black text-violet-400 bg-violet-500/10 px-3 py-1.5 rounded-full border border-violet-500/20">
+                                                {phoneNumbers.split(/[\n,]+/).filter(n => n.trim()).length} LEADS
+                                            </div>
                                         </div>
-                                        <div className="relative">
-                                            <select
+
+                                        <textarea
+                                            value={phoneNumbers}
+                                            onChange={(e) => setPhoneNumbers(e.target.value)}
+                                            placeholder={`Cole sua lista aqui...\n\n11999999999\n11988888888\n(11) 97777-7777`}
+                                            className="flex-1 w-full bg-zinc-950/30 border border-white/10 rounded-3xl p-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-none placeholder:text-zinc-700 font-mono custom-scrollbar transition-all"
+                                        />
+
+                                        <div className="mt-4 flex justify-between items-center">
+                                            <button
+                                                onClick={() => setPhoneNumbers("")}
+                                                className="p-2 text-zinc-600 hover:text-red-400 transition-colors"
+                                                title="Limpar Lista"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                            <button
+                                                onClick={() => copyToClipboard(phoneNumbers)}
+                                                className="text-[10px] text-zinc-500 hover:text-white font-black uppercase tracking-widest flex items-center gap-2"
+                                            >
+                                                <Copy size={12} /> Copiar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Middle Column - Message Editor */}
+                                <div className="xl:col-span-1 space-y-4">
+                                    <div className="bg-zinc-900/40 border border-white/5 rounded-[2rem] p-6 flex flex-col gap-5 relative overflow-hidden group min-h-[400px]">
+                                        <div className="absolute inset-0 bg-gradient-to-b from-violet-500/5 to-transparent pointer-events-none" />
+
+                                        <div className="space-y-3">
+                                            <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                                                <MessageCircle size={16} /> Configurar Mensagem
+                                            </label>
+                                            <div className="relative">
+                                                <select
+                                                    value={message}
+                                                    onChange={(e) => setMessage(e.target.value)}
+                                                    className="w-full bg-zinc-950/50 border border-white/10 rounded-2xl p-4 text-xs font-black text-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 appearance-none cursor-pointer uppercase tracking-widest"
+                                                >
+                                                    {TEMPLATES.map(t => (
+                                                        <option key={t.id} value={t.content} className="bg-zinc-950 text-white">{t.name}</option>
+                                                    ))}
+                                                </select>
+                                                <ArrowRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-violet-500 rotate-90 pointer-events-none" />
+                                            </div>
+                                            <textarea
                                                 value={message}
                                                 onChange={(e) => setMessage(e.target.value)}
-                                                className="w-full bg-zinc-950/50 border border-white/10 rounded-2xl p-4 text-xs font-black text-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 appearance-none cursor-pointer uppercase tracking-widest"
-                                            >
-                                                {TEMPLATES.map(t => (
-                                                    <option key={t.id} value={t.content} className="bg-zinc-950 text-white">{t.name}</option>
-                                                ))}
-                                            </select>
-                                            <ArrowRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-violet-500 rotate-90 pointer-events-none" />
-                                        </div>
-                                        <textarea
-                                            value={message}
-                                            onChange={(e) => setMessage(e.target.value)}
-                                            placeholder="Digite sua mensagem aqui..."
-                                            className="w-full h-[280px] bg-zinc-950/30 border border-white/10 rounded-3xl p-6 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-none placeholder:text-zinc-700 custom-scrollbar leading-relaxed"
-                                        />
-                                    </div>
-
-                                    <div className="mt-auto space-y-4 pt-6 border-t border-white/5">
-                                        <div className="flex items-center gap-4 p-4 bg-violet-500/5 rounded-2xl border border-violet-500/10">
-                                            <Zap size={20} className="text-violet-500 shrink-0" />
-                                            <p className="text-[10px] text-zinc-400 font-medium leading-relaxed">
-                                                Use <strong className="text-violet-400">[Nome]</strong> para personalizar automaticamente com o nome da empresa.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Right Column - Preview & Actions */}
-                            <div className="xl:col-span-1 space-y-6">
-                                <div className="bg-zinc-900/40 border border-white/5 rounded-[2.5rem] p-8 flex flex-col gap-8 relative overflow-hidden group min-h-[500px]">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none" />
-
-                                    <div className="space-y-4 flex-1">
-                                        <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
-                                            <Sparkles size={16} /> Preview do WhatsApp
-                                        </label>
-
-                                        {/* WhatsApp Chat UI Mockup */}
-                                        <div className="bg-[#0b141a] rounded-[2rem] p-4 flex flex-col h-[320px] shadow-2xl border border-white/5 relative overflow-hidden">
-                                            <div className="absolute top-0 left-0 w-full h-12 bg-[#202c33] flex items-center px-4 gap-3">
-                                                <div className="w-8 h-8 rounded-full bg-zinc-600" />
-                                                <div className="flex-1">
-                                                    <div className="w-24 h-2 bg-white/20 rounded-full mb-1" />
-                                                    <div className="w-16 h-1 bg-white/10 rounded-full" />
-                                                </div>
-                                            </div>
-                                            <div className="flex-1 p-4 mt-12 overflow-y-auto custom-scrollbar flex flex-col gap-2">
-                                                <div className="self-end bg-[#005c4b] text-white p-3 rounded-2xl rounded-tr-none text-[11px] max-w-[85%] shadow-sm relative leading-relaxed whitespace-pre-wrap">
-                                                    {message.replace("[Nome]", "Empresa Exemplo")}
-                                                    <div className="text-[9px] text-white/50 text-right mt-1 font-bold">14:20 ✓✓</div>
-                                                </div>
-                                            </div>
-                                            <div className="h-12 bg-[#202c33] flex items-center px-4 gap-3">
-                                                <div className="flex-1 h-8 bg-[#2a3942] rounded-full" />
-                                                <div className="w-8 h-8 rounded-full bg-[#00a884] flex items-center justify-center text-white">
-                                                    <Send size={14} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <div className="flex items-center gap-4 p-4 bg-yellow-500/5 rounded-2xl border border-yellow-500/10">
-                                            <Info size={20} className="text-yellow-500 shrink-0" />
-                                            <p className="text-[9px] text-zinc-400 font-medium leading-relaxed uppercase tracking-wider">
-                                                <strong className="text-yellow-500">Antispam:</strong> Delay de 5-8s ativo entre mensagens.
-                                            </p>
+                                                placeholder="Digite sua mensagem aqui..."
+                                                className="w-full h-[220px] bg-zinc-950/30 border border-white/10 rounded-2xl p-5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 resize-none placeholder:text-zinc-700 custom-scrollbar leading-relaxed"
+                                            />
                                         </div>
 
-                                        <button
-                                            onClick={bulkStatus.isActive ? stopBulkSend : () => handleSendWhatsApp()}
-                                            disabled={(isSending && !bulkStatus.isActive) || phoneNumbers.trim() === ""}
-                                            className={`w-full py-6 rounded-3xl font-black text-sm uppercase tracking-[0.2em] transition-all shadow-2xl flex items-center justify-center gap-4 relative overflow-hidden group ${bulkStatus.isActive
-                                                ? 'bg-zinc-900 border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white'
-                                                : 'bg-white text-black hover:bg-violet-50 shadow-white/10 disabled:bg-zinc-800 disabled:text-zinc-600'
-                                                }`}
-                                        >
-                                            {bulkStatus.isActive ? (
-                                                <>
-                                                    <Square size={18} fill="currentColor" /> PARAR ENVIO
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Zap size={18} className="fill-black group-hover:scale-125 transition-transform" /> INICIAR FLUXO
-                                                </>
-                                            )}
-                                        </button>
-
-                                        {bulkStatus.isActive && (
-                                            <div className="space-y-3 p-4 bg-white/5 rounded-2xl border border-white/5">
-                                                <div className="flex justify-between text-[10px] font-black text-zinc-500 uppercase tracking-widest">
-                                                    <span>Progresso Geral</span>
-                                                    <span className="text-violet-400">{bulkStatus.current}/{bulkStatus.total}</span>
-                                                </div>
-                                                <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
-                                                    <motion.div
-                                                        className="h-full bg-gradient-to-r from-violet-600 to-indigo-600 shadow-[0_0_15px_rgba(124,58,237,0.5)]"
-                                                        initial={{ width: 0 }}
-                                                        animate={{ width: `${(bulkStatus.current / bulkStatus.total) * 100}%` }}
-                                                        transition={{ duration: 0.5 }}
-                                                    />
-                                                </div>
-                                                <p className="text-[9px] text-center text-zinc-500 font-bold uppercase tracking-widest animate-pulse">
-                                                    {bulkStatus.isPaused ? "⚠️ POPUP BLOQUEADO - AGUARDANDO" : "⚙️ PROCESSANDO ENVIOS..."}
+                                        <div className="mt-auto space-y-4 pt-6 border-t border-white/5">
+                                            <div className="flex items-center gap-4 p-4 bg-violet-500/5 rounded-2xl border border-violet-500/10">
+                                                <Zap size={20} className="text-violet-500 shrink-0" />
+                                                <p className="text-[10px] text-zinc-400 font-medium leading-relaxed">
+                                                    Use <strong className="text-violet-400">[Nome]</strong> para personalizar automaticamente com o nome da empresa.
                                                 </p>
                                             </div>
-                                        )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Right Column - Preview & Actions */}
+                                <div className="xl:col-span-1 space-y-4">
+                                    <div className="bg-zinc-900/40 border border-white/5 rounded-[2rem] p-6 flex flex-col gap-6 relative overflow-hidden group min-h-[400px]">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none" />
+
+                                        <div className="space-y-3 flex-1">
+                                            <label className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                                                <Sparkles size={16} /> Preview WhatsApp
+                                            </label>
+
+                                            {/* WhatsApp Chat UI Mockup */}
+                                            <div className="bg-[#0b141a] rounded-[1.5rem] p-3 flex flex-col h-[240px] shadow-2xl border border-white/5 relative overflow-hidden">
+                                                <div className="absolute top-0 left-0 w-full h-12 bg-[#202c33] flex items-center px-4 gap-3">
+                                                    <div className="w-8 h-8 rounded-full bg-zinc-600" />
+                                                    <div className="flex-1">
+                                                        <div className="w-24 h-2 bg-white/20 rounded-full mb-1" />
+                                                        <div className="w-16 h-1 bg-white/10 rounded-full" />
+                                                    </div>
+                                                </div>
+                                                <div className="flex-1 p-4 mt-12 overflow-y-auto custom-scrollbar flex flex-col gap-2">
+                                                    <div className="self-end bg-[#005c4b] text-white p-3 rounded-2xl rounded-tr-none text-[11px] max-w-[85%] shadow-sm relative leading-relaxed whitespace-pre-wrap">
+                                                        {message.replace("[Nome]", "Empresa Exemplo")}
+                                                        <div className="text-[9px] text-white/50 text-right mt-1 font-bold">14:20 ✓✓</div>
+                                                    </div>
+                                                </div>
+                                                <div className="h-12 bg-[#202c33] flex items-center px-4 gap-3">
+                                                    <div className="flex-1 h-8 bg-[#2a3942] rounded-full" />
+                                                    <div className="w-8 h-8 rounded-full bg-[#00a884] flex items-center justify-center text-white">
+                                                        <Send size={14} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            <div className="flex items-center gap-4 p-4 bg-yellow-500/5 rounded-2xl border border-yellow-500/10">
+                                                <Info size={20} className="text-yellow-500 shrink-0" />
+                                                <p className="text-[9px] text-zinc-400 font-medium leading-relaxed uppercase tracking-wider">
+                                                    <strong className="text-yellow-500">Antispam:</strong> Delay de 5-8s ativo entre mensagens.
+                                                </p>
+                                            </div>
+
+                                            <button
+                                                onClick={bulkStatus.isActive ? stopBulkSend : () => handleSendWhatsApp()}
+                                                disabled={(isSending && !bulkStatus.isActive) || phoneNumbers.trim() === ""}
+                                                className={`w-full py-6 rounded-3xl font-black text-sm uppercase tracking-[0.2em] transition-all shadow-2xl flex items-center justify-center gap-4 relative overflow-hidden group ${bulkStatus.isActive
+                                                    ? 'bg-zinc-900 border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white'
+                                                    : 'bg-white text-black hover:bg-violet-50 shadow-white/10 disabled:bg-zinc-800 disabled:text-zinc-600'
+                                                    }`}
+                                            >
+                                                {bulkStatus.isActive ? (
+                                                    <>
+                                                        <Square size={18} fill="currentColor" /> PARAR ENVIO
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Zap size={18} className="fill-black group-hover:scale-125 transition-transform" /> INICIAR FLUXO
+                                                    </>
+                                                )}
+                                            </button>
+
+                                            {bulkStatus.isActive && (
+                                                <div className="space-y-2 p-3 bg-white/5 rounded-xl border border-white/5">
+                                                    <div className="flex justify-between text-[9px] font-black text-zinc-500 uppercase tracking-widest">
+                                                        <span>Progresso</span>
+                                                        <span className="text-violet-400">{bulkStatus.current}/{bulkStatus.total}</span>
+                                                    </div>
+                                                    <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                                                        <motion.div
+                                                            className="h-full bg-gradient-to-r from-violet-600 to-indigo-600 shadow-[0_0_15px_rgba(124,58,237,0.5)]"
+                                                            initial={{ width: 0 }}
+                                                            animate={{ width: `${(bulkStatus.current / bulkStatus.total) * 100}%` }}
+                                                            transition={{ duration: 0.5 }}
+                                                        />
+                                                    </div>
+                                                    <p className="text-[8px] text-center text-zinc-500 font-bold uppercase tracking-widest animate-pulse">
+                                                        {bulkStatus.isPaused ? "⚠️ POPUP BLOQUEADO" : "⚙️ ENVIANDO..."}
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </motion.div>
-                )}
+                        </motion.div>
+                    )
+                }
 
                 <div className="p-6 bg-zinc-950/80 backdrop-blur-xl border-t border-white/5 flex justify-between items-center shrink-0 relative z-10">
                     <div className="flex items-center gap-3 text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em]">
@@ -2351,8 +2352,8 @@ export default function SecretSalesArea() {
                         </div>
                     )}
                 </AnimatePresence>
-            </motion.div>
-        </div>
+            </motion.div >
+        </div >
     );
 }
 
