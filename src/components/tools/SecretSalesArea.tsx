@@ -288,7 +288,7 @@ export default function SecretSalesArea() {
 
         // Bulk Send Logic (Manual List)
         stopBulkRef.current = false;
-        setBulkStatus({ current: 0, total: targetNumbers.length, isActive: true });
+        setBulkStatus({ current: 0, total: targetNumbers.length, isActive: true, isPaused: false });
         setIsSending(true);
 
         for (let i = 0; i < targetNumbers.length; i++) {
@@ -319,7 +319,7 @@ export default function SecretSalesArea() {
             }
         }
 
-        setBulkStatus({ current: 0, total: 0, isActive: false });
+        setBulkStatus({ current: 0, total: 0, isActive: false, isPaused: false });
         setIsSending(false);
         stopBulkRef.current = false;
 
