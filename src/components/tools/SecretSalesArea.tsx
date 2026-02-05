@@ -170,7 +170,15 @@ export default function SecretSalesArea() {
 
     // WhatsApp Sender State
     const [phoneNumbers, setPhoneNumbers] = useState("");
-    const [message, setMessage] = useState(TEMPLATES[0].content);
+    const [messageVariants, setMessageVariants] = useState<string[]>([
+        "Oi! Vi que seu negócio ainda não tem um site profissional. Tenho apenas 1 vaga aberta essa semana para novos projetos. Quer que eu te mostre como um site moderno pode atrair novos clientes pra você?",
+        "Tudo bem? Acabei de entregar um projeto para uma empresa do seu nicho e eles já estão vendo resultados. Notei que você ainda não tem essa presença digital. Posso te mandar o modelo que usei para eles?",
+        "Olá! Sou especialista em sites de alta conversão. Vi que sua empresa no Google está sem site, e isso faz você perder para a concorrência. Toparia uma análise gratuita de 2 minutos?",
+        "Oi! Estava analisando sua presença digital e notei alguns pontos que podem ser melhorados. Fiz um esboço simples de como seria uma vitrine profissional pro seu negócio. Quer dar uma olhada?",
+        "E aí, tudo certo? Trabalho com sites que vendem. Vi que vocês ainda não tem um. Se eu te provasse que um site se paga sozinho em menos de um mês, você teria interesse?"
+    ]);
+    const [activeVariantIndex, setActiveVariantIndex] = useState(0);
+    const [message, setMessage] = useState(messageVariants[0]);
     const [copied, setCopied] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const [sendSuccess, setSendSuccess] = useState(false);
@@ -282,9 +290,28 @@ export default function SecretSalesArea() {
         }
     };
 
-    const handleSendWhatsApp = async (number?: string, customMsg?: string) => {
-        const targetNumbers = number ? [number] : phoneNumbers.split(/[\n,]+/).map(n => n.trim()).filter(n => n);
-        const finalMsg = customMsg || message;
+    const handleSendWhatsApp = async (leadOrNumber?: string | Lead, customMsg?: string) => {
+        let targetNumbers: string[] = [];
+        let leadInfo: Lead | null = null;
+
+        if (typeof leadOrNumber === 'string') {
+            targetNumbers = [leadOrNumber];
+        } else if (leadOrNumber && 'whatsapp' in leadOrNumber) {
+            targetNumbers = leadOrNumber.whatsapp ? [leadOrNumber.whatsapp] : [];
+            leadInfo = leadOrNumber;
+        } else {
+            targetNumbers = phoneNumbers.split(/[\n,]+/).map(n => n.trim()).filter(n => n);
+        }
+
+        const getRotatedMessage = (index: number) => {
+            let msg = customMsg || messageVariants[index % messageVariants.length];
+            if (leadInfo) {
+                msg = msg.replace(/\[Nome\]/g, leadInfo.empresa)
+                    .replace(/\[Cidade\]/g, leadInfo.cidade)
+                    .replace(/\[Nicho\]/g, leadInfo.nicho);
+            }
+            return msg;
+        };
 
         if (targetNumbers.length === 0) {
             setError("Insira ao menos um número de telefone.");
@@ -296,6 +323,7 @@ export default function SecretSalesArea() {
             setIsSending(true);
             const cleanNumber = targetNumbers[0].replace(/\D/g, "");
             if (cleanNumber) {
+                const finalMsg = getRotatedMessage(0);
                 const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(finalMsg)}`;
                 window.open(url, "_blank");
             }
@@ -321,7 +349,8 @@ export default function SecretSalesArea() {
             const cleanNumber = targetNumbers[i].replace(/\D/g, "");
 
             if (cleanNumber) {
-                const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(finalMsg)}`;
+                const rotatedMsg = getRotatedMessage(i);
+                const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(rotatedMsg)}`;
                 const newWindow = window.open(url, "_blank");
 
                 if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
@@ -618,7 +647,7 @@ export default function SecretSalesArea() {
                                                                 {savedLeads.find(l => l.id === lead.id) ? "Salvo" : "Salvar no CRM"}
                                                             </button>
                                                             {lead.whatsapp && (
-                                                                <button onClick={() => handleSendWhatsApp(lead.whatsapp)} className="w-12 h-12 bg-emerald-500/10 text-emerald-500 rounded-xl flex items-center justify-center border border-emerald-500/20 hover:bg-emerald-500 hover:text-white transition-all">
+                                                                <button onClick={() => handleSendWhatsApp(lead)} className="w-12 h-12 bg-emerald-500/10 text-emerald-500 rounded-xl flex items-center justify-center border border-emerald-500/20 hover:bg-emerald-500 hover:text-white transition-all">
                                                                     <MessageCircle size={20} fill="currentColor" />
                                                                 </button>
                                                             )}
@@ -666,7 +695,7 @@ export default function SecretSalesArea() {
                                                                 </td>
                                                                 <td className="p-6">
                                                                     <div className="flex items-center gap-3">
-                                                                        <button onClick={() => handleSendWhatsApp(lead.whatsapp)} className="p-2 text-emerald-500 hover:bg-emerald-500/10 rounded-lg transition-all">
+                                                                        <button onClick={() => handleSendWhatsApp(lead)} className="p-2 text-emerald-500 hover:bg-emerald-500/10 rounded-lg transition-all">
                                                                             <MessageCircle size={18} fill="currentColor" />
                                                                         </button>
                                                                         <button onClick={() => toggleSaveLead(lead)} className="p-2 text-zinc-600 hover:text-red-500 rounded-lg transition-all">
@@ -708,19 +737,39 @@ export default function SecretSalesArea() {
                                                 <div className="xl:col-span-2 space-y-4">
                                                     <div className="bg-black/40 border border-white/5 rounded-3xl p-6">
                                                         <div className="flex justify-between items-center mb-4">
-                                                            <span className="text-[10px] font-black text-white uppercase tracking-widest">Mensagem do Fluxo</span>
-                                                            <select
-                                                                className="bg-zinc-900 text-violet-400 text-[10px] px-3 py-1 rounded-lg border border-white/10 outline-none"
-                                                                onChange={(e) => setMessage(e.target.value)}
-                                                            >
-                                                                {TEMPLATES.map(t => <option key={t.id} value={t.content}>{t.name}</option>)}
-                                                            </select>
+                                                            <div className="flex flex-col">
+                                                                <span className="text-[10px] font-black text-white uppercase tracking-widest">Rotação de Mensagens (Anti-Spam)</span>
+                                                                <span className="text-[9px] text-zinc-500 uppercase mt-0.5">O sistema alterna entre as 5 variações automaticamente</span>
+                                                            </div>
+                                                            <div className="flex gap-1">
+                                                                {[0, 1, 2, 3, 4].map(idx => (
+                                                                    <button
+                                                                        key={idx}
+                                                                        onClick={() => setActiveVariantIndex(idx)}
+                                                                        className={`w-6 h-6 rounded-md text-[10px] font-black transition-all ${activeVariantIndex === idx ? "bg-violet-600 text-white" : "bg-white/5 text-zinc-500 hover:bg-white/10"}`}
+                                                                    >
+                                                                        {idx + 1}
+                                                                    </button>
+                                                                ))}
+                                                            </div>
                                                         </div>
-                                                        <textarea
-                                                            value={message}
-                                                            onChange={(e) => setMessage(e.target.value)}
-                                                            className="w-full h-80 bg-black/20 border border-white/5 rounded-2xl p-6 text-sm text-white focus:outline-none focus:border-violet-500/50 resize-none leading-relaxed"
-                                                        />
+                                                        <div className="relative">
+                                                            <textarea
+                                                                value={messageVariants[activeVariantIndex]}
+                                                                onChange={(e) => {
+                                                                    const newVariants = [...messageVariants];
+                                                                    newVariants[activeVariantIndex] = e.target.value;
+                                                                    setMessageVariants(newVariants);
+                                                                }}
+                                                                className="w-full h-80 bg-black/20 border border-white/5 rounded-2xl p-6 text-sm text-white focus:outline-none focus:border-violet-500/50 resize-none leading-relaxed"
+                                                                placeholder="Escreva a variação da mensagem..."
+                                                            />
+                                                            <div className="absolute bottom-4 right-4 flex items-center gap-2">
+                                                                <div className="px-3 py-1 bg-violet-500/10 border border-violet-500/20 rounded-full">
+                                                                    <span className="text-[9px] font-black text-violet-400 uppercase">Variação {activeVariantIndex + 1}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -731,8 +780,8 @@ export default function SecretSalesArea() {
                                                             <span className="text-[10px] font-bold text-white uppercase">Preview</span>
                                                         </div>
                                                         <div className="flex-1 p-4 bg-[#0b141a] overflow-y-auto">
-                                                            <div className="bg-[#005c4b] text-white p-3 rounded-xl rounded-tr-none text-xs ml-4 mb-2 shadow-sm">
-                                                                {message || "Aguardando..."}
+                                                            <div className="bg-[#005c4b] text-white p-3 rounded-xl rounded-tr-none text-xs ml-4 mb-2 shadow-sm whitespace-pre-wrap">
+                                                                {messageVariants[activeVariantIndex] || "Aguardando..."}
                                                             </div>
                                                         </div>
                                                         <div className="p-3 bg-zinc-950/50 flex gap-2">
