@@ -171,11 +171,11 @@ export default function SecretSalesArea() {
     // WhatsApp Sender State
     const [phoneNumbers, setPhoneNumbers] = useState("");
     const [messageVariants, setMessageVariants] = useState<string[]>([
-        "Oi! Vi seu negócio no Google e notei que ainda não tem um site. Sendo direto: seus concorrentes aqui de Suzano estão levando seus clientes porque aparecem primeiro. Posso te mandar um print do que eu encontrei agora pouco?",
-        "Tudo bem? Estava analisando o mercado aqui em Suzano e vi que sua empresa tem um potencial gigante, mas está 'invisível' na internet sem um site. Já pensou em quanto dinheiro está deixando na mesa por causa disso?",
-        "Olá! Fiz uma análise rápida da sua vitrine digital e encontrei 3 erros que estão afastando potenciais clientes. Montei um diagnóstico gratuito com o que você precisa ajustar. Posso enviar o PDF pra você ver?",
-        "Oi! Estou expandindo meu portfólio de sites para empresas aqui de Suzano. Como estou selecionando apenas 3 empresas para esse projeto piloto, o custo é quase simbólico. Tem interesse em saber como funciona?",
-        "E aí, tudo certo? Uma pergunta rápida: existe algum motivo estratégico para sua empresa ainda não ter um site que vende no automático ou simplesmente ainda não encontraram o parceiro certo para isso?"
+        "Oi! Estava procurando por serviços aqui em Suzano e vi que seu negócio ainda não tem um site. Sendo direto: quem tem um site profissional aqui na região acaba passando mais confiança e pegando os melhores clientes. Já pensou em fazer um?",
+        "Tudo bem? Notei que sua empresa em Suzano é muito boa, mas falta um site pra passar aquele ar de profissionalismo para quem procura no Google. Sabia que muita gente desiste de ir num lugar quando não acha um site rápido com as informações? Quer saber como mudar isso?",
+        "Olá! Fiz uma análise rápida de como seu negócio aparece na internet hoje e vi que dá pra melhorar muito sua presença aqui em Suzano com um site simples e moderno. Tenho umas dicas de como você pode atrair mais gente. Posso te mandar por aqui?",
+        "Oi! Sou aqui de Suzano e estou montando um portfólio novo de sites focados em comércios locais. Como quero selecionar só alguns estabelecimentos pra serem minha vitrine de sucesso, estou fazendo um valor bem abaixo do mercado. Podemos conversar?",
+        "E aí, tudo certo? Uma dúvida rápida: você ainda não tem um site pro seu negócio por falta de tempo ou porque ainda não achou alguém de confiança aqui em Suzano pra fazer um que seja bom e não custe uma fortuna?"
     ]);
     const [activeVariantIndex, setActiveVariantIndex] = useState(0);
     const [message, setMessage] = useState(messageVariants[0]);
