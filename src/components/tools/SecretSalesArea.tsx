@@ -171,11 +171,11 @@ export default function SecretSalesArea() {
     // WhatsApp Sender State
     const [phoneNumbers, setPhoneNumbers] = useState("");
     const [messageVariants, setMessageVariants] = useState<string[]>([
-        "Oi [Nome]! Vi seu negócio no Google e notei que você ainda não tem um site. Sendo direto: seus concorrentes aqui de [Cidade] estão levando seus clientes porque aparecem primeiro. Posso te mandar um print do que eu encontrei agora pouco?",
-        "Tudo bem? Estava analisando o mercado de [Nicho] em [Cidade] e vi que a [Nome] tem um potencial gigante, mas está 'invisível' na internet sem um site. Já pensou em quanto dinheiro você está deixando na mesa por causa disso?",
-        "Olá! Fiz uma análise rápida da sua vitrine digital e encontrei 3 erros que estão afastando clientes da [Nome]. Montei um diagnóstico gratuito com o que você precisa ajustar. Posso enviar o PDF pra você ver?",
-        "Oi! Estou expandindo meu portfólio de sites para empresas de [Cidade] e quero focar no nicho de [Nicho]. Como estou selecionando apenas 3 empresas para esse projeto piloto, o custo é quase simbólico. Você tem interesse em ser uma dessas referências?",
-        "E aí, tudo certo? Uma pergunta rápida: existe algum motivo estratégico para a [Nome] ainda não ter um site que vende no automático ou vocês simplesmente ainda não encontraram o parceiro certo para isso?"
+        "Oi! Vi seu negócio no Google e notei que ainda não tem um site. Sendo direto: seus concorrentes aqui de Suzano estão levando seus clientes porque aparecem primeiro. Posso te mandar um print do que eu encontrei agora pouco?",
+        "Tudo bem? Estava analisando o mercado aqui em Suzano e vi que sua empresa tem um potencial gigante, mas está 'invisível' na internet sem um site. Já pensou em quanto dinheiro está deixando na mesa por causa disso?",
+        "Olá! Fiz uma análise rápida da sua vitrine digital e encontrei 3 erros que estão afastando potenciais clientes. Montei um diagnóstico gratuito com o que você precisa ajustar. Posso enviar o PDF pra você ver?",
+        "Oi! Estou expandindo meu portfólio de sites para empresas aqui de Suzano. Como estou selecionando apenas 3 empresas para esse projeto piloto, o custo é quase simbólico. Tem interesse em saber como funciona?",
+        "E aí, tudo certo? Uma pergunta rápida: existe algum motivo estratégico para sua empresa ainda não ter um site que vende no automático ou simplesmente ainda não encontraram o parceiro certo para isso?"
     ]);
     const [activeVariantIndex, setActiveVariantIndex] = useState(0);
     const [message, setMessage] = useState(messageVariants[0]);
