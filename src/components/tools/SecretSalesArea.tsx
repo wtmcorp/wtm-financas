@@ -199,7 +199,20 @@ export default function SecretSalesArea() {
 
     // CRM State
     const [savedLeads, setSavedLeads] = useState<Lead[]>([]);
-    const [bulkStatus, setBulkStatus] = useState<{ current: number; total: number; isActive: boolean; isPaused: boolean }>({ current: 0, total: 0, isActive: false, isPaused: false });
+    const [bulkStatus, setBulkStatus] = useState<{
+        current: number;
+        total: number;
+        isActive: boolean;
+        isPaused: boolean;
+        intensity: "safe" | "fast" | "turbo";
+    }>({
+        current: 0,
+        total: 0,
+        isActive: false,
+        isPaused: false,
+        intensity: "safe"
+    });
+    const [bulkCountdown, setBulkCountdown] = useState(0);
     const stopBulkRef = useRef(false);
     const bulkPauseRef = useRef(false);
 
@@ -333,13 +346,20 @@ export default function SecretSalesArea() {
             return;
         }
 
-        // Force user to confirm safe mode for bulk
-        const confirmSafe = window.confirm("MODO DE SEGURANÇA ATIVADO:\n\nPara evitar o banimento do seu WhatsApp, o sistema enviará mensagens com intervalos de 60 a 120 segundos e fará uma pausa de 5 minutos a cada 5 envios.\n\nEste processo é LENTO mas SEGURO. Deseja continuar?");
-        if (!confirmSafe) return;
+        // Initial Status
+        setError("");
 
         // Bulk Send Logic (Manual List)
         stopBulkRef.current = false;
-        setBulkStatus({ current: 0, total: targetNumbers.length, isActive: true, isPaused: false });
+
+        // Intensity Settings
+        const settings = {
+            safe: { delay: [20, 45], breakAfter: 10, breakTime: 120 },
+            fast: { delay: [10, 20], breakAfter: 15, breakTime: 60 },
+            turbo: { delay: [5, 10], breakAfter: 20, breakTime: 30 }
+        }[bulkStatus.intensity];
+
+        setBulkStatus(prev => ({ ...prev, current: 0, total: targetNumbers.length, isActive: true, isPaused: false }));
         setIsSending(true);
 
         for (let i = 0; i < targetNumbers.length; i++) {
@@ -362,38 +382,45 @@ export default function SecretSalesArea() {
 
             // Safety Delays
             if (i < targetNumbers.length - 1) {
-                // Every 5 messages, take a long break (5 minutes)
-                if ((i + 1) % 5 === 0) {
-                    setError("Pausa de segurança: 5 minutos para evitar bloqueio...");
+                let waitSeconds = 0;
+                let isLongBreak = false;
+
+                // Check for long break
+                if ((i + 1) % settings.breakAfter === 0) {
+                    waitSeconds = settings.breakTime;
+                    isLongBreak = true;
                     setBulkStatus(prev => ({ ...prev, isPaused: true }));
-                    const cooldownTime = 5 * 60 * 1000; // 5 minutes
-                    const steps = 3000; // 0.1s steps
-                    for (let j = 0; j < steps; j++) {
-                        if (stopBulkRef.current) break;
-                        await new Promise(resolve => setTimeout(resolve, 100));
-                    }
+                    setError(`Pausa de descanso: ${waitSeconds}s para evitar bloqueio...`);
+                } else {
+                    // Random delay between min and max
+                    waitSeconds = Math.floor(Math.random() * (settings.delay[1] - settings.delay[0] + 1)) + settings.delay[0];
+                    setError("");
+                }
+
+                // Countdown logic
+                for (let s = waitSeconds; s > 0; s--) {
+                    if (stopBulkRef.current) break;
+                    setBulkCountdown(s);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+
+                setBulkCountdown(0);
+                if (isLongBreak) {
                     setBulkStatus(prev => ({ ...prev, isPaused: false }));
                     setError("");
-                } else {
-                    // Random delay between 60 and 120 seconds
-                    const waitTime = Math.floor(Math.random() * 60000) + 60000;
-                    const steps = waitTime / 100;
-                    for (let j = 0; j < steps; j++) {
-                        if (stopBulkRef.current) break;
-                        await new Promise(resolve => setTimeout(resolve, 100));
-                    }
                 }
             }
         }
 
-        setBulkStatus({ current: 0, total: 0, isActive: false, isPaused: false });
+        setBulkStatus(prev => ({ ...prev, current: 0, total: 0, isActive: false, isPaused: false }));
         setIsSending(false);
+        setBulkCountdown(0);
         stopBulkRef.current = false;
 
         if (!stopBulkRef.current) {
             setSendSuccess(true);
             setTimeout(() => setSendSuccess(false), 3000);
-            copyToClipboard("Disparo concluído com segurança!");
+            copyToClipboard("Disparo concluído com sucesso!");
         }
     };
 
@@ -425,7 +452,7 @@ export default function SecretSalesArea() {
         ];
         for (const step of steps) {
             setSearchStep(step);
-            await new Promise(resolve => setTimeout(resolve, 600));
+            await new Promise(resolve => setTimeout(resolve, 400));
         }
 
         try {
@@ -790,37 +817,73 @@ export default function SecretSalesArea() {
                                                         </div>
                                                     </div>
 
-                                                    <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-4 mb-4">
-                                                        <div className="flex items-center gap-2 text-emerald-500 mb-2">
-                                                            <ShieldCheck size={16} />
-                                                            <span className="text-[10px] font-black uppercase tracking-widest">Safe Mode Active</span>
+                                                    <div className="bg-black/40 border border-white/5 rounded-3xl p-6">
+                                                        <div className="flex justify-between items-center mb-4">
+                                                            <span className="text-[10px] font-black text-white uppercase">Intensidade do Disparo</span>
+                                                            <ShieldCheck size={14} className={bulkStatus.intensity === 'safe' ? 'text-emerald-500' : bulkStatus.intensity === 'fast' ? 'text-yellow-500' : 'text-red-500'} />
                                                         </div>
-                                                        <p className="text-[9px] text-zinc-500 leading-relaxed font-medium">
-                                                            Intervalos de 60-120s entre mensagens + Pausa de 5min a cada 5 envios.
-                                                            <span className="text-zinc-400 block mt-1">Proteção máxima contra banimento.</span>
+                                                        <div className="grid grid-cols-3 gap-2 p-1 bg-black/40 rounded-xl border border-white/5">
+                                                            {(['safe', 'fast', 'turbo'] as const).map((mode) => (
+                                                                <button
+                                                                    key={mode}
+                                                                    onClick={() => setBulkStatus(prev => ({ ...prev, intensity: mode }))}
+                                                                    disabled={bulkStatus.isActive}
+                                                                    className={`py-2 rounded-lg text-[9px] font-black uppercase transition-all ${bulkStatus.intensity === mode ? (mode === 'safe' ? "bg-emerald-500 text-white" : mode === 'fast' ? "bg-yellow-500 text-black" : "bg-red-600 text-white") : "text-zinc-500 hover:text-white hover:bg-white/5"}`}
+                                                                >
+                                                                    {mode}
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                        <p className="text-[8px] text-zinc-500 mt-3 leading-relaxed">
+                                                            {bulkStatus.intensity === 'safe' && "Proteção máxima. Recomendado para contas novas."}
+                                                            {bulkStatus.intensity === 'fast' && "Equilíbrio ideal. Recomendado para uso diário."}
+                                                            {bulkStatus.intensity === 'turbo' && "Velocidade máxima. Risco de banimento elevado."}
                                                         </p>
+                                                        <div className="mt-4 p-3 bg-violet-500/5 border border-violet-500/10 rounded-xl">
+                                                            <div className="flex items-center gap-2 text-violet-400 text-[9px] font-black uppercase mb-1">
+                                                                <Info size={12} /> Dica de Aquecimento
+                                                            </div>
+                                                            <p className="text-[8px] text-zinc-500 leading-tight">Mande mensagens para pessoas conhecidas antes de disparar para desconhecidos para "esquentar" seu chip.</p>
+                                                        </div>
                                                     </div>
 
                                                     <div className="space-y-3">
+                                                        {bulkStatus.isActive && (
+                                                            <div className="bg-zinc-900 border border-white/5 rounded-2xl p-4 space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                                                <div className="flex justify-between text-[10px] font-black uppercase">
+                                                                    <span className="text-zinc-500">Progresso</span>
+                                                                    <span className="text-violet-400">{bulkStatus.current}/{bulkStatus.total}</span>
+                                                                </div>
+                                                                <div className="w-full h-2 bg-black rounded-full overflow-hidden">
+                                                                    <div className="h-full bg-violet-600 transition-all duration-300" style={{ width: `${(bulkStatus.current / bulkStatus.total) * 100}%` }} />
+                                                                </div>
+
+                                                                {bulkCountdown > 0 && (
+                                                                    <div className="flex flex-col items-center justify-center p-3 bg-white/5 rounded-xl border border-white/5">
+                                                                        <span className="text-[10px] text-zinc-500 font-bold uppercase mb-1">Próxima mensagem em</span>
+                                                                        <div className="text-2xl font-black text-white tabular-nums tracking-tighter">
+                                                                            {bulkCountdown}s
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+
+                                                                <button
+                                                                    onClick={stopOperation}
+                                                                    className="w-full bg-red-500/10 hover:bg-red-500/20 text-red-500 font-black py-3 rounded-xl transition-all border border-red-500/20 text-[9px] uppercase tracking-widest"
+                                                                >
+                                                                    Interromper
+                                                                </button>
+                                                            </div>
+                                                        )}
+
                                                         <button
                                                             onClick={startBulkSend}
                                                             disabled={bulkStatus.isActive || !phoneNumbers}
                                                             className="w-full bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white font-black py-6 rounded-2xl transition-all shadow-xl shadow-violet-600/20 uppercase tracking-widest text-[11px] flex items-center justify-center gap-3"
                                                         >
                                                             {bulkStatus.isActive ? <Loader2 className="animate-spin" /> : <Zap size={18} fill="white" />}
-                                                            Iniciar Disparos
+                                                            {bulkStatus.isActive ? "Disparando..." : "Iniciar Disparos"}
                                                         </button>
-                                                        {bulkStatus.isActive && (
-                                                            <div className="bg-zinc-900 border border-white/5 rounded-2xl p-4 space-y-2">
-                                                                <div className="flex justify-between text-[10px] font-black text-zinc-500 uppercase">
-                                                                    <span>Status</span>
-                                                                    <span className="text-violet-400">{bulkStatus.current}/{bulkStatus.total}</span>
-                                                                </div>
-                                                                <div className="w-full h-1.5 bg-black rounded-full overflow-hidden">
-                                                                    <div className="h-full bg-violet-600 transition-all duration-300" style={{ width: `${(bulkStatus.current / bulkStatus.total) * 100}%` }} />
-                                                                </div>
-                                                            </div>
-                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
