@@ -276,6 +276,23 @@ export default function SecretSalesArea() {
         localStorage.setItem("wtm_content_planner", JSON.stringify(updatedPosts));
     };
 
+    const formatWhatsAppNumber = (rawNumber: string) => {
+        let clean = rawNumber.replace(/\D/g, "");
+        if (!clean) return "";
+
+        // Se começar com 0, remove (ex: 011...)
+        if (clean.startsWith('0')) clean = clean.substring(1);
+
+        // Se tiver 8 ou 9 dígitos, falta o DDD. Vamos assumir o de Suzano (11) se não houver outro.
+        // Mas o ideal é que o scraper já traga o DDD. 
+        // Se tiver 10 ou 11 dígitos, falta o 55 (Brasil)
+        if (clean.length === 10 || clean.length === 11) {
+            clean = "55" + clean;
+        }
+
+        return clean;
+    };
+
     const handleUnlock = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsVerifying(true);
@@ -334,11 +351,13 @@ export default function SecretSalesArea() {
         // Single Send (Instant)
         if (targetNumbers.length === 1) {
             setIsSending(true);
-            const cleanNumber = targetNumbers[0].replace(/\D/g, "");
+            const cleanNumber = formatWhatsAppNumber(targetNumbers[0]);
             if (cleanNumber) {
                 const finalMsg = getRotatedMessage(0);
                 const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(finalMsg)}`;
                 window.open(url, "_blank");
+            } else {
+                setError("Número inválido.");
             }
             setIsSending(false);
             setSendSuccess(true);
@@ -366,7 +385,7 @@ export default function SecretSalesArea() {
             if (stopBulkRef.current) break;
 
             setBulkStatus(prev => ({ ...prev, current: i + 1 }));
-            const cleanNumber = targetNumbers[i].replace(/\D/g, "");
+            const cleanNumber = formatWhatsAppNumber(targetNumbers[i]);
 
             if (cleanNumber) {
                 const rotatedMsg = getRotatedMessage(i);
