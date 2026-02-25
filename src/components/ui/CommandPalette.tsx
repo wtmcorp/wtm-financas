@@ -146,7 +146,7 @@ export default function CommandPalette() {
                                     </div>
                                 </div>
                                 <div className="text-[10px] font-black text-primary uppercase tracking-widest opacity-50">
-                                    Wtm Intelligence OS
+                                    Wtm Finanças
                                 </div>
                             </div>
                         </motion.div>

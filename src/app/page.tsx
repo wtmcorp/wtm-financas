@@ -542,7 +542,7 @@ export default function LandingPage() {
                     </div>
                     <div className="text-center md:text-right text-gray-500 text-sm font-medium">
                         <p>© 2026 WTM Corps. Todos os direitos reservados.</p>
-                        <p className="mt-2 text-primary/50">Intelligence OS for Human Life</p>
+                        <p className="mt-2 text-primary/50">Wtm Finanças for Human Life</p>
                     </div>
                 </div>
             </footer>

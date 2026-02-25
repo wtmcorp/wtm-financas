@@ -14,7 +14,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-    title: "WTM CORPS - Intelligence OS",
+    title: "WTM CORPS - Wtm Finanças",
     description: "Sua plataforma completa de gestão financeira e investimentos.",
 };
 

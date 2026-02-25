@@ -164,7 +164,7 @@ export default function LoginPage() {
                 </motion.div>
 
                 <p className="text-[10px] text-gray-700 text-center mt-12 font-black uppercase tracking-[0.4em]">
-                    WTM CORPS © 2026 • Intelligence OS v2.0
+                    WTM CORPS © 2026 • Wtm Finanças v2.0
                 </p>
             </motion.div>
         </div>

@@ -35,8 +35,8 @@ export default function Header() {
                             <span className="text-lg font-black text-white tracking-tighter leading-none uppercase">
                                 Wtm<span className="text-violet-500">Corps</span>
                             </span>
-                            <span className="text-[8px] font-black text-gray-500 uppercase tracking-[0.2em]">
-                                Intelligence OS
+                            <span className="text-[8px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                                Wtm Finanças
                             </span>
                         </div>
                     </Link>

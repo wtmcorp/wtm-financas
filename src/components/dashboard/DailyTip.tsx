@@ -58,7 +58,7 @@ export default function DailyTip() {
                             <Sparkles size={24} />
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Intelligence OS</span>
+                            <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Wtm Finanças</span>
                             <span className="text-xs font-black text-white uppercase tracking-widest">Insight do Dia</span>
                         </div>
                     </div>

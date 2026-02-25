@@ -35,8 +35,8 @@ export default function Logo({ className = "", showText = true, size = "md" }: L
                     <span className={`${currentSize.text} font-black text-white tracking-tighter uppercase flex items-center`}>
                         WTM<span className="text-violet-400">CORPS</span>
                     </span>
-                    <span className="text-[8px] font-black text-gray-500 uppercase tracking-[0.4em] ml-1">
-                        Intelligence OS
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mt-1">
+                        Wtm Finanças
                     </span>
                 </div>
             )}
