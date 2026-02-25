@@ -168,7 +168,7 @@ export default function LandingPage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
-                            className="text-5xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter leading-[0.85]"
+                            className="text-[3.5rem] leading-[1] md:text-8xl lg:text-9xl font-black text-white tracking-tighter md:leading-[0.85]"
                         >
                             Sua vida financeira,
                             <br />
@@ -190,13 +190,13 @@ export default function LandingPage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.5 }}
-                            className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8"
+                            className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center pt-8 w-full sm:w-auto"
                         >
                             <motion.button
                                 whileHover={{ scale: 1.05, y: -5 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => router.push("/register")}
-                                className="group px-12 py-6 bg-primary text-black font-black text-sm uppercase tracking-wider rounded-2xl transition-all shadow-[0_20px_50px_rgba(167,139,250,0.3)] flex items-center gap-3"
+                                className="group w-full sm:w-auto px-8 py-5 md:px-12 md:py-6 bg-primary text-black font-black text-xs md:text-sm uppercase tracking-wider rounded-2xl transition-all shadow-[0_20px_50px_rgba(167,139,250,0.3)] flex items-center justify-center gap-3"
                             >
                                 Começar minha transformação
                                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
@@ -205,7 +205,7 @@ export default function LandingPage() {
                                 whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => router.push("/login")}
-                                className="px-12 py-6 bg-white/5 text-white font-black text-sm uppercase tracking-wider rounded-2xl transition-all border border-white/10"
+                                className="w-full sm:w-auto px-8 py-5 md:px-12 md:py-6 bg-white/5 text-white font-black text-xs md:text-sm uppercase tracking-wider rounded-2xl transition-all border border-white/10"
                             >
                                 Já sou membro
                             </motion.button>
@@ -216,7 +216,7 @@ export default function LandingPage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.6 }}
-                            className="grid grid-cols-2 md:grid-cols-4 gap-12 pt-20 max-w-5xl mx-auto"
+                            className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 pt-20 max-w-5xl mx-auto"
                         >
                             {stats.map((stat, i) => (
                                 <div key={i} className="text-center group">
@@ -254,10 +254,10 @@ export default function LandingPage() {
                         className="space-y-8"
                     >
                         <div className="w-16 h-1 bg-primary rounded-full" />
-                        <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-tight">
+                        <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tighter leading-none md:leading-tight">
                             Cansado de não saber para onde seu <span className="gradient-text">dinheiro foge?</span>
                         </h2>
-                        <p className="text-xl text-gray-400 leading-relaxed">
+                        <p className="text-lg md:text-xl text-gray-400 leading-relaxed">
                             A maioria das pessoas vive no escuro financeiro. Contas que chegam de surpresa,
                             dinheiro que some na metade do mês e a sensação de que você nunca vai conseguir
                             construir um patrimônio real.
@@ -324,7 +324,7 @@ export default function LandingPage() {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
                                 whileHover={{ y: -15, scale: 1.02 }}
-                                className="glass-panel p-10 group cursor-pointer relative overflow-hidden h-full flex flex-col"
+                                className="glass-panel p-8 md:p-10 group cursor-pointer relative overflow-hidden h-full flex flex-col"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -361,8 +361,8 @@ export default function LandingPage() {
                         <Shield size={16} />
                         O Propósito WTM Finanças
                     </motion.div>
-                    <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
-                        Não somos apenas um app. <br />
+                    <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tighter leading-none md:leading-tight">
+                        Não somos apenas um app. <br className="hidden sm:block" />
                         Somos seu <span className="gradient-text">braço direito.</span>
                     </h2>
                     <p className="text-xl text-gray-400 leading-relaxed max-w-3xl mx-auto">
@@ -412,7 +412,7 @@ export default function LandingPage() {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
                                 whileHover={{ y: -10 }}
-                                className="glass-panel p-10 relative"
+                                className="glass-panel p-8 md:p-10 relative"
                             >
                                 <div className="absolute top-0 right-0 p-8 opacity-10">
                                     <Star size={40} className="text-primary fill-primary" />
@@ -454,9 +454,9 @@ export default function LandingPage() {
                         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-blue-600/20" />
                         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
 
-                        <div className="relative z-10 space-y-10">
-                            <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.9]">
-                                O primeiro passo para sua <br />
+                        <div className="relative z-10 space-y-8 md:space-y-10">
+                            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tighter leading-none md:leading-[0.9]">
+                                O primeiro passo para sua <br className="hidden sm:block" />
                                 <span className="gradient-text">liberdade começa aqui.</span>
                             </h2>
 
@@ -468,7 +468,7 @@ export default function LandingPage() {
                                 whileHover={{ scale: 1.05, y: -5 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => router.push("/register")}
-                                className="group px-16 py-8 bg-primary text-black font-black text-lg uppercase tracking-widest rounded-[2rem] transition-all shadow-[0_30px_60px_rgba(167,139,250,0.4)] flex items-center gap-4 mx-auto"
+                                className="group w-full sm:w-auto px-8 py-5 md:px-16 md:py-8 bg-primary text-black font-black text-sm md:text-lg uppercase tracking-widest rounded-[2rem] transition-all shadow-[0_30px_60px_rgba(167,139,250,0.4)] flex items-center justify-center gap-4 mx-auto"
                             >
                                 Criar minha conta grátis
                                 <Sparkles size={28} className="group-hover:rotate-12 transition-transform" />
