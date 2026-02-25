@@ -5,6 +5,7 @@ import StarfieldBackground from "@/components/ui/StarfieldBackground";
 import AuthGuard from "@/components/auth/AuthGuard";
 import MainLayout from "@/components/layout/MainLayout";
 import SecretAreaLoader from "@/components/tools/SecretAreaLoader";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -38,6 +39,7 @@ export default function RootLayout({
                         <SecretAreaLoader />
                     </AuthGuard>
                 </Providers>
+                <Analytics />
             </body>
         </html>
     );
