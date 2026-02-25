@@ -43,6 +43,7 @@ import MonthlyClosingCard from "@/components/dashboard/MonthlyClosingCard";
 import RevenueChart from "@/components/dashboard/RevenueChart";
 import NetWorthChart from "@/components/dashboard/charts/NetWorthChart";
 import { Tooltip } from "@/components/ui/Tooltip";
+import StarField from "@/components/ui/StarField";
 
 export default function DashboardPage() {
     const { user, loading } = useAuth();
@@ -108,9 +109,10 @@ export default function DashboardPage() {
     return (
         <div className="min-h-screen bg-background text-white p-4 md:p-8 pb-32 overflow-x-hidden">
             {/* Background Ambient */}
+            <StarField />
             <div className="fixed inset-0 z-0 pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px]" />
+                <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] opacity-20" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] opacity-20" />
             </div>
 
             <motion.div
@@ -151,7 +153,7 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Bloco de Autoridade */}
-                    <div className="glass-panel p-6 border-primary/20 bg-primary/5 relative overflow-hidden group">
+                    <div className="glass-panel p-6 border-primary/20 bg-primary/5 relative overflow-hidden group magical-border">
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                             <Star size={40} className="text-primary fill-primary" />
                         </div>
@@ -231,7 +233,7 @@ export default function DashboardPage() {
                         <div className="lg:col-span-4">
                             <motion.section
                                 variants={itemVariants}
-                                className="glass-panel p-6 md:p-8 relative overflow-hidden group h-full"
+                                className="glass-panel p-6 md:p-8 relative overflow-hidden group h-full magical-border"
                             >
                                 <SectionHeader
                                     title="Sua Estratégia"
@@ -311,7 +313,7 @@ export default function DashboardPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                         {/* Histórico */}
                         <div className="lg:col-span-8">
-                            <motion.div variants={itemVariants} className="glass-panel p-6 md:p-8 h-full">
+                            <motion.div variants={itemVariants} className="glass-panel p-6 md:p-8 h-full magical-border">
                                 <SectionHeader
                                     title="Histórico"
                                     subtitle="Últimas movimentações"

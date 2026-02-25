@@ -31,15 +31,13 @@ export default function Logo({ className = "", showText = true, size = "md" }: L
             </motion.div>
 
             {showText && (
-                <div className="flex flex-col">
-                    <span className={`${currentSize.text} font-black text-white tracking-tighter leading-none uppercase`}>
-                        Wtm<span className="text-violet-500">Corps</span>
+                <div className="flex flex-col items-start leading-none">
+                    <span className={`${currentSize.text} font-black text-white tracking-tighter uppercase flex items-center`}>
+                        WTM<span className="text-violet-400">CORPS</span>
                     </span>
-                    {size !== "sm" && (
-                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] mt-1">
-                            Intelligence OS
-                        </span>
-                    )}
+                    <span className="text-[8px] font-black text-gray-500 uppercase tracking-[0.4em] ml-1">
+                        Intelligence OS
+                    </span>
                 </div>
             )}
         </div>

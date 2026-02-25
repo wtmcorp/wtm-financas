@@ -21,10 +21,13 @@ import {
     Wallet,
     GraduationCap,
     Lock,
-    CheckCircle2
+    CheckCircle2,
+    ShieldCheck
 } from "lucide-react";
 import InteractiveLogo from "@/components/ui/InteractiveLogo";
 import NewsletterForm from "@/components/marketing/NewsletterForm";
+
+import StarField from "@/components/ui/StarField";
 
 export default function LandingPage() {
     const { user, loading } = useAuth();
@@ -40,7 +43,7 @@ export default function LandingPage() {
 
     if (!mounted || loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-background">
+            <div className="min-h-screen flex items-center justify-center bg-[#0a0a14]">
                 <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin shadow-[0_0_30px_rgba(167,139,250,0.3)]"></div>
             </div>
         );
@@ -117,22 +120,23 @@ export default function LandingPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-background overflow-x-hidden">
+        <div className="min-h-screen bg-[#0a0a14] overflow-x-hidden">
             {/* Hero Section */}
             <motion.section
                 style={{ opacity, scale }}
                 className="relative min-h-screen flex items-center justify-center overflow-hidden"
             >
                 {/* Animated Background */}
-                <div className="absolute inset-0 bg-mesh opacity-30" />
+                <StarField />
+                <div className="absolute inset-0 bg-mesh opacity-20" />
                 <div className="absolute inset-0">
                     <motion.div
                         animate={{
                             scale: [1, 1.2, 1],
-                            opacity: [0.2, 0.3, 0.2]
+                            opacity: [0.1, 0.2, 0.1]
                         }}
                         transition={{ duration: 8, repeat: Infinity }}
-                        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px]"
+                        className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px]"
                     />
                     <motion.div
                         animate={{
@@ -338,7 +342,7 @@ export default function LandingPage() {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
                                 whileHover={{ y: -15, scale: 1.02 }}
-                                className="glass-panel p-8 md:p-10 group cursor-pointer relative overflow-hidden h-full flex flex-col"
+                                className="glass-panel p-8 md:p-10 group cursor-pointer relative overflow-hidden h-full flex flex-col magical-border"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -463,7 +467,7 @@ export default function LandingPage() {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="glass-panel p-12 md:p-24 relative overflow-hidden rounded-[4rem] border-primary/30"
+                        className="glass-panel p-12 md:p-24 relative overflow-hidden rounded-[4rem] border-primary/30 magical-border"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-blue-600/20" />
                         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
@@ -545,5 +549,3 @@ export default function LandingPage() {
         </div>
     );
 }
-
-import { ShieldCheck } from "lucide-react";

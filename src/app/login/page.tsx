@@ -8,6 +8,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "@/components/ui/Logo";
 
+import StarField from "@/components/ui/StarField";
+
 export default function LoginPage() {
     const router = useRouter();
     const { login, resetPassword } = useAuth();
@@ -32,11 +34,11 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden bg-mesh">
+        <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden bg-[#0a0a14]">
             {/* Background Decorative Elements */}
+            <StarField />
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-violet-600/20 rounded-full blur-[120px] animate-pulse" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-violet-600/10 rounded-full blur-[160px] pointer-events-none" />
             </div>
 
             <motion.div
@@ -45,46 +47,46 @@ export default function LoginPage() {
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full max-w-[440px]"
             >
-                <div className="text-center mb-10">
+                <div className="text-center mb-10 space-y-4">
                     <motion.div
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ delay: 0.2, duration: 0.5 }}
-                        className="flex justify-center mb-6"
+                        className="flex justify-center mb-8"
                     >
-                        <Logo size="lg" />
+                        <Logo size="md" />
                     </motion.div>
-                    <h2 className="text-4xl font-black text-white mb-3 tracking-tight">Que bom ver você de novo.</h2>
-                    <p className="text-gray-400 font-medium">Pronto para dar mais um passo rumo à sua liberdade?</p>
+                    <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">Que bom ver você de novo.</h2>
+                    <p className="text-gray-400 font-medium text-lg">Pronto para dar mais um passo rumo à sua liberdade?</p>
                 </div>
 
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1, duration: 0.5 }}
-                    className="glass-card p-8 md:p-10 rounded-[2.5rem] border border-white/10 shadow-2xl relative overflow-hidden group"
+                    className="glass-panel p-10 rounded-[2.5rem] border border-white/10 shadow-2xl relative overflow-hidden group magical-border"
                 >
                     <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
 
-                    <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-                        <div className="space-y-2">
+                    <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
+                        <div className="space-y-3">
                             <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">
                                 Endereço de Email
                             </label>
                             <div className="relative group/input">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within/input:text-violet-400 transition-colors" size={18} />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within/input:text-violet-400 transition-colors" size={20} />
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white outline-none focus:border-violet-500/50 focus:bg-white/[0.05] transition-all font-medium placeholder:text-gray-600"
+                                    className="w-full bg-white/[0.05] border border-white/10 rounded-2xl pl-12 pr-4 py-5 text-white outline-none focus:border-violet-500/50 focus:bg-white/[0.08] transition-all font-medium placeholder:text-gray-600 text-lg"
                                     placeholder="seu@email.com"
                                     required
                                 />
                             </div>
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                             <div className="flex justify-between items-center">
                                 <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-1">
                                     Senha de Acesso
@@ -109,12 +111,12 @@ export default function LoginPage() {
                                 </button>
                             </div>
                             <div className="relative group/input">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within/input:text-violet-400 transition-colors" size={18} />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within/input:text-violet-400 transition-colors" size={20} />
                                 <input
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white outline-none focus:border-violet-500/50 focus:bg-white/[0.05] transition-all font-medium placeholder:text-gray-600"
+                                    className="w-full bg-white/[0.05] border border-white/10 rounded-2xl pl-12 pr-4 py-5 text-white outline-none focus:border-violet-500/50 focus:bg-white/[0.08] transition-all font-medium placeholder:text-gray-600 text-lg"
                                     placeholder="••••••••"
                                     required
                                 />
@@ -138,31 +140,30 @@ export default function LoginPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-white text-black font-black py-4 rounded-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 group/btn relative overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] active:scale-[0.98]"
+                            className="w-full bg-white text-black font-black py-5 rounded-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 group/btn relative overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:scale-[1.02] active:scale-[0.98] text-sm uppercase tracking-widest"
                         >
-                            <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500 opacity-0 group-hover/btn:opacity-10 transition-opacity" />
                             {loading ? (
                                 <Loader2 className="animate-spin" size={20} />
                             ) : (
                                 <>
-                                    <span>ACESSAR MINHA CONTA</span>
-                                    <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
+                                    <span>Acessar Minha Conta</span>
+                                    <ArrowRight size={20} className="group-hover/btn:translate-x-1 transition-transform" />
                                 </>
                             )}
                         </button>
                     </form>
 
-                    <div className="mt-8 text-center">
-                        <p className="text-sm text-gray-500 font-medium">
+                    <div className="mt-10 text-center">
+                        <p className="text-xs text-gray-500 font-bold uppercase tracking-widest">
                             Ainda não possui acesso?{" "}
-                            <Link href="/register" className="text-white hover:text-violet-400 font-black transition-colors uppercase tracking-tighter">
-                                Solicitar Registro
+                            <Link href="/register" className="text-white hover:text-violet-400 font-black transition-colors ml-1">
+                                SOLICITAR REGISTRO
                             </Link>
                         </p>
                     </div>
                 </motion.div>
 
-                <p className="text-[10px] text-gray-600 text-center mt-10 font-black uppercase tracking-[0.3em]">
+                <p className="text-[10px] text-gray-700 text-center mt-12 font-black uppercase tracking-[0.4em]">
                     WTM CORPS © 2026 • Intelligence OS v2.0
                 </p>
             </motion.div>
