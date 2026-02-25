@@ -15,12 +15,12 @@ export default function CommandPalette() {
     const router = useRouter();
 
     const items = [
-        { id: "dash", label: "Dashboard", href: "/", icon: Home, category: "Navegação" },
+        { id: "dash", label: "Dashboard", href: "/dashboard", icon: Home, category: "Navegação" },
         { id: "cards", label: "Cartões", href: "/cards", icon: CreditCard, category: "Navegação" },
         { id: "tools", label: "Ferramentas", href: "/tools", icon: Wrench, category: "Navegação" },
         { id: "ai", label: "I.As Úteis", href: "/ai-tools", icon: Sparkles, category: "Navegação" },
         { id: "learn", label: "Aprenda", href: "/learn", icon: TrendingUp, category: "Navegação" },
-        { id: "private", label: "Desafio Privado", href: "/private", icon: Heart, category: "Navegação" },
+        { id: "private", label: "Desafio Real", href: "/challenge", icon: Heart, category: "Navegação" },
         { id: "profile", label: "Meu Perfil", href: "/profile", icon: User, category: "Conta" },
         { id: "settings", label: "Configurações", href: "/settings", icon: Settings, category: "Conta" },
     ];
@@ -84,7 +84,7 @@ export default function CommandPalette() {
                             initial={{ opacity: 0, scale: 0.95, y: -20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                            className="relative w-full max-w-2xl bg-card border border-white/10 rounded-[2rem] shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden"
+                            className="relative w-full max-w-2xl bg-card border border-white/10 rounded-[2rem] shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden magical-border"
                         >
                             <div className="p-6 border-b border-white/10 flex items-center gap-4">
                                 <Search className="text-primary" size={24} />

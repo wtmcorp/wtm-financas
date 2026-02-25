@@ -43,7 +43,7 @@ export default function BalanceCard() {
     return (
         <motion.div
             whileHover={{ y: -5 }}
-            className="glass-panel p-6 md:p-10 relative overflow-hidden group"
+            className="glass-panel p-6 md:p-10 relative overflow-hidden group magical-border"
         >
             {/* Background Effects */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -mr-32 -mt-32 group-hover:bg-primary/10 transition-all duration-1000" />

@@ -14,7 +14,7 @@ export default function Header() {
     const pathname = usePathname();
 
     const navLinks = [
-        { label: "Dashboard", href: "/", icon: LayoutDashboard },
+        { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
         { label: "Cartões", href: "/cards", icon: CreditCard },
         { label: "Ferramentas", href: "/tools", icon: Wrench },
         { label: "Radar", href: "/trends", icon: TrendingUp },
@@ -48,7 +48,7 @@ export default function Header() {
                 </div>
 
                 {/* Navigation Links - Centered Pill (XL+ only) */}
-                <nav className="hidden xl:flex items-center bg-white/[0.04] border border-white/[0.12] rounded-full px-2 py-1.5 shadow-lg shadow-black/20 backdrop-blur-xl">
+                <nav className="hidden xl:flex items-center bg-white/[0.04] border border-white/[0.12] rounded-full px-2 py-1.5 shadow-lg shadow-black/20 backdrop-blur-xl magical-border">
                     {navLinks.map((link) => {
                         const isActive = pathname === link.href;
                         return (

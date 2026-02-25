@@ -3,75 +3,24 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/Button";
+import TransactionModal from "@/components/finance/TransactionModal";
 
 export default function TransactionFab() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <>
-            <button
+            <motion.button
+                whileHover={{ scale: 1.1, y: -5 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-24 right-6 bg-primary text-black p-4 rounded-full shadow-lg shadow-primary/20 hover:scale-110 transition-transform z-40"
+                className="fixed bottom-24 right-6 w-16 h-16 bg-primary text-black rounded-full shadow-[0_15px_30px_rgba(167,139,250,0.4)] hover:shadow-[0_20px_40px_rgba(167,139,250,0.6)] flex items-center justify-center z-40 transition-all border-2 border-white/20"
             >
-                <Plus size={28} />
-            </button>
+                <Plus size={32} strokeWidth={3} />
+                <div className="absolute inset-0 rounded-full bg-white opacity-0 hover:opacity-10 transition-opacity" />
+            </motion.button>
 
-            <AnimatePresence>
-                {isOpen && (
-                    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
-                        <motion.div
-                            initial={{ y: "100%" }}
-                            animate={{ y: 0 }}
-                            exit={{ y: "100%" }}
-                            className="bg-card w-full max-w-md rounded-t-2xl sm:rounded-2xl p-6 border border-white/10"
-                        >
-                            <h2 className="text-xl font-bold text-primary mb-6">Nova Transação</h2>
-
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="text-xs text-gray-400">Valor</label>
-                                    <input
-                                        type="number"
-                                        className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-2xl text-white focus:border-primary outline-none"
-                                        placeholder="R$ 0,00"
-                                        autoFocus
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-3">
-                                    <Button variant="outline" className="justify-center">Receita</Button>
-                                    <Button variant="primary" className="justify-center">Despesa</Button>
-                                </div>
-
-                                <div>
-                                    <label className="text-xs text-gray-400">Categoria</label>
-                                    <select className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white outline-none">
-                                        <option>Alimentação</option>
-                                        <option>Transporte</option>
-                                        <option>Lazer</option>
-                                        <option>Moradia</option>
-                                    </select>
-                                </div>
-
-                                <Button
-                                    className="w-full mt-4"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Salvar
-                                </Button>
-
-                                <button
-                                    onClick={() => setIsOpen(false)}
-                                    className="w-full text-center text-sm text-gray-500 py-2"
-                                >
-                                    Cancelar
-                                </button>
-                            </div>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
+            <TransactionModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
         </>
     );
 }

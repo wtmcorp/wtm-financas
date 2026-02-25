@@ -212,7 +212,7 @@ export default function LandingPage() {
                                         whileHover={{ scale: 1.05, y: -5 }}
                                         whileTap={{ scale: 0.95 }}
                                         onClick={() => router.push("/register")}
-                                        className="group w-full sm:w-auto px-8 py-5 md:px-12 md:py-6 bg-primary text-black font-black text-xs md:text-sm uppercase tracking-wider rounded-2xl transition-all shadow-[0_20px_50px_rgba(167,139,250,0.3)] flex items-center justify-center gap-3"
+                                        className="group w-full sm:w-auto px-8 py-5 md:px-12 md:py-6 bg-primary text-black font-black text-xs md:text-sm uppercase tracking-wider rounded-2xl transition-all shadow-[0_20px_50px_rgba(167,139,250,0.3)] flex items-center justify-center gap-3 magical-border"
                                     >
                                         Começar minha transformação
                                         <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />

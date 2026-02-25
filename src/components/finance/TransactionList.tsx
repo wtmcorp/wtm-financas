@@ -61,31 +61,41 @@ const TransactionList = ({ limit }: TransactionListProps) => {
 
     return (
         <div className="space-y-4 md:space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex gap-3 overflow-x-auto pb-4 sm:pb-0 custom-scrollbar scrollbar-hide">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                <div className="flex gap-3 overflow-x-auto pb-2 sm:pb-0 custom-scrollbar scrollbar-hide">
                     {filterButtons.map((btn) => (
                         <button
                             key={btn.value}
                             onClick={() => setFilterType(btn.value)}
-                            className={`px-4 py-2 md:px-6 md:py-2.5 rounded-2xl text-[11px] md:text-xs font-black uppercase tracking-[0.15em] transition-all whitespace-nowrap border ${filterType === btn.value
-                                ? 'bg-primary text-black border-primary shadow-[0_10px_20px_rgba(124,58,237,0.2)]'
-                                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border-white/5'
+                            className={`px-6 py-3 rounded-2xl text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap border relative overflow-hidden group/btn ${filterType === btn.value
+                                ? 'bg-white text-black border-white shadow-[0_10px_20px_rgba(255,255,255,0.1)] scale-105 z-10'
+                                : 'bg-white/[0.03] text-gray-500 hover:text-white border-white/10 hover:border-white/20'
                                 }`}
                         >
-                            {btn.label}
+                            <span className="relative z-10">{btn.label}</span>
+                            {filterType === btn.value && (
+                                <motion.div
+                                    layoutId="activeFilter"
+                                    className="absolute inset-0 bg-white"
+                                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                />
+                            )}
                         </button>
                     ))}
                 </div>
 
-                <div className="relative group w-full sm:max-w-xs">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 md:w-4 md:h-4 text-gray-500 group-focus-within:text-primary transition-colors" />
-                    <input
-                        type="text"
-                        placeholder="Buscar..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-9 pr-4 py-2 md:py-2.5 bg-white/[0.03] border border-white/10 rounded-xl focus:border-primary/50 text-[11px] md:text-sm text-white placeholder-gray-600 outline-none transition-all"
-                    />
+                <div className="relative group w-full sm:max-w-xs transition-all duration-300">
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl blur opacity-0 group-focus-within:opacity-30 transition-opacity" />
+                    <div className="relative flex items-center bg-[#0a0a14] border border-white/10 rounded-xl px-4 py-3 group-focus-within:border-violet-500/50 transition-all">
+                        <Search className="w-4 h-4 text-gray-500 group-focus-within:text-violet-400 transition-colors" />
+                        <input
+                            type="text"
+                            placeholder="Buscar transações..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="bg-transparent border-none text-sm text-white placeholder-gray-600 outline-none w-full ml-3 font-medium"
+                        />
+                    </div>
                 </div>
             </div>
 
