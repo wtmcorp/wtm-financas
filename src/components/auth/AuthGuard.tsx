@@ -34,6 +34,18 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     }
 
     const isPublicPath = publicPaths.includes(pathname);
+    const isAuthPath = authPaths.includes(pathname);
+
+    // Prevent flickering: If we are logged in and on a login/register page, 
+    // we don't want to render the children (the form) because we'll be redirected soon.
+    if (user && isAuthPath) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-black">
+                <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin shadow-[0_0_30px_rgba(167,139,250,0.3)]"></div>
+            </div>
+        );
+    }
+
     if (!user && !isPublicPath) {
         return null; // Will redirect in useEffect
     }
