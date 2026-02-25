@@ -192,23 +192,37 @@ export default function LandingPage() {
                             transition={{ delay: 0.5 }}
                             className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center pt-8 w-full sm:w-auto"
                         >
-                            <motion.button
-                                whileHover={{ scale: 1.05, y: -5 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => router.push("/register")}
-                                className="group w-full sm:w-auto px-8 py-5 md:px-12 md:py-6 bg-primary text-black font-black text-xs md:text-sm uppercase tracking-wider rounded-2xl transition-all shadow-[0_20px_50px_rgba(167,139,250,0.3)] flex items-center justify-center gap-3"
-                            >
-                                Começar minha transformação
-                                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                            </motion.button>
-                            <motion.button
-                                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => router.push("/login")}
-                                className="w-full sm:w-auto px-8 py-5 md:px-12 md:py-6 bg-white/5 text-white font-black text-xs md:text-sm uppercase tracking-wider rounded-2xl transition-all border border-white/10"
-                            >
-                                Já sou membro
-                            </motion.button>
+                            {user ? (
+                                <motion.button
+                                    whileHover={{ scale: 1.05, y: -5 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={() => router.push("/dashboard")}
+                                    className="group w-full sm:w-auto px-12 py-6 bg-primary text-black font-black text-sm uppercase tracking-wider rounded-2xl transition-all shadow-[0_20px_50px_rgba(167,139,250,0.3)] flex items-center justify-center gap-3"
+                                >
+                                    Ir para minha Dashboard
+                                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                </motion.button>
+                            ) : (
+                                <>
+                                    <motion.button
+                                        whileHover={{ scale: 1.05, y: -5 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        onClick={() => router.push("/register")}
+                                        className="group w-full sm:w-auto px-8 py-5 md:px-12 md:py-6 bg-primary text-black font-black text-xs md:text-sm uppercase tracking-wider rounded-2xl transition-all shadow-[0_20px_50px_rgba(167,139,250,0.3)] flex items-center justify-center gap-3"
+                                    >
+                                        Começar minha transformação
+                                        <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                    </motion.button>
+                                    <motion.button
+                                        whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                                        whileTap={{ scale: 0.95 }}
+                                        onClick={() => router.push("/login")}
+                                        className="w-full sm:w-auto px-8 py-5 md:px-12 md:py-6 bg-white/5 text-white font-black text-xs md:text-sm uppercase tracking-wider rounded-2xl transition-all border border-white/10"
+                                    >
+                                        Já sou membro
+                                    </motion.button>
+                                </>
+                            )}
                         </motion.div>
 
                         {/* Stats */}

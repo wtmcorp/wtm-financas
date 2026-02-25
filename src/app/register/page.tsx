@@ -44,7 +44,7 @@ export default function RegisterPage() {
                 formData.name,
                 formData.phone
             );
-            router.push("/");
+            router.push("/dashboard");
         } catch (err: any) {
             setError(err.message || "Erro ao criar conta. Tente novamente.");
         } finally {

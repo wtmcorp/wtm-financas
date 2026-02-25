@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 const publicPaths = ["/", "/login", "/register"];
+const authPaths = ["/login", "/register"];
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
     const { user, loading } = useAuth();
@@ -14,10 +15,12 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (!loading) {
             const isPublicPath = publicPaths.includes(pathname);
+            const isAuthPath = authPaths.includes(pathname);
+
             if (!user && !isPublicPath) {
                 if (pathname !== "/login") router.push("/login");
-            } else if (user && isPublicPath) {
-                if (pathname !== "/dashboard") router.push("/dashboard");
+            } else if (user && isAuthPath) {
+                router.push("/dashboard");
             }
         }
     }, [user, loading, pathname, router]);
