@@ -1,0 +1,30 @@
+1c6827e - 2026-02-24 22:48:40 -0300 - feat: complete Ethereal OS (Caminho 2) deep luxury aesthetic redesign
+75bd2f1 - 2026-02-24 21:56:51 -0300 - feat(ui): 4K Ultra Premium Redesign (Zero Function Loss)
+036e127 - 2026-02-24 21:24:26 -0300 - Revert "feat: radical overhaul to 4K Premium Vault Portal"
+0f350e4 - 2026-02-24 21:15:40 -0300 - feat: radical overhaul to 4K Premium Vault Portal
+b404934 - 2026-02-24 20:56:46 -0300 - style: visual recovery to ethereal glass (minimalism & elegance)
+d107d9e - 2026-02-24 20:51:49 -0300 - style: extreme premium polish for secret sales area and command palette
+878720b - 2026-02-24 20:46:47 -0300 - style: extreme premium crystal glass overhaul and refined branding
+52b4e83 - 2026-02-24 20:44:00 -0300 - fix: purple spill and extreme premium crystal glass overhaul
+8c9a6fe - 2026-02-24 20:38:53 -0300 - design: global liquid-glass overhaul and anti-aliasing polish
+4f8ebd4 - 2026-02-24 20:32:22 -0300 - style: fix header layout overlap using grid and reduced paddings
+012d0cf - 2026-02-24 20:28:16 -0300 - style: ultra-premium aesthetic overhaul for header with soft glassmorphism
+cc6ccbe - 2026-02-24 20:19:12 -0300 - style: reform floating header as absolute with animated neon borders
+4445df7 - 2026-02-24 20:13:57 -0300 - style: extreme floating header redesign with neon accents
+49ee4bb - 2026-02-24 20:09:09 -0300 - style: optimize header spacing for standard resolutions
+d05c04e - 2026-02-24 20:04:54 -0300 - style: total header visual overhaul with magical navigation and premium branding
+f43d609 - 2026-02-24 19:59:22 -0300 - style: final header alignment and global typography polish
+3909fae - 2026-02-24 19:52:08 -0300 - style: force load Inter from Google Fonts CDN and remove system fallbacks to kill retro pixel font locally
+6c5366d - 2026-02-24 19:45:05 -0300 - fix(fonts): attach inter CSS variable to html root and enforce robost system font fallbacks to prevent pixel-font rendering
+10ea2ed - 2026-02-24 19:37:41 -0300 - style: add global noise grain and force antialiasing to fix pixelation
+6e34150 - 2026-02-24 19:32:49 -0300 - style: optimize CSS rendering and fix pixelation
+17e3be4 - 2026-02-24 17:20:18 -0300 - feat: redesign dashboard widgets with magical dynamic theme
+051d0eb - 2026-02-11 17:52:32 -0300 - fix: formatacao automatica de numeros whatsapp (adicionando 55)
+fbab1d8 - 2026-02-11 17:46:57 -0300 - feat: otimizacao do disparador de whatsapp - modos de intensidade e countdown
+8f517aa - 2026-02-05 15:59:51 -0300 - refactor: adjust message variants for local entrepreneurs in Suzano
+734a255 - 2026-02-05 15:56:10 -0300 - refactor: generalize messages and fix location to Suzano
+f088264 - 2026-02-05 15:39:57 -0300 - refactor: optimize message variants with expert psychological triggers for new positioning
+c9faa06 - 2026-02-05 15:36:11 -0300 - feat: implement message rotation anti-spam and psychological triggers for whatsapp
+380c63b - 2026-02-03 17:56:45 -0300 - fix: implement high-security delays and anti-ban safe mode for WhatsApp bulk sender
+5610f08 - 2026-02-03 17:30:54 -0300 - fix: add missing function and ensure build success for SecretSalesArea.tsx
+b0f631b - 2026-02-03 17:26:54 -0300 - fix: refactor SecretSalesArea.tsx to resolve major JSX syntax errors and corruption

@@ -6,7 +6,11 @@ import AuthGuard from "@/components/auth/AuthGuard";
 import MainLayout from "@/components/layout/MainLayout";
 import SecretAreaLoader from "@/components/tools/SecretAreaLoader";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const inter = Inter({
+    subsets: ["latin"],
+    variable: "--font-inter",
+    display: "swap",
+});
 
 export const metadata = {
     title: "WTM CORPS - Intelligence OS",
@@ -21,8 +25,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="pt-BR">
-            <body className={`${inter.className} text-white antialiased overflow-x-hidden selection:bg-primary selection:text-black`}>
+        <html lang="pt-BR" className={`${inter.variable}`}>
+            {/* Using subpixel-antialiased to allow ClearType on Windows, making text much sharper and 4k-like. */}
+            <body className={`font-sans text-white subpixel-antialiased overflow-x-hidden selection:bg-primary selection:text-black`}>
                 <Providers>
                     <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID || ""} />
                     <StarfieldBackground />
