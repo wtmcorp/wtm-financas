@@ -370,7 +370,7 @@ export default function DashboardPage() {
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    onClick={() => window.open("https://wa.me/5511999999999?text=Olá! Gostaria de agendar uma consultoria financeira gratuita.", "_blank")}
+                                    onClick={() => window.open("https://wa.me/5511950916614?text=Olá! Gostaria de agendar uma consultoria financeira gratuita.", "_blank")}
                                     className="px-8 py-4 bg-primary text-black font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/20 flex items-center justify-center gap-3"
                                 >
                                     Agendar Consultoria Grátis <ArrowRight size={18} />
